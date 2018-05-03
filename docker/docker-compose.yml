@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+  perry:
+    image: cwds/perry
+    hostname: perry
+    ports:
+      - ${PERRY_PORT}:8080
+    env_file: .env
+
+  postgres:
+    image: cwds/postgresql_data
+    hostname: postgresql_data
+    ports:
+      - ${POSTGRES_PORT}:5432
+    env_file: .env
+
+  cans-api:
+    image: cwds/cans-api
+    hostname: cans-api
+    depends_on:
+      postgres:
+        condition: service_started
+      perry:
+        condition: service_started
+    restart: on-failure
+    ports:
+      - ${CANS_API_PORT}:8080
+    env_file: .env

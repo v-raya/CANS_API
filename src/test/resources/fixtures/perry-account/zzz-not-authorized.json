@@ -1,0 +1,9 @@
+{
+  "user": "zzz not authorized",
+  "staffId": "zzz",
+  "roles": [],
+  "county_code": "21",
+  "county_name": "Marin",
+  "county_cws_code": "1088",
+  "privileges": []
+}
