@@ -16,12 +16,12 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 
 /**
- * A Template.
+ * A Construct.
  */
 @Entity
-@Table(name = "template")
+@Table(name = "construct")
 @Data
-public class Template implements PersistentObject {
+public class Construct implements PersistentObject {
 
     private static final long serialVersionUID = 1L;
 
