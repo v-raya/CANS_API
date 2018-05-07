@@ -1,7 +1,6 @@
-package gov.ca.cwds.cans.rest.dto.system;
+package gov.ca.cwds.cans.service.dto.system;
 
 import com.codahale.metrics.health.HealthCheck;
-import gov.ca.cwds.cans.rest.dto.AbstractBaseDto;
 import java.util.HashMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,10 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@SuppressWarnings("squid:S2160")
-public class HealthCheckResultDto extends AbstractBaseDto {
-
-  private static final long serialVersionUID = 6340795706320750307L;
+public class HealthCheckResultDto {
 
   private boolean healthy;
   private String message;

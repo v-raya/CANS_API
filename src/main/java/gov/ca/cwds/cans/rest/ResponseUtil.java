@@ -36,16 +36,14 @@ public final class ResponseUtil {
    * @return Response with HTTP OK code and dto as a payload, or response with HTTP Not Found code
    *     with no payload
    */
-  public static Response responseOrNotFound(
-      final Collection<?> collection) {
+  public static Response responseOrNotFound(final Collection<?> collection) {
     final boolean isCollectionEmpty = CollectionUtils.isEmpty(collection);
-    return Response.status(isCollectionEmpty ? HTTP_CODE_NOT_FOUND : HTTP_CODE_OK)
+    return Response.status(HTTP_CODE_OK)
         .entity(isCollectionEmpty ? null : collection)
         .build();
   }
 
-  public static Response responseOk(
-      final Collection<?> collection) {
+  public static Response responseOk(final Collection<?> collection) {
     return Response.status(HTTP_CODE_OK).entity(collection).build();
   }
 

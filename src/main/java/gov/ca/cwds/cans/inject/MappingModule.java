@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.inject;
 
 import com.google.inject.AbstractModule;
+import gov.ca.cwds.cans.rest.mapper.CountyMapper;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -12,7 +13,7 @@ public class MappingModule extends AbstractModule {
 
   @Override
   protected void configure() {
-//    bindMapperAsEagerSingleton(AddressMapper.class);
+    bindMapperAsEagerSingleton(CountyMapper.class);
   }
 
   private void bindMapperAsEagerSingleton(Class<?> clazz) {

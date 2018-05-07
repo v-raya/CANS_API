@@ -6,8 +6,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import gov.ca.cwds.cans.Constants;
-import gov.ca.cwds.cans.rest.dto.system.HealthCheckResultDto;
-import gov.ca.cwds.cans.rest.dto.system.SystemInformationDto;
+import gov.ca.cwds.cans.service.dto.system.HealthCheckResultDto;
+import gov.ca.cwds.cans.service.dto.system.SystemInformationDto;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class SystemInformationResourceTest extends AbstractIntegrationTest {
   @Test
   public void testSystemInformationGet() {
     final SystemInformationDto systemInformation = clientTestRule
-        .target(Constants.API.SYSTEM_INFORMATION_PATH)
+        .target(Constants.API.SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON)
         .get(SystemInformationDto.class);
 

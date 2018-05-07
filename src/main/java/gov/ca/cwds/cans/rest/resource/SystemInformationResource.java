@@ -1,9 +1,9 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.SYSTEM_INFORMATION_PATH;
+import static gov.ca.cwds.cans.Constants.API.SYSTEM_INFORMATION;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.rest.dto.system.SystemInformationDto;
+import gov.ca.cwds.cans.service.dto.system.SystemInformationDto;
 import gov.ca.cwds.cans.service.SystemInformationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 /**
  * @author denys.davydov
  */
-@Api(value = SYSTEM_INFORMATION_PATH)
-@Path(SYSTEM_INFORMATION_PATH)
+@Api(value = SYSTEM_INFORMATION)
+@Path(SYSTEM_INFORMATION)
 @Produces(MediaType.APPLICATION_JSON)
 public class SystemInformationResource {
 

@@ -37,7 +37,7 @@ swagger:
   jsonUrl: ${SWAGGER_JSON_URL:-http://localhost:8080/swagger.json}
   callbackUrl: ${SWAGGER_CALLBACK_URL:-http://localhost:8080/swagger}
 
-dataSourceFactory:
+cansDataSourceFactory:
   driverClass: org.postgresql.Driver
   user: ${DB_NS_USER:-postgres_data}
   password: ${DB_NS_PASSWORD:-postgres_data}
@@ -49,7 +49,7 @@ dataSourceFactory:
   maxSize: ${DB_NS_CP_MAX_SIZE:-8}
   minIdleTime: 1 minute
   properties:
-      hibernate.dialect: gov.ca.cwds.cals.persistence.hibernate.dialect.JsonbSupportPostgreSQL9Dialect
+      hibernate.dialect: gov.ca.cwds.cans.dao.hibernate.JsonbSupportPostgreSQL9Dialect
       hibernate.id.new_generator_mappings: false
       hibernate.show_sql: false
       hibernate.default_schema: ${DB_NS_SCHEMA:-cans}

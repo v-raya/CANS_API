@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.rest.dto;
+package gov.ca.cwds.cans.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;

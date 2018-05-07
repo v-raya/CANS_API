@@ -3,17 +3,13 @@ package gov.ca.cwds.cans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gov.ca.cwds.rest.MinimalApiConfiguration;
 import io.dropwizard.db.DataSourceFactory;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class CansConfiguration extends MinimalApiConfiguration {
 
-  private DataSourceFactory dataSourceFactory;
+  @JsonProperty private DataSourceFactory cansDataSourceFactory;
 
-  @JsonProperty
-  public DataSourceFactory getDataSourceFactory() {
-    return dataSourceFactory;
-  }
-
-  public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
-    this.dataSourceFactory = dataSourceFactory;
-  }
 }

@@ -10,6 +10,7 @@ public class TestUtils {
 
   public static final String API_URL = "api.url";
   public static final String PERRY_URL = "perry.url";
+  public static final String PERRY_LOGIN_FORM_URL = "login.form.target.url";
   public static final String SLASH = "/";
   public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -22,6 +23,10 @@ public class TestUtils {
 
   public static String getPerryUrl() {
     return getUrlFromSystemProperties(PERRY_URL);
+  }
+
+  public static String getPerryLoginFormUrl() {
+    return System.getProperty(PERRY_LOGIN_FORM_URL);
   }
 
   public static String getUrlFromSystemProperties(String systemProperty) {

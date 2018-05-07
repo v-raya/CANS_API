@@ -3,6 +3,7 @@ package gov.ca.cwds.cans;
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
 import gov.ca.cwds.cans.rest.SystemInformationResourceTest;
+import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;
@@ -24,9 +25,7 @@ import org.junit.runners.Suite;
  *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  SystemInformationResourceTest.class
-})
+@Suite.SuiteClasses({SystemInformationResourceTest.class, CountyResourceTest.class})
 public class InMemoryIntegrationTestSuite {
 
   @ClassRule
@@ -48,19 +47,19 @@ public class InMemoryIntegrationTestSuite {
     IntegrationTestContextHolder.cansConfiguration = DROPWIZARD_APP_RULE.getConfiguration();
     IntegrationTestContextHolder.clientTestRule =
         new InMemoryIntegrationRestClientTestRule(DROPWIZARD_APP_RULE);
-//    initCansDb();
+    initCansDb();
   }
 
-//  private static void initCansDb() throws LiquibaseException {
-//    try (final DatabaseHelper databaseHelper = createCmsDbHelper()) {
-//      databaseHelper.runScript("liquibase/cwscms_database_master.xml");
-//    } catch (IOException e) {
-//      throw new LiquibaseException(e);
-//    }
-//  }
-//
-//  private static DatabaseHelper createCmsDbHelper() {
-//    return new DatabaseHelper(
-//        IntegrationTestContextHolder.cansConfiguration.getDataSourceFactory());
-//  }
+  private static void initCansDb() throws LiquibaseException {
+    try (final DatabaseHelper databaseHelper = createCansDbHelper()) {
+      databaseHelper.runScript("liquibase/cans_database_master.xml");
+    } catch (IOException e) {
+      throw new LiquibaseException(e);
+    }
+  }
+
+  private static DatabaseHelper createCansDbHelper() {
+    return new DatabaseHelper(
+        IntegrationTestContextHolder.cansConfiguration.getCansDataSourceFactory());
+  }
 }

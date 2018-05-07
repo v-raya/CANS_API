@@ -27,7 +27,7 @@ swagger:
   loginUrl: ${LOGIN_URL:-http://localhost:8090/authn/login}
   showSwagger: ${SHOW_SWAGGER:-true}
 
-dataSourceFactory:
+cansDataSourceFactory:
   driverClass: org.h2.Driver
   user: sa
   password:
@@ -39,7 +39,7 @@ dataSourceFactory:
   maxSize: ${DB_CMS_CP_MAX_SIZE:-8}
   minIdleTime: 1 minute
   properties:
-      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate.dialect: gov.ca.cwds.cans.dao.hibernate.JsonbSupportH2Dialect
       hibernate.default_schema: cans
       hibernate.id.new_generator_mappings: false
       hibernate.show_sql: false

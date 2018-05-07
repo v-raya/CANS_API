@@ -39,7 +39,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       @Override
       protected void configure() {
         super.configure();
-//        install(new DataAccessModule(bootstrap));
+        install(new DataAccessModule(bootstrap));
         install(new SecurityModule(BaseApiApplication::getInjector));
       }
     };
@@ -56,7 +56,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
             .packages(getClass().getPackage().getName())
             .register(DeclarativeLinkingFeature.class);
 
-//    runDataSourceHealthChecks(environment);
+    runDataSourceHealthChecks(environment);
 
     Injector injector = guiceBundle.getInjector();
 
