@@ -6,8 +6,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import gov.ca.cwds.cans.Constants;
-import gov.ca.cwds.cans.service.dto.system.HealthCheckResultDto;
-import gov.ca.cwds.cans.service.dto.system.SystemInformationDto;
+import gov.ca.cwds.cans.domain.dto.system.HealthCheckResultDto;
+import gov.ca.cwds.cans.domain.dto.system.SystemInformationDto;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 

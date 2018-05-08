@@ -3,6 +3,7 @@ package gov.ca.cwds.cans;
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
 import gov.ca.cwds.cans.rest.SystemInformationResourceTest;
+import gov.ca.cwds.cans.rest.resource.ConstructResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -25,7 +26,11 @@ import org.junit.runners.Suite;
  *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({SystemInformationResourceTest.class, CountyResourceTest.class})
+@Suite.SuiteClasses({
+  SystemInformationResourceTest.class,
+  CountyResourceTest.class,
+  ConstructResourceTest.class
+})
 public class InMemoryIntegrationTestSuite {
 
   @ClassRule

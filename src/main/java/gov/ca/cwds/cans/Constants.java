@@ -16,6 +16,7 @@ public final class Constants {
     public static final String SYSTEM_INFORMATION = "system-information";
 
     public static final String COUNTIES = "counties";
+    public static final String CONSTRUCTS = "constructs";
 
     private API() {}
   }

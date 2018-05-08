@@ -1,8 +1,6 @@
 package gov.ca.cwds.cans.domain.json;
 
-/**
- * @author denys.davydov
- */
-public interface Json {
+import java.io.Serializable;
 
-}
+/** @author denys.davydov */
+public interface Json extends Serializable {}

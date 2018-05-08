@@ -7,9 +7,9 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.rest.ResponseUtil;
-import gov.ca.cwds.cans.rest.mapper.CountyMapper;
+import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.cans.service.CountyService;
-import gov.ca.cwds.cans.service.dto.CountyDto;
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,15 +34,13 @@ public class CountyResource {
   private final CountyMapper countyMapper;
 
   @Inject
-  public CountyResource(CountyService countyService,
-      CountyMapper countyMapper) {
+  public CountyResource(CountyService countyService, CountyMapper countyMapper) {
     this.countyService = countyService;
     this.countyMapper = countyMapper;
   }
 
   @UnitOfWork(CANS)
   @GET
-//  @Path("")
   @ApiResponses(
     value = {
       @ApiResponse(code = 401, message = "Not Authorized"),

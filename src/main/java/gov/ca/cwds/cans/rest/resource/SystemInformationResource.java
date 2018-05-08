@@ -3,7 +3,7 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.SYSTEM_INFORMATION;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.service.dto.system.SystemInformationDto;
+import gov.ca.cwds.cans.domain.dto.system.SystemInformationDto;
 import gov.ca.cwds.cans.service.SystemInformationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

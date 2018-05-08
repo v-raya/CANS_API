@@ -1,13 +1,12 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.test.util.AssertFixtureUtils.assertResponseByFixturePath;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
-import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.rest.AbstractIntegrationTest;
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import java.io.IOException;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
@@ -32,11 +31,11 @@ public class CountyResourceTest extends AbstractIntegrationTest {
   @Test
   public void getAllCounties_success() throws IOException {
     // when
-    final County[] actualResult = clientTestRule
+    final CountyDto[] actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(API.COUNTIES)
         .request(MediaType.APPLICATION_JSON_TYPE)
-        .get(County[].class);
+        .get(CountyDto[].class);
 
     // then
     assertThat(actualResult.length, is(not(0)));

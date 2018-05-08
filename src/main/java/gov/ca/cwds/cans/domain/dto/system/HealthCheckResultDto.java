@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.service.dto.system;
+package gov.ca.cwds.cans.domain.dto.system;
 
 import com.codahale.metrics.health.HealthCheck;
 import java.util.HashMap;

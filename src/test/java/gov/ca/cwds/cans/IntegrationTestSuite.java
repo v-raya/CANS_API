@@ -2,6 +2,7 @@ package gov.ca.cwds.cans;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
 import gov.ca.cwds.cans.rest.SystemInformationResourceTest;
+import gov.ca.cwds.cans.rest.resource.ConstructResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.test.IntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.ConfigurationProvider;
@@ -17,7 +18,11 @@ import org.junit.runners.Suite;
  *     system properties to be set. The suite is used to test a remote environment.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({SystemInformationResourceTest.class, CountyResourceTest.class})
+@Suite.SuiteClasses({
+  SystemInformationResourceTest.class,
+  CountyResourceTest.class,
+  ConstructResourceTest.class
+})
 public class IntegrationTestSuite {
 
   static {

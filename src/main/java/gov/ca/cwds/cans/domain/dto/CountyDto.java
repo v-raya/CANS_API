@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.service.dto;
+package gov.ca.cwds.cans.domain.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

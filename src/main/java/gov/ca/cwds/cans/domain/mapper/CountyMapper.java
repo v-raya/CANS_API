@@ -1,7 +1,7 @@
-package gov.ca.cwds.cans.rest.mapper;
+package gov.ca.cwds.cans.domain.mapper;
 
 import gov.ca.cwds.cans.domain.entity.County;
-import gov.ca.cwds.cans.service.dto.CountyDto;
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import java.util.Collection;
 import org.mapstruct.Mapper;
 
