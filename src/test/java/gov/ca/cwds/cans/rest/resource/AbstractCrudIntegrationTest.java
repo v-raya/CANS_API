@@ -21,7 +21,7 @@ import org.apache.http.HttpStatus;
 /** @author denys.davydov */
 public abstract class AbstractCrudIntegrationTest<T extends Dto> extends AbstractIntegrationTest {
 
-  private static final ObjectMapper objectMapper = ObjectMapperUtils.createObjectMapper();
+  protected static final ObjectMapper OBJECT_MAPPER = ObjectMapperUtils.createObjectMapper();
 
   private Class<T> managedClass = this.getManagedClass();
 
@@ -35,7 +35,7 @@ public abstract class AbstractCrudIntegrationTest<T extends Dto> extends Abstrac
     // ========================= POST ========================
     // given
     final String fixturePost = FixtureHelpers.fixture(this.getPostFixturePath());
-    final T dto = objectMapper.readValue(fixturePost, managedClass);
+    final T dto = OBJECT_MAPPER.readValue(fixturePost, managedClass);
 
     // when + then
     final Long id = this.assertPostOperation(dto);
@@ -56,7 +56,7 @@ public abstract class AbstractCrudIntegrationTest<T extends Dto> extends Abstrac
     // ========================= PUT ========================
     // given
     final String fixturePut = FixtureHelpers.fixture(this.getPutFixturePath());
-    final T dto2 = objectMapper.readValue(fixturePut, managedClass);
+    final T dto2 = OBJECT_MAPPER.readValue(fixturePut, managedClass);
     dto2.setId(id);
 
     // when + then

@@ -2,11 +2,13 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.rest.ResponseUtil;
@@ -64,6 +66,27 @@ public class AssessmentResource {
     final Assessment inputEntity = assessmentMapper.fromDto(inputDto);
     final Assessment resultEntity = assessmentService.create(inputEntity);
     final AssessmentDto resultDto = assessmentMapper.toDto(resultEntity);
+    return Response.ok().entity(resultDto).build();
+  }
+
+  @UnitOfWork(CANS)
+  @POST
+  @Path(START)
+  @ApiResponses(
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
+  )
+  @ApiOperation(value = "Start new Assessment", response = AssessmentDto.class)
+  @Timed
+  public Response start(
+      @ApiParam(name = "Assessment", value = "The Assessment object")
+      @Valid
+      final StartAssessmentRequest request
+  ) {
+    final Assessment assessment = assessmentService.start(request);
+    final AssessmentDto resultDto = assessmentMapper.toDto(assessment);
     return Response.ok().entity(resultDto).build();
   }
 

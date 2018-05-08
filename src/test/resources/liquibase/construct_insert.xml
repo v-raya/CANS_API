@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+  <changeSet id="address_test_data" author="CWDS TPT-3 Team">
+    <insert tableName="construct">
+      <column name="id" value="49999"/>
+      <column name="prototype" value='{"domains": [{"name": "Domain 1", "questions": [{"code": "q11", "rating": -1, "required": true, "confidential": false, "question_type": "NEED"}, {"code": "q12", "rating": -1, "required": true, "confidential": false, "question_type": "NEED"}]}, {"name": "Domain 2", "questions": [{"code": "q21", "rating": -1, "required": true, "confidential": true, "question_type": "STRENGTH"}, {"code": "q22", "rating": -1, "required": false, "confidential": false, "question_type": "STRENGTH"}]}], "assessment_type": "INITIAL"}'/>
+      <column name="county_id" value="99"/>
+      <column name="create_timestamp" value="2018-05-07 23:11:55"/>
+    </insert>
+
+    <rollback>
+      <delete tableName="construct">
+        <where>id = 49999</where>
+      </delete>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>
