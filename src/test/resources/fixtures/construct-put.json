@@ -8,7 +8,7 @@
     "assessment_type": "INITIAL",
     "domains": [
       {
-        "name": "Domain 1",
+        "code": "Domain 1",
         "questions": [
           {
             "code": "q11",

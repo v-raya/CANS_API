@@ -22,7 +22,7 @@ public class DomainJson implements Json {
   private static final long serialVersionUID = -6556978839318901887L;
 
   private Long id;
-  private String name;
+  private String code;
   private Boolean underSix;
   private Boolean forceDomainShow;
   private List<QuestionJson> questions = new ArrayList<>();

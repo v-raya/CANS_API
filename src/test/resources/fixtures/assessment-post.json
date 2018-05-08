@@ -3,7 +3,7 @@
     "assessment_type": "INITIAL",
     "domains": [
       {
-        "name": "Domain 1",
+        "code": "Domain 1",
         "questions": [
           {
             "code": "q11",
@@ -22,7 +22,7 @@
         ]
       },
       {
-        "name": "Domain 2",
+        "code": "Domain 2",
         "questions": [
           {
             "code": "q21",

@@ -17,7 +17,7 @@ import org.junit.Test;
 public class SystemInformationResourceTest extends AbstractIntegrationTest {
 
   @Test
-  public void testSystemInformationGet() {
+  public void getSystemInformation_success() {
     final SystemInformationDto systemInformation = clientTestRule
         .target(Constants.API.SYSTEM_INFORMATION)
         .request(MediaType.APPLICATION_JSON)
@@ -27,7 +27,7 @@ public class SystemInformationResourceTest extends AbstractIntegrationTest {
     assertThat(systemInformation.getVersion(), is(notNullValue()));
 
     assertHealthCheck(systemInformation.getDeadlocks());
-//    assertHealthCheck(systemInformation.getCans());
+    assertHealthCheck(systemInformation.getCans());
   }
 
   private void assertHealthCheck(final HealthCheckResultDto healthCheckResult) {

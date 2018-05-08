@@ -5,6 +5,7 @@ import com.codahale.metrics.health.HealthCheck.Result;
 import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.CansConfiguration;
+import gov.ca.cwds.cans.Constants;
 import gov.ca.cwds.cans.domain.dto.system.HealthCheckResultDto;
 import gov.ca.cwds.cans.domain.dto.system.SystemInformationDto;
 import gov.ca.cwds.rest.api.ApiException;
@@ -57,7 +58,7 @@ public class SystemInformationService {
     systemInformation.setBuildNumber(buildNumber);
 
     final Map<String, Result> healthChecks = environment.healthChecks().runHealthChecks();
-//    systemInformation.setCans(getHealthCheckResultDto(healthChecks.get(Constants.UnitOfWork.CANS)));
+    systemInformation.setCans(getHealthCheckResultDto(healthChecks.get(Constants.UnitOfWork.CANS)));
     systemInformation.setDeadlocks(getHealthCheckResultDto(healthChecks.get("deadlocks")));
 
     return systemInformation;
