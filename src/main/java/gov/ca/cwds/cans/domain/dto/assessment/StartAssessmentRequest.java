@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class StartAssessmentRequest {
-  private Long constructId;
+  private Long instrumentId;
   private Long personId;
   private Long cftId;
 }

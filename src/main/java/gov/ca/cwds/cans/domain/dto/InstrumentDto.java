@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class ConstructDto extends Dto {
+public class InstrumentDto extends Dto {
   private CountyDto county;
   private AssessmentJson prototype;
 }

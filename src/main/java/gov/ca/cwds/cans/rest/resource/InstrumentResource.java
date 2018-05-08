@@ -6,11 +6,11 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.domain.dto.ConstructDto;
-import gov.ca.cwds.cans.domain.entity.Construct;
-import gov.ca.cwds.cans.domain.mapper.ConstructMapper;
+import gov.ca.cwds.cans.domain.dto.InstrumentDto;
+import gov.ca.cwds.cans.domain.entity.Instrument;
+import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
 import gov.ca.cwds.cans.rest.ResponseUtil;
-import gov.ca.cwds.cans.service.ConstructService;
+import gov.ca.cwds.cans.service.InstrumentService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,14 +34,14 @@ import javax.ws.rs.core.Response;
 @Path(value = CONSTRUCTS)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ConstructResource {
-  private final ConstructService constructService;
-  private final ConstructMapper constructMapper;
+public class InstrumentResource {
+  private final InstrumentService instrumentService;
+  private final InstrumentMapper instrumentMapper;
 
   @Inject
-  public ConstructResource(ConstructService constructService, ConstructMapper constructMapper) {
-    this.constructService = constructService;
-    this.constructMapper = constructMapper;
+  public InstrumentResource(InstrumentService instrumentService, InstrumentMapper instrumentMapper) {
+    this.instrumentService = instrumentService;
+    this.instrumentMapper = instrumentMapper;
   }
 
   @UnitOfWork(CANS)
@@ -52,16 +52,16 @@ public class ConstructResource {
       @ApiResponse(code = 404, message = "Not found")
     }
   )
-  @ApiOperation(value = "Post new Construct", response = ConstructDto.class)
+  @ApiOperation(value = "Post new Instrument", response = InstrumentDto.class)
   @Timed
   public Response post(
-      @ApiParam(name = "Construct", value = "The Construct object")
+      @ApiParam(name = "Instrument", value = "The Instrument object")
       @Valid
-      final ConstructDto inputDto
+      final InstrumentDto inputDto
   ) {
-    final Construct inputEntity = constructMapper.fromDto(inputDto);
-    final Construct resultEntity = constructService.create(inputEntity);
-    final ConstructDto resultDto = constructMapper.toDto(resultEntity);
+    final Instrument inputEntity = instrumentMapper.fromDto(inputDto);
+    final Instrument resultEntity = instrumentService.create(inputEntity);
+    final InstrumentDto resultDto = instrumentMapper.toDto(resultEntity);
     return Response.ok().entity(resultDto).build();
   }
 
@@ -74,20 +74,20 @@ public class ConstructResource {
           @ApiResponse(code = 404, message = "Not found")
       }
   )
-  @ApiOperation(value = "Update existent Construct", response = ConstructDto.class)
+  @ApiOperation(value = "Update existent Instrument", response = InstrumentDto.class)
   @Timed
   public Response put(
       @PathParam("id")
-      @ApiParam(required = true, name = "id", value = "The Construct id", example = "50000")
+      @ApiParam(required = true, name = "id", value = "The Instrument id", example = "50000")
       final Long id,
-      @ApiParam(name = "Construct", value = "The Construct object")
+      @ApiParam(name = "Instrument", value = "The Instrument object")
       @Valid
-      final ConstructDto inputDto
+      final InstrumentDto inputDto
   ) {
-    final Construct inputEntity = constructMapper.fromDto(inputDto);
+    final Instrument inputEntity = instrumentMapper.fromDto(inputDto);
     inputEntity.setId(id);
-    final Construct resultEntity = constructService.update(inputEntity);
-    final ConstructDto resultDto = constructMapper.toDto(resultEntity);
+    final Instrument resultEntity = instrumentService.update(inputEntity);
+    final InstrumentDto resultDto = instrumentMapper.toDto(resultEntity);
     return Response.ok().entity(resultDto).build();
   }
 
@@ -100,15 +100,15 @@ public class ConstructResource {
       @ApiResponse(code = 404, message = "Not found")
     }
   )
-  @ApiOperation(value = "Get Construct by id", response = ConstructDto.class)
+  @ApiOperation(value = "Get Instrument by id", response = InstrumentDto.class)
   @Timed
   public Response get(
       @PathParam("id")
-      @ApiParam(required = true, name = "id", value = "The Construct id", example = "50000")
+      @ApiParam(required = true, name = "id", value = "The Instrument id", example = "50000")
       final Long id
   ) {
-    final Construct entity = constructService.read(id);
-    final ConstructDto dto = constructMapper.toDto(entity);
+    final Instrument entity = instrumentService.read(id);
+    final InstrumentDto dto = instrumentMapper.toDto(entity);
     return ResponseUtil.responseOrNotFound(dto);
   }
 
@@ -121,14 +121,14 @@ public class ConstructResource {
       @ApiResponse(code = 404, message = "Not found")
     }
   )
-  @ApiOperation(value = "Delete Construct by id", response = ConstructDto.class)
+  @ApiOperation(value = "Delete Instrument by id", response = InstrumentDto.class)
   @Timed
   public Response delete(
       @PathParam("id")
-      @ApiParam(required = true, name = "id", value = "The Construct id", example = "50000")
+      @ApiParam(required = true, name = "id", value = "The Instrument id", example = "50000")
       final Long id
   ) {
-    constructService.delete(id);
+    instrumentService.delete(id);
     return Response.noContent().build();
   }
 }

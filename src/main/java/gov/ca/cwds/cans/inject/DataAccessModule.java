@@ -10,8 +10,8 @@ import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Cft;
 import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.I18n;
+import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.cans.domain.entity.Construct;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
@@ -30,7 +30,7 @@ public class DataAccessModule extends AbstractModule {
               County.class,
               I18n.class,
               Person.class,
-              Construct.class
+              Instrument.class
           )
           .build();
 

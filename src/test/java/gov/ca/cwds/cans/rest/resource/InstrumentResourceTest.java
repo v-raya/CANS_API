@@ -2,21 +2,21 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.CONSTRUCTS;
 
-import gov.ca.cwds.cans.domain.dto.ConstructDto;
+import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import java.io.IOException;
 import org.junit.Test;
 
 /** @author denys.davydov */
-public class ConstructResourceTest extends AbstractCrudIntegrationTest<ConstructDto> {
+public class InstrumentResourceTest extends AbstractCrudIntegrationTest<InstrumentDto> {
 
   @Override
   String getPostFixturePath() {
-    return "fixtures/construct-post.json";
+    return "fixtures/instrument-post.json";
   }
 
   @Override
   String getPutFixturePath() {
-    return "fixtures/construct-put.json";
+    return "fixtures/instrument-put.json";
   }
 
   @Override
@@ -25,7 +25,7 @@ public class ConstructResourceTest extends AbstractCrudIntegrationTest<Construct
   }
 
   @Test
-  public void construct_postGetPutDelete_success() throws IOException {
+  public void instrument_postGetPutDelete_success() throws IOException {
     this.assertPostGetPutDelete();
   }
 }

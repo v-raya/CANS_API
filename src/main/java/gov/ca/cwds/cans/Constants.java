@@ -16,7 +16,7 @@ public final class Constants {
     public static final String SYSTEM_INFORMATION = "system-information";
 
     public static final String COUNTIES = "counties";
-    public static final String CONSTRUCTS = "constructs";
+    public static final String CONSTRUCTS = "instruments";
     public static final String ASSESSMENTS = "assessments";
     public static final String START = "start";
 

@@ -20,7 +20,7 @@ public class AssessmentDao extends BaseDaoImpl<Assessment> {
   @Override
   public Assessment create(Assessment assessment) {
     hibernateInitializeIfNeeded(assessment.getCft());
-    hibernateInitializeIfNeeded(assessment.getConstruct());
+    hibernateInitializeIfNeeded(assessment.getInstrument());
     hibernateInitializeIfNeeded(assessment.getPerson());
     return super.create(assessment);
   }

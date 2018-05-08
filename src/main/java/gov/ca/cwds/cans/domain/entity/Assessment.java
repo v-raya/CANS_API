@@ -34,7 +34,7 @@ public class Assessment implements PersistentObject {
   @Type(type = "AssessmentJsonType")
   private AssessmentJson json;
 
-  @ManyToOne private Construct construct;
+  @ManyToOne private Instrument instrument;
 
   @ManyToOne private Person person;
 

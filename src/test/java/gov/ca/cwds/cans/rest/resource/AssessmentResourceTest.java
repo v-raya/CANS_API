@@ -21,7 +21,7 @@ import org.junit.Test;
 /** @author denys.davydov */
 public class AssessmentResourceTest extends AbstractCrudIntegrationTest<AssessmentDto> {
 
-  private static final String LIQUIBASE_SCRIPT = "liquibase/construct_insert.xml";
+  private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
   private static final String FIXTURE_POST = "fixtures/assessment-post.json";
   private static final String FIXTURE_READ = "fixtures/assessment-read.json";
   private static final String FIXTURE_PUT = "fixtures/assessment-put.json";

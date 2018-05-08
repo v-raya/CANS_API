@@ -17,11 +17,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/** A Construct. */
+/** A Instrument. */
 @Entity
-@Table(name = "construct")
+@Table(name = "instrument")
 @Data
-public class Construct implements PersistentObject {
+public class Instrument implements PersistentObject {
 
   private static final long serialVersionUID = 1L;
 
