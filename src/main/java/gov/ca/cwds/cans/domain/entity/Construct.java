@@ -36,11 +36,18 @@ public class Construct implements PersistentObject {
   @Type(type = "AssessmentJsonType")
   private AssessmentJson prototype;
 
-  @Column(name = "create_timestamp")
+  @Column(
+      name = "create_timestamp",
+      nullable = false,
+      updatable = false
+  )
   @CreationTimestamp
   private LocalDateTime createTimestamp;
 
-  @Column(name = "update_timestamp")
+  @Column(
+      name = "update_timestamp",
+      insertable = false
+  )
   @UpdateTimestamp
   private LocalDateTime updateTimestamp;
 

@@ -1,8 +1,11 @@
 package gov.ca.cwds.cans.inject;
 
 import com.google.inject.AbstractModule;
+import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
+import gov.ca.cwds.cans.domain.mapper.CftMapper;
 import gov.ca.cwds.cans.domain.mapper.ConstructMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
+import gov.ca.cwds.cans.domain.mapper.PersonMapper;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -14,8 +17,11 @@ public class MappingModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bindMapperAsEagerSingleton(CountyMapper.class);
+    bindMapperAsEagerSingleton(AssessmentMapper.class);
+    bindMapperAsEagerSingleton(CftMapper.class);
     bindMapperAsEagerSingleton(ConstructMapper.class);
+    bindMapperAsEagerSingleton(CountyMapper.class);
+    bindMapperAsEagerSingleton(PersonMapper.class);
   }
 
   private void bindMapperAsEagerSingleton(Class<?> clazz) {

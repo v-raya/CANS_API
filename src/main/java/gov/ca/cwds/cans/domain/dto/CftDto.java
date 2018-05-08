@@ -2,7 +2,9 @@ package gov.ca.cwds.cans.domain.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gov.ca.cwds.cans.domain.json.AssessmentJson;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -12,7 +14,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class ConstructDto extends Dto {
-  private CountyDto county;
-  private AssessmentJson prototype;
+public class CftDto extends Dto {
+  private String name;
+  private Integer daysInProgram;
+  private LocalDate eventDate;
+  private String externalCaseId;
+  private Set<PersonDto> persons = new HashSet<>();
 }

@@ -47,7 +47,7 @@ public class CountyResource {
       @ApiResponse(code = 404, message = "Not found")
     }
   )
-  @ApiOperation(value = "Find Address by id", response = CountyDto[].class)
+  @ApiOperation(value = "Get all counties", response = CountyDto[].class)
   @Timed
   public Response getAll() {
     final Collection<County> counties = countyService.findAll();

@@ -25,4 +25,14 @@ public class ConstructDao extends BaseDaoImpl<Construct> {
 
     return super.create(construct);
   }
+
+  @Override
+  public Construct update(Construct construct) {
+    final County county = construct.getCounty();
+    if (county != null) {
+      Hibernate.initialize(county);
+    }
+
+    return super.update(construct);
+  }
 }

@@ -3,6 +3,7 @@ package gov.ca.cwds.cans;
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
 import gov.ca.cwds.cans.rest.SystemInformationResourceTest;
+import gov.ca.cwds.cans.rest.resource.AssessmentResourceTest;
 import gov.ca.cwds.cans.rest.resource.ConstructResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
@@ -28,8 +29,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
   SystemInformationResourceTest.class,
+  AssessmentResourceTest.class,
+  ConstructResourceTest.class,
   CountyResourceTest.class,
-  ConstructResourceTest.class
 })
 public class InMemoryIntegrationTestSuite {
 

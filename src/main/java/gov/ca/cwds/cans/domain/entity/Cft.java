@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import gov.ca.cwds.data.persistence.PersistentObject;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
 
-/** A Cft. */
+/** A CftDto. */
 @Entity
 @Table(name = "cft")
 @Data
@@ -44,11 +44,10 @@ public class Cft implements PersistentObject {
   @Column(name = "external_case_id")
   private String externalCaseId;
 
-  @OneToMany(mappedBy = "cft")
-  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "cft")
   private Set<Assessment> assessments = new HashSet<>();
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
     name = "cft_persons",
     joinColumns = @JoinColumn(name = "cfts_id", referencedColumnName = "id"),

@@ -1,0 +1,50 @@
+{
+  "county": {
+    "id": 99,
+    "name": "State of California",
+    "external_id": "1126"
+  },
+  "prototype": {
+    "assessment_type": "INITIAL",
+    "domains": [
+      {
+        "name": "Domain 1",
+        "questions": [
+          {
+            "code": "q11",
+            "required": true,
+            "confidential": false,
+            "question_type": "NEED",
+            "rating": -1
+          },
+          {
+            "code": "q12",
+            "required": true,
+            "confidential": false,
+            "question_type": "NEED",
+            "rating": -1
+          }
+        ]
+      },
+      {
+        "name": "Domain 2",
+        "questions": [
+          {
+            "code": "q21",
+            "required": true,
+            "confidential": true,
+            "question_type": "STRENGTH",
+            "rating": -1
+          },
+          {
+            "code": "q22",
+            "required": false,
+            "confidential": false,
+            "question_type": "STRENGTH",
+            "rating": -1
+          }
+        ]
+      }
+    ]
+  }
+}

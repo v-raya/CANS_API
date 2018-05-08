@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
@@ -13,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -70,8 +70,7 @@ public class Person implements PersistentObject {
 
   @ManyToOne private County county;
 
-  @ManyToMany(mappedBy = "persons")
-  @JsonIgnore
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
 
   @Override

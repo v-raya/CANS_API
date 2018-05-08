@@ -1,0 +1,24 @@
+{
+  "county": {
+    "id": 99,
+    "name": "State of California",
+    "external_id": "1126"
+  },
+  "prototype": {
+    "assessment_type": "INITIAL",
+    "domains": [
+      {
+        "name": "Domain 1",
+        "questions": [
+          {
+            "code": "q11",
+            "required": true,
+            "confidential": false,
+            "question_type": "NEED",
+            "rating": -1
+          }
+        ]
+      }
+    ]
+  }
+}

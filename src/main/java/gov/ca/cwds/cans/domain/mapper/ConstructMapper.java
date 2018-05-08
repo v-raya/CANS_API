@@ -6,8 +6,4 @@ import org.mapstruct.Mapper;
 
 /** @author denys.davydov */
 @Mapper(uses = CountyMapper.class)
-public interface ConstructMapper {
-  ConstructDto toDto(Construct entity);
-
-  Construct fromDto(ConstructDto entity);
-}
+public interface ConstructMapper extends AMapper<Construct, ConstructDto> {}

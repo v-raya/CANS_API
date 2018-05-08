@@ -22,6 +22,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -60,6 +61,32 @@ public class ConstructResource {
   ) {
     final Construct inputEntity = constructMapper.fromDto(inputDto);
     final Construct resultEntity = constructService.create(inputEntity);
+    final ConstructDto resultDto = constructMapper.toDto(resultEntity);
+    return Response.ok().entity(resultDto).build();
+  }
+
+  @UnitOfWork(CANS)
+  @PUT
+  @Path("/{" + ID + "}")
+  @ApiResponses(
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
+  )
+  @ApiOperation(value = "Update existent Construct", response = ConstructDto.class)
+  @Timed
+  public Response put(
+      @PathParam("id")
+      @ApiParam(required = true, name = "id", value = "The Construct id", example = "50000")
+      final Long id,
+      @ApiParam(name = "Construct", value = "The Construct object")
+      @Valid
+      final ConstructDto inputDto
+  ) {
+    final Construct inputEntity = constructMapper.fromDto(inputDto);
+    inputEntity.setId(id);
+    final Construct resultEntity = constructService.update(inputEntity);
     final ConstructDto resultDto = constructMapper.toDto(resultEntity);
     return Response.ok().entity(resultDto).build();
   }

@@ -1,15 +1,16 @@
 package gov.ca.cwds.cans.domain.dto.system;
 
 import com.codahale.metrics.health.HealthCheck;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.HashMap;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-/**
- * @author CWDS CANS API Team
- */
+/** @author CWDS CANS API Team */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class HealthCheckResultDto {
 
   private boolean healthy;
