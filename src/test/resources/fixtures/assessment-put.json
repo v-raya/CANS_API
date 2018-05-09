@@ -4,38 +4,38 @@
     "domains": [
       {
         "code": "Domain 1",
-        "questions": [
+        "items": [
           {
             "code": "q11",
             "required": true,
             "confidential": false,
-            "question_type": "NEED",
+            "rating_type": "REGULAR",
             "rating": 0
           },
           {
             "code": "q12",
             "required": true,
             "confidential": false,
-            "question_type": "NEED",
+            "rating_type": "REGULAR",
             "rating": 1
           }
         ]
       },
       {
         "code": "Domain 2",
-        "questions": [
+        "items": [
           {
             "code": "q21",
             "required": true,
             "confidential": true,
-            "question_type": "STRENGTH",
+            "rating_type": "REGULAR_WITH_NA",
             "rating": 2
           },
           {
             "code": "q22",
             "required": false,
             "confidential": false,
-            "question_type": "STRENGTH",
+            "rating_type": "REGULAR_WITH_NA",
             "rating": 3
           }
         ]

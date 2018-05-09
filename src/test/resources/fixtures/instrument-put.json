@@ -9,12 +9,12 @@
     "domains": [
       {
         "code": "Domain 1",
-        "questions": [
+        "items": [
           {
             "code": "q11",
             "required": true,
             "confidential": false,
-            "question_type": "NEED",
+            "rating_type": "REGULAR",
             "rating": -1
           }
         ]

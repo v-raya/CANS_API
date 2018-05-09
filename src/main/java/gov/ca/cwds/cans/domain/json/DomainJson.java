@@ -25,6 +25,6 @@ public class DomainJson implements Json {
   private String code;
   private Boolean underSix;
   private Boolean forceDomainShow;
-  private List<QuestionJson> questions = new ArrayList<>();
+  private List<ItemJson> items = new ArrayList<>();
   private AssessmentJson assessment;
 }
