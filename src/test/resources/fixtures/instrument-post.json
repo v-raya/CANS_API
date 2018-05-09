@@ -33,6 +33,7 @@
       },
       {
         "code": "Domain 2",
+        "underSix": true,
         "groups": [
           {
             "code": "g1",
