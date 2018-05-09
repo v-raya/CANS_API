@@ -6,6 +6,7 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
+import gov.ca.cwds.cans.Constants;
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.entity.I18n;
@@ -41,6 +42,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class InstrumentResource {
+
   private final InstrumentService instrumentService;
   private final InstrumentMapper instrumentMapper;
   private final I18nService i18nService;
@@ -163,9 +165,9 @@ public class InstrumentResource {
             example = "en"
           )
           final String lang) {
-    final String keyPrefix = "instrument." + id;
+    final String keyPrefix = Constants.INSTRUMENT_KEY_PREFIX + id;
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, lang);
-    final Map<String, String> resultMap = i18nMapper.toMap(records);
+    final Map<String, String> resultMap = i18nMapper.toMapWithKeyPrefixCut(records, keyPrefix);
     return Response.ok(resultMap).build();
   }
 }

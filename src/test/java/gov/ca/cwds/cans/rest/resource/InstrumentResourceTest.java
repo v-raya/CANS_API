@@ -2,8 +2,10 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
+import static gov.ca.cwds.cans.Constants.INSTRUMENT_KEY_PREFIX;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
@@ -38,14 +40,19 @@ public class InstrumentResourceTest extends AbstractCrudIntegrationTest<Instrume
 
   @Test
   public void getInstrumentsI18n_returnsRecords_whenRecordsExist() throws IOException {
+    // given
+    final long instrumentId = 1;
+
     // when
     final Map<String, String> actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.INSTRUMENTS + SLASH + "1" + SLASH + I18N + SLASH + "en")
+        .target(API.INSTRUMENTS + SLASH + instrumentId + SLASH + I18N + SLASH + "en")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(Map.class);
 
     // then
     assertThat(actualResult.size(), is(not(0)));
+    final String firstActualKey = actualResult.entrySet().iterator().next().getKey();
+    assertThat(firstActualKey, not(startsWith(INSTRUMENT_KEY_PREFIX + instrumentId)));
   }
 }
