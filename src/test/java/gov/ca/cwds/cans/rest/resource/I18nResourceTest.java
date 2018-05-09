@@ -15,22 +15,21 @@ import org.junit.Test;
  */
 public class I18nResourceTest extends AbstractIntegrationTest {
 
+  private static final String KEY_PREFIX = "instrument.1.";
+
   @Test
   public void getI18n_returnsRecords_whenRecordsExist() throws IOException {
-    // given
-    final String keyPrefix = "instrument.1";
-
     // when
     final Map<String, String> actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.I18N + SLASH + keyPrefix + SLASH + "en")
+        .target(API.I18N + SLASH + KEY_PREFIX + SLASH + "en")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(Map.class);
 
     // then
     assertThat(actualResult.size(), is(not(0)));
     final String firstActualKey = actualResult.entrySet().iterator().next().getKey();
-    assertThat(firstActualKey, startsWith(keyPrefix));
+    assertThat(firstActualKey, startsWith(KEY_PREFIX));
   }
 
   @Test
@@ -38,7 +37,7 @@ public class I18nResourceTest extends AbstractIntegrationTest {
     // when
     final Map<String, String> actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.I18N + SLASH + "instrument.1" + SLASH + "WRONG_LANGUAGE")
+        .target(API.I18N + SLASH + KEY_PREFIX + SLASH + "WRONG_LANGUAGE")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(Map.class);
 
@@ -51,7 +50,7 @@ public class I18nResourceTest extends AbstractIntegrationTest {
     // when
     final Map<String, String> actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.I18N + SLASH + "instrument.1")
+        .target(API.I18N + SLASH + KEY_PREFIX)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(Map.class);
 

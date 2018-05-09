@@ -15,18 +15,6 @@ import org.junit.Test;
  */
 public class CountyResourceTest extends AbstractIntegrationTest {
 
-//  private static final String LIQUIBASE_SCRIPT = "liquibase/address/dml_address_test_data.xml";
-//
-//  @BeforeClass
-//  public static void beforeClass() throws Exception {
-//    DATABASE_HELPER_CANS.runScripts(LIQUIBASE_SCRIPT);
-//  }
-//
-//  @AfterClass
-//  public static void afterClass() throws Exception {
-//    DATABASE_HELPER_CANS.rollbackScripts(LIQUIBASE_SCRIPT);
-//  }
-
   @Test
   public void getAllCounties_success() throws IOException {
     // when

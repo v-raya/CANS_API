@@ -8,7 +8,7 @@
     "assessment_type": "INITIAL",
     "domains": [
       {
-        "code": "Domain 1",
+        "code": "Domain1",
         "groups": [
           {
             "code": "g1",
@@ -32,7 +32,7 @@
         ]
       },
       {
-        "code": "Domain 2",
+        "code": "Domain2",
         "underSix": true,
         "groups": [
           {

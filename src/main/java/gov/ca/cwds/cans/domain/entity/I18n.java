@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
     query = "select i from I18n i "
         + " where i.k like :" + NQ_PARAM_KEY_PREFIX
         + " and i.lang = :" + NQ_PARAM_LANG
+        + " order by i.k"
 )
 @Data
 public class I18n implements PersistentObject {

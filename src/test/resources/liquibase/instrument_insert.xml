@@ -7,7 +7,7 @@
   <changeSet id="instrument-insert" author="denys.davydov">
     <insert tableName="instrument">
       <column name="id" value="49999"/>
-      <column name="prototype" value='{"assessment_type":"INITIAL","domains":[{"code":"Domain 1","groups":[{"code":"g1","items":[{"code":"q11","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1},{"code":"q12","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1}]}]},{"code":"Domain 2","groups":[{"code":"g1","items":[{"code":"q21","required":true,"confidential":true,"rating_type":"REGULAR_WITH_NA","rating":-1},{"code":"q22","required":false,"confidential":false,"rating_type":"REGULAR_WITH_NA","rating":-1}]}]}]}'/>
+      <column name="prototype" value='{"assessment_type":"INITIAL","domains":[{"code":"Domain1","groups":[{"code":"g1","items":[{"code":"q11","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1},{"code":"q12","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1}]}]},{"code":"Domain2","groups":[{"code":"g1","items":[{"code":"q21","required":true,"confidential":true,"rating_type":"REGULAR_WITH_NA","rating":-1},{"code":"q22","required":false,"confidential":false,"rating_type":"REGULAR_WITH_NA","rating":-1}]}]}]}'/>
       <column name="county_id" value="99"/>
       <column name="create_timestamp" value="2018-05-07 23:11:55"/>
     </insert>
@@ -15,6 +15,25 @@
     <rollback>
       <delete tableName="instrument">
         <where>id = 49999</where>
+      </delete>
+    </rollback>
+  </changeSet>
+
+  <changeSet id="i18n-insert-en-for-instrument-1" author="denys.davydov">
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.49999._title_"/>
+      <column name="v" value="Child and Adolescent Needs and Strengths"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.49999.Domain1._title_"/>
+      <column name="v" value="Domain 1 Title"/>
+    </insert>
+
+    <rollback>
+      <delete tableName="i_18_n">
+        <where>lang = 'en' and k like 'instrument.49999.%'</where>
       </delete>
     </rollback>
   </changeSet>

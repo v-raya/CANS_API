@@ -165,7 +165,7 @@ public class InstrumentResource {
             example = "en"
           )
           final String lang) {
-    final String keyPrefix = Constants.INSTRUMENT_KEY_PREFIX + id;
+    final String keyPrefix = Constants.INSTRUMENT_KEY_PREFIX + id + ".";
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, lang);
     final Map<String, String> resultMap = i18nMapper.toMapWithKeyPrefixCut(records, keyPrefix);
     return Response.ok(resultMap).build();

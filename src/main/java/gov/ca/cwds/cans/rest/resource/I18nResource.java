@@ -58,7 +58,7 @@ public class I18nResource {
             required = true,
             name = "keyPrefix",
             value = "The prefix of the key to search i18n records by",
-            example = "instrument.1"
+            example = "instrument.1."
           )
           final String keyPrefix,
       @PathParam(value = API.I18N_LANG_PARAM)
@@ -91,7 +91,7 @@ public class I18nResource {
             required = true,
             name = "keyPrefix",
             value = "The prefix of the key to search i18n records by",
-            example = "instrument.1"
+            example = "instrument.1."
           )
           final String keyPrefix) {
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, "en");
