@@ -9,13 +9,18 @@
     "domains": [
       {
         "code": "Domain 1",
-        "items": [
+        "groups": [
           {
-            "code": "q11",
-            "required": true,
-            "confidential": false,
-            "rating_type": "REGULAR",
-            "rating": -1
+            "code": "g1",
+            "items": [
+              {
+                "code": "q11",
+                "required": true,
+                "confidential": false,
+                "rating_type": "REGULAR",
+                "rating": -1
+              }
+            ]
           }
         ]
       }

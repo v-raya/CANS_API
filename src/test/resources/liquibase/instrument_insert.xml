@@ -7,7 +7,7 @@
   <changeSet id="address_test_data" author="CWDS TPT-3 Team">
     <insert tableName="instrument">
       <column name="id" value="49999"/>
-      <column name="prototype" value='{"domains": [{"code": "Domain 1", "items": [{"code": "q11", "rating": -1, "required": true, "confidential": false, "rating_type": "REGULAR"}, {"code": "q12", "rating": -1, "required": true, "confidential": false, "rating_type": "REGULAR"}]}, {"code": "Domain 2", "items": [{"code": "q21", "rating": -1, "required": true, "confidential": true, "rating_type": "REGULAR_WITH_NA"}, {"code": "q22", "rating": -1, "required": false, "confidential": false, "rating_type": "REGULAR_WITH_NA"}]}], "assessment_type": "INITIAL"}'/>
+      <column name="prototype" value='{"assessment_type":"INITIAL","domains":[{"code":"Domain 1","groups":[{"code":"g1","items":[{"code":"q11","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1},{"code":"q12","required":true,"confidential":false,"rating_type":"REGULAR","rating":-1}]}]},{"code":"Domain 2","groups":[{"code":"g1","items":[{"code":"q21","required":true,"confidential":true,"rating_type":"REGULAR_WITH_NA","rating":-1},{"code":"q22","required":false,"confidential":false,"rating_type":"REGULAR_WITH_NA","rating":-1}]}]}]}'/>
       <column name="county_id" value="99"/>
       <column name="create_timestamp" value="2018-05-07 23:11:55"/>
     </insert>

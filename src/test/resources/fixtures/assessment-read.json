@@ -4,39 +4,49 @@
     "domains": [
       {
         "code": "Domain 1",
-        "items": [
+        "groups": [
           {
-            "code": "q11",
-            "required": true,
-            "confidential": false,
-            "rating_type": "REGULAR",
-            "rating": -1
-          },
-          {
-            "code": "q12",
-            "required": true,
-            "confidential": false,
-            "rating_type": "REGULAR",
-            "rating": -1
+            "code": "g1",
+            "items": [
+              {
+                "code": "q11",
+                "required": true,
+                "confidential": false,
+                "rating_type": "REGULAR",
+                "rating": -1
+              },
+              {
+                "code": "q12",
+                "required": true,
+                "confidential": false,
+                "rating_type": "REGULAR",
+                "rating": -1
+              }
+            ]
           }
         ]
       },
       {
         "code": "Domain 2",
-        "items": [
+        "groups": [
           {
-            "code": "q21",
-            "required": true,
-            "confidential": true,
-            "rating_type": "REGULAR_WITH_NA",
-            "rating": -1
-          },
-          {
-            "code": "q22",
-            "required": false,
-            "confidential": false,
-            "rating_type": "REGULAR_WITH_NA",
-            "rating": -1
+            "code": "g1",
+            "items": [
+              {
+                "code": "q21",
+                "required": true,
+                "confidential": true,
+                "rating_type": "REGULAR_WITH_NA",
+                "rating": -1
+              },
+              {
+                "code": "q22",
+                "required": false,
+                "confidential": false,
+                "rating_type": "REGULAR_WITH_NA",
+                "rating": -1
+              }
+            ]
           }
         ]
       }

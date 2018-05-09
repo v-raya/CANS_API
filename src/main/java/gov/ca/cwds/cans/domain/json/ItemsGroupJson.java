@@ -18,13 +18,10 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class DomainJson implements Json {
-  private static final long serialVersionUID = -6556978839318901887L;
+public class ItemsGroupJson implements Json {
+  private static final long serialVersionUID = -4177792612580764630L;
 
   private Long id;
   private String code;
-  private Boolean underSix;
-  private Boolean forceDomainShow;
-  private List<ItemsGroupJson> groups = new ArrayList<>();
-  private AssessmentJson assessment;
+  private List<ItemJson> items = new ArrayList<>();
 }
