@@ -42,7 +42,7 @@ cansDataSourceFactory:
       hibernate.dialect: gov.ca.cwds.cans.dao.hibernate.JsonbSupportH2Dialect
       hibernate.default_schema: cans
       hibernate.id.new_generator_mappings: false
-      hibernate.show_sql: false
+      hibernate.show_sql: true
 
 webSecurity:
   httpResponseSecurityHeaders:

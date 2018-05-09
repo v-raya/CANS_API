@@ -8,7 +8,6 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.ca.cwds.ObjectMapperUtils;
 import gov.ca.cwds.cans.domain.dto.Dto;
-import gov.ca.cwds.cans.rest.AbstractIntegrationTest;
 import io.dropwizard.testing.FixtureHelpers;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;

@@ -37,6 +37,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     final Assessment assessment = new Assessment();
     assessment.setJson(instrument.getPrototype());
     assessment.setInstrument(instrument);
+    assessment.setInstrumentId(instrument.getId());
     assessment.setPerson(person);
     assessment.setCft(cft);
     return this.create(assessment);

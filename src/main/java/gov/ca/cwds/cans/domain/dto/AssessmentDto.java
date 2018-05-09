@@ -13,5 +13,6 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class AssessmentDto extends Dto {
+  private Long instrumentId;
   private AssessmentJson json;
 }

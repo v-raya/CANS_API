@@ -1,6 +1,6 @@
 package gov.ca.cwds.cans.test;
 
-import static gov.ca.cwds.cans.rest.AbstractIntegrationTest.AUTHORIZED_ACCOUNT_FIXTURE;
+import static gov.ca.cwds.cans.rest.resource.AbstractIntegrationTest.AUTHORIZED_ACCOUNT_FIXTURE;
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;

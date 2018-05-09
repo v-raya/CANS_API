@@ -52,6 +52,6 @@ public class CountyResource {
   public Response getAll() {
     final Collection<County> counties = countyService.findAll();
     final Collection<CountyDto> dtos = countyMapper.toDtos(counties);
-    return ResponseUtil.responseOrNotFound(dtos);
+    return ResponseUtil.responseOk(dtos);
   }
 }

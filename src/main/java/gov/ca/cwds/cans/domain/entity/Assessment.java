@@ -34,6 +34,9 @@ public class Assessment implements PersistentObject {
   @Type(type = "AssessmentJsonType")
   private AssessmentJson json;
 
+  @Column(name = "instrument_id", insertable = false, updatable = false)
+  private Long instrumentId;
+
   @ManyToOne private Instrument instrument;
 
   @ManyToOne private Person person;

@@ -2,10 +2,11 @@ package gov.ca.cwds.cans;
 
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
-import gov.ca.cwds.cans.rest.SystemInformationResourceTest;
 import gov.ca.cwds.cans.rest.resource.AssessmentResourceTest;
-import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
+import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
+import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
+import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;
@@ -30,6 +31,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
   SystemInformationResourceTest.class,
   AssessmentResourceTest.class,
+  I18nResourceTest.class,
   InstrumentResourceTest.class,
   CountyResourceTest.class,
 })

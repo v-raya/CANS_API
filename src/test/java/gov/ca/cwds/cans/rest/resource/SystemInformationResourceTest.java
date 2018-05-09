@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.rest;
+package gov.ca.cwds.cans.rest.resource;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

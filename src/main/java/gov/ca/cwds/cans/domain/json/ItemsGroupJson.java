@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import gov.ca.cwds.cans.domain.enumeration.RatingType;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,6 @@ public class ItemsGroupJson implements Json {
 
   private Long id;
   private String code;
+  private RatingType ratingType;
   private List<ItemJson> items = new ArrayList<>();
 }

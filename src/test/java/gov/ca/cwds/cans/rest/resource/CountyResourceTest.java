@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
-import gov.ca.cwds.cans.rest.AbstractIntegrationTest;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import java.io.IOException;
 import javax.ws.rs.core.MediaType;

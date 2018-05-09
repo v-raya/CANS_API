@@ -98,7 +98,8 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    'org/hibernate/*'
+                    'org/hibernate/*',
+                    "**/gov/ca/cwds/cans/Constants.java"
             ])
         })
     }

@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.rest;
+package gov.ca.cwds.cans.rest.resource;
 
 import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;

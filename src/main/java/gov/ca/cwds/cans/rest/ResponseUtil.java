@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.rest;
 
 import java.util.Collection;
 import javax.ws.rs.core.Response;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * Common Response methods
@@ -27,20 +26,6 @@ public final class ResponseUtil {
    */
   public static Response responseOrNotFound(final Object dto) {
     return Response.status(dto == null ? HTTP_CODE_NOT_FOUND : HTTP_CODE_OK).entity(dto).build();
-  }
-
-  /**
-   * Returns JAX-RS Response with body and 200 (OK) HTTP code or simply 404 (Not Found) HTTP code
-   *
-   * @param collection - payload of the response
-   * @return Response with HTTP OK code and dto as a payload, or response with HTTP Not Found code
-   *     with no payload
-   */
-  public static Response responseOrNotFound(final Collection<?> collection) {
-    final boolean isCollectionEmpty = CollectionUtils.isEmpty(collection);
-    return Response.status(HTTP_CODE_OK)
-        .entity(isCollectionEmpty ? null : collection)
-        .build();
   }
 
   public static Response responseOk(final Collection<?> collection) {

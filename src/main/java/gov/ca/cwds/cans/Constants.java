@@ -16,9 +16,11 @@ public final class Constants {
     public static final String SYSTEM_INFORMATION = "system-information";
 
     public static final String COUNTIES = "counties";
-    public static final String CONSTRUCTS = "instruments";
+    public static final String INSTRUMENTS = "instruments";
     public static final String ASSESSMENTS = "assessments";
-    public static final String START = "start";
+    public static final String START = "_start";
+    public static final String I18N = "i18n";
+    public static final String I18N_LANG_PARAM = "lang";
 
     private API() {}
   }
