@@ -32,7 +32,7 @@ project.ext {
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     projectMajorVersion = '0.1.1'
     coreApiVersion = '1.6.4_755-RC'
-    dataModelVersion = '0.7.1_541-RC'
+    dataModelVersion = '0.7.1-SNAPSHOT'
     dropwizardVersion = '1.1.0'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'

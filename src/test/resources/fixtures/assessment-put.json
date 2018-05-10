@@ -1,6 +1,7 @@
 {
-  "json": {
-    "assessment_type": "INITIAL",
+  "assessment_type": "INITIAL",
+  "status": "IN_PROGRESS",
+  "state": {
     "domains": [
       {
         "code": "Domain1",

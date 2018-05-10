@@ -1,11 +1,15 @@
 package gov.ca.cwds.cans.domain.entity;
 
+import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
 import gov.ca.cwds.data.persistence.PersistentObject;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,9 +34,17 @@ public class Assessment implements PersistentObject {
   @SequenceGenerator(name = "sequenceGenerator")
   private Long id;
 
-  @Column(name = "json")
   @Type(type = "AssessmentJsonType")
-  private AssessmentJson json;
+  @Column(name = "state")
+  private AssessmentJson state;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "assessment_type")
+  private AssessmentType assessmentType;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private AssessmentStatus status;
 
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;

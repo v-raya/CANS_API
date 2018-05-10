@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Cft;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.util.Require;
 
 /** @author denys.davydov */
@@ -35,7 +36,9 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     final Cft cft = fetchCft(request.getCftId());
 
     final Assessment assessment = new Assessment();
-    assessment.setJson(instrument.getPrototype());
+    assessment.setState(instrument.getPrototype());
+    assessment.setAssessmentType(request.getAssessmentType());
+    assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     assessment.setInstrument(instrument);
     assessment.setInstrumentId(instrument.getId());
     assessment.setPerson(person);
