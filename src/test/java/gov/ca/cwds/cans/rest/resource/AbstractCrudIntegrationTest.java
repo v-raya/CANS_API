@@ -5,10 +5,8 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.ObjectMapperUtils;
 import gov.ca.cwds.cans.domain.dto.Dto;
-import io.dropwizard.testing.FixtureHelpers;
+import gov.ca.cwds.cans.test.util.FixtureReader;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -19,8 +17,6 @@ import org.apache.http.HttpStatus;
 
 /** @author denys.davydov */
 public abstract class AbstractCrudIntegrationTest<T extends Dto> extends AbstractIntegrationTest {
-
-  protected static final ObjectMapper OBJECT_MAPPER = ObjectMapperUtils.createObjectMapper();
 
   private Class<T> managedClass = this.getManagedClass();
 
@@ -33,8 +29,7 @@ public abstract class AbstractCrudIntegrationTest<T extends Dto> extends Abstrac
   protected void assertPostGetPutDelete() throws IOException {
     // ========================= POST ========================
     // given
-    final String fixturePost = FixtureHelpers.fixture(this.getPostFixturePath());
-    final T dto = OBJECT_MAPPER.readValue(fixturePost, managedClass);
+    final T dto = FixtureReader.readObject(this.getPostFixturePath(), managedClass);
 
     // when + then
     final Long id = this.assertPostOperation(dto);
@@ -54,8 +49,7 @@ public abstract class AbstractCrudIntegrationTest<T extends Dto> extends Abstrac
 
     // ========================= PUT ========================
     // given
-    final String fixturePut = FixtureHelpers.fixture(this.getPutFixturePath());
-    final T dto2 = OBJECT_MAPPER.readValue(fixturePut, managedClass);
+    final T dto2 = FixtureReader.readObject(this.getPutFixturePath(), managedClass);
     dto2.setId(id);
 
     // when + then

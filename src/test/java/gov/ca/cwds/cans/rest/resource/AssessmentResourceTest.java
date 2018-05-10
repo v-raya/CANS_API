@@ -2,14 +2,14 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.START;
+import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
+import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
-import gov.ca.cwds.rest.exception.IssueDetails;
-import io.dropwizard.testing.FixtureHelpers;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -78,7 +78,8 @@ public class AssessmentResourceTest extends AbstractCrudIntegrationTest<Assessme
   @Test
   public void startAssessment_success() throws IOException {
     // given
-    final Entity<StartAssessmentRequest> inputEntity = restEntityByFixture(FIXTURE_START);
+    final Entity<StartAssessmentRequest> inputEntity =
+        readRestObject(FIXTURE_START, StartAssessmentRequest.class);
 
     // when
     final Response response =
@@ -92,15 +93,16 @@ public class AssessmentResourceTest extends AbstractCrudIntegrationTest<Assessme
     final AssessmentDto actual = response.readEntity(AssessmentDto.class);
     tearDownAssessmentId = actual.getId();
     actual.setId(null);
-    final String expectedFixture = FixtureHelpers.fixture(FIXTURE_READ);
-    final AssessmentDto expected = OBJECT_MAPPER.readValue(expectedFixture, AssessmentDto.class);
+    final AssessmentDto expected = FixtureReader.readObject(FIXTURE_READ, AssessmentDto.class);
+
     assertThat(actual, is(expected));
   }
 
   @Test
   public void startAssessment_failed_whenInvalidInput() throws IOException {
     // given
-    final Entity<StartAssessmentRequest> inputEntity = restEntityByFixture(FIXTURE_EMPTY_OBJECT);
+    final Entity<StartAssessmentRequest> inputEntity =
+        readRestObject(FIXTURE_EMPTY_OBJECT, StartAssessmentRequest.class);;
 
     // when
     final Response response =
@@ -112,17 +114,7 @@ public class AssessmentResourceTest extends AbstractCrudIntegrationTest<Assessme
 
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
-    final BaseExceptionResponse responsePayload = response
-        .readEntity(BaseExceptionResponse.class);
+    final BaseExceptionResponse responsePayload = response.readEntity(BaseExceptionResponse.class);
     assertThat(responsePayload.getIssueDetails().size(), is(2));
-  }
-
-  private Entity<StartAssessmentRequest> restEntityByFixture(String fixture)
-      throws IOException {
-    final String inputFixture = FixtureHelpers.fixture(fixture);
-    final Class<StartAssessmentRequest> valueType = StartAssessmentRequest.class;
-    final StartAssessmentRequest request =
-        OBJECT_MAPPER.readValue(inputFixture, valueType);
-    return Entity.entity(request, MediaType.APPLICATION_JSON_TYPE);
   }
 }
