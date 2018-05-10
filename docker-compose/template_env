@@ -2,7 +2,6 @@
 CANS_API_PORT=8080
 PERRY_PORT=18080
 POSTGRES_PORT=5432
-#DB2_PORT=50000
 
 #perry
 DEV_MODE=true
@@ -14,13 +13,6 @@ DB_NS_SCHEMA=cans
 DB_NS_USER=postgres_data
 DB_NS_PASSWORD=postgres_data
 
-#CWSCMS db
-#DB_CMS_USER=db2inst1
-#DB_CMS_PASSWORD=db2inst1
-#DB_CMS_DB2_HOST=localhost
-#DB_CMS_DB_NAME=DB0TDEV
-#DB_CMS_JDBC_URL=jdbc:db2://db2data:50000/${DB_CMS_DB_NAME}
-
 #cans-api
 LOGIN_URL=http://localhost:${PERRY_PORT}/perry/authn/login
 LOGOUT_URL=http://localhost:${PERRY_PORT}/perry/authn/logout
@@ -29,4 +21,4 @@ SWAGGER_JSON_URL=http://localhost:${CANS_API_PORT}/swagger.json
 SWAGGER_CALLBACK_URL=http://localhost:${CANS_API_PORT}/swagger
 SHIRO_CONFIG_PATH=/opt/cans-api/config/shiro_v2_docker_compose.ini
 KEY_STORE_FILE=/opt/cans-api/config/testKeyStore.jks
-AUTHORIZATION=false
+AUTHORIZATION_ENABLED=false
