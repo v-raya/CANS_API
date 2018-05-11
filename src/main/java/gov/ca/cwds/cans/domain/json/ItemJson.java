@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.domain.json;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 public class ItemJson implements Json {
   private static final long serialVersionUID = -4393123520723907456L;

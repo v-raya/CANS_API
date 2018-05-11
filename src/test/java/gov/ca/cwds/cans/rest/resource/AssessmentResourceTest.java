@@ -102,7 +102,7 @@ public class AssessmentResourceTest extends AbstractCrudIntegrationTest<Assessme
   public void startAssessment_failed_whenInvalidInput() throws IOException {
     // given
     final Entity<StartAssessmentRequest> inputEntity =
-        readRestObject(FIXTURE_EMPTY_OBJECT, StartAssessmentRequest.class);;
+        readRestObject(FIXTURE_EMPTY_OBJECT, StartAssessmentRequest.class);
 
     // when
     final Response response =

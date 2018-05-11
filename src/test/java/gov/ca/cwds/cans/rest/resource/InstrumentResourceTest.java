@@ -70,24 +70,4 @@ public class InstrumentResourceTest extends AbstractCrudIntegrationTest<Instrume
     assertThat(actualResult.keySet(), containsInAnyOrder("_title_", "Domain1._title_"));
   }
 
-//  public Long postInstrument() throws IOException {
-//    final Entity instrument =
-//        FixtureReader.readRestObject("fixture/instrument-post-49999.json", InstrumentDto.class);
-//    final Response postResponse =
-//        clientTestRule
-//            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-//            .target(API.INSTRUMENTS)
-//            .request(MediaType.APPLICATION_JSON_TYPE)
-//            .post(instrument);
-//    final InstrumentDto postedInstrument = postResponse.readEntity(InstrumentDto.class);
-//    return postedInstrument.getId();
-//  }
-//
-//  public void deleteInstrument(Long id) throws IOException {
-//    clientTestRule
-//        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-//        .target(API.INSTRUMENTS + SLASH + id)
-//        .request(MediaType.APPLICATION_JSON_TYPE)
-//        .delete();
-//  }
 }
