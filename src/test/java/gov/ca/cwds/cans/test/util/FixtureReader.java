@@ -1,7 +1,7 @@
 package gov.ca.cwds.cans.test.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.ca.cwds.ObjectMapperUtils;
+import static gov.ca.cwds.cans.test.util.ObjectMapperProvider.OBJECT_MAPPER;
+
 import io.dropwizard.testing.FixtureHelpers;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;
@@ -9,8 +9,6 @@ import javax.ws.rs.core.MediaType;
 
 /** @author denys.davydov */
 public final class FixtureReader {
-
-  private static final ObjectMapper OBJECT_MAPPER = ObjectMapperUtils.createObjectMapper();
 
   private FixtureReader() {}
 

@@ -4,7 +4,6 @@ import static gov.ca.cwds.cans.domain.entity.I18n.NQ_FIND_BY_KEY_PREFIX_AND_LANG
 import static gov.ca.cwds.cans.domain.entity.I18n.NQ_PARAM_KEY_PREFIX;
 import static gov.ca.cwds.cans.domain.entity.I18n.NQ_PARAM_LANG;
 
-import gov.ca.cwds.data.persistence.PersistentObject;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,21 +20,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "i_18_n")
 @IdClass(I18n.PrimaryKey.class)
 @NamedQuery(
-    name = NQ_FIND_BY_KEY_PREFIX_AND_LANG,
-    query = "select i from I18n i "
-        + " where i.k like :" + NQ_PARAM_KEY_PREFIX
-        + " and i.lang = :" + NQ_PARAM_LANG
-        + " order by i.k"
+  name = NQ_FIND_BY_KEY_PREFIX_AND_LANG,
+  query =
+      "select i from I18n i "
+          + " where i.k like :"
+          + NQ_PARAM_KEY_PREFIX
+          + " and i.lang = :"
+          + NQ_PARAM_LANG
+          + " order by i.k"
 )
 @Data
-public class I18n implements PersistentObject {
-
-  private static final long serialVersionUID = -6123477943320746982L;
+public class I18n implements Persistent<I18n.PrimaryKey> {
 
   public static final String NQ_FIND_BY_KEY_PREFIX_AND_LANG = "I18n.findByKeyPrefixAndLang";
   public static final String NQ_PARAM_KEY_PREFIX = "keyPrefix";
   public static final String NQ_PARAM_LANG = "lang";
-
+  private static final long serialVersionUID = -6123477943320746982L;
   @Column(name = "lang")
   @Id
   private String lang;
@@ -48,8 +48,16 @@ public class I18n implements PersistentObject {
   private String v;
 
   @Override
-  public Serializable getPrimaryKey() {
+  public I18n.PrimaryKey getId() {
     return new I18n.PrimaryKey(lang, k);
+  }
+
+  @Override
+  public void setId(I18n.PrimaryKey pk) {
+    if (pk != null) {
+      this.lang = pk.lang;
+      this.k = pk.k;
+    }
   }
 
   @Data

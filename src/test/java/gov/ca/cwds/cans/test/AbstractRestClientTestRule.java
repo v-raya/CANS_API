@@ -2,15 +2,13 @@ package gov.ca.cwds.cans.test;
 
 import static gov.ca.cwds.cans.rest.resource.AbstractIntegrationTest.AUTHORIZED_ACCOUNT_FIXTURE;
 import static io.dropwizard.testing.FixtureHelpers.fixture;
+import static org.eclipse.jetty.util.ssl.SslContextFactory.TRUST_ALL_CERTS;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import org.glassfish.jersey.client.ClientProperties;
@@ -30,15 +28,6 @@ public abstract class AbstractRestClientTestRule implements TestRule {
 
   private static final String QUERY_PARAM_TOKEN = "token";
   private final static String DEFAULT_IDENTITY_JSON = fixture(AUTHORIZED_ACCOUNT_FIXTURE);
-
-  public static final TrustManager[] TRUST_ALL_CERTS = new TrustManager[]{new X509TrustManager() {
-    public X509Certificate[] getAcceptedIssuers() {
-      return null;
-    }
-    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
-
-    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
-  }};
 
   ObjectMapper mapper;
   String apiUrl;

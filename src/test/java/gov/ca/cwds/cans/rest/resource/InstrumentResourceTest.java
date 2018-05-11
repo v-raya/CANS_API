@@ -58,14 +58,36 @@ public class InstrumentResourceTest extends AbstractCrudIntegrationTest<Instrume
     final long instrumentId = 49999;
 
     // when
-    final Map<String, String> actualResult = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.INSTRUMENTS + SLASH + instrumentId + SLASH + I18N + SLASH + "en")
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get(Map.class);
+    final Map<String, String> actualResult =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(API.INSTRUMENTS + SLASH + instrumentId + SLASH + I18N + SLASH + "en")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get(Map.class);
 
     // then
     assertThat(actualResult.size(), is(not(0)));
     assertThat(actualResult.keySet(), containsInAnyOrder("_title_", "Domain1._title_"));
   }
+
+//  public Long postInstrument() throws IOException {
+//    final Entity instrument =
+//        FixtureReader.readRestObject("fixture/instrument-post-49999.json", InstrumentDto.class);
+//    final Response postResponse =
+//        clientTestRule
+//            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+//            .target(API.INSTRUMENTS)
+//            .request(MediaType.APPLICATION_JSON_TYPE)
+//            .post(instrument);
+//    final InstrumentDto postedInstrument = postResponse.readEntity(InstrumentDto.class);
+//    return postedInstrument.getId();
+//  }
+//
+//  public void deleteInstrument(Long id) throws IOException {
+//    clientTestRule
+//        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+//        .target(API.INSTRUMENTS + SLASH + id)
+//        .request(MediaType.APPLICATION_JSON_TYPE)
+//        .delete();
+//  }
 }

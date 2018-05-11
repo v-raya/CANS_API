@@ -1,17 +1,17 @@
 package gov.ca.cwds.cans.service;
 
+import gov.ca.cwds.cans.dao.CrudDao;
+import gov.ca.cwds.cans.domain.entity.Persistent;
 import gov.ca.cwds.cans.util.Require;
-import gov.ca.cwds.data.BaseDaoImpl;
-import gov.ca.cwds.data.persistence.PersistentObject;
 
 /**
  * @author denys.davydov
  */
-public abstract class AbstractCrudService<T extends PersistentObject> {
+public abstract class AbstractCrudService<T extends Persistent> {
 
-  protected BaseDaoImpl dao;
+  protected CrudDao dao;
 
-  protected AbstractCrudService(BaseDaoImpl dao) {
+  protected AbstractCrudService(CrudDao dao) {
     this.dao = dao;
   }
 

@@ -1,8 +1,6 @@
 package gov.ca.cwds.cans.domain.entity;
 
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
-import gov.ca.cwds.data.persistence.PersistentObject;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "instrument")
 @Data
-public class Instrument implements PersistentObject {
+public class Instrument implements Persistent<Long> {
 
   private static final long serialVersionUID = 1L;
 
@@ -51,8 +49,4 @@ public class Instrument implements PersistentObject {
   @UpdateTimestamp
   private LocalDateTime updateTimestamp;
 
-  @Override
-  public Serializable getPrimaryKey() {
-    return id;
-  }
 }

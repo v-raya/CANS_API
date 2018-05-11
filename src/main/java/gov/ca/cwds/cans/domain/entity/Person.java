@@ -3,8 +3,6 @@ package gov.ca.cwds.cans.domain.entity;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
-import gov.ca.cwds.data.persistence.PersistentObject;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +24,7 @@ import lombok.Data;
 @Entity
 @Table(name = "person")
 @Data
-public class Person implements PersistentObject {
+public class Person implements Persistent<Long> {
 
   private static final long serialVersionUID = 8541617675397448400L;
 
@@ -52,7 +50,7 @@ public class Person implements PersistentObject {
   private LocalDate dob;
 
   @Column(name = "estimated_dob")
-  private LocalDate estimatedDob;
+  private Boolean estimatedDob;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "gender")
@@ -73,8 +71,4 @@ public class Person implements PersistentObject {
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
 
-  @Override
-  public Serializable getPrimaryKey() {
-    return id;
-  }
 }

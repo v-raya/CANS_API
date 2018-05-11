@@ -1,7 +1,5 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import gov.ca.cwds.data.persistence.PersistentObject;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +21,7 @@ import lombok.Data;
 @Entity
 @Table(name = "cft")
 @Data
-public class Cft implements PersistentObject {
+public class Cft implements Persistent<Long> {
 
   private static final long serialVersionUID = -4586157512284740531L;
 
@@ -55,8 +53,4 @@ public class Cft implements PersistentObject {
   )
   private Set<Person> persons = new HashSet<>();
 
-  @Override
-  public Serializable getPrimaryKey() {
-    return id;
-  }
 }

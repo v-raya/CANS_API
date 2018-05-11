@@ -1,7 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
@@ -13,7 +13,6 @@ import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.mapper.I18nMapper;
 import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
-import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.I18nService;
 import gov.ca.cwds.cans.service.InstrumentService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -43,10 +42,9 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 public class InstrumentResource {
 
-  private final InstrumentService instrumentService;
-  private final InstrumentMapper instrumentMapper;
   private final I18nService i18nService;
   private final I18nMapper i18nMapper;
+  private final ACrudResource<Instrument, InstrumentDto> crudResource;
 
   @Inject
   public InstrumentResource(
@@ -54,10 +52,9 @@ public class InstrumentResource {
       InstrumentMapper instrumentMapper,
       I18nService i18nService,
       I18nMapper i18nMapper) {
-    this.instrumentService = instrumentService;
-    this.instrumentMapper = instrumentMapper;
     this.i18nService = i18nService;
     this.i18nMapper = i18nMapper;
+    crudResource = new ACrudResource<>(instrumentService, instrumentMapper);
   }
 
   @UnitOfWork(CANS)
@@ -72,11 +69,8 @@ public class InstrumentResource {
   @Timed
   public Response post(
       @ApiParam(name = "Instrument", value = "The Instrument object") @Valid
-          final InstrumentDto inputDto) {
-    final Instrument inputEntity = instrumentMapper.fromDto(inputDto);
-    final Instrument resultEntity = instrumentService.create(inputEntity);
-    final InstrumentDto resultDto = instrumentMapper.toDto(resultEntity);
-    return Response.ok().entity(resultDto).build();
+          final InstrumentDto dto) {
+    return crudResource.post(dto);
   }
 
   @UnitOfWork(CANS)
@@ -95,12 +89,8 @@ public class InstrumentResource {
           @ApiParam(required = true, name = ID, value = "The Instrument id", example = "50000")
           final Long id,
       @ApiParam(name = "Instrument", value = "The Instrument object") @Valid
-          final InstrumentDto inputDto) {
-    final Instrument inputEntity = instrumentMapper.fromDto(inputDto);
-    inputEntity.setId(id);
-    final Instrument resultEntity = instrumentService.update(inputEntity);
-    final InstrumentDto resultDto = instrumentMapper.toDto(resultEntity);
-    return Response.ok().entity(resultDto).build();
+          final InstrumentDto dto) {
+    return crudResource.put(id, dto);
   }
 
   @UnitOfWork(CANS)
@@ -118,9 +108,7 @@ public class InstrumentResource {
       @PathParam(ID)
           @ApiParam(required = true, name = ID, value = "The Instrument id", example = "50000")
           final Long id) {
-    final Instrument entity = instrumentService.read(id);
-    final InstrumentDto dto = instrumentMapper.toDto(entity);
-    return ResponseUtil.responseOrNotFound(dto);
+    return crudResource.get(id);
   }
 
   @UnitOfWork(CANS)
@@ -138,8 +126,7 @@ public class InstrumentResource {
       @PathParam(ID)
           @ApiParam(required = true, name = ID, value = "The Instrument id", example = "50000")
           final Long id) {
-    instrumentService.delete(id);
-    return Response.noContent().build();
+    return crudResource.delete(id);
   }
 
   @UnitOfWork(CANS)

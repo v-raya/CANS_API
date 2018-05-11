@@ -2,8 +2,6 @@ package gov.ca.cwds.cans.domain.entity;
 
 import static gov.ca.cwds.cans.domain.entity.County.NQ_ALL;
 
-import gov.ca.cwds.data.persistence.PersistentObject;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +20,7 @@ import org.hibernate.annotations.NamedQuery;
     name = NQ_ALL,
     query = "FROM County"
 )
-public class County implements PersistentObject {
+public class County implements Persistent<Long> {
 
   private static final long serialVersionUID = -4591007112034454956L;
 
@@ -42,8 +40,4 @@ public class County implements PersistentObject {
   @Column(name = "export_id")
   private String exportId;
 
-  @Override
-  public Serializable getPrimaryKey() {
-    return id;
-  }
 }

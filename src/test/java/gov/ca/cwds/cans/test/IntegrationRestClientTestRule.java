@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.test;
 
+import static org.eclipse.jetty.util.ssl.SslContextFactory.TRUST_ALL_CERTS;
+
 import gov.ca.cwds.ObjectMapperUtils;
 import gov.ca.cwds.cans.test.util.TestUtils;
 import gov.ca.cwds.cans.util.Require;

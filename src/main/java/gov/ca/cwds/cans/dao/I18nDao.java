@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
-import gov.ca.cwds.data.BaseDaoImpl;
 import java.util.Collection;
 import java.util.List;
 import org.hibernate.SessionFactory;
@@ -13,7 +12,7 @@ import org.hibernate.SessionFactory;
 /**
  * @author denys.davydov
  */
-public class I18nDao extends BaseDaoImpl<Person> {
+public class I18nDao extends AbstractCrudDao<Person> {
 
   @Inject
   public I18nDao(@CansSessionFactory final SessionFactory sessionFactory) {
