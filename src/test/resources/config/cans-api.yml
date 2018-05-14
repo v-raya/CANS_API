@@ -44,6 +44,8 @@ cansDataSourceFactory:
       hibernate.id.new_generator_mappings: false
       hibernate.show_sql: true
 
+upgradeCansDbOnStart: false
+
 webSecurity:
   httpResponseSecurityHeaders:
     # Prevent MIMI sniffing

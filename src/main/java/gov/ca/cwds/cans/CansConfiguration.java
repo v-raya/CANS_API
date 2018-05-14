@@ -11,5 +11,6 @@ import lombok.EqualsAndHashCode;
 public class CansConfiguration extends MinimalApiConfiguration {
 
   @JsonProperty private DataSourceFactory cansDataSourceFactory;
+  private Boolean upgradeCansDbOnStart;
 
 }

@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans;
 
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
+
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -10,6 +12,7 @@ import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
+import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
 import io.dropwizard.setup.Bootstrap;
@@ -47,6 +50,10 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
 
   @Override
   public void runInternal(CansConfiguration configuration, Environment environment) {
+    if (isTrue(configuration.getUpgradeCansDbOnStart())) {
+      DbUpgrader.upgradeCansDb(configuration);
+    }
+
     environment.getObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 

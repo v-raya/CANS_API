@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.START;
+import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -73,6 +74,21 @@ public class AssessmentResourceTest extends AbstractCrudIntegrationTest<Assessme
   @Test
   public void assessment_postGetPutDelete_success() throws IOException {
     this.assertPostGetPutDelete();
+  }
+
+  @Test
+  public void startDemoAssessment_success() throws IOException {
+    // given
+    final StartAssessmentRequest request = readObject(FIXTURE_START, StartAssessmentRequest.class);
+    request.setInstrumentId(1L);
+
+    // when + then
+    clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + START)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
   }
 
   @Test

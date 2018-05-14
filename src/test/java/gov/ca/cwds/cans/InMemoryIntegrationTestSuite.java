@@ -11,6 +11,7 @@ import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;
+import gov.ca.cwds.cans.util.DbUpgrader;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import java.io.IOException;
@@ -55,10 +56,12 @@ public class InMemoryIntegrationTestSuite {
 
   @BeforeClass
   public static void init() throws Exception {
-    IntegrationTestContextHolder.cansConfiguration = DROPWIZARD_APP_RULE.getConfiguration();
+    final CansConfiguration configuration = DROPWIZARD_APP_RULE.getConfiguration();
+    IntegrationTestContextHolder.cansConfiguration = configuration;
     IntegrationTestContextHolder.clientTestRule =
         new InMemoryIntegrationRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
+    DbUpgrader.upgradeCansDb(configuration);
   }
 
   private static void initCansDb() throws LiquibaseException {
