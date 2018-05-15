@@ -323,7 +323,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ECCULF._title_"/>
-      <column name="v" value="CULTURAL FACTORS ' FAMILY"/>
+      <column name="v" value="CULTURAL FACTORS - FAMILY"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
