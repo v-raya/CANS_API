@@ -1,0 +1,24 @@
+{
+  "name": "instrument-parser",
+  "version": "1.0.0",
+  "description": "CSV -> liquibase with instrument's i18n",
+  "main": "./index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "csv",
+    "instrument",
+    "parse",
+    "liquibase"
+  ],
+  "author": "denys.davydov",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "figlet": "^1.2.0",
+    "lodash": "^4.17.10",
+    "papaparse": "^4.4.0"
+  }
+}
