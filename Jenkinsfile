@@ -170,7 +170,7 @@ node('tpt3-slave') {
                     poll: false,
                     scm: [
                             $class                           : 'GitSCM',
-                            branches                         : [[name: '*/master']],
+                            branches                         : [[name: '*/DOE-3207-CANS-env']],
                             doGenerateSubmoduleConfigurations: false,
                             extensions                       : [],
                             submoduleCfg                     : [],
