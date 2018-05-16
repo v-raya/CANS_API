@@ -20,5 +20,4 @@ bin/
 
 gradle/wrapper
 /gradle/
-/gradlew
 /tools/instrument-parser/output/changelog.xml
