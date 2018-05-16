@@ -101,7 +101,7 @@ node('cans-slave') {
                         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
                         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-                        string(defaultValue: 'inventories/tpt3dev/hosts.yml', description: '', name: 'inventory'),
+                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
                 ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
     try {
         stage('Preparation') {
