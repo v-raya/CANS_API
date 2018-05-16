@@ -22,6 +22,8 @@ public class DbUpgrader {
   private DbUpgrader() {
   }
 
+  private static final String LB_SCRIPT_CREATE_SCHEMA = "liquibase/util/cans_schema.xml";
+  private static final String LB_SCRIPT_CANS_MASTER = "liquibase/cans_database_master.xml";
   private static final String LB_SCRIPT_DEMO_MASTER = "liquibase/cans_database_demo_master.xml";
   private static final String HIBERNATE_DEFAULT_SCHEMA = "hibernate.default_schema";
 
@@ -32,8 +34,12 @@ public class DbUpgrader {
       final DataSourceFactory dataSourceFactory = configuration.getCansDataSourceFactory();
       database = getDatabase(dataSourceFactory);
       final ClassLoaderResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor();
+      new Liquibase(LB_SCRIPT_CREATE_SCHEMA, resourceAccessor, database)
+          .update((String) null);
       final String schemaName = dataSourceFactory.getProperties().get(HIBERNATE_DEFAULT_SCHEMA);
       database.setDefaultSchemaName(schemaName);
+      new Liquibase(LB_SCRIPT_CANS_MASTER, resourceAccessor, database)
+          .update((String) null);
       new Liquibase(LB_SCRIPT_DEMO_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
