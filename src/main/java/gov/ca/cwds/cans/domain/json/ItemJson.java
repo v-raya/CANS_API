@@ -22,5 +22,6 @@ public class ItemJson implements Json {
   private Boolean required;
   private Boolean confidential;
   private RatingType ratingType;
+  private Boolean hasNaOption;
   private Integer rating;
 }

@@ -58,7 +58,8 @@
                 "code": "ec09sleep",
                 "required": true,
                 "confidential": false,
-                "rating_type": "REGULAR_WITH_NA",
+                "rating_type": "REGULAR",
+                "has_na_option": true,
                 "rating": -1
               }
             ]
