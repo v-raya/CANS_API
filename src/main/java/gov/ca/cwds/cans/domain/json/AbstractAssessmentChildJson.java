@@ -21,5 +21,6 @@ public class AbstractAssessmentChildJson implements Json {
   private Long id;
   private String code;
   private Boolean underSix;
-  private Boolean forceDomainShow;
+  private Boolean aboveSix;
+
 }

@@ -5,10 +5,11 @@ const fs = require('fs');
 const path = require('path');
 const domainConverter = require('./js/domain-to-object-converter');
 const itemConverter = require('./js/item-to-object-converter');
+const linkConverter = require('./js/link-converter');
 const liquibaseConverter = require('./js/object-to-liquibase');
 
 console.log(chalk.yellow(
-    figlet.textSync('CSV - i18n', {horizontalLayout: 'full'})
+    figlet.textSync('CSV > assessment + i18n', {horizontalLayout: 'full'})
 ));
 
 const csvToArray = csvFilePath => {
@@ -23,22 +24,33 @@ const csvToArray = csvFilePath => {
   });
 };
 
-const rawDomains = csvToArray('csv/cans_domains.csv');
-const domainObjectArray = domainConverter.toDomainObjectArray(rawDomains.data);
+const saveFile = (filePath, fileBody) => {
+  fs.writeFile(filePath, fileBody, function(err) {
+    if(err) {
+      return console.log(err);
+    }
+    console.log(`The '${filePath}' file was saved!`);
+  });
+};
 
+// generate i18n liquibase scripts
+const rawDomains = csvToArray('csv/cans_domains.csv');
 const rawItems = csvToArray('csv/cans_items.csv');
+const rawLink = csvToArray('csv/cans_to_domains_to_items.csv');
+
+const domainObjectArray = domainConverter.toDomainObjectArray(rawDomains.data);
 const itemObjectArray = itemConverter.toItemsObjectArray(rawItems.data);
 
 const mergedArray = domainObjectArray.concat(itemObjectArray);
 const liquibaseChangeset = liquibaseConverter.toLiquibaseChangeset(mergedArray);
+saveFile("output/changelog.xml", liquibaseChangeset);
 console.log(liquibaseChangeset);
 
-const xmlPath = "output/changelog.xml";
-fs.writeFile(xmlPath, liquibaseChangeset, function(err) {
-  if(err) {
-    return console.log(err);
-  }
+// generate assessment json
+const assessmentDraft = linkConverter.toAssessmentDraft(rawLink.data);
+const assessment = linkConverter.enrichAssessmentWithDomainsAndItems(
+    assessmentDraft, rawDomains.data, rawItems.data);
+saveFile("output/assessment.json", JSON.stringify(assessment));
+console.log(JSON.stringify(assessment));
 
-  console.log(`The '${xmlPath}' file was saved!`);
-});
 

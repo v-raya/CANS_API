@@ -21,3 +21,27 @@ exports.insertRecordTemplate =
 
 exports.KEY_PLACEHOLDER = '%KEY_PLACEHOLDER%';
 exports.VALUE_PLACEHOLDER = '%VALUE_PLACEHOLDER%';
+
+exports.assessmentTemplate = {
+  "under_six": false,
+  "domains": []
+};
+
+exports.domainTemplate = {
+  "id": null,
+  "class": "domain",
+  "code": null,
+  "under_six": null,
+  "above_six": null,
+  "items": []
+};
+
+exports.itemTemplate = {
+  "under_six_id": null,
+  "above_six_id": null,
+  "code": null,
+  "required": true,
+  "confidential": false,
+  "rating_type": null,
+  "rating": -1
+};

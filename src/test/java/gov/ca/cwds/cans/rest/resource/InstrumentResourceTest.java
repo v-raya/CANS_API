@@ -9,10 +9,13 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
+import gov.ca.cwds.cans.test.util.FixtureReader;
 import java.io.IOException;
 import java.util.Map;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import liquibase.exception.LiquibaseException;
+import org.json.JSONException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,6 +24,7 @@ import org.junit.Test;
 public class InstrumentResourceTest extends AbstractCrudIntegrationTest<InstrumentDto> {
 
   private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
+  private static final String FIXTURE_CA_POST = "fixtures/instrument-ca-post.json";
 
   @BeforeClass
   public static void onBeforeClass() throws LiquibaseException {
@@ -53,6 +57,34 @@ public class InstrumentResourceTest extends AbstractCrudIntegrationTest<Instrume
   }
 
   @Test
+  public void postCaAssessment_success() throws IOException, JSONException {
+    // given
+    final InstrumentDto inputInstrument =
+        FixtureReader.readObject(FIXTURE_CA_POST, InstrumentDto.class);
+
+    // when
+    final InstrumentDto actualInstrument =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(INSTRUMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputInstrument, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(InstrumentDto.class);
+
+    // then
+    final Long id = actualInstrument.getId();
+    actualInstrument.setId(null);
+    assertThat(actualInstrument, is(inputInstrument));
+
+    // tear down
+    clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(INSTRUMENTS + SLASH + id)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .delete();
+  }
+
+  @Test
   public void getInstrumentsI18n_returnsRecords_whenRecordsExist() throws IOException {
     // given
     final long instrumentId = 49999;
@@ -69,5 +101,4 @@ public class InstrumentResourceTest extends AbstractCrudIntegrationTest<Instrume
     assertThat(actualResult.size(), is(not(0)));
     assertThat(actualResult.keySet(), containsInAnyOrder("_title_", "Domain1._title_"));
   }
-
 }

@@ -22,3 +22,4 @@ gradle/wrapper
 /gradle/
 /gradlew
 /tools/instrument-parser/output/changelog.xml
+/tools/instrument-parser/output/assessment.json
