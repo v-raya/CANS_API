@@ -57,7 +57,7 @@ cansDataSourceFactory:
       hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
       hibernate.cache.use_query_cache: true
 
-upgradeCansDbOnStart: ${UPGRADE_CANS_DB_ON_START:-true}
+upgradeCansDbOnStart: ${UPGRADE_CANS_DB_ON_START:-false}
 
 webSecurity:
   httpResponseSecurityHeaders:
