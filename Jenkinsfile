@@ -10,22 +10,12 @@ def ansibleScmCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
 def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION '
 
 // tests variables
-def db2dataCredentialsId = 'db2data'
-def postgresCredentialsId = 'db2data'
 def testsDockerImageName = 'cwds/cans-api-tests'
 def cansApiUrl = 'http://cans.dev.cwds.io:8089'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
-        ' -e PERRY_URL=https://web.dev.cwds.io' +
-        ' -e DB_CMS_JDBC_URL=jdbc:db2://db2.dev.cwds.io:50000/DB0TDEV' +
-        ' -e DB_CMS_SCHEMA=CWSINT' +
-        ' -e DB_CMS_USER=$DB_USERNAME' +
-        ' -e DB_CMS_PASSWORD=$DB_PASSWORD' +
-        ' -e DB_RS_JDBC_URL=jdbc:db2://db2.dev.cwds.io:50000/DB0TDEV' +
-        ' -e DB_RS_SCHEMA=CWSRS1' +
-        ' -e DB_RS_USER=$DB_USERNAME' +
-        ' -e DB_RS_PASSWORD=$DB_PASSWORD '
+        ' -e PERRY_URL=https://web.dev.cwds.io';
 
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
@@ -96,7 +86,7 @@ node('cans-slave') {
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
                 parameters([
                         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
-                        string(defaultValue: 'development', description: '', name: 'branch'),
+                        string(defaultValue: 'master', description: '', name: 'branch'),
                         booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
                         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
@@ -184,14 +174,8 @@ node('cans-slave') {
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
-        stage('functional Tests') {
-            withCredentials([[
-                                     $class          : 'UsernamePasswordMultiBinding',
-                                     credentialsId   : db2dataCredentialsId,
-                                     usernameVariable: 'DB_USERNAME',
-                                     passwordVariable: 'DB_PASSWORD']]) {
-                sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-            }
+        stage('Functional Tests') {
+            sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
         stage('Publish Tests Docker Image') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
