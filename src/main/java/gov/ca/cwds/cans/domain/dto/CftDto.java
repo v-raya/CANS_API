@@ -18,6 +18,5 @@ public class CftDto extends Dto {
   private String name;
   private Integer daysInProgram;
   private LocalDate eventDate;
-  private String externalCaseId;
   private Set<PersonDto> persons = new HashSet<>();
 }

@@ -32,6 +32,7 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
+  private String caseId;
   private String countyClientNumber;
   private String clientIndexNumber;
   private CountyDto county;

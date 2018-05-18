@@ -64,6 +64,9 @@ public class Person implements Persistent<Long> {
   @Column(name = "race")
   private Race race;
 
+  @Column(name = "case_id")
+  private String caseId;
+
   @Column(name = "county_client_number")
   private String countyClientNumber;
 

@@ -39,9 +39,6 @@ public class Cft implements Persistent<Long> {
   @Column(name = "event_date")
   private LocalDate eventDate;
 
-  @Column(name = "external_case_id")
-  private String externalCaseId;
-
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "cft")
   private Set<Assessment> assessments = new HashSet<>();
 
