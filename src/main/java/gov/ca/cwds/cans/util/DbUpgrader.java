@@ -40,11 +40,33 @@ public class DbUpgrader {
       database.setDefaultSchemaName(schemaName);
       new Liquibase(LB_SCRIPT_CANS_MASTER, resourceAccessor, database)
           .update((String) null);
+    } catch (SQLException | LiquibaseException e) {
+      log.error("Upgrading of CANS DB is failed: " + e.getMessage(), e);
+    } finally {
+      if (database != null) {
+        try {
+          database.close();
+        } catch (DatabaseException e) {
+          log.error("Could not close DB during CANS DB upgrade: " + e.getMessage(), e);
+        }
+      }
+    }
+  }
+
+  public static void runDmlOnCansDb(CansConfiguration configuration)  {
+    log.info("Running dml scripts on CANS DB...");
+    Database database = null;
+    try {
+      final DataSourceFactory dataSourceFactory = configuration.getCansDataSourceFactory();
+      database = getDatabase(dataSourceFactory);
+      final ClassLoaderResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor();
+      final String schemaName = dataSourceFactory.getProperties().get(HIBERNATE_DEFAULT_SCHEMA);
+      database.setDefaultSchemaName(schemaName);
       new Liquibase(LB_SCRIPT_DEMO_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
-      log.error("Upgrading of CANS DB is failed: " + e.getMessage(), e);
-    } finally{
+      log.error("Running dml scripts on CANS DB is failed: " + e.getMessage(), e);
+    } finally {
       if (database != null) {
         try {
           database.close();

@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class ItemJson implements Json {
   private static final long serialVersionUID = -4393123520723907456L;
 
+  private String underSixId;
+  private String aboveSixId;
   private String code;
   private Boolean required;
   private Boolean confidential;

@@ -54,6 +54,8 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       DbUpgrader.upgradeCansDb(configuration);
     }
 
+    DbUpgrader.runDmlOnCansDb(configuration);
+
     environment.getObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 

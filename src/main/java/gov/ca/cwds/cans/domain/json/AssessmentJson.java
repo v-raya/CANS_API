@@ -16,5 +16,6 @@ public class AssessmentJson implements Json {
   private static final long serialVersionUID = -6936125676164346410L;
 
   private Long id;
+  private Boolean underSix;
   private List<AbstractAssessmentChildJson> domains = new ArrayList<>();
 }

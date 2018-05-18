@@ -20,4 +20,6 @@ bin/
 
 gradle/wrapper
 /gradle/
+/tools/instrument-parser/npm_modules/
 /tools/instrument-parser/output/changelog.xml
+/tools/instrument-parser/output/assessment.json
