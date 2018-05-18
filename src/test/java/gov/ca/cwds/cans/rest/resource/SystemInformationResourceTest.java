@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * Created by denys.davydov
  */
-public class SystemInformationResourceTest extends AbstractIntegrationTest {
+public class SystemInformationResourceTest extends AbstractFunctionalTest {
 
   @Test
   public void getSystemInformation_success() {

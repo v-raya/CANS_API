@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
 /** @author denys.davydov */
-public class PersonResourceTest extends AbstractCrudIntegrationTest<PersonDto> {
+public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
   private static final String FIXTURES_POST = "fixtures/person-post.json";
   private static final String FIXTURES_PUT = "fixtures/person-put.json";

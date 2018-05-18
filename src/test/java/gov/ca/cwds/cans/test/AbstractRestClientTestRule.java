@@ -1,6 +1,6 @@
 package gov.ca.cwds.cans.test;
 
-import static gov.ca.cwds.cans.rest.resource.AbstractIntegrationTest.AUTHORIZED_ACCOUNT_FIXTURE;
+import static gov.ca.cwds.cans.rest.resource.AbstractFunctionalTest.AUTHORIZED_ACCOUNT_FIXTURE;
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.eclipse.jetty.util.ssl.SslContextFactory.TRUST_ALL_CERTS;
 

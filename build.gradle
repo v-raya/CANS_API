@@ -184,7 +184,7 @@ runShadow {
 test {
     systemProperty 'java.net.preferIPv4Stack', 'true'
     exclude '**/SmokeTestSuite.class',
-            '**/IntegrationTestSuite.class',
+            '**/FunctionalTestSuite.class',
             '**/*ResourceTest.class'
 }
 
@@ -195,12 +195,12 @@ jar {
 }
 
 
-task integrationTest(type: Test, dependsOn: testClasses) {
-    // URL where integration tests will be pointed to (may be changed in gradle.properties)
+task functionalTest(type: Test, dependsOn: testClasses) {
+    // URL where functional tests will be pointed to (may be changed in gradle.properties)
     systemProperty 'api.url', project.property('api.url')
     systemProperty 'perry.url', project.property('perry.url')
     systemProperty 'login.form.target.url', project.property('login.form.target.url')
-    include '**/IntegrationTestSuite.*'
+    include '**/FunctionalTestSuite.*'
     outputs.upToDateWhen { false }
 }
 

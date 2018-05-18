@@ -51,8 +51,8 @@ Further configuration options are available in the file config/cans-api.yml.
 
 ## Testing
 
-### Integration testing
-To run Integration tests set "api.url" and "perry.url" properties to point to environment host. Use gradle integrationTest task. In this case token will be generated for default test user, so it's possible to test environment with Perry running in dev mode.
+### Functional testing
+To run Functional tests set "api.url" and "perry.url" properties to point to environment host. Use gradle FunctionalTest task. In this case token will be generated for default test user, so it's possible to test environment with Perry running in dev mode.
 
 ### Smoke Testing
-Smoke test suite is part of integration tests. Set api.url, use gradle smokeTestSuite task. Smoke test endpoint is not protected by Perry.
+Smoke test suite is part of Functional tests. Set "api.url", use gradle smokeTestSuite task. Smoke test endpoint is not protected by Perry.

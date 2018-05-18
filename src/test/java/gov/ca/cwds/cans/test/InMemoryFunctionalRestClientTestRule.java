@@ -8,11 +8,11 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 /**
  * @author denys.davydov
  */
-public class InMemoryIntegrationRestClientTestRule extends AbstractRestClientTestRule {
+public class InMemoryFunctionalRestClientTestRule extends AbstractRestClientTestRule {
 
   private JWTTokenProvider tokenProvider = new JWTTokenProvider();
 
-  public InMemoryIntegrationRestClientTestRule(DropwizardAppRule<CansConfiguration> dropWizardApplication) {
+  public InMemoryFunctionalRestClientTestRule(DropwizardAppRule<CansConfiguration> dropWizardApplication) {
     token = initToken();
     mapper = dropWizardApplication.getObjectMapper();
     apiUrl = String.format("http://localhost:%s/", dropWizardApplication.getLocalPort());

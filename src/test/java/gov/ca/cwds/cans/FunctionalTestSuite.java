@@ -9,7 +9,7 @@ import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.test.IntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.ConfigurationProvider;
-import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;
+import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import java.security.KeyManagementException;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
 
 /**
  * @author denys.davydov
- *     <p>The suite is run with "integrationTest" gradle task. It requires "api.url" and "perry.url"
+ *     <p>The suite is run with "functionalTest" gradle task. It requires "api.url" and "perry.url"
  *     system properties to be set. The suite is used to test a remote environment.
  */
 @RunWith(Suite.class)
@@ -29,7 +29,7 @@ import org.junit.runners.Suite;
   InstrumentResourceTest.class,
   PersonResourceTest.class,
 })
-public class IntegrationTestSuite {
+public class FunctionalTestSuite {
 
   static {
     JerseyGuiceUtils.install((s, serviceLocator) -> null);
@@ -37,7 +37,7 @@ public class IntegrationTestSuite {
 
   @BeforeClass
   public static void init() throws KeyManagementException {
-    IntegrationTestContextHolder.cansConfiguration = ConfigurationProvider.CONFIGURATION;
-    IntegrationTestContextHolder.clientTestRule = new IntegrationRestClientTestRule();
+    FunctionalTestContextHolder.cansConfiguration = ConfigurationProvider.CONFIGURATION;
+    FunctionalTestContextHolder.clientTestRule = new IntegrationRestClientTestRule();
   }
 }

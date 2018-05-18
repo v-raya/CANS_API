@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * @author denys.davydov
  */
-public class I18nResourceTest extends AbstractIntegrationTest {
+public class I18nResourceTest extends AbstractFunctionalTest {
 
   private static final String KEY_PREFIX = "instrument.1.";
 

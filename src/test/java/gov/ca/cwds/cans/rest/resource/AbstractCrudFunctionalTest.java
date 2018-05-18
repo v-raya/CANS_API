@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 
 /** @author denys.davydov */
-public abstract class AbstractCrudIntegrationTest<T extends Dto> extends AbstractIntegrationTest {
+public abstract class AbstractCrudFunctionalTest<T extends Dto> extends AbstractFunctionalTest {
 
   private Class<T> managedClass = this.getManagedClass();
 

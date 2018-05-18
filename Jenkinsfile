@@ -15,8 +15,8 @@ def postgresCredentialsId = 'db2data'
 def testsDockerImageName = 'cwds/cans-api-tests'
 def cansApiUrl = 'http://cans.dev.cwds.io:8089'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
-def integrationTestsDockerEnvVars = smokeTestsDockerEnvVars +
-        ' -e TEST_TYPE=integration' +
+def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
+        ' -e TEST_TYPE=functional' +
         ' -e PERRY_URL=https://web.dev.cwds.io' +
         ' -e DB_CMS_JDBC_URL=jdbc:db2://db2.dev.cwds.io:50000/DB0TDEV' +
         ' -e DB_CMS_SCHEMA=CWSINT' +
@@ -184,13 +184,13 @@ node('cans-slave') {
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
-        stage('Integration Tests') {
+        stage('functional Tests') {
             withCredentials([[
                                      $class          : 'UsernamePasswordMultiBinding',
                                      credentialsId   : db2dataCredentialsId,
                                      usernameVariable: 'DB_USERNAME',
                                      passwordVariable: 'DB_PASSWORD']]) {
-                sh "docker run --rm $integrationTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+                sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
             }
         }
         stage('Publish Tests Docker Image') {
