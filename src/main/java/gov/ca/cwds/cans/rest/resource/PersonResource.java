@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.mapper.PersonMapper;
+import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.PersonService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.Collection;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,10 +38,14 @@ import javax.ws.rs.core.Response;
 public class PersonResource {
 
   private final ACrudResource<Person, PersonDto> crudResource;
+  private final PersonService personService;
+  private final PersonMapper personMapper;
 
   @Inject
   public PersonResource(PersonService personService, PersonMapper personMapper) {
     crudResource = new ACrudResource<>(personService, personMapper);
+    this.personService = personService;
+    this.personMapper = personMapper;
   }
 
   @UnitOfWork(CANS)
@@ -92,6 +98,21 @@ public class PersonResource {
           @ApiParam(required = true, name = ID, value = "The Person id", example = "50000")
           final Long id) {
     return crudResource.get(id);
+  }
+
+  @UnitOfWork(CANS)
+  @GET
+  @ApiResponses(
+    value = {
+      @ApiResponse(code = 401, message = "Not Authorized"),
+    }
+  )
+  @ApiOperation(value = "Get all people", response = PersonDto.class)
+  @Timed
+  public Response getAll() {
+    final Collection<Person> entities = personService.findAll();
+    final Collection<PersonDto> results = personMapper.toDtos(entities);
+    return ResponseUtil.responseOk(results);
   }
 
   @UnitOfWork(CANS)

@@ -7,5 +7,6 @@
     <include file="ca/add_ca_instrument.xml" relativeToChangelogFile="true"/>
     <include file="ca/add_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
     <include file="demo/add_demo_instrument.xml" relativeToChangelogFile="true"/>
+    <include file="demo/add_demo_people.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

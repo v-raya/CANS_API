@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+  <changeSet id="instrument-insert" author="denys.davydov">
+    <insert tableName="person">
+      <column name="id" value="1"/>
+      <column name="person_role" value="CLIENT"/>
+      <column name="first_name" value="Bruce"/>
+      <column name="last_name" value="Wayne"/>
+      <column name="county_id" value="99"/>
+    </insert>
+    <insert tableName="person">
+      <column name="id" value="2"/>
+      <column name="person_role" value="CLIENT"/>
+      <column name="first_name" value="Clark"/>
+      <column name="last_name" value="Kent"/>
+      <column name="county_id" value="99"/>
+    </insert>
+    <insert tableName="person">
+      <column name="id" value="3"/>
+      <column name="person_role" value="CLIENT"/>
+      <column name="first_name" value="Peter"/>
+      <column name="last_name" value="Parker"/>
+      <column name="county_id" value="99"/>
+    </insert>
+    <insert tableName="person">
+      <column name="id" value="4"/>
+      <column name="person_role" value="CLIENT"/>
+      <column name="first_name" value="Charley"/>
+      <column name="last_name" value="Parker"/>
+      <column name="county_id" value="99"/>
+    </insert>
+
+    <rollback>
+      <delete tableName="instrument">
+        <where>id in (1, 2, 3, 4)</where>
+      </delete>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>

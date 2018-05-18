@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.domain.entity;
 
+import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
+
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
@@ -19,15 +21,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.NamedQuery;
 
 /** A Person. */
 @Entity
 @Table(name = "person")
+@NamedQuery(name = NQ_ALL, query = "FROM Person")
 @Data
 public class Person implements Persistent<Long> {
 
+  public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
   private static final long serialVersionUID = 8541617675397448400L;
-
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
@@ -70,5 +74,4 @@ public class Person implements Persistent<Long> {
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
-
 }

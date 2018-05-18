@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "person_role": "CLIENT",
+    "first_name": "Bruce",
+    "last_name": "Wayne",
+    "county": {
+      "id": 99,
+      "name": "State of California",
+      "external_id": "1126"
+    }
+  },
+  {
+    "id": 2,
+    "person_role": "CLIENT",
+    "first_name": "Clark",
+    "last_name": "Kent",
+    "county": {
+      "id": 99,
+      "name": "State of California",
+      "external_id": "1126"
+    }
+  },
+  {
+    "id": 3,
+    "person_role": "CLIENT",
+    "first_name": "Peter",
+    "last_name": "Parker",
+    "county": {
+      "id": 99,
+      "name": "State of California",
+      "external_id": "1126"
+    }
+  },
+  {
+    "id": 4,
+    "person_role": "CLIENT",
+    "first_name": "Charley",
+    "last_name": "Parker",
+    "county": {
+      "id": 99,
+      "name": "State of California",
+      "external_id": "1126"
+    }
+  }
+]

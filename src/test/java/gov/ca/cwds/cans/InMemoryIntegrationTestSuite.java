@@ -61,7 +61,7 @@ public class InMemoryIntegrationTestSuite {
     IntegrationTestContextHolder.clientTestRule =
         new InMemoryIntegrationRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
-    DbUpgrader.upgradeCansDb(configuration);
+    DbUpgrader.runDmlOnCansDb(configuration);
   }
 
   private static void initCansDb() throws LiquibaseException {
