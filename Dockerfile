@@ -1,6 +1,7 @@
 FROM cwds/javajdk
 RUN mkdir /opt/cans-api
 RUN mkdir /opt/cans-api/logs
+RUN mkdir /opt/cans-api/config
 ADD config/*.yml /opt/cans-api/
 ADD config/shiro*.ini /opt/cans-api/config/
 ADD config/enc.jceks /opt/cans-api/config/enc.jceks
