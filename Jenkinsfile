@@ -11,6 +11,7 @@ def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCu
 
 // tests variables
 def db2dataCredentialsId = 'db2data'
+def postgresCredentialsId = 'db2data'
 def testsDockerImageName = 'cwds/cans-api-tests'
 def cansApiUrl = 'http://cans.dev.cwds.io:8089'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
@@ -89,18 +90,18 @@ def publishLicenseReportHtml() {
     ])
 }
 
-node('tpt3-slave') {
+node('cans-slave') {
     def artifactoryServer = Artifactory.server artifactoryServerId
     def rtGradle = Artifactory.newGradleBuild()
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
                 parameters([
                         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
                         string(defaultValue: 'development', description: '', name: 'branch'),
-						booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
+                        booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
                         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
                         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-                        string(defaultValue: 'inventories/tpt3dev/hosts.yml', description: '', name: 'inventory'),
+                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
                 ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
     try {
         stage('Preparation') {
@@ -113,14 +114,14 @@ node('tpt3-slave') {
         stage('Build') {
             echo("RELEASE: ${params.RELEASE_PROJECT}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-			echo("ONLY_TESTING: ${ONLY_TESTING}")
+            echo("ONLY_TESTING: ${ONLY_TESTING}")
             echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
             rtGradle.run(
                     buildFile: 'build.gradle',
                     tasks: 'jar' + javaEnvProps
             )
         }
-		
+
         stage('Unit Tests') {
             rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
             publishUnitTestsHtml()
@@ -134,10 +135,10 @@ node('tpt3-slave') {
                 rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
         }
-		if("${params.ONLY_TESTING}" == "true") {
-			currentBuild.result = 'SUCCESS'
-			return
-			}
+        if ("${params.ONLY_TESTING}" == "true") {
+            currentBuild.result = 'SUCCESS'
+            return
+        }
         stage('Push to artifactory') {
             rtGradle.deployer.deployArtifacts = true
             rtGradle.run(
@@ -170,7 +171,7 @@ node('tpt3-slave') {
                     poll: false,
                     scm: [
                             $class                           : 'GitSCM',
-                            branches                         : [[name: '*/master']],
+                            branches                         : [[name: '*/DOE-3207-CANS-env']],
                             doGenerateSubmoduleConfigurations: false,
                             extensions                       : [],
                             submoduleCfg                     : [],
@@ -185,10 +186,10 @@ node('tpt3-slave') {
         }
         stage('Integration Tests') {
             withCredentials([[
-                     $class: 'UsernamePasswordMultiBinding',
-                     credentialsId: db2dataCredentialsId,
-                     usernameVariable: 'DB_USERNAME',
-                     passwordVariable: 'DB_PASSWORD']]) {
+                                     $class          : 'UsernamePasswordMultiBinding',
+                                     credentialsId   : db2dataCredentialsId,
+                                     usernameVariable: 'DB_USERNAME',
+                                     passwordVariable: 'DB_PASSWORD']]) {
                 sh "docker run --rm $integrationTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
             }
         }
