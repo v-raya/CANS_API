@@ -1,7 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.PERSONS;
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
@@ -29,8 +29,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /** @author denys.davydov */
-@Api(value = PERSONS, tags = PERSONS)
-@Path(value = PERSONS)
+@Api(value = PEOPLE, tags = PEOPLE)
+@Path(value = PEOPLE)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonResource {

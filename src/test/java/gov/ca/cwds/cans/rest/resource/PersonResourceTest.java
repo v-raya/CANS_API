@@ -1,6 +1,6 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.PERSONS;
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class PersonResourceTest extends AbstractCrudIntegrationTest<PersonDto> {
 
   @Override
   String getApiPath() {
-    return PERSONS;
+    return PEOPLE;
   }
 
   @Test
