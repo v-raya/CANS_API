@@ -16,7 +16,7 @@
     </insert>
     <insert tableName="person">
       <column name="id" value="2"/>
-      <column name="person_role" value="CLIENT"/>
+      <column name="person_role" value="CAREGIVER"/>
       <column name="first_name" value="Clark"/>
       <column name="last_name" value="Kent"/>
       <column name="dob" value="2016-01-31"/>

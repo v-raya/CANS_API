@@ -1,6 +1,8 @@
 package gov.ca.cwds.cans.domain.entity;
 
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
@@ -21,16 +23,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.ParamDef;
 
 /** A Person. */
+@Data
 @Entity
 @Table(name = "person")
 @NamedQuery(name = NQ_ALL, query = "FROM Person")
-@Data
+@FilterDef(
+    name = FILTER_PERSON_ROLE,
+    parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
+)
+@Filter(
+    name = FILTER_PERSON_ROLE,
+    condition = "person_role = :" + PARAM_PERSON_ROLE
+)
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
+  public static final String FILTER_PERSON_ROLE = "personRoleFilter";
+  public static final String PARAM_PERSON_ROLE = "personRole";
   private static final long serialVersionUID = 8541617675397448400L;
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
