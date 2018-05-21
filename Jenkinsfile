@@ -86,7 +86,7 @@ node('cans-slave') {
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
                 parameters([
                         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
-                        string(defaultValue: 'master', description: '', name: 'branch'),
+                        string(defaultValue: 'development', description: '', name: 'branch'),
                         booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
                         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
