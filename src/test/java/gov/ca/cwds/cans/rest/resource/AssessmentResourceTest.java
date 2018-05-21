@@ -6,6 +6,8 @@ import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.AssessmentDto;
@@ -78,13 +80,17 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     final StartAssessmentRequest request = readObject(FIXTURE_START, StartAssessmentRequest.class);
     request.setInstrumentId(1L);
 
-    // when + then
-    clientTestRule
+    // when
+    final Response postResponse = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + START)
         .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(AssessmentDto.class);
+        .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
+    final AssessmentDto assessment = postResponse.readEntity(AssessmentDto.class);
+
+    // then
+    assertThat(postResponse.getStatus(), is(200));
+    assertThat(assessment, is(not(nullValue())));
   }
 
   @Test
