@@ -4,7 +4,6 @@ import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
@@ -14,27 +13,13 @@ import java.io.IOException;
 import java.util.Map;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import liquibase.exception.LiquibaseException;
 import org.json.JSONException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /** @author denys.davydov */
 public class InstrumentResourceTest extends AbstractCrudFunctionalTest<InstrumentDto> {
 
-  private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
   private static final String FIXTURE_CA_POST = "fixtures/instrument-ca-post.json";
-
-  @BeforeClass
-  public static void onBeforeClass() throws LiquibaseException {
-    DATABASE_HELPER_CANS.runScripts(LIQUIBASE_SCRIPT);
-  }
-
-  @AfterClass
-  public static void onAfterClass() throws LiquibaseException {
-    DATABASE_HELPER_CANS.rollbackScripts(LIQUIBASE_SCRIPT);
-  }
 
   @Override
   String getPostFixturePath() {
@@ -87,7 +72,7 @@ public class InstrumentResourceTest extends AbstractCrudFunctionalTest<Instrumen
   @Test
   public void getInstrumentsI18n_returnsRecords_whenRecordsExist() throws IOException {
     // given
-    final long instrumentId = 49999;
+    final long instrumentId = 1;
 
     // when
     final Map<String, String> actualResult =
@@ -99,6 +84,5 @@ public class InstrumentResourceTest extends AbstractCrudFunctionalTest<Instrumen
 
     // then
     assertThat(actualResult.size(), is(not(0)));
-    assertThat(actualResult.keySet(), containsInAnyOrder("_title_", "Domain1._title_"));
   }
 }

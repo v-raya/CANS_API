@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
@@ -8,6 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
@@ -15,18 +17,14 @@ import java.io.IOException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import liquibase.exception.LiquibaseException;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /** @author denys.davydov */
 public class AssessmentResourceTest extends AbstractCrudFunctionalTest<AssessmentDto> {
 
-  private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
-
+  private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment-post.json";
   private static final String FIXTURE_READ = "fixtures/assessment-read.json";
   private static final String FIXTURE_PUT = "fixtures/assessment-put.json";
@@ -34,16 +32,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
 
   private Long tearDownAssessmentId;
-
-  @BeforeClass
-  public static void onBeforeClass() throws LiquibaseException {
-    DATABASE_HELPER_CANS.runScripts(LIQUIBASE_SCRIPT);
-  }
-
-  @AfterClass
-  public static void onAfterClass() throws LiquibaseException {
-    DATABASE_HELPER_CANS.rollbackScripts(LIQUIBASE_SCRIPT);
-  }
+  private Long tearDownInstrumentId;
 
   @After
   public void tearDown() throws IOException {
@@ -51,6 +40,13 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
       clientTestRule
           .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
           .target(ASSESSMENTS + SLASH + tearDownAssessmentId)
+          .request(MediaType.APPLICATION_JSON_TYPE)
+          .delete();
+    }
+    if (tearDownInstrumentId != null) {
+      clientTestRule
+          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+          .target(INSTRUMENTS + SLASH + tearDownInstrumentId)
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
@@ -94,8 +90,17 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
   @Test
   public void startAssessment_success() throws IOException {
     // given
-    final Entity<StartAssessmentRequest> inputEntity =
+    final Entity newInstrument = readRestObject(FIXTURE_POST_INSTRUMENT, InstrumentDto.class);
+    tearDownInstrumentId = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(INSTRUMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(newInstrument)
+        .readEntity(InstrumentDto.class)
+        .getId();
+    final Entity<StartAssessmentRequest> startRequest =
         readRestObject(FIXTURE_START, StartAssessmentRequest.class);
+    startRequest.getEntity().setInstrumentId(tearDownInstrumentId);
 
     // when
     final Response response =
@@ -103,14 +108,15 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
             .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + START)
             .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(inputEntity);
+            .post(startRequest);
 
     // then
     final AssessmentDto actual = response.readEntity(AssessmentDto.class);
     tearDownAssessmentId = actual.getId();
-    actual.setId(null);
     final AssessmentDto expected = FixtureReader.readObject(FIXTURE_READ, AssessmentDto.class);
-
+    actual.setId(null);
+    expected.setId(null);
+    expected.setInstrumentId(tearDownInstrumentId);
     assertThat(actual, is(expected));
   }
 
