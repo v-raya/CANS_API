@@ -11,7 +11,7 @@ def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCu
 
 // tests variables
 def testsDockerImageName = 'cwds/cans-api-tests'
-def cansApiUrl = 'http://cans.dev.cwds.io:8089'
+def cansApiUrl = 'http://cans.dev.cwds.io'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
