@@ -20,6 +20,10 @@ elif [[ "$TEST_TYPE" == "functional" ]]; then
     echo "PERRY_URL variable is required"
     exit 1
   fi
+  if ([ -z "$PERRY_LOGIN_FORM_URL" ]); then
+    PERRY_LOGIN_FORM_URL="$PERRY_LOGIN_FORM_URL/perry/login"
+    echo "PERRY_LOGIN_FORM_URL variable is not found. Default value is used: PERRY_LOGIN_FORM_URL/perry/login"
+  fi
   echo "Executing the functional Test..."
   TEST_CLASS=gov.ca.cwds.cans.FunctionalTestSuite
 else
@@ -31,7 +35,8 @@ fi
 echo "Starting tests: "
 echo "CANS_API_URL = '$CANS_API_URL'"
 echo "PERRY_URL = '$PERRY_URL'"
+echo "PERRY_LOGIN_FORM_URL = '$PERRY_LOGIN_FORM_URL'"
 echo "TEST_TYPE = '$TEST_TYPE'"
 echo "TEST_CLASS = '$TEST_CLASS'"
 
-java ${JAVA_OPT} -Dapi.url="${CANS_API_URL}" -Dperry.url="${PERRY_URL}" -cp /opt/cans-api-tests/resources:cans-api-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+java ${JAVA_OPT} -Dapi.url="${CANS_API_URL}" -Dperry.url="${PERRY_URL}" -Dlogin.form.target.url="${PERRY_LOGIN_FORM_URL}" -cp /opt/cans-api-tests/resources:cans-api-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
