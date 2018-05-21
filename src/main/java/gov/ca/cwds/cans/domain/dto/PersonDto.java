@@ -11,12 +11,14 @@ import gov.ca.cwds.cans.domain.enumeration.Race;
 import java.time.LocalDate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /** @author denys.davydov */
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PersonDto extends Dto {
   private PersonRole personRole;
@@ -30,6 +32,7 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
+  private String caseId;
   private String countyClientNumber;
   private String clientIndexNumber;
   private CountyDto county;

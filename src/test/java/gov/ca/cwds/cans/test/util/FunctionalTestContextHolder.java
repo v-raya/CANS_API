@@ -6,9 +6,9 @@ import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 /**
  * @author denys.davydov
  */
-public final class IntegrationTestContextHolder {
+public final class FunctionalTestContextHolder {
 
-  private IntegrationTestContextHolder() {
+  private FunctionalTestContextHolder() {
   }
 
   public static CansConfiguration cansConfiguration = null;

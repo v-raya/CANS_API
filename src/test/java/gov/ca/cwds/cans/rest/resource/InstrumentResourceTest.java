@@ -21,7 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /** @author denys.davydov */
-public class InstrumentResourceTest extends AbstractCrudIntegrationTest<InstrumentDto> {
+public class InstrumentResourceTest extends AbstractCrudFunctionalTest<InstrumentDto> {
 
   private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
   private static final String FIXTURE_CA_POST = "fixtures/instrument-ca-post.json";

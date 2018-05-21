@@ -8,9 +8,9 @@ import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
-import gov.ca.cwds.cans.test.InMemoryIntegrationRestClientTestRule;
+import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
-import gov.ca.cwds.cans.test.util.IntegrationTestContextHolder;
+import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
@@ -38,7 +38,7 @@ import org.junit.runners.Suite;
   InstrumentResourceTest.class,
   PersonResourceTest.class,
 })
-public class InMemoryIntegrationTestSuite {
+public class InMemoryFunctionalTestSuite {
 
   @ClassRule
   public static final DropwizardAppRule<CansConfiguration> DROPWIZARD_APP_RULE =
@@ -57,11 +57,11 @@ public class InMemoryIntegrationTestSuite {
   @BeforeClass
   public static void init() throws Exception {
     final CansConfiguration configuration = DROPWIZARD_APP_RULE.getConfiguration();
-    IntegrationTestContextHolder.cansConfiguration = configuration;
-    IntegrationTestContextHolder.clientTestRule =
-        new InMemoryIntegrationRestClientTestRule(DROPWIZARD_APP_RULE);
+    FunctionalTestContextHolder.cansConfiguration = configuration;
+    FunctionalTestContextHolder.clientTestRule =
+        new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
-    DbUpgrader.upgradeCansDb(configuration);
+    DbUpgrader.runDmlOnCansDb(configuration);
   }
 
   private static void initCansDb() throws LiquibaseException {
@@ -74,6 +74,6 @@ public class InMemoryIntegrationTestSuite {
 
   private static DatabaseHelper createCansDbHelper() {
     return new DatabaseHelper(
-        IntegrationTestContextHolder.cansConfiguration.getCansDataSourceFactory());
+        FunctionalTestContextHolder.cansConfiguration.getCansDataSourceFactory());
   }
 }

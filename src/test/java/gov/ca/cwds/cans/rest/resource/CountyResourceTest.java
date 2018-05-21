@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * @author denys.davydov
  */
-public class CountyResourceTest extends AbstractIntegrationTest {
+public class CountyResourceTest extends AbstractFunctionalTest {
 
   @Test
   public void getAllCounties_success() throws IOException {

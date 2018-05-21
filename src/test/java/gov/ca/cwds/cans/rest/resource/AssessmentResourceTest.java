@@ -23,7 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /** @author denys.davydov */
-public class AssessmentResourceTest extends AbstractCrudIntegrationTest<AssessmentDto> {
+public class AssessmentResourceTest extends AbstractCrudFunctionalTest<AssessmentDto> {
 
   private static final String LIQUIBASE_SCRIPT = "liquibase/instrument_insert.xml";
 

@@ -58,6 +58,7 @@ cansDataSourceFactory:
       hibernate.cache.use_query_cache: true
 
 upgradeCansDbOnStart: ${UPGRADE_CANS_DB_ON_START:-false}
+populateDemoDataOnStart: ${POPULATE_DEMO_DATA_ON_START:-true}
 
 webSecurity:
   httpResponseSecurityHeaders:

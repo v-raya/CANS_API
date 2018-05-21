@@ -58,7 +58,7 @@ node ('preint') {
 	}
    stage('Run tests'){
      writeFile file: "gradle.properties", text: "api.url=${APP_URL}"
-	 buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'integrationTest'
+	   buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'functionalTest'
 	}
 
  } catch (Exception e)    {
@@ -67,7 +67,7 @@ node ('preint') {
 	   notifyBuild(currentBuild.result,errorcode)
 	   throw e;
  }finally {
-	  publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/integrationTest', reportFiles: 'index.html', reportName: 'Integration Test Report', reportTitles: ''])
+	  publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/functionalTest', reportFiles: 'index.html', reportName: 'functional Test Report', reportTitles: ''])
 	  cleanWs()
  }
 

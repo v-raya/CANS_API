@@ -1,14 +1,19 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.PERSONS;
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.SearchPersonRequest;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.mapper.PersonMapper;
+import gov.ca.cwds.cans.domain.mapper.SearchPersonMapper;
+import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.PersonService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
@@ -16,7 +21,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.Collection;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,17 +36,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /** @author denys.davydov */
-@Api(value = PERSONS, tags = PERSONS)
-@Path(value = PERSONS)
+@Api(value = PEOPLE, tags = PEOPLE)
+@Path(value = PEOPLE)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonResource {
 
   private final ACrudResource<Person, PersonDto> crudResource;
+  private final PersonService personService;
+  private final PersonMapper personMapper;
+  private final SearchPersonMapper searchPersonMapper;
 
   @Inject
-  public PersonResource(PersonService personService, PersonMapper personMapper) {
+  public PersonResource(PersonService personService, PersonMapper personMapper, SearchPersonMapper searchPersonMapper) {
     crudResource = new ACrudResource<>(personService, personMapper);
+    this.personService = personService;
+    this.personMapper = personMapper;
+    this.searchPersonMapper = searchPersonMapper;
   }
 
   @UnitOfWork(CANS)
@@ -95,6 +108,41 @@ public class PersonResource {
   }
 
   @UnitOfWork(CANS)
+  @GET
+  @ApiResponses(
+    value = {
+      @ApiResponse(code = 401, message = "Not Authorized"),
+    }
+  )
+  @ApiOperation(value = "Get all people", response = PersonDto[].class)
+  @Timed
+  public Response getAll() {
+    final Collection<Person> entities = personService.findAll();
+    final Collection<PersonDto> dtos = personMapper.toDtos(entities);
+    return ResponseUtil.responseOk(dtos);
+  }
+
+  @UnitOfWork(CANS)
+  @POST
+  @Path(SEARCH)
+  @ApiResponses(
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+      }
+  )
+  @ApiOperation(value = "Search people by parameters", response = PersonDto[].class)
+  @Timed
+  public Response search(
+      @ApiParam(required = true, name = "Search Parameters", value = "Search People parameters")
+      @NotNull
+      final SearchPersonRequest searchRequest) {
+    final SearchPersonPo searchPo = searchPersonMapper.fromSearchRequest(searchRequest);
+    final Collection<Person> entities = personService.search(searchPo);
+    final Collection<PersonDto> dtos = personMapper.toDtos(entities);
+    return ResponseUtil.responseOk(dtos);
+  }
+
+  @UnitOfWork(CANS)
   @DELETE
   @Path("/{" + ID + "}")
   @ApiResponses(
@@ -111,4 +159,5 @@ public class PersonResource {
           final Long id) {
     return crudResource.delete(id);
   }
+
 }
