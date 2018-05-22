@@ -10,7 +10,7 @@ def ansibleScmCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
 def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION '
 
 // tests variables
-def testsDockerImageName = 'cwds/cans-api-tests'
+def testsDockerImageName = 'cwds/cans-api-test'
 def cansApiUrl = 'https://cans-api.dev.cwds.io'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
