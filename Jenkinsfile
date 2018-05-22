@@ -168,7 +168,7 @@ node('cans-slave') {
                             userRemoteConfigs                : [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]
                     ]
             )
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
+            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=true -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
             sleep(150)
         }
         stage('Smoke Tests') {
