@@ -57,7 +57,7 @@ task testsJar(type: ShadowJar, dependsOn: [project.parent.compileJava, project.p
     zip64 true
     baseName 'cans-api'
     version ''
-    classifier 'tests'
+    classifier 'test'
 
     from "${project.parent.projectDir}/build/classes/java/main"
     from "${project.parent.projectDir}/build/classes/java/test"
