@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.apache.tools.ant.filters.FixCrLfFilter
 
-def dockerImageName = "cwds/cans-api-tests"
+def dockerImageName = "cwds/cans-api-test"
 def dockerContextDir = "build/docker-context"
 
 project.ext.dockerEnvVars = project.buildEnv != 'WIN_DEV' ? [:] : [

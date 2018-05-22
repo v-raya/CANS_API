@@ -39,4 +39,4 @@ echo "PERRY_LOGIN_FORM_URL = '$PERRY_LOGIN_FORM_URL'"
 echo "TEST_TYPE = '$TEST_TYPE'"
 echo "TEST_CLASS = '$TEST_CLASS'"
 
-java ${JAVA_OPT} -Dapi.url="${CANS_API_URL}" -Dperry.url="${PERRY_URL}" -Dlogin.form.target.url="${PERRY_LOGIN_FORM_URL}" -cp /opt/cans-api-tests/resources:cans-api-tests.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+java ${JAVA_OPT} -Dapi.url="${CANS_API_URL}" -Dperry.url="${PERRY_URL}" -Dlogin.form.target.url="${PERRY_LOGIN_FORM_URL}" -cp /opt/cans-api-test/resources:cans-api-test.jar org.junit.runner.JUnitCore ${TEST_CLASS}
