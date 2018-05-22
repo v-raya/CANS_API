@@ -11,11 +11,11 @@ def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCu
 
 // tests variables
 def testsDockerImageName = 'cwds/cans-api-tests'
-def cansApiUrl = 'https://cans-api.dev.cwds.io/'
+def cansApiUrl = 'https://cans-api.dev.cwds.io'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
-        ' -e PERRY_URL=https://web.dev.cwds.io/';
+        ' -e PERRY_URL=https://web.dev.cwds.io';
 
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
