@@ -21,7 +21,7 @@ elif [[ "$TEST_TYPE" == "functional" ]]; then
     exit 1
   fi
   if ([ -z "$PERRY_LOGIN_FORM_URL" ]); then
-    PERRY_LOGIN_FORM_URL="$PERRY_LOGIN_FORM_URL/perry/login"
+    PERRY_LOGIN_FORM_URL="$PERRY_URL/perry/login"
     echo "PERRY_LOGIN_FORM_URL variable is not found. Default value is used: PERRY_LOGIN_FORM_URL/perry/login"
   fi
   echo "Executing the functional Test..."
