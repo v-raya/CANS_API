@@ -27,7 +27,7 @@ This image can be used to run a set of tests on CANS API
 
 # Example commands to run:
 ## Run smoke test example
-docker run -e "CANS_API_URL=http://cans.dev.cwds.io:8089/" -e "TEST_TYPE=smoke" -it cwds/cans-api-tests
+docker run -e "CANS_API_URL=http://cans.dev.cwds.io:8089/" -e "TEST_TYPE=smoke" -it cwds/cans-api-test
 
 ## Run functional test example
 docker run -e "CANS_API_URL=http://cans.dev.cwds.io:8080/" \
@@ -36,7 +36,7 @@ docker run -e "CANS_API_URL=http://cans.dev.cwds.io:8080/" \
 	-e "DB_NS_SCHEMA=CANS" \
 	-e "DB_NS_USER=postgres_data" \
 	-e "DB_MS_PASSWORD=postgres_data" \
-	-it cwds/cans-api-tests
+	-it cwds/cans-api-test
 
 # Result
 The container returns 0 if tests finished successfully and 1 if tests failed.

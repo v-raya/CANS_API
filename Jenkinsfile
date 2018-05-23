@@ -10,8 +10,8 @@ def ansibleScmCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
 def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION '
 
 // tests variables
-def testsDockerImageName = 'cwds/cans-api-tests'
-def cansApiUrl = 'http://cans.dev.cwds.io:8089'
+def testsDockerImageName = 'cwds/cans-api-test'
+def cansApiUrl = 'https://cans-api.dev.cwds.io'
 def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
@@ -87,6 +87,7 @@ node('cans-slave') {
                 parameters([
                         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
                         string(defaultValue: 'master', description: '', name: 'branch'),
+                        booleanParam(defaultValue: false, description: 'Runs liquibase ddl on application start', name: 'UPGRADE_CANS_DB_ON_START'),
                         booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
                         booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
@@ -168,8 +169,8 @@ node('cans-slave') {
                             userRemoteConfigs                : [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]
                     ]
             )
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
-            sleep(150)
+            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
+            sleep(30)
         }
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
