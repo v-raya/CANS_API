@@ -1,0 +1,18 @@
+{
+  "first_name": "Jackie",
+  "last_name": "Chan",
+  "person_role": "CLIENT",
+  "external_id": "0abcde000",
+  "dob": "2010-10-13",
+  "estimated_dob": false,
+  "gender": "MALE",
+  "race": "WHITE_OR_CAUCASIAN",
+  "county_client_number": "ccn12345",
+  "client_index_number": "cin54321",
+  "county": {
+    "id": 9,
+    "name": "El Dorado",
+    "external_id": "1076",
+    "export_id": "09"
+  }
+}

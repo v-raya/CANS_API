@@ -1,0 +1,32 @@
+{
+  "county": {
+    "id": 99,
+    "name": "State of California",
+    "external_id": "1126"
+  },
+  "prototype": {
+    "domains": [
+      {
+        "class": "domain",
+        "code": "early_childhood",
+        "under_six": true,
+        "domains": [
+          {
+            "code": "ec_challenges",
+            "under_six": true,
+            "items": [
+              {
+                "code": "ec09sleep",
+                "required": true,
+                "confidential": false,
+                "rating_type": "REGULAR",
+                "has_na_option": true,
+                "rating": -1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

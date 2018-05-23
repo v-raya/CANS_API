@@ -1,0 +1,21 @@
+{
+  "assessment_type": "INITIAL",
+  "status": "IN_PROGRESS",
+  "state": {
+    "domains": [
+      {
+        "class": "domain",
+        "code": "life_functioning",
+        "items": [
+          {
+            "code": "lf10family",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "rating": -1
+          }
+        ]
+      }
+    ]
+  }
+}
