@@ -162,7 +162,7 @@ node('cans-slave') {
                     poll: false,
                     scm: [
                             $class                           : 'GitSCM',
-                            branches                         : [[name: '*/DOE-3207-CANS-env']],
+                            branches                         : [[name: '*/master']],
                             doGenerateSubmoduleConfigurations: false,
                             extensions                       : [],
                             submoduleCfg                     : [],
