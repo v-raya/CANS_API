@@ -180,7 +180,10 @@ node('cans-slave') {
         }
         stage('Publish Tests Docker Image') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                sh "docker push $testsDockerImageName:$APP_VERSION"
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
+                )
             }
         }
     } catch (Exception e) {
