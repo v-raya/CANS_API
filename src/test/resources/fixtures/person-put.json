@@ -5,6 +5,7 @@
   "external_id": "0zzzzz000",
   "dob": "1999-01-28",
   "estimated_dob": true,
+  "case_id": "123",
   "gender": "FEMALE",
   "county": {
     "id": 10,

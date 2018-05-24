@@ -9,10 +9,13 @@ import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /** @author denys.davydov */
 @Data
@@ -21,9 +24,16 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PersonDto extends Dto {
-  private PersonRole personRole;
+  @NotNull private PersonRole personRole;
+
+  @NotEmpty
+  @Size(min = 1, max = 50)
   private String firstName;
+
+  @NotEmpty
+  @Size(min = 1, max = 50)
   private String lastName;
+
   private String externalId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
@@ -32,8 +42,12 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
+
+  @NotEmpty
+  @Size(min = 1, max = 50)
   private String caseId;
+
   private String countyClientNumber;
   private String clientIndexNumber;
-  private CountyDto county;
+  @NotNull private CountyDto county;
 }
