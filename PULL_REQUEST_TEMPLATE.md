@@ -1,5 +1,5 @@
 ## Description
-<!--- Provide a description with context for those that don't know what this pull request is about. -->
+<!--- Provide a description with context for those that don't know what this pull request is about. Include JIRA link -->
 
 ## Tests
 - [ ] I used TDD to develop the feature
@@ -21,7 +21,7 @@
 - [ ] My code follows the code style of this project.
 - [ ] I ran all my tests locally which were green.
 - [ ] My code adds no new issues to Code Climate
-- [ ] I ran all the linters for the project.
+- [ ] I ran all the linters and static analyzers for the project (SonarQube, eslint, rubocop, etc).
 - [ ] My code is in a stable state ready to be deployable, but not necessarily complete.
 - [ ] I promise on my honor as a CWDS developer to ensure I don't break the build, to check linters, use best practices, to leave the code in better shape than I found it, and to have a good day.
 
