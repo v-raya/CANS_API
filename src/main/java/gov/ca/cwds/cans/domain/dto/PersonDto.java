@@ -42,7 +42,11 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
-  @NotEmpty private String caseId;
+
+  @NotEmpty
+  @Size(min = 1, max = 50)
+  private String caseId;
+
   private String countyClientNumber;
   private String clientIndexNumber;
   @NotNull private CountyDto county;
