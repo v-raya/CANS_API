@@ -5,6 +5,7 @@
   "external_id": "0abcde000",
   "dob": "2010-10-13",
   "estimated_dob": false,
+  "case_id": "123456789",
   "gender": "MALE",
   "race": "WHITE_OR_CAUCASIAN",
   "county_client_number": "ccn12345",
