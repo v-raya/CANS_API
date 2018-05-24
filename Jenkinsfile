@@ -152,6 +152,14 @@ node('cans-slave') {
                     tasks: 'dockerTestsCreateImage' + javaEnvProps
             )
         }
+        stage('Publish Tests Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
+                )
+            }
+        }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
         }
@@ -177,14 +185,6 @@ node('cans-slave') {
         }
         stage('Functional Tests') {
             sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-        }
-        stage('Publish Tests Docker Image') {
-            withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                rtGradle.run(
-                        buildFile: 'build.gradle',
-                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
-                )
-            }
         }
     } catch (Exception e) {
         errorcode = e
