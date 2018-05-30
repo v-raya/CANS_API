@@ -1,5 +1,6 @@
 package gov.ca.cwds.cans.domain.dto;
 
+import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS;
 import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,10 +30,12 @@ public class PersonDto extends Dto {
 
   @NotEmpty
   @Size(min = 1, max = 50)
+  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
   private String firstName;
 
   @NotEmpty
   @Size(min = 1, max = 50)
+  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
   private String lastName;
 
   private String externalId;
