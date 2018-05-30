@@ -33,6 +33,7 @@ public final class Constants {
 
     public static final String ALPHA_SYMBOLS = "Must have alpha symbols only";
 
+    private ValidationMessages() {}
   }
 
   public static class ExpectedExceptionMessages {
