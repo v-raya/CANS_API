@@ -29,6 +29,12 @@ public final class Constants {
     private API() {}
   }
 
+  public static class ValidationMessages {
+
+    public static final String ALPHA_SYMBOLS = "Must have alpha symbols only";
+
+  }
+
   public static class ExpectedExceptionMessages {
 
     private ExpectedExceptionMessages() {}

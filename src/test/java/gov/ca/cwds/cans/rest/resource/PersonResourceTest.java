@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -34,7 +35,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String LONG_ALPHA_SYMBOLS_STRING =
       "abcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyz";
   private static final String SIZE_VALIDATION_MESSAGE = "size must be between 1 and 50";
-  private static final String ALPHA_VALIDATION_MESSAGE = "Must have alpha symbols only";
 
   @Override
   String getPostFixturePath() {
@@ -137,7 +137,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
         actualResponse
             .getIssueDetails()
             .stream()
-            .filter(issue -> ALPHA_VALIDATION_MESSAGE.equals(issue.getUserMessage()))
+            .filter(issue -> ALPHA_SYMBOLS.equals(issue.getUserMessage()))
             .map(IssueDetails::getProperty)
             .collect(Collectors.toSet());
 
