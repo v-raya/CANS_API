@@ -6,8 +6,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.SearchPersonRequest;
+import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
@@ -29,9 +31,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
       "fixtures/person-search-clients-request.json";
   private static final String FIXTURES_SEARCH_CLIENTS_RESPONSE =
       "fixtures/person-search-clients-response.json";
-  private static final String SIXTY_SYMBOLS_STRING =
-      "123456789012345678901234567890123456789012345678901234567890";
+  private static final String LONG_ALPHA_SYMBOLS_STRING =
+      "abcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyz";
   private static final String SIZE_VALIDATION_MESSAGE = "size must be between 1 and 50";
+  private static final String ALPHA_VALIDATION_MESSAGE = "Must have alpha symbols only";
 
   @Override
   String getPostFixturePath() {
@@ -85,9 +88,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void personPost_fails_whenFieldsLengthValidationFails() throws IOException {
     // given
     final PersonDto input = new PersonDto();
-    input.setFirstName(SIXTY_SYMBOLS_STRING);
-    input.setLastName(SIXTY_SYMBOLS_STRING);
-    input.setCaseId(SIXTY_SYMBOLS_STRING);
+    input.setFirstName(LONG_ALPHA_SYMBOLS_STRING);
+    input.setLastName(LONG_ALPHA_SYMBOLS_STRING);
+    input.setCaseId(LONG_ALPHA_SYMBOLS_STRING);
 
     // when
     final BaseExceptionResponse actualResponse =
@@ -109,6 +112,38 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     assertThat(actualViolatedFields.size(), is(3));
     assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "caseId"));
+  }
+
+  @Test
+  public void personPost_fails_whenNonAlphaSymbolsInNames() throws IOException {
+    // given
+    final PersonDto input = new PersonDto();
+    input.setFirstName("123");
+    input.setLastName("123");
+    input.setPersonRole(PersonRole.CLIENT);
+    input.setCaseId("123");
+    input.setCounty(new CountyDto().setExportId("1"));
+
+    // when
+    final BaseExceptionResponse actualResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(BaseExceptionResponse.class);
+
+    final Set<String> actualViolatedFields =
+        actualResponse
+            .getIssueDetails()
+            .stream()
+            .filter(issue -> ALPHA_VALIDATION_MESSAGE.equals(issue.getUserMessage()))
+            .map(IssueDetails::getProperty)
+            .collect(Collectors.toSet());
+
+    // then
+    assertThat(actualViolatedFields.size(), is(2));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName"));
   }
 
   @Test
