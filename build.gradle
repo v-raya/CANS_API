@@ -30,7 +30,7 @@ project.ext {
     projectDockerGroup = 'cwds'
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
-    projectMajorVersion = '0.1.1'
+    projectMajorVersion = '0.7.2'
     coreApiVersion = '1.6.4_781-RC'
     dataModelVersion = '0.7.2_559-RC'
     dropwizardVersion = '1.1.0'
