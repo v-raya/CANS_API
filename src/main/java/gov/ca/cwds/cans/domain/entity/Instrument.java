@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "instrument")
 @Data
+@Accessors(chain = true)
 public class Instrument implements Persistent<Long> {
 
   private static final long serialVersionUID = 1L;

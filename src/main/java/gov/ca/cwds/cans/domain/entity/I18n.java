@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /** A I18n. */
 @Entity
@@ -30,6 +31,7 @@ import lombok.NoArgsConstructor;
           + " order by i.k"
 )
 @Data
+@Accessors(chain = true)
 public class I18n implements Persistent<I18n.PrimaryKey> {
 
   public static final String NQ_FIND_BY_KEY_PREFIX_AND_LANG = "I18n.findByKeyPrefixAndLang";
@@ -53,11 +55,12 @@ public class I18n implements Persistent<I18n.PrimaryKey> {
   }
 
   @Override
-  public void setId(I18n.PrimaryKey pk) {
+  public I18n setId(I18n.PrimaryKey pk) {
     if (pk != null) {
       this.lang = pk.lang;
       this.k = pk.k;
     }
+    return this;
   }
 
   @Data

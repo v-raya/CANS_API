@@ -11,10 +11,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "assessment")
 @Data
+@Accessors(chain = true)
 public class Assessment implements Persistent<Long> {
 
   private static final long serialVersionUID = 4921833959434495906L;
@@ -53,19 +56,26 @@ public class Assessment implements Persistent<Long> {
 
   @ManyToOne private Cft cft;
 
-  @Column(
-      name = "create_timestamp",
-      nullable = false,
-      updatable = false
-  )
+  @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
-  private LocalDateTime createTimestamp;
+  private LocalDateTime createdTimestamp;
 
-  @Column(
-      name = "update_timestamp",
-      insertable = false
-  )
+  @ManyToOne
+  @JoinColumn(name = "created_by", updatable = false, nullable = false)
+  private Person createdBy;
+
+  @Column(name = "updated_timestamp", insertable = false)
   @UpdateTimestamp
-  private LocalDateTime updateTimestamp;
+  private LocalDateTime updatedTimestamp;
 
+  @ManyToOne
+  @JoinColumn(name = "updated_by")
+  private Person updatedBy;
+
+  @Column(name = "submitted_timestamp")
+  private LocalDateTime submittedTimestamp;
+
+  @ManyToOne
+  @JoinColumn(name = "submitted_by")
+  private Person submittedBy;
 }

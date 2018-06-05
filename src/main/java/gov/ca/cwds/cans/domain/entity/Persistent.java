@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public interface Persistent<I extends Serializable> {
   I getId();
-  void setId(I id);
+  Persistent setId(I id);
 }

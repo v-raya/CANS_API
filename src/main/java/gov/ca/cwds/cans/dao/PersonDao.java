@@ -9,6 +9,7 @@ import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -28,6 +29,11 @@ public class PersonDao extends AbstractCrudDao<Person> {
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
+    }
+    final String externalId = searchPo.getExternalId();
+    if (StringUtils.isNotBlank(externalId)) {
+      session.enableFilter(Person.FILTER_EXTERNAL_ID)
+          .setParameter(Person.PARAM_EXTERNAL_ID, externalId);
     }
 
     final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).list();

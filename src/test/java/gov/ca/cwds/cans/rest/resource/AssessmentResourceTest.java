@@ -28,6 +28,8 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
 
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment-post.json";
+  private static final String FIXTURE_POST_LOGGING_INFO =
+      "fixtures/assessment-post-logging-info.json";
   private static final String FIXTURE_READ = "fixtures/assessment-read.json";
   private static final String FIXTURE_PUT = "fixtures/assessment-put.json";
   private static final String FIXTURE_START = "fixtures/start-assessment-post.json";
@@ -52,6 +54,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
+    this.cleanUpCreatedUsers();
   }
 
   @Override
@@ -81,29 +84,35 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     request.setInstrumentId(1L);
 
     // when
-    final Response postResponse = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(ASSESSMENTS + SLASH + START)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
+    final Response postResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + START)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
     final AssessmentDto assessment = postResponse.readEntity(AssessmentDto.class);
 
     // then
     assertThat(postResponse.getStatus(), is(200));
+    this.handleCreationLoggableInstance(assessment);
     assertThat(assessment, is(not(nullValue())));
+
+    // clean up
+    this.tearDownAssessmentId = assessment.getId();
   }
 
   @Test
   public void startAssessment_success() throws IOException {
     // given
     final Entity newInstrument = readRestObject(FIXTURE_POST_INSTRUMENT, InstrumentDto.class);
-    tearDownInstrumentId = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(INSTRUMENTS)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(newInstrument)
-        .readEntity(InstrumentDto.class)
-        .getId();
+    tearDownInstrumentId =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(INSTRUMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(newInstrument)
+            .readEntity(InstrumentDto.class)
+            .getId();
     final Entity<StartAssessmentRequest> startRequest =
         readRestObject(FIXTURE_START, StartAssessmentRequest.class);
     startRequest.getEntity().setInstrumentId(tearDownInstrumentId);
@@ -123,6 +132,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     actual.setId(null);
     expected.setId(null);
     expected.setInstrumentId(tearDownInstrumentId);
+    this.handleCreationLoggableInstance(actual);
     assertThat(actual, is(expected));
   }
 
@@ -144,5 +154,32 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
     final BaseExceptionResponse responsePayload = response.readEntity(BaseExceptionResponse.class);
     assertThat(responsePayload.getIssueDetails().size(), is(2));
+  }
+
+  @Test
+  public void postAssessment_ignoresInputLogInfo() throws IOException {
+    // given
+    final AssessmentDto inputAssessment =
+        readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
+
+    // when
+    final AssessmentDto actualAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // then
+    assertThat(actualAssessment.getCreatedBy().getId(), is(not(inputAssessment.getCreatedBy().getId())));
+    assertThat(actualAssessment.getCreatedTimestamp(), is(not(inputAssessment.getCreatedTimestamp())));
+    assertThat(actualAssessment.getUpdatedBy(), is(nullValue()));
+    assertThat(actualAssessment.getUpdatedTimestamp(), is(nullValue()));
+    assertThat(actualAssessment.getSubmittedBy(), is(nullValue()));
+    assertThat(actualAssessment.getSubmittedTimestamp(), is(nullValue()));
+
+    // clean up
+    tearDownAssessmentId = actualAssessment.getId();
+    this.handleCreationLoggableInstance(actualAssessment);
   }
 }

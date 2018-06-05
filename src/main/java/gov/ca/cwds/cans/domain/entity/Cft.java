@@ -16,11 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /** A CftDto. */
 @Entity
 @Table(name = "cft")
 @Data
+@Accessors(chain = true)
 public class Cft implements Persistent<Long> {
 
   private static final long serialVersionUID = -4586157512284740531L;

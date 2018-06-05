@@ -19,14 +19,35 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
   private final InstrumentDao instrumentDao;
   private final PersonDao personDao;
   private final CftDao cftDao;
+  private final PerryService perryService;
 
   @Inject
   public AssessmentService(
-      AssessmentDao assessmentDao, InstrumentDao instrumentDao, PersonDao personDao, CftDao cftDao) {
+      AssessmentDao assessmentDao,
+      InstrumentDao instrumentDao,
+      PersonDao personDao,
+      CftDao cftDao,
+      PerryService perryService) {
     super(assessmentDao);
     this.instrumentDao = instrumentDao;
     this.personDao = personDao;
     this.cftDao = cftDao;
+    this.perryService = perryService;
+  }
+
+  @Override
+  public Assessment create(Assessment assessment) {
+    assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
+    return super.create(assessment);
+  }
+
+  @Override
+  public Assessment update(Assessment assessment) {
+    // TODO(dd): Implement here:
+    // 1. If new status is SUBMITTED, validate all required fields are set
+    // 2. Validate assessment lifecycle is preserved
+    assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
+    return super.update(assessment);
   }
 
   public Assessment start(StartAssessmentRequest request) {
@@ -43,6 +64,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     assessment.setInstrumentId(instrument.getId());
     assessment.setPerson(person);
     assessment.setCft(cft);
+    assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
     return this.create(assessment);
   }
 

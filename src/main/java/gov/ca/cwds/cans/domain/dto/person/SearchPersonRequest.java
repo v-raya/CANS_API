@@ -13,4 +13,5 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SearchPersonRequest implements SearchRequest {
   private PersonRole personRole;
+  private String externalId;
 }
