@@ -11,7 +11,9 @@ import gov.ca.cwds.cans.domain.entity.Cft;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
 import gov.ca.cwds.cans.util.Require;
+import java.util.Collection;
 
 /** @author denys.davydov */
 public class AssessmentService extends AbstractCrudService<Assessment> {
@@ -48,6 +50,12 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     // 2. Validate assessment lifecycle is preserved
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
+  }
+
+  public Collection<Assessment> search(SearchAssessmentPo searchPo) {
+    final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
+    searchPo.setCreatedById(currentUser.getId());
+    return ((AssessmentDao) dao).search(searchPo);
   }
 
   public Assessment start(StartAssessmentRequest request) {

@@ -1,5 +1,5 @@
 {
-  "created_timestamp": "2000-01-23T12:34:56.543",
+  "created_timestamp": "2000-01-23T12:34:56.100Z",
   "created_by": {
     "id": 62506,
     "person_role": "USER",
@@ -7,7 +7,7 @@
     "last_name": "FamilyName",
     "external_id": "theId"
   },
-  "updated_timestamp": "2000-01-23T12:34:56.543",
+  "updated_timestamp": "2000-01-23T12:34:56.100Z",
   "updated_by": {
     "id": 62506,
     "person_role": "USER",
@@ -15,7 +15,7 @@
     "last_name": "FamilyName",
     "external_id": "theId"
   },
-  "submitted_timestamp": "2000-01-23T12:34:56.543",
+  "submitted_timestamp": "2000-01-23T12:34:56.100Z",
   "submitted_by": {
     "id": 62506,
     "person_role": "USER",
