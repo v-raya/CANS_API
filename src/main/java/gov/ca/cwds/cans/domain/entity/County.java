@@ -10,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.NamedQuery;
 
 /** A County. */
 @Entity
 @Table(name = "county")
 @Data
+@Accessors(chain = true)
 @NamedQuery(
     name = NQ_ALL,
     query = "FROM County"

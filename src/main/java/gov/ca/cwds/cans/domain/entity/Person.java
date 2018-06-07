@@ -1,7 +1,9 @@
 package gov.ca.cwds.cans.domain.entity;
 
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
 import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 
 import gov.ca.cwds.cans.domain.enumeration.Gender;
@@ -23,30 +25,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
 
 /** A Person. */
-@Data
 @Entity
 @Table(name = "person")
+@Data
+@Accessors(chain = true)
 @NamedQuery(name = NQ_ALL, query = "FROM Person")
 @FilterDef(
-    name = FILTER_PERSON_ROLE,
-    parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
+  name = FILTER_PERSON_ROLE,
+  parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
 )
-@Filter(
-    name = FILTER_PERSON_ROLE,
-    condition = "person_role = :" + PARAM_PERSON_ROLE
+@FilterDef(
+  name = FILTER_EXTERNAL_ID,
+  parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
 )
+@Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
+@Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
   public static final String FILTER_PERSON_ROLE = "personRoleFilter";
+  public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
+  public static final String PARAM_EXTERNAL_ID = "externalId";
   private static final long serialVersionUID = 8541617675397448400L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")

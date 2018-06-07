@@ -31,8 +31,9 @@ project.ext {
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     projectMajorVersion = '0.7.2'
-    coreApiVersion = '1.6.4_781-RC'
-    dataModelVersion = '0.7.2_559-RC'
+    coreApiVersion = '1.7.2_796-RC'
+    apiSecurityVersion = '3.0.3_734-RC'
+    dataModelVersion = '0.7.3_584-RC'
     dropwizardVersion = '1.1.0'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
@@ -118,6 +119,7 @@ dependencies {
     compile (group: 'gov.ca.cwds.cals', name: 'cans-ns-data-model', version: dataModelVersion, changing: true)
     compile group: 'gov.ca.cwds.api', name: 'legacy-data-access', version: coreApiVersion
     compile group: 'gov.ca.cwds.api', name: 'api-core-rest', version: coreApiVersion
+    compile group: 'gov.ca.cwds.api', name: 'api-security', version: apiSecurityVersion
 
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
     compile group: 'io.dropwizard', name: 'dropwizard-hibernate', version: dropwizardVersion

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Map;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import org.json.JSONException;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -42,7 +41,7 @@ public class InstrumentResourceTest extends AbstractCrudFunctionalTest<Instrumen
   }
 
   @Test
-  public void postCaAssessment_success() throws IOException, JSONException {
+  public void postCaAssessment_success() throws IOException {
     // given
     final InstrumentDto inputInstrument =
         FixtureReader.readObject(FIXTURE_CA_POST, InstrumentDto.class);

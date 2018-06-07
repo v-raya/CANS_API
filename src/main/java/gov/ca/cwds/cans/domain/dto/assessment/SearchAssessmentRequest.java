@@ -1,9 +1,8 @@
-package gov.ca.cwds.cans.domain.dto.person;
+package gov.ca.cwds.cans.domain.dto.assessment;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.dto.SearchRequest;
-import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,7 +10,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class SearchPersonRequest implements SearchRequest {
-  private PersonRole personRole;
-  private String externalId;
+public class SearchAssessmentRequest implements SearchRequest {
+  private Long personId;
 }

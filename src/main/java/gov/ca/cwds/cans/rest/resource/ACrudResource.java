@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.util.DtoCleaner.cleanDtoIfNeed;
+
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.entity.Persistent;
 import gov.ca.cwds.cans.domain.mapper.AMapper;
@@ -19,6 +21,7 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
   }
 
   public Response post(final D inputDto) {
+    cleanDtoIfNeed(inputDto);
     final E inputEntity = mapper.fromDto(inputDto);
     final E resultEntity = crudService.create(inputEntity);
     final D resultDto = mapper.toDto(resultEntity);
@@ -26,6 +29,7 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
   }
 
   public Response put(final Serializable id, final D inputDto) {
+    cleanDtoIfNeed(inputDto);
     final E inputEntity = mapper.fromDto(inputDto);
     inputEntity.setId(id);
     final E resultEntity = crudService.update(inputEntity);
@@ -43,4 +47,5 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
     crudService.delete(id);
     return Response.noContent().build();
   }
+
 }
