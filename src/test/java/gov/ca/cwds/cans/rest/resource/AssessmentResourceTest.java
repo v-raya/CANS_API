@@ -14,9 +14,10 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import gov.ca.cwds.cans.domain.dto.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
@@ -240,12 +241,12 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
         new SearchAssessmentRequest().setPersonId(person.getId()),
         MediaType.APPLICATION_JSON_TYPE
     );
-    final AssessmentDto[] actualResults = clientTestRule
+    final AssessmentMetaDto[] actualResults = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + SEARCH)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(searchRequest)
-        .readEntity(AssessmentDto[].class);
+        .readEntity(AssessmentMetaDto[].class);
 
     // then
     assertThat(actualResults.length, is(4));

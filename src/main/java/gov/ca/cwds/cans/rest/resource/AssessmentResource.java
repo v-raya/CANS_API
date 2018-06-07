@@ -8,7 +8,8 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.domain.dto.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.entity.Assessment;
@@ -155,7 +156,7 @@ public class AssessmentResource {
           final SearchAssessmentRequest searchRequest) {
     final SearchAssessmentPo searchPo = searchAssessmentMapper.fromSearchRequest(searchRequest);
     final Collection<Assessment> entities = assessmentService.search(searchPo);
-    final Collection<AssessmentDto> dtos = assessmentMapper.toDtos(entities);
+    final Collection<AssessmentMetaDto> dtos = assessmentMapper.toMetaDtos(entities);
     return ResponseUtil.responseOk(dtos);
   }
 
