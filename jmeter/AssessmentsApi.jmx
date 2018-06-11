@@ -154,11 +154,6 @@
             <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="facilityIdsFile" elementType="Argument">
-            <stringProp name="Argument.name">facilityIdsFile</stringProp>
-            <stringProp name="Argument.value">facilities_ids.csv</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
