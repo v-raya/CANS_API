@@ -80,7 +80,7 @@ def publishLicenseReportHtml() {
     ])
 }
 
-node('cans-slave') {
+node('linux') {
     def artifactoryServer = Artifactory.server artifactoryServerId
     def rtGradle = Artifactory.newGradleBuild()
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
