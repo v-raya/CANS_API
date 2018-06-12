@@ -1,6 +1,7 @@
 {
   "instrument_id": 49999,
   "assessment_type": "INITIAL",
+  "competed_as": "COMMUNIMETRIC",
   "status": "IN_PROGRESS",
   "state": {
     "domains": [

@@ -8,6 +8,7 @@ import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
+import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -76,6 +77,10 @@ public class Assessment implements Persistent<Long> {
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   private AssessmentStatus status;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "completed_as")
+  private CompletedAs completedAs;
 
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;
