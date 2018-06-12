@@ -1,0 +1,1868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="4.0" jmeter="4.0 r1823414">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Performance tests for Assessments Endpoint" enabled="true">
+      <stringProp name="TestPlan.comments">Performance tests for Assessments Endpoint which is going to Production so it allow to validate that performance requirements are met.</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="idp" elementType="Argument">
+            <stringProp name="Argument.name">idp</stringProp>
+            <stringProp name="Argument.value">${__P(JM_IDP,perryDevMode)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userName" elementType="Argument">
+            <stringProp name="Argument.name">userName</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USER_NAME)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userPassword" elementType="Argument">
+            <stringProp name="Argument.name">userPassword</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USER_PASSWORD)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryProtocol" elementType="Argument">
+            <stringProp name="Argument.name">perryProtocol</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryHost" elementType="Argument">
+            <stringProp name="Argument.name">perryHost</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,localhost)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryPort" elementType="Argument">
+            <stringProp name="Argument.name">perryPort</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,443)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryAuthJson" elementType="Argument">
+            <stringProp name="Argument.name">perryAuthJson</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_AUTH_JSON)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiProtocol" elementType="Argument">
+            <stringProp name="Argument.name">cansApiProtocol</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CALS_API_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiHost" elementType="Argument">
+            <stringProp name="Argument.name">cansApiHost</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CALS_API_HOST,localhost)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiPort" elementType="Argument">
+            <stringProp name="Argument.name">cansApiPort</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CALS_API_PORT,443)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+        <collectionProp name="CookieManager.cookies"/>
+        <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+      </CookieManager>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (local)" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="idp" elementType="Argument">
+            <stringProp name="Argument.name">idp</stringProp>
+            <stringProp name="Argument.value">perryDevMode</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryProtocol" elementType="Argument">
+            <stringProp name="Argument.name">perryProtocol</stringProp>
+            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryHost" elementType="Argument">
+            <stringProp name="Argument.name">perryHost</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryPort" elementType="Argument">
+            <stringProp name="Argument.name">perryPort</stringProp>
+            <stringProp name="Argument.value">18080</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryAuthJson" elementType="Argument">
+            <stringProp name="Argument.name">perryAuthJson</stringProp>
+            <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiProtocol" elementType="Argument">
+            <stringProp name="Argument.name">cansApiProtocol</stringProp>
+            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiHost" elementType="Argument">
+            <stringProp name="Argument.name">cansApiHost</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiPort" elementType="Argument">
+            <stringProp name="Argument.name">cansApiPort</stringProp>
+            <stringProp name="Argument.value">8080</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (Preint)" enabled="false">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="idp" elementType="Argument">
+            <stringProp name="Argument.name">idp</stringProp>
+            <stringProp name="Argument.value">perryDevMode</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryProtocol" elementType="Argument">
+            <stringProp name="Argument.name">perryProtocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryHost" elementType="Argument">
+            <stringProp name="Argument.name">perryHost</stringProp>
+            <stringProp name="Argument.value">web.preint.cwds.io</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryPort" elementType="Argument">
+            <stringProp name="Argument.name">perryPort</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryAuthJson" elementType="Argument">
+            <stringProp name="Argument.name">perryAuthJson</stringProp>
+            <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiProtocol" elementType="Argument">
+            <stringProp name="Argument.name">cansApiProtocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiHost" elementType="Argument">
+            <stringProp name="Argument.name">cansApiHost</stringProp>
+            <stringProp name="Argument.value">cansapi.preint.cwds.io</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiPort" elementType="Argument">
+            <stringProp name="Argument.name">cansApiPort</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CognitoProperties (Integration)" enabled="false">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="idp" elementType="Argument">
+            <stringProp name="Argument.name">idp</stringProp>
+            <stringProp name="Argument.value">cognito</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userName" elementType="Argument">
+            <stringProp name="Argument.name">userName</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">user name</stringProp>
+          </elementProp>
+          <elementProp name="userPassword" elementType="Argument">
+            <stringProp name="Argument.name">userPassword</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">password</stringProp>
+          </elementProp>
+          <elementProp name="perryProtocol" elementType="Argument">
+            <stringProp name="Argument.name">perryProtocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryHost" elementType="Argument">
+            <stringProp name="Argument.name">perryHost</stringProp>
+            <stringProp name="Argument.value">web.integration.cwds.io</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="perryPort" elementType="Argument">
+            <stringProp name="Argument.name">perryPort</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiProtocol" elementType="Argument">
+            <stringProp name="Argument.name">cansApiProtocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiHost" elementType="Argument">
+            <stringProp name="Argument.name">cansApiHost</stringProp>
+            <stringProp name="Argument.value">calsapi.integration.cwds.io</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiPort" elementType="Argument">
+            <stringProp name="Argument.name">cansApiPort</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="SetUp Login DEV mode" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1525456503000</longProp>
+        <longProp name="ThreadGroup.end_time">1525456503000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="perryProtocol" elementType="Argument">
+              <stringProp name="Argument.name">perryProtocol</stringProp>
+              <stringProp name="Argument.value">${perryProtocol}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="perryHost" elementType="Argument">
+              <stringProp name="Argument.name">perryHost</stringProp>
+              <stringProp name="Argument.value">${perryHost}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="perryPort" elementType="Argument">
+              <stringProp name="Argument.name">perryPort</stringProp>
+              <stringProp name="Argument.value">${perryPort}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="perryDemoPageURL" elementType="Argument">
+              <stringProp name="Argument.name">perryDemoPageURL</stringProp>
+              <stringProp name="Argument.value">${perryProtocol}://${perryHost}:${perryPort}/perry/demo-sp.html</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="idp" elementType="Argument">
+              <stringProp name="Argument.name">idp</stringProp>
+              <stringProp name="Argument.value">${idp}</stringProp>
+              <stringProp name="Argument.desc">possible values: perryDevMode | cognito</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="userName" elementType="Argument">
+              <stringProp name="Argument.name">userName</stringProp>
+              <stringProp name="Argument.value">${userName}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="userPassword" elementType="Argument">
+              <stringProp name="Argument.name">userPassword</stringProp>
+              <stringProp name="Argument.value">${userPassword}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
+          <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/authn/login" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="callback" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">callback</stringProp>
+                <stringProp name="Argument.value">${perryDemoPageURL}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="sp_id" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">sp_id</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/perry/authn/login</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Referer" elementType="Header">
+                <stringProp name="Header.name">Referer</stringProp>
+                <stringProp name="Header.value">${perryDemoPageURL}</stringProp>
+              </elementProp>
+              <elementProp name="Accept-Language" elementType="Header">
+                <stringProp name="Header.name">Accept-Language</stringProp>
+                <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+              </elementProp>
+              <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
+                <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
+                <stringProp name="Header.value">1</stringProp>
+              </elementProp>
+              <elementProp name="Accept-Encoding" elementType="Header">
+                <stringProp name="Header.name">Accept-Encoding</stringProp>
+                <stringProp name="Header.value">gzip, deflate, br</stringProp>
+              </elementProp>
+              <elementProp name="User-Agent" elementType="Header">
+                <stringProp name="Header.name">User-Agent</stringProp>
+                <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0</stringProp>
+              </elementProp>
+              <elementProp name="Accept" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="csrf Extractor" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">true</stringProp>
+            <stringProp name="RegexExtractor.refname">csrf</stringProp>
+            <stringProp name="RegexExtractor.regex">XSRF-TOKEN=(.+?);.*</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number"></stringProp>
+            <stringProp name="Sample.scope">all</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="state  Extractor" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+            <stringProp name="RegexExtractor.refname">state</stringProp>
+            <stringProp name="RegexExtractor.regex">state=(.*)</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="Sample.scope">all</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="idpLoginHost Extractor" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">request_headers</stringProp>
+            <stringProp name="RegexExtractor.refname">idpLoginHost</stringProp>
+            <stringProp name="RegexExtractor.regex">Host:[\s](.*)</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
+          <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="cognito: login" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="_csrf" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">_csrf</stringProp>
+                  <stringProp name="Argument.value">${csrf}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                  <stringProp name="Argument.value">${userName}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="password" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.name">password</stringProp>
+                  <stringProp name="Argument.value">${userPassword}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="cognitoAsfData" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.name">cognitoAsfData</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+                <elementProp name="signInSubmitButton" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                  <stringProp name="Argument.name">signInSubmitButton</stringProp>
+                  <stringProp name="Argument.value">Sign in</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+              <stringProp name="RegexExtractor.refname">accessCode</stringProp>
+              <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+              <stringProp name="Sample.scope">children</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
+          <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/login" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="username" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.name">username</stringProp>
+                  <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/perry/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+              <stringProp name="RegexExtractor.refname">accessCode</stringProp>
+              <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.match_number"></stringProp>
+              <stringProp name="Sample.scope">children</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/perry/authn/token" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="accessCode" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">accessCode</stringProp>
+                <stringProp name="Argument.value">${accessCode}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/perry/authn/token</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">token</stringProp>
+            <stringProp name="RegexExtractor.regex">(.*)</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="true">
+          <stringProp name="BeanShellAssertion.query">${__setProperty(token,${token})};</stringProp>
+          <stringProp name="BeanShellAssertion.filename"></stringProp>
+          <stringProp name="BeanShellAssertion.parameters"></stringProp>
+          <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+        </BeanShellAssertion>
+        <hashTree/>
+        <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="false">
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <boolProp name="resetInterpreter">false</boolProp>
+          <stringProp name="script">${__setProperty(token,${token})};</stringProp>
+        </BeanShellPostProcessor>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Put Assessment" enabled="true">
+        <stringProp name="TestPlan.comments">Call to RestAPI Get facility by ID</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1525377506000</longProp>
+        <longProp name="ThreadGroup.end_time">1525377506000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${cansApiHost}</stringProp>
+          <stringProp name="HTTPSampler.port">${cansApiPort}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${cansApiProtocol}</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Start an Assessment" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;instrument_id&quot;: 1,&#xd;
+  &quot;assessment_type&quot;: &quot;INITIAL&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/assessments/_start?token=${__property(token)}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+            <stringProp name="Scope.variable"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Assessment ID Extractor" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">assessmentId</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <boolProp name="JSONPostProcessor.compute_concat">true</boolProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySamplerProperties">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">100</stringProp>
+        </LoopController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT small Assessment" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;instrument_id&quot;: 1,&#xd;
+  &quot;assessment_type&quot;: &quot;INITIAL&quot;,&#xd;
+  &quot;status&quot;: &quot;IN_PROGRESS&quot;,&#xd;
+  &quot;state&quot;: {&#xd;
+    &quot;under_six&quot;: false,&#xd;
+    &quot;domains&quot;: [&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;1&quot;,&#xd;
+            &quot;code&quot;: &quot;1&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 1,&#xd;
+        &quot;code&quot;: &quot;BEHEMO&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/assessments/${assessmentId}?token=${__property(token)}</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySamplerProperties">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT big Assessment" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;instrument_id&quot;: 1,&#xd;
+  &quot;assessment_type&quot;: &quot;INITIAL&quot;,&#xd;
+  &quot;status&quot;: &quot;IN_PROGRESS&quot;,&#xd;
+  &quot;state&quot;: {&#xd;
+    &quot;under_six&quot;: false,&#xd;
+    &quot;domains&quot;: [&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;1&quot;,&#xd;
+            &quot;code&quot;: &quot;1&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC01&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;2&quot;,&#xd;
+            &quot;code&quot;: &quot;2&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC02&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;3&quot;,&#xd;
+            &quot;code&quot;: &quot;3&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC03&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;4&quot;,&#xd;
+            &quot;code&quot;: &quot;4&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC04&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;5&quot;,&#xd;
+            &quot;code&quot;: &quot;5&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;6&quot;,&#xd;
+            &quot;code&quot;: &quot;6&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;7&quot;,&#xd;
+            &quot;code&quot;: &quot;7&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;8&quot;,&#xd;
+            &quot;code&quot;: &quot;8&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC05&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;9&quot;,&#xd;
+            &quot;code&quot;: &quot;9&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 1,&#xd;
+        &quot;code&quot;: &quot;BEHEMO&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC10&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;10&quot;,&#xd;
+            &quot;code&quot;: &quot;10&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;11&quot;,&#xd;
+            &quot;code&quot;: &quot;11&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;12&quot;,&#xd;
+            &quot;code&quot;: &quot;12&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC13&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;13&quot;,&#xd;
+            &quot;code&quot;: &quot;13&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;14&quot;,&#xd;
+            &quot;code&quot;: &quot;14&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;15&quot;,&#xd;
+            &quot;code&quot;: &quot;15&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;16&quot;,&#xd;
+            &quot;code&quot;: &quot;16&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;17&quot;,&#xd;
+            &quot;code&quot;: &quot;17&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC14&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;18&quot;,&#xd;
+            &quot;code&quot;: &quot;18&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;19&quot;,&#xd;
+            &quot;code&quot;: &quot;19&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC09&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;20&quot;,&#xd;
+            &quot;code&quot;: &quot;20&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 2,&#xd;
+        &quot;code&quot;: &quot;LIFEFX&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;21&quot;,&#xd;
+            &quot;code&quot;: &quot;21&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC15&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;22&quot;,&#xd;
+            &quot;code&quot;: &quot;22&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;23&quot;,&#xd;
+            &quot;code&quot;: &quot;23&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;24&quot;,&#xd;
+            &quot;code&quot;: &quot;24&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;25&quot;,&#xd;
+            &quot;code&quot;: &quot;25&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;26&quot;,&#xd;
+            &quot;code&quot;: &quot;26&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;27&quot;,&#xd;
+            &quot;code&quot;: &quot;27&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;28&quot;,&#xd;
+            &quot;code&quot;: &quot;28&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 3,&#xd;
+        &quot;code&quot;: &quot;RISKBH&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC22&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;29&quot;,&#xd;
+            &quot;code&quot;: &quot;29&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC23&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;30&quot;,&#xd;
+            &quot;code&quot;: &quot;30&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC24&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;31&quot;,&#xd;
+            &quot;code&quot;: &quot;31&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 4,&#xd;
+        &quot;code&quot;: &quot;CULFAC&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC25&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;32&quot;,&#xd;
+            &quot;code&quot;: &quot;32&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC26&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;33&quot;,&#xd;
+            &quot;code&quot;: &quot;33&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;34&quot;,&#xd;
+            &quot;code&quot;: &quot;34&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;35&quot;,&#xd;
+            &quot;code&quot;: &quot;35&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC31&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;36&quot;,&#xd;
+            &quot;code&quot;: &quot;36&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;37&quot;,&#xd;
+            &quot;code&quot;: &quot;37&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;38&quot;,&#xd;
+            &quot;code&quot;: &quot;38&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC27&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;39&quot;,&#xd;
+            &quot;code&quot;: &quot;39&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC28&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;40&quot;,&#xd;
+            &quot;code&quot;: &quot;40&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 5,&#xd;
+        &quot;code&quot;: &quot;CHSTRN&quot;,&#xd;
+        &quot;under_six&quot;: false,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC01&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;2&quot;,&#xd;
+            &quot;code&quot;: &quot;2&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC02&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;3&quot;,&#xd;
+            &quot;code&quot;: &quot;3&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC03&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;4&quot;,&#xd;
+            &quot;code&quot;: &quot;4&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC04&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;5&quot;,&#xd;
+            &quot;code&quot;: &quot;5&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC05&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;9&quot;,&#xd;
+            &quot;code&quot;: &quot;9&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC06&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;63&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC07&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;64&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC08&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;65&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC09&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;20&quot;,&#xd;
+            &quot;code&quot;: &quot;20&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 8,&#xd;
+        &quot;code&quot;: &quot;ECCHAL&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: false&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC10&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;10&quot;,&#xd;
+            &quot;code&quot;: &quot;10&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC11&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;66&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC12&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;67&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC13&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;13&quot;,&#xd;
+            &quot;code&quot;: &quot;13&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC14&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;18&quot;,&#xd;
+            &quot;code&quot;: &quot;18&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 9,&#xd;
+        &quot;code&quot;: &quot;ECFXNG&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: false&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC15&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;22&quot;,&#xd;
+            &quot;code&quot;: &quot;22&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC16&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;68&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC17&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;69&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC18&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;70&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC19&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;71&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC20&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;72&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC21&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;73&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 10,&#xd;
+        &quot;code&quot;: &quot;ECRSKF&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: false&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC22&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;29&quot;,&#xd;
+            &quot;code&quot;: &quot;29&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC23&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;30&quot;,&#xd;
+            &quot;code&quot;: &quot;30&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC24&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;31&quot;,&#xd;
+            &quot;code&quot;: &quot;31&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 11,&#xd;
+        &quot;code&quot;: &quot;ECCULF&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: false&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC25&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;32&quot;,&#xd;
+            &quot;code&quot;: &quot;32&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC26&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;33&quot;,&#xd;
+            &quot;code&quot;: &quot;33&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC27&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;39&quot;,&#xd;
+            &quot;code&quot;: &quot;39&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC28&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;40&quot;,&#xd;
+            &quot;code&quot;: &quot;40&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC29&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;74&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC30&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;&quot;,&#xd;
+            &quot;code&quot;: &quot;75&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC31&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;36&quot;,&#xd;
+            &quot;code&quot;: &quot;36&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 12,&#xd;
+        &quot;code&quot;: &quot;ECSTRN&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: false&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC34&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;41&quot;,&#xd;
+            &quot;code&quot;: &quot;41&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC35&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;42&quot;,&#xd;
+            &quot;code&quot;: &quot;42&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC36&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;43&quot;,&#xd;
+            &quot;code&quot;: &quot;43&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC37&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;44&quot;,&#xd;
+            &quot;code&quot;: &quot;44&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC38&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;45&quot;,&#xd;
+            &quot;code&quot;: &quot;45&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC39&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;46&quot;,&#xd;
+            &quot;code&quot;: &quot;46&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC40&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;47&quot;,&#xd;
+            &quot;code&quot;: &quot;47&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC41&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;48&quot;,&#xd;
+            &quot;code&quot;: &quot;48&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC42&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;49&quot;,&#xd;
+            &quot;code&quot;: &quot;49&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;EC43&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;50&quot;,&#xd;
+            &quot;code&quot;: &quot;50&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;REGULAR&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 6,&#xd;
+        &quot;code&quot;: &quot;CGRSND&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;class&quot;: &quot;domain&quot;,&#xd;
+        &quot;items&quot;: [&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T01&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T01&quot;,&#xd;
+            &quot;code&quot;: &quot;51&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T02&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T02&quot;,&#xd;
+            &quot;code&quot;: &quot;52&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T03&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T03&quot;,&#xd;
+            &quot;code&quot;: &quot;53&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T04&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T04&quot;,&#xd;
+            &quot;code&quot;: &quot;54&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T05&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T05&quot;,&#xd;
+            &quot;code&quot;: &quot;55&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T06&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T06&quot;,&#xd;
+            &quot;code&quot;: &quot;56&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T07&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T07&quot;,&#xd;
+            &quot;code&quot;: &quot;57&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T08&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T08&quot;,&#xd;
+            &quot;code&quot;: &quot;58&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T09&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T09&quot;,&#xd;
+            &quot;code&quot;: &quot;59&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T10&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T10&quot;,&#xd;
+            &quot;code&quot;: &quot;60&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T11&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T11&quot;,&#xd;
+            &quot;code&quot;: &quot;61&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          },&#xd;
+          {&#xd;
+            &quot;under_six_id&quot;: &quot;T12&quot;,&#xd;
+            &quot;above_six_id&quot;: &quot;T12&quot;,&#xd;
+            &quot;code&quot;: &quot;62&quot;,&#xd;
+            &quot;required&quot;: true,&#xd;
+            &quot;confidential&quot;: false,&#xd;
+            &quot;rating_type&quot;: &quot;BOOLEAN&quot;,&#xd;
+            &quot;rating&quot;: -1&#xd;
+          }&#xd;
+        ],&#xd;
+        &quot;id&quot;: 7,&#xd;
+        &quot;code&quot;: &quot;TRMACE&quot;,&#xd;
+        &quot;under_six&quot;: true,&#xd;
+        &quot;above_six&quot;: true&#xd;
+      }&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/assessments/${assessmentId}?token=${__property(token)}</stringProp>
+            <stringProp name="HTTPSampler.method">PUT</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySamplerProperties">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
