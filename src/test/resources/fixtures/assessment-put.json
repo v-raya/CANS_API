@@ -1,6 +1,7 @@
 {
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
+  "competed_as": "COMMUNIMETRIC",
   "state": {
     "domains": [
       {
