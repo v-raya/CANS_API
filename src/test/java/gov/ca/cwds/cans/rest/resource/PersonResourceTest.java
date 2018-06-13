@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -15,6 +16,8 @@ import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
@@ -161,7 +164,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .readEntity(PersonDto[].class);
 
     // then
-    assertThat(actual, is(expected));
+    final List<PersonDto> actualList = Arrays.asList(actual);
+    for (PersonDto person : expected) {
+      assertThat(actualList, hasItem(person));
+    }
   }
 
   @Test
