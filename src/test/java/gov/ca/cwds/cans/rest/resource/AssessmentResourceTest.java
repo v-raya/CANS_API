@@ -14,9 +14,9 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
@@ -51,6 +51,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
 
   private final Set<Long> cleanUpAssessmentIds = new HashSet<>();
+  private final Set<Long> cleanUpPeopleIds = new HashSet<>();
   private Long tearDownInstrumentId;
 
   @After
@@ -62,7 +63,6 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    cleanUpAssessmentIds.clear();
     if (tearDownInstrumentId != null) {
       clientTestRule
           .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
@@ -70,7 +70,13 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    this.cleanUpCreatedUsers();
+    for (Long personId : cleanUpPeopleIds) {
+      clientTestRule
+          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+          .target(PEOPLE + SLASH + personId)
+          .request(MediaType.APPLICATION_JSON_TYPE)
+          .delete();
+    }
   }
 
   @Override
@@ -257,8 +263,8 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
 
     // clean up
     cleanUpAssessmentIds.addAll(assessmentIds);
-    this.createdUsersList.add(person.getId());
-    this.createdUsersList.add(otherPerson.getId());
+    this.cleanUpPeopleIds.add(person.getId());
+    this.cleanUpPeopleIds.add(otherPerson.getId());
   }
 
   private AssessmentDto postAssessment(
