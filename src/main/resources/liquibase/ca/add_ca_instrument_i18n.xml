@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog
+  logicalFilePath="ca/add_ca_instrument_i18n.xml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
@@ -3720,5 +3722,11 @@
       <column name="k" value="instrument.1.38._to_consider_.2"/>
       <column name="v" value="Are there activities that the child/youth does in the community?"/>
     </insert>
+
+    <rollback>
+      <delete tableName="i_18_n">
+        <where>lang = 'en' and k like 'instrument.1%'</where>
+      </delete>
+    </rollback>
   </changeSet>
 </databaseChangeLog>
