@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const domainConverter = require('./js/domain-to-object-converter');
 const itemConverter = require('./js/item-to-object-converter');
-const linkConverter = require('./js/link-converter');
+const linkConverter = require('./js/structure-converter');
 const liquibaseConverter = require('./js/object-to-liquibase');
 
 console.log(chalk.yellow(
@@ -17,6 +17,7 @@ const csvToArray = csvFilePath => {
   const domainsCsv = fs.readFileSync(domainsCsvPath, 'utf8');
   return Papa.parse(domainsCsv, {
     header: true,
+    trimHeaders: true,
     complete: function(results) {
       // console.log("Finished:", results.data);
       return results;

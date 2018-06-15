@@ -22,9 +22,8 @@ exports.toAssessmentDraft = parsedArray => {
       domain.id = domainId;
     }
 
-    const itemId = parsedElement['Item_ID'];
     const item = _cloneDeep(template.itemTemplate);
-    item.code = itemId;
+    item.id = parsedElement['Item_ID'];
     domain.items.push(_cloneDeep(item));
   }
   return results;
@@ -38,10 +37,14 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
     domain.above_six = rawDomain['6-21'] === "1";
 
     domain.items.forEach(item => {
-      const rawItem = getRawItemByCode(rawItems, item.code);
+      const rawItem = getRawItemById(rawItems, item.id);
+      delete item.id;
+      if (!rawItem) return;
+      item.code = rawItem['Item_Abbr'];
       item.under_six_id = rawItem['CANS_0_5_ID'];
       item.above_six_id = rawItem['CANS_6_21_ID'];
-      item.rating_type = rawItem['Yes'].trim() ? 'BOOLEAN' : 'REGULAR';
+      item.rating_type = rawItem['Rate_Yes'].trim() ? 'BOOLEAN' : 'REGULAR';
+      item.has_na_option = !!rawItem['Rate_NA'].trim();
     });
   });
   return assessment;
@@ -58,12 +61,12 @@ const getRawDomainById = (rawDomains, id) => {
   }
 };
 
-const getRawItemByCode = (rawItems, code) => {
+const getRawItemById = (rawItems, id) => {
   let i;
   const length = rawItems.length;
   for (i = 0; i < length; i++) {
     const rawItem = rawItems[i];
-    if (rawItem['Item_ID'] === code) {
+    if (rawItem['Item_ID'] === id) {
       return rawItem;
     }
   }
