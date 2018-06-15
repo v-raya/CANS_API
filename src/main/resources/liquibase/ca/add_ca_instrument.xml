@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+<databaseChangeLog
+    logicalFilePath="ca/add_ca_instrument.xml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-    <changeSet id="instrument-insert" author="denys.davydov">
+    <changeSet id="instrument-ca-insert" author="denys.davydov">
         <insert tableName="instrument">
             <column name="id" value="1"/>
             <column name="prototype"
@@ -21,10 +23,6 @@
     </changeSet>
 
     <changeSet id="i18n-insert-en-for-instrument-1" author="denys.davydov">
-        <rollback>
-            <delete tableName="i_18_n">
-                <where>lang = 'en' and k like 'instrument.1%'</where>
-            </delete>
-        </rollback>
+
     </changeSet>
 </databaseChangeLog>

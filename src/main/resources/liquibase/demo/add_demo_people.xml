@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog
+  logicalFilePath="demo/add_demo_people.xml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-  <changeSet id="instrument-insert" author="denys.davydov">
+  <changeSet id="demo-people-insert" author="denys.davydov">
     <insert tableName="person">
       <column name="id" value="1"/>
       <column name="person_role" value="CLIENT"/>
