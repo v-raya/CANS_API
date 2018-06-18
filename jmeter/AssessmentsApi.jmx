@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="target" elementType="Argument">
             <stringProp name="Argument.name">target</stringProp>
-            <stringProp name="Argument.value">${__P(JM_TARGET,api)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_TARGET,rails)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="idp" elementType="Argument">
@@ -29,7 +29,7 @@
           </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
             <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryHost" elementType="Argument">
@@ -39,7 +39,7 @@
           </elementProp>
           <elementProp name="perryPort" elementType="Argument">
             <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,18080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryAuthJson" elementType="Argument">
@@ -49,7 +49,7 @@
           </elementProp>
           <elementProp name="cansApiProtocol" elementType="Argument">
             <stringProp name="Argument.name">cansApiProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiHost" elementType="Argument">
@@ -59,12 +59,17 @@
           </elementProp>
           <elementProp name="cansApiPort" elementType="Argument">
             <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,3000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cansApiPathRoot" elementType="Argument">
+            <stringProp name="Argument.name">cansApiPathRoot</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/api/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="usersCount" elementType="Argument">
             <stringProp name="Argument.name">usersCount</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,5)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,2)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="putAssessmentsPerUser" elementType="Argument">
@@ -77,7 +82,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (local)" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (local)" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="idp" elementType="Argument">
             <stringProp name="Argument.name">idp</stringProp>
@@ -303,6 +308,11 @@
                   <stringProp name="Argument.value">${userPassword}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
+                <elementProp name="perryAuthJson" elementType="Argument">
+                  <stringProp name="Argument.name">perryAuthJson</stringProp>
+                  <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
               </collectionProp>
             </Arguments>
             <hashTree/>
@@ -310,205 +320,45 @@
               <collectionProp name="HeaderManager.headers"/>
             </HeaderManager>
             <hashTree/>
-            <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
-              <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
-              <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path"></stringProp>
-              <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-              <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            </ConfigTestElement>
-            <hashTree/>
             <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
               <collectionProp name="CookieManager.cookies"/>
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/authn/login" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="callback" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">callback</stringProp>
-                    <stringProp name="Argument.value">${perryDemoPageURL}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  </elementProp>
-                  <elementProp name="sp_id" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">sp_id</stringProp>
-                    <stringProp name="Argument.value"></stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain"></stringProp>
-              <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">/perry/authn/login</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-              <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-                <collectionProp name="HeaderManager.headers">
-                  <elementProp name="Referer" elementType="Header">
-                    <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${perryDemoPageURL}</stringProp>
-                  </elementProp>
-                  <elementProp name="Accept-Language" elementType="Header">
-                    <stringProp name="Header.name">Accept-Language</stringProp>
-                    <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
-                  </elementProp>
-                  <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
-                    <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">1</stringProp>
-                  </elementProp>
-                  <elementProp name="Accept-Encoding" elementType="Header">
-                    <stringProp name="Header.name">Accept-Encoding</stringProp>
-                    <stringProp name="Header.value">gzip, deflate, br</stringProp>
-                  </elementProp>
-                  <elementProp name="User-Agent" elementType="Header">
-                    <stringProp name="Header.name">User-Agent</stringProp>
-                    <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0</stringProp>
-                  </elementProp>
-                  <elementProp name="Accept" elementType="Header">
-                    <stringProp name="Header.name">Accept</stringProp>
-                    <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</stringProp>
-                  </elementProp>
-                </collectionProp>
-              </HeaderManager>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="csrf Extractor" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">true</stringProp>
-                <stringProp name="RegexExtractor.refname">csrf</stringProp>
-                <stringProp name="RegexExtractor.regex">XSRF-TOKEN=(.+?);.*</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number"></stringProp>
-                <stringProp name="Sample.scope">all</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="state  Extractor" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
-                <stringProp name="RegexExtractor.refname">state</stringProp>
-                <stringProp name="RegexExtractor.regex">state=(.*)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-                <stringProp name="Sample.scope">all</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="idpLoginHost Extractor" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">request_headers</stringProp>
-                <stringProp name="RegexExtractor.refname">idpLoginHost</stringProp>
-                <stringProp name="RegexExtractor.regex">Host:[\s](.*)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-            </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
-              <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;target&apos; == &apos;api&apos;" enabled="true">
+              <stringProp name="IfController.condition">&apos;${target}&apos;==&apos;api&apos;</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="cognito: login" enabled="true">
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments">
-                    <elementProp name="_csrf" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.name">_csrf</stringProp>
-                      <stringProp name="Argument.value">${csrf}</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    </elementProp>
-                    <elementProp name="username" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                      <stringProp name="Argument.name">username</stringProp>
-                      <stringProp name="Argument.value">${userName}</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    </elementProp>
-                    <elementProp name="password" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                      <stringProp name="Argument.name">password</stringProp>
-                      <stringProp name="Argument.value">${userPassword}</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    </elementProp>
-                    <elementProp name="cognitoAsfData" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                      <stringProp name="Argument.name">cognitoAsfData</stringProp>
-                      <stringProp name="Argument.value"></stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    </elementProp>
-                    <elementProp name="signInSubmitButton" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                      <stringProp name="Argument.name">signInSubmitButton</stringProp>
-                      <stringProp name="Argument.value">Sign in</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                    </elementProp>
-                  </collectionProp>
+              <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                  <collectionProp name="Arguments.arguments"/>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.protocol">https</stringProp>
-                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-                <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
-                <stringProp name="HTTPSampler.method">POST</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
+                <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path"></stringProp>
+                <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+                <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
                 <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
-              </HTTPSamplerProxy>
-              <hashTree>
-                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
-                  <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
-                  <stringProp name="RegexExtractor.refname">accessCode</stringProp>
-                  <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
-                  <stringProp name="RegexExtractor.template">$1$</stringProp>
-                  <stringProp name="RegexExtractor.default"></stringProp>
-                  <stringProp name="RegexExtractor.match_number"></stringProp>
-                  <stringProp name="Sample.scope">children</stringProp>
-                </RegexExtractor>
-                <hashTree/>
-              </hashTree>
-            </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
-              <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
-              <boolProp name="IfController.evaluateAll">false</boolProp>
-            </IfController>
-            <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/login" enabled="true">
+              </ConfigTestElement>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/authn/login" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                   <collectionProp name="Arguments.arguments">
-                    <elementProp name="username" elementType="HTTPArgument">
+                    <elementProp name="callback" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.name">username</stringProp>
-                      <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                      <stringProp name="Argument.name">callback</stringProp>
+                      <stringProp name="Argument.value">${perryDemoPageURL}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    </elementProp>
+                    <elementProp name="sp_id" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">sp_id</stringProp>
+                      <stringProp name="Argument.value"></stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                       <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     </elementProp>
@@ -518,79 +368,446 @@
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
                 <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                <stringProp name="HTTPSampler.path">/perry/login</stringProp>
-                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <stringProp name="HTTPSampler.path">/perry/authn/login</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                 <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
                 <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">true</boolProp>
                 <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
                 <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
                 <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
-                  <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
-                  <stringProp name="RegexExtractor.refname">accessCode</stringProp>
-                  <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+                <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                  <collectionProp name="HeaderManager.headers">
+                    <elementProp name="Referer" elementType="Header">
+                      <stringProp name="Header.name">Referer</stringProp>
+                      <stringProp name="Header.value">${perryDemoPageURL}</stringProp>
+                    </elementProp>
+                    <elementProp name="Accept-Language" elementType="Header">
+                      <stringProp name="Header.name">Accept-Language</stringProp>
+                      <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+                    </elementProp>
+                    <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
+                      <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
+                      <stringProp name="Header.value">1</stringProp>
+                    </elementProp>
+                    <elementProp name="Accept-Encoding" elementType="Header">
+                      <stringProp name="Header.name">Accept-Encoding</stringProp>
+                      <stringProp name="Header.value">gzip, deflate, br</stringProp>
+                    </elementProp>
+                    <elementProp name="User-Agent" elementType="Header">
+                      <stringProp name="Header.name">User-Agent</stringProp>
+                      <stringProp name="Header.value">Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0</stringProp>
+                    </elementProp>
+                    <elementProp name="Accept" elementType="Header">
+                      <stringProp name="Header.name">Accept</stringProp>
+                      <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </HeaderManager>
+                <hashTree/>
+                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="csrf Extractor" enabled="true">
+                  <stringProp name="RegexExtractor.useHeaders">true</stringProp>
+                  <stringProp name="RegexExtractor.refname">csrf</stringProp>
+                  <stringProp name="RegexExtractor.regex">XSRF-TOKEN=(.+?);.*</stringProp>
                   <stringProp name="RegexExtractor.template">$1$</stringProp>
                   <stringProp name="RegexExtractor.default"></stringProp>
                   <stringProp name="RegexExtractor.match_number"></stringProp>
-                  <stringProp name="Sample.scope">children</stringProp>
+                  <stringProp name="Sample.scope">all</stringProp>
+                </RegexExtractor>
+                <hashTree/>
+                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="state  Extractor" enabled="true">
+                  <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+                  <stringProp name="RegexExtractor.refname">state</stringProp>
+                  <stringProp name="RegexExtractor.regex">state=(.*)</stringProp>
+                  <stringProp name="RegexExtractor.template">$1$</stringProp>
+                  <stringProp name="RegexExtractor.default"></stringProp>
+                  <stringProp name="RegexExtractor.match_number">1</stringProp>
+                  <stringProp name="Sample.scope">all</stringProp>
+                </RegexExtractor>
+                <hashTree/>
+                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="idpLoginHost Extractor" enabled="true">
+                  <stringProp name="RegexExtractor.useHeaders">request_headers</stringProp>
+                  <stringProp name="RegexExtractor.refname">idpLoginHost</stringProp>
+                  <stringProp name="RegexExtractor.regex">Host:[\s](.*)</stringProp>
+                  <stringProp name="RegexExtractor.template">$1$</stringProp>
+                  <stringProp name="RegexExtractor.default"></stringProp>
+                  <stringProp name="RegexExtractor.match_number">1</stringProp>
                 </RegexExtractor>
                 <hashTree/>
               </hashTree>
-            </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/perry/authn/token" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                <collectionProp name="Arguments.arguments">
-                  <elementProp name="accessCode" elementType="HTTPArgument">
-                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.name">accessCode</stringProp>
-                    <stringProp name="Argument.value">${accessCode}</stringProp>
-                    <stringProp name="Argument.metadata">=</stringProp>
-                    <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
+                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="cognito: login" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="_csrf" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.name">_csrf</stringProp>
+                        <stringProp name="Argument.value">${csrf}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="username" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">username</stringProp>
+                        <stringProp name="Argument.value">${userName}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="password" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">password</stringProp>
+                        <stringProp name="Argument.value">${userPassword}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="cognitoAsfData" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">cognitoAsfData</stringProp>
+                        <stringProp name="Argument.value"></stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="signInSubmitButton" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">signInSubmitButton</stringProp>
+                        <stringProp name="Argument.value">Sign in</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                    </collectionProp>
                   </elementProp>
-                </collectionProp>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain"></stringProp>
-              <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">/perry/authn/token</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                <stringProp name="RegexExtractor.refname">token</stringProp>
-                <stringProp name="RegexExtractor.regex">(.*)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
+                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol">https</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+                  <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+                    <stringProp name="RegexExtractor.refname">accessCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="Sample.scope">children</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
+                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/login" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="username" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.name">username</stringProp>
+                        <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/perry/login</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">true</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+                    <stringProp name="RegexExtractor.refname">accessCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="Sample.scope">children</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/perry/authn/token" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="accessCode" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">accessCode</stringProp>
+                      <stringProp name="Argument.value">${accessCode}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                      <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">/perry/authn/token</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
+                  <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                  <stringProp name="RegexExtractor.refname">token</stringProp>
+                  <stringProp name="RegexExtractor.regex">(.*)</stringProp>
+                  <stringProp name="RegexExtractor.template">$1$</stringProp>
+                  <stringProp name="RegexExtractor.default"></stringProp>
+                  <stringProp name="RegexExtractor.match_number">1</stringProp>
+                </RegexExtractor>
+                <hashTree/>
+                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Prepare tokenQueryParam" enabled="true">
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <boolProp name="resetInterpreter">false</boolProp>
+                  <stringProp name="script">String token = vars.get(&quot;token&quot;);
+vars.put(&quot;tokenQueryParam&quot;, &quot;?token=&quot; + token);
+
+System.out.println(&quot;-------&quot;));
+System.out.println(&quot;vars.target&quot; + vars.get(&quot;target&quot;));
+System.out.println(&quot;props.token&quot; + props.get(&quot;token&quot;));
+System.out.println(&quot;vars.token&quot; + vars.get(&quot;token&quot;));
+System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryParam&quot;));</stringProp>
+                </BeanShellPostProcessor>
+                <hashTree/>
+              </hashTree>
+              <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+                <boolProp name="ResultCollector.error_logging">false</boolProp>
+                <objProp>
+                  <name>saveConfig</name>
+                  <value class="SampleSaveConfiguration">
+                    <time>true</time>
+                    <latency>true</latency>
+                    <timestamp>true</timestamp>
+                    <success>true</success>
+                    <label>true</label>
+                    <code>true</code>
+                    <message>true</message>
+                    <threadName>true</threadName>
+                    <dataType>true</dataType>
+                    <encoding>false</encoding>
+                    <assertions>true</assertions>
+                    <subresults>true</subresults>
+                    <responseData>false</responseData>
+                    <samplerData>false</samplerData>
+                    <xml>false</xml>
+                    <fieldNames>true</fieldNames>
+                    <responseHeaders>false</responseHeaders>
+                    <requestHeaders>false</requestHeaders>
+                    <responseDataOnError>false</responseDataOnError>
+                    <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                    <assertionsResultsToSave>0</assertionsResultsToSave>
+                    <bytes>true</bytes>
+                    <sentBytes>true</sentBytes>
+                    <threadCounts>true</threadCounts>
+                    <idleTime>true</idleTime>
+                    <connectTime>true</connectTime>
+                  </value>
+                </objProp>
+                <stringProp name="filename"></stringProp>
+              </ResultCollector>
               <hashTree/>
             </hashTree>
-            <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="Prepare tokenQueryParam" enabled="true">
-              <stringProp name="filename"></stringProp>
-              <stringProp name="parameters"></stringProp>
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="script">if (vars.get(&quot;target&quot;).equals(&quot;api&quot;)) {
-	vars.put(&quot;tokenQueryParam&quot;, &quot;?token=&quot; + vars.get(&quot;token&quot;));
-} else {
-	vars.put(&quot;tokenQueryParam&quot;, &quot;&quot;);
-}</stringProp>
-            </BeanShellPreProcessor>
-            <hashTree/>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;target&apos;  != &apos;api&apos;" enabled="true">
+              <stringProp name="IfController.condition">&apos;${target}&apos;!=&apos;api&apos;</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/system-information with perry redirect" enabled="true">
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">${cansApiPathRoot}system-information</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message"></stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">1</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
+                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="cognito: login" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="_csrf" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.name">_csrf</stringProp>
+                        <stringProp name="Argument.value">${csrf}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="username" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">username</stringProp>
+                        <stringProp name="Argument.value">${userName}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="password" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">password</stringProp>
+                        <stringProp name="Argument.value">${userPassword}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="cognitoAsfData" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">cognitoAsfData</stringProp>
+                        <stringProp name="Argument.value"></stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                      <elementProp name="signInSubmitButton" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                        <stringProp name="Argument.name">signInSubmitButton</stringProp>
+                        <stringProp name="Argument.value">Sign in</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+                  <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Access Code" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">URL</stringProp>
+                    <stringProp name="RegexExtractor.refname">accessCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">accessCode=(.*)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="Sample.scope">children</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
+                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/login" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="username" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.name">username</stringProp>
+                        <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
+                  <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/perry/login</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">true</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+                    <stringProp name="JSON_PATH">$.application</stringProp>
+                    <stringProp name="EXPECTED_VALUE">CWDS CANS API</stringProp>
+                    <boolProp name="JSONVALIDATION">false</boolProp>
+                    <boolProp name="EXPECT_NULL">false</boolProp>
+                    <boolProp name="INVERT">false</boolProp>
+                    <boolProp name="ISREGEX">true</boolProp>
+                  </JSONPathAssertion>
+                  <hashTree/>
+                  <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">vars.put(&quot;tokenQueryParam&quot;, &quot;&quot;);</stringProp>
+                  </BeanShellPostProcessor>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
             <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
@@ -646,7 +863,7 @@
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/assessments/_start${tokenQueryParam}</stringProp>
+            <stringProp name="HTTPSampler.path">${cansApiPathRoot}assessments/_start${tokenQueryParam}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -741,7 +958,7 @@
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">/assessments/${assessmentId}${tokenQueryParam}</stringProp>
+              <stringProp name="HTTPSampler.path">${cansApiPathRoot}assessments/${assessmentId}${tokenQueryParam}</stringProp>
               <stringProp name="HTTPSampler.method">PUT</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1732,7 +1949,7 @@
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.protocol"></stringProp>
               <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">/assessments/${assessmentId}${tokenQueryParam}</stringProp>
+              <stringProp name="HTTPSampler.path">${cansApiPathRoot}assessments/${assessmentId}${tokenQueryParam}</stringProp>
               <stringProp name="HTTPSampler.method">PUT</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1755,43 +1972,43 @@
               <hashTree/>
             </hashTree>
           </hashTree>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
-          <objProp>
-            <name>saveConfig</name>
-            <value class="SampleSaveConfiguration">
-              <time>true</time>
-              <latency>true</latency>
-              <timestamp>true</timestamp>
-              <success>true</success>
-              <label>true</label>
-              <code>true</code>
-              <message>true</message>
-              <threadName>true</threadName>
-              <dataType>true</dataType>
-              <encoding>false</encoding>
-              <assertions>true</assertions>
-              <subresults>true</subresults>
-              <responseData>false</responseData>
-              <samplerData>false</samplerData>
-              <xml>false</xml>
-              <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
-              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-              <assertionsResultsToSave>0</assertionsResultsToSave>
-              <bytes>true</bytes>
-              <sentBytes>true</sentBytes>
-              <threadCounts>true</threadCounts>
-              <idleTime>true</idleTime>
-              <connectTime>true</connectTime>
-            </value>
-          </objProp>
-          <stringProp name="filename"></stringProp>
-        </ResultCollector>
-        <hashTree/>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
