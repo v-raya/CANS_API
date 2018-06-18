@@ -580,13 +580,6 @@
               </RegexExtractor>
               <hashTree/>
             </hashTree>
-            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="false">
-              <stringProp name="BeanShellAssertion.query">${__setProperty(token,${token})};</stringProp>
-              <stringProp name="BeanShellAssertion.filename"></stringProp>
-              <stringProp name="BeanShellAssertion.parameters"></stringProp>
-              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-            </BeanShellAssertion>
-            <hashTree/>
             <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="Prepare tokenQueryParam" enabled="true">
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -595,12 +588,7 @@
 	vars.put(&quot;tokenQueryParam&quot;, &quot;?token=&quot; + vars.get(&quot;token&quot;));
 } else {
 	vars.put(&quot;tokenQueryParam&quot;, &quot;&quot;);
-}
-
-System.out.println(&quot;vars.tokenQueryParam=&quot;+vars.get(&quot;tokenQueryParam&quot;));
-System.out.println(&quot;props.token=&quot;+props.get(&quot;token&quot;));
-System.out.println(&quot;vars.token=&quot;+vars.get(&quot;token&quot;));
-</stringProp>
+}</stringProp>
             </BeanShellPreProcessor>
             <hashTree/>
             <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
