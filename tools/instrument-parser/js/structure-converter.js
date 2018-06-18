@@ -24,8 +24,11 @@ exports.toAssessmentDraft = parsedArray => {
 
     const item = _cloneDeep(template.itemTemplate);
     item.id = parsedElement['Item_ID'];
+    item.under_six_id = parsedElement['CANS_0_5_ID'];
+    item.above_six_id = parsedElement['CANS_6_21_ID'];
     domain.items.push(_cloneDeep(item));
   }
+  results.domains.push(_cloneDeep(domain));
   return results;
 };
 
@@ -41,8 +44,6 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
       delete item.id;
       if (!rawItem) return;
       item.code = rawItem['Item_Abbr'];
-      item.under_six_id = rawItem['CANS_0_5_ID'];
-      item.above_six_id = rawItem['CANS_6_21_ID'];
       item.rating_type = rawItem['Rate_Yes'].trim() ? 'BOOLEAN' : 'REGULAR';
       item.has_na_option = !!rawItem['Rate_NA'].trim();
     });

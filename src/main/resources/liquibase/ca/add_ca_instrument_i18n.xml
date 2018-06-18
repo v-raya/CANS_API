@@ -1169,42 +1169,42 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._title_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._title_"/>
       <column name="v" value="Medical/Physical"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._description_"/>
       <column name="v" value="This rating describes both health problems and chronic/acute physical conditions or impediments."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._rating_.0._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.0._description_"/>
       <column name="v" value="No current need; no need for action or intervention. No evidence that the child/youth has any medical or physical problems, and/or the child/youth is healthy."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._rating_.1._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.1._description_"/>
       <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth has mild, transient or well-managed physical or medical problems. These include well-managed chronic conditions like juvenile diabetes or asthma."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._rating_.2._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.2._description_"/>
       <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth has serious medical or physical problems that require medical treatment or intervention. Or child/youth has a chronic illness or a physical challenge that requires ongoing medical intervention."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._rating_.3._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.3._description_"/>
       <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth has life-threatening illness or medical/physical condition. Immediate and/or intense action should be taken due to imminent danger to child/youth’s safety, health, and/or development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._to_consider_.0"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._to_consider_.0"/>
       <column name="v" value="Does the child/youth have anything that limits their physical activities?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_FUNC._to_consider_.1"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._to_consider_.1"/>
       <column name="v" value="How much does this interfere with the child/youth’s life?"/>
     </insert>
     <insert tableName="i_18_n">
@@ -2434,42 +2434,42 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._title_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._title_"/>
       <column name="v" value="Medical/Physical"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._description_"/>
       <column name="v" value="This item refers to medical and/or physical problems that the caregiver(s) may be experiencing that prevent or limit his or her ability to provide care for the child/youth. This item does not rate depression or other mental health issues."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.0._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._rating_.0._description_"/>
       <column name="v" value="No current need; no need for action or intervention. This may be a strength of the caregiver. No evidence of medical or physical health problems. Caregiver is generally healthy."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.1._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._rating_.1._description_"/>
       <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities. This may be an opportunity for strength building.There is a history or suspicion of, and/or caregiver is in recovery from medical/physical problems."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.2._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._rating_.2._description_"/>
       <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Caregiver has medical/physical problems that interfere with the capacity to parent the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.3._description_"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._rating_.3._description_"/>
       <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Caregiver has medical/physical problems that make parenting the child/youth impossible at this time."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._to_consider_.0"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._to_consider_.0"/>
       <column name="v" value="How is the caregiver’s health?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
-      <column name="k" value="instrument.1.MEDICAL_PHYSICAL._to_consider_.1"/>
+      <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._to_consider_.1"/>
       <column name="v" value="Does the caregiver have any health problems that limit their ability to care for the family?"/>
     </insert>
     <insert tableName="i_18_n">
@@ -3777,7 +3777,91 @@
       <column name="k" value="instrument.1.ORGANIZATION._to_consider_.2"/>
       <column name="v" value="Do they have difficulty getting their child/youth to appointments or school?"/>
     </insert>
-
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._title_"/>
+      <column name="v" value="Self-Harm"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._description_"/>
+      <column name="v" value="This item includes reckless and dangerous behaviors that, while not intended to harm self or others, place the child or others at some jeopardy. The child must be 12 months of age to rate this item."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._rating_.0._description_"/>
+      <column name="v" value="No current need; no need for action or intervention. There is no evidence of self-harm behaviors."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._rating_.1._description_"/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.History, suspicion or some evidence of self-harm behaviors. These behaviors are controllable by caregiver."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._rating_.2._description_"/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child’s self-harm behaviors such as head banging that cannot be impacted by supervising adult and interferes with their functioning."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._rating_.3._description_"/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child’s self-harm behavior that puts their safety and well-being at risk."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._to_consider_.0"/>
+      <column name="v" value="Has the child head banged or done other self-harming behaviors?"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._to_consider_.1"/>
+      <column name="v" value="If so, does the caregiver’s support help stop the behavior?"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._title_"/>
+      <column name="v" value="Family Spiritual/Religious"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._description_"/>
+      <column name="v" value="This item refers to the family’s experience of receiving comfort and support from religious or spiritual involvement. This item rates the presence of beliefs that could be useful to the family; however, an absence of spiritual and/or religious beliefs does not represent a need for the family."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._rating_.0._description_"/>
+      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.This level indicates a family with strong moral and spiritual strengths. Family may be very involved in a religious community or may have strongly held spiritual or religious beliefs that can sustain or comfort them in difficult times."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._rating_.1._description_"/>
+      <column name="v" value="Useful strength is evident but requires some effort to maximize the strength. Strength might be used and built upon in treatment.Family is involved in and receives some comfort and/or support from spiritual and/or religious beliefs, practices and/or community."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._rating_.2._description_"/>
+      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.Family has expressed some interest in spiritual or religious belief and practices and may have little contact with religious institutions."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._rating_.3._description_"/>
+      <column name="v" value="An area in which no current strength is identified; efforts are needed to identify potential strengths.There is no evidence of identified spiritual or religious beliefs, nor does the family show any interest in these pursuits at this time."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._to_consider_.0"/>
+      <column name="v" value="Does the family have spiritual beliefs that provide comfort?"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._to_consider_.1"/>
+      <column name="v" value="Is the family involved with any religious community?"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._to_consider_.2"/>
+      <column name="v" value="Is family interested in exploring spirituality?"/>
+    </insert>
     <rollback>
       <delete tableName="i_18_n">
         <where>lang = 'en' and k like 'instrument.1%'</where>
