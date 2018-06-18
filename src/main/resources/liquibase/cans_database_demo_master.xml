@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+<databaseChangeLog
+  logicalFilePath="cans_database_demo_master.xml"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-    <include file="ca/add_ca_instrument.xml" relativeToChangelogFile="true"/>
-    <include file="ca/add_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
-    <include file="demo/add_demo_instrument.xml" relativeToChangelogFile="true"/>
-    <include file="demo/add_demo_people.xml" relativeToChangelogFile="true"/>
+  <include file="ca/add_ca_instrument.xml" relativeToChangelogFile="true"/>
+  <include file="ca/add_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
+  <include file="demo/add_demo_people.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
