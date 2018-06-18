@@ -4,7 +4,7 @@
 
 - **`./csv/cans_domains.csv`** file is a source for domains
 - **`./csv/cans_items.csv`** file is a source for items
-- **`./csv/cans_to_domains_to_items.csv`** file is a source for basic assessment structure
+- **`./csv/structure-converter.csv`** file is a source for basic assessment structure
 
 To run the app write in terminal:
 `npm start`
