@@ -19,7 +19,6 @@ buildscript {
 plugins {
     id "org.sonarqube" version "2.5"
     id 'net.ltgt.apt' version '0.9'
-    id "net.foragerr.jmeter" version "1.0.7-3.0-BETA"
     id "com.github.hierynomus.license" version "0.14.0"
 }
 
@@ -104,10 +103,6 @@ jacocoTestReport {
             ])
         })
     }
-}
-
-jmeter {
-    jmLog = file("${project.buildDir}/jmeter/jmeter.log")
 }
 
 configurations.all {
