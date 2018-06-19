@@ -9,27 +9,27 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="target" elementType="Argument">
             <stringProp name="Argument.name">target</stringProp>
-            <stringProp name="Argument.value">${__P(JM_TARGET,rails)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_TARGET,api)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryMode" elementType="Argument">
             <stringProp name="Argument.name">perryMode</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,DEV)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,PROD)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
             <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,http)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,https)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryHost" elementType="Argument">
             <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,localhost)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,web.integration.cwds.io)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryPort" elementType="Argument">
             <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,18080)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,443)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiProtocol" elementType="Argument">
@@ -44,12 +44,12 @@
           </elementProp>
           <elementProp name="cansApiPort" elementType="Argument">
             <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,3000)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,8080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiPathRoot" elementType="Argument">
             <stringProp name="Argument.name">cansApiPathRoot</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/api/)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="usersCsvPath" elementType="Argument">
@@ -59,7 +59,7 @@
           </elementProp>
           <elementProp name="usersCount" elementType="Argument">
             <stringProp name="Argument.name">usersCount</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,3)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="putAssessmentsPerUser" elementType="Argument">
@@ -73,7 +73,7 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Put Assessments" enabled="true">
-        <stringProp name="TestPlan.comments">Call to RestAPI Get facility by ID</stringProp>
+        <stringProp name="TestPlan.comments">Call to RestAPI</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -308,9 +308,9 @@
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
-                  <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
-                  <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol">https</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                   <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -551,9 +551,9 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
-                  <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
-                  <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
+                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol">https</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                   <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
