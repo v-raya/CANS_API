@@ -17,16 +17,6 @@
             <stringProp name="Argument.value">${__P(JM_IDP,perryDevMode)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="userName" elementType="Argument">
-            <stringProp name="Argument.name">userName</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USER_NAME)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="userPassword" elementType="Argument">
-            <stringProp name="Argument.name">userPassword</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USER_PASSWORD)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
             <stringProp name="Argument.name">perryProtocol</stringProp>
             <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,http)}</stringProp>
@@ -69,7 +59,7 @@
           </elementProp>
           <elementProp name="usersCount" elementType="Argument">
             <stringProp name="Argument.name">usersCount</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,2)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,3)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="putAssessmentsPerUser" elementType="Argument">
@@ -270,6 +260,18 @@
             <boolProp name="TransactionController.parent">true</boolProp>
           </TransactionController>
           <hashTree>
+            <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Users CSV Data Set" enabled="true">
+              <stringProp name="delimiter">|</stringProp>
+              <stringProp name="fileEncoding">UTF-8</stringProp>
+              <stringProp name="filename">/Users/metquota/cwds/cans-api/jmeter/assets/users.csv</stringProp>
+              <boolProp name="ignoreFirstLine">false</boolProp>
+              <boolProp name="quotedData">false</boolProp>
+              <boolProp name="recycle">true</boolProp>
+              <stringProp name="shareMode">shareMode.group</stringProp>
+              <boolProp name="stopThread">false</boolProp>
+              <stringProp name="variableNames">username,password</stringProp>
+            </CSVDataSet>
+            <hashTree/>
             <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="perryProtocol" elementType="Argument">
@@ -296,21 +298,6 @@
                   <stringProp name="Argument.name">idp</stringProp>
                   <stringProp name="Argument.value">${idp}</stringProp>
                   <stringProp name="Argument.desc">possible values: perryDevMode | cognito</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="userName" elementType="Argument">
-                  <stringProp name="Argument.name">userName</stringProp>
-                  <stringProp name="Argument.value">${userName}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="userPassword" elementType="Argument">
-                  <stringProp name="Argument.name">userPassword</stringProp>
-                  <stringProp name="Argument.value">${userPassword}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="perryAuthJson" elementType="Argument">
-                  <stringProp name="Argument.name">perryAuthJson</stringProp>
-                  <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -457,14 +444,14 @@
                       <elementProp name="username" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
                         <stringProp name="Argument.name">username</stringProp>
-                        <stringProp name="Argument.value">${userName}</stringProp>
+                        <stringProp name="Argument.value">${username}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
                       <elementProp name="password" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
                         <stringProp name="Argument.name">password</stringProp>
-                        <stringProp name="Argument.value">${userPassword}</stringProp>
+                        <stringProp name="Argument.value">${userpassword}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
@@ -523,7 +510,7 @@
                       <elementProp name="username" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.name">username</stringProp>
-                        <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                        <stringProp name="Argument.value">${username}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
@@ -700,14 +687,14 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                       <elementProp name="username" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
                         <stringProp name="Argument.name">username</stringProp>
-                        <stringProp name="Argument.value">${userName}</stringProp>
+                        <stringProp name="Argument.value">${username}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
                       <elementProp name="password" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
                         <stringProp name="Argument.name">password</stringProp>
-                        <stringProp name="Argument.value">${userPassword}</stringProp>
+                        <stringProp name="Argument.value">${password}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
@@ -766,7 +753,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                       <elementProp name="username" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.name">username</stringProp>
-                        <stringProp name="Argument.value">${perryAuthJson}</stringProp>
+                        <stringProp name="Argument.value">${username}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
