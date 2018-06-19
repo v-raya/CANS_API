@@ -12,9 +12,9 @@
             <stringProp name="Argument.value">${__P(JM_TARGET,rails)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="idp" elementType="Argument">
-            <stringProp name="Argument.name">idp</stringProp>
-            <stringProp name="Argument.value">${__P(JM_IDP,perryDevMode)}</stringProp>
+          <elementProp name="perryMode" elementType="Argument">
+            <stringProp name="Argument.name">perryMode</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,DEV)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
@@ -30,11 +30,6 @@
           <elementProp name="perryPort" elementType="Argument">
             <stringProp name="Argument.name">perryPort</stringProp>
             <stringProp name="Argument.value">${__P(JM_PERRY_PORT,18080)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryAuthJson" elementType="Argument">
-            <stringProp name="Argument.name">perryAuthJson</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_AUTH_JSON)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiProtocol" elementType="Argument">
@@ -57,6 +52,11 @@
             <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/api/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="usersCsvPath" elementType="Argument">
+            <stringProp name="Argument.name">usersCsvPath</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USERS_CSV_PATH,/Users/metquota/cwds/cans-api/jmeter/assets/users.csv)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="usersCount" elementType="Argument">
             <stringProp name="Argument.name">usersCount</stringProp>
             <stringProp name="Argument.value">${__P(JM_USERS_COUNT,3)}</stringProp>
@@ -72,148 +72,6 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (local)" enabled="false">
-        <collectionProp name="Arguments.arguments">
-          <elementProp name="idp" elementType="Argument">
-            <stringProp name="Argument.name">idp</stringProp>
-            <stringProp name="Argument.value">perryDevMode</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryProtocol" elementType="Argument">
-            <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">http</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryHost" elementType="Argument">
-            <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryPort" elementType="Argument">
-            <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">18080</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryAuthJson" elementType="Argument">
-            <stringProp name="Argument.name">perryAuthJson</stringProp>
-            <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiProtocol" elementType="Argument">
-            <stringProp name="Argument.name">cansApiProtocol</stringProp>
-            <stringProp name="Argument.value">http</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiHost" elementType="Argument">
-            <stringProp name="Argument.name">cansApiHost</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiPort" elementType="Argument">
-            <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">8080</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-        </collectionProp>
-      </Arguments>
-      <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="PerryDevModeProperties (Preint)" enabled="false">
-        <collectionProp name="Arguments.arguments">
-          <elementProp name="idp" elementType="Argument">
-            <stringProp name="Argument.name">idp</stringProp>
-            <stringProp name="Argument.value">perryDevMode</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryProtocol" elementType="Argument">
-            <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">https</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryHost" elementType="Argument">
-            <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">web.preint.cwds.io</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryPort" elementType="Argument">
-            <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">443</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryAuthJson" elementType="Argument">
-            <stringProp name="Argument.name">perryAuthJson</stringProp>
-            <stringProp name="Argument.value">{&quot;user&quot;:&quot;TESTPA&quot;,&quot;first_name&quot;:&quot;John&quot;,&quot;last_name&quot;:&quot;Doe&quot;,&quot;roles&quot;:[&quot;SocialWorker&quot;],&quot;staffId&quot;:&quot;aa1&quot;,&quot;county_name&quot;:&quot;Madera&quot;,&quot;county_code&quot;:&quot;20&quot;,&quot;county_cws_code&quot;:1087,&quot;privileges&quot;:[&quot;Non-CWD&quot;,&quot;CWS Case Management System&quot;,&quot;Sensitive Persons&quot;,&quot;Sealed&quot;,&quot;Non-CWD Mental Health&quot;,&quot;Statewide Read&quot;]}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiProtocol" elementType="Argument">
-            <stringProp name="Argument.name">cansApiProtocol</stringProp>
-            <stringProp name="Argument.value">https</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiHost" elementType="Argument">
-            <stringProp name="Argument.name">cansApiHost</stringProp>
-            <stringProp name="Argument.value">cansapi.preint.cwds.io</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiPort" elementType="Argument">
-            <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">443</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-        </collectionProp>
-      </Arguments>
-      <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="CognitoProperties (Integration)" enabled="false">
-        <collectionProp name="Arguments.arguments">
-          <elementProp name="idp" elementType="Argument">
-            <stringProp name="Argument.name">idp</stringProp>
-            <stringProp name="Argument.value">cognito</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="userName" elementType="Argument">
-            <stringProp name="Argument.name">userName</stringProp>
-            <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-            <stringProp name="Argument.desc">user name</stringProp>
-          </elementProp>
-          <elementProp name="userPassword" elementType="Argument">
-            <stringProp name="Argument.name">userPassword</stringProp>
-            <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-            <stringProp name="Argument.desc">password</stringProp>
-          </elementProp>
-          <elementProp name="perryProtocol" elementType="Argument">
-            <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">https</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryHost" elementType="Argument">
-            <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">web.integration.cwds.io</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="perryPort" elementType="Argument">
-            <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">443</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiProtocol" elementType="Argument">
-            <stringProp name="Argument.name">cansApiProtocol</stringProp>
-            <stringProp name="Argument.value">https</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiHost" elementType="Argument">
-            <stringProp name="Argument.name">cansApiHost</stringProp>
-            <stringProp name="Argument.value">calsapi.integration.cwds.io</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="cansApiPort" elementType="Argument">
-            <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">443</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-        </collectionProp>
-      </Arguments>
-      <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Put Assessments" enabled="true">
         <stringProp name="TestPlan.comments">Call to RestAPI Get facility by ID</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -263,7 +121,7 @@
             <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Users CSV Data Set" enabled="true">
               <stringProp name="delimiter">|</stringProp>
               <stringProp name="fileEncoding">UTF-8</stringProp>
-              <stringProp name="filename">/Users/metquota/cwds/cans-api/jmeter/assets/users.csv</stringProp>
+              <stringProp name="filename">${usersCsvPath}</stringProp>
               <boolProp name="ignoreFirstLine">false</boolProp>
               <boolProp name="quotedData">false</boolProp>
               <boolProp name="recycle">true</boolProp>
@@ -274,30 +132,9 @@
             <hashTree/>
             <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments">
-                <elementProp name="perryProtocol" elementType="Argument">
-                  <stringProp name="Argument.name">perryProtocol</stringProp>
-                  <stringProp name="Argument.value">${perryProtocol}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="perryHost" elementType="Argument">
-                  <stringProp name="Argument.name">perryHost</stringProp>
-                  <stringProp name="Argument.value">${perryHost}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="perryPort" elementType="Argument">
-                  <stringProp name="Argument.name">perryPort</stringProp>
-                  <stringProp name="Argument.value">${perryPort}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
                 <elementProp name="perryDemoPageURL" elementType="Argument">
                   <stringProp name="Argument.name">perryDemoPageURL</stringProp>
                   <stringProp name="Argument.value">${perryProtocol}://${perryHost}:${perryPort}/perry/demo-sp.html</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-                <elementProp name="idp" elementType="Argument">
-                  <stringProp name="Argument.name">idp</stringProp>
-                  <stringProp name="Argument.value">${idp}</stringProp>
-                  <stringProp name="Argument.desc">possible values: perryDevMode | cognito</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
@@ -312,7 +149,7 @@
               <boolProp name="CookieManager.clearEachIteration">true</boolProp>
             </CookieManager>
             <hashTree/>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;target&apos; == &apos;api&apos;" enabled="true">
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If testing the API app" enabled="true">
               <stringProp name="IfController.condition">&apos;${target}&apos;==&apos;api&apos;</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
@@ -426,8 +263,8 @@
                 </RegexExtractor>
                 <hashTree/>
               </hashTree>
-              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
-                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;PROD&apos;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
@@ -451,7 +288,7 @@
                       <elementProp name="password" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
                         <stringProp name="Argument.name">password</stringProp>
-                        <stringProp name="Argument.value">${userpassword}</stringProp>
+                        <stringProp name="Argument.value">${password}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                       </elementProp>
@@ -471,9 +308,9 @@
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
-                  <stringProp name="HTTPSampler.port"></stringProp>
-                  <stringProp name="HTTPSampler.protocol">https</stringProp>
+                  <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
+                  <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                   <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -499,8 +336,8 @@
                   <hashTree/>
                 </hashTree>
               </hashTree>
-              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
-                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;DEV&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;DEV&apos;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
@@ -633,8 +470,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
               </ResultCollector>
               <hashTree/>
             </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;target&apos;  != &apos;api&apos;" enabled="true">
-              <stringProp name="IfController.condition">&apos;${target}&apos;!=&apos;api&apos;</stringProp>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If testing RAILS layer" enabled="true">
+              <stringProp name="IfController.condition">&apos;${target}&apos;==&apos;rails&apos;</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
@@ -669,8 +506,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                 </ResponseAssertion>
                 <hashTree/>
               </hashTree>
-              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is Cognito" enabled="true">
-                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;cognito&apos;</stringProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;PROD&apos;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
@@ -714,8 +551,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">${idpLoginHost}</stringProp>
-                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.domain">${perryHost}</stringProp>
+                  <stringProp name="HTTPSampler.port">${perryPort}</stringProp>
                   <stringProp name="HTTPSampler.protocol">${perryProtocol}</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                   <stringProp name="HTTPSampler.path">/login?client_id=4julq2o6653fden3cph5oq90kc&amp;redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code</stringProp>
@@ -742,8 +579,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                   <hashTree/>
                 </hashTree>
               </hashTree>
-              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If IDP is perry Dev Mode" enabled="true">
-                <stringProp name="IfController.condition">&apos;${idp}&apos;==&apos;perryDevMode&apos;</stringProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;DEV&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;DEV&apos;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
