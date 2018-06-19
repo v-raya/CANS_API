@@ -5,17 +5,24 @@ exports.toItemsObjectArray = parsedArray => {
   const length = parsedArray.length;
   for (i = 0; i < length; i++) {
     const parsedElement = parsedArray[i];
-    const code = parsedElement['Item_ID'];
+    const code = parsedElement['Item_Abbr'];
     if (!code) {
+      console.log(`Skipped parsed item = ${JSON.stringify(parsedElement)} because Item_Abbr is undefined`);
+      continue;
+    }
+    const id = parsedElement['Item_ID'];
+    if (!id) {
+      console.log(`Skipped parsed item = ${JSON.stringify(parsedElement)} because Item_ID is undefined`);
       continue;
     }
 
     const newElement = {
-      code: code,
+      id,
+      code,
       i18ns: []
     };
 
-    mapToNewElement(parsedElement, 'Item_Name ', newElement, '_title_');
+    mapToNewElement(parsedElement, 'Item_Name', newElement, '_title_');
     mapToNewElement(parsedElement, 'Description', newElement, '_description_');
     mapToNewElement(parsedElement, 'Rate_0', newElement,
         '_rating_.0._description_');
@@ -25,9 +32,9 @@ exports.toItemsObjectArray = parsedArray => {
         '_rating_.2._description_');
     mapToNewElement(parsedElement, 'Rate_3', newElement,
         '_rating_.3._description_');
-    mapToNewElement(parsedElement, 'No', newElement,
+    mapToNewElement(parsedElement, 'Rate_No', newElement,
         '_rating_.0._description_');
-    mapToNewElement(parsedElement, 'Yes', newElement,
+    mapToNewElement(parsedElement, 'Rate_Yes', newElement,
         '_rating_.1._description_');
     mapQuestionsToConsider(parsedElement, newElement);
     results.push(newElement);
@@ -46,16 +53,16 @@ const mapToNewElement = (parsedElement, parsedKey, newElement, newKey) => {
 };
 
 const mapQuestionsToConsider = (parsedElement, newElement) => {
-  const value = parsedElement['QTC'];
+  const value = parsedElement['Questions'];
   if (value) {
     const trimmedValue = value.trim();
-    if ((trimmedValue.match(/�/g) || []).length <= 1) {
+    if ((trimmedValue.match(/•/g) || []).length <= 1) {
       newElement.i18ns.push({
         key: '_to_consider_.0',
         value : trimmedValue.replace(/\s\s+/g, ' ')
       });
     } else {
-      const splitted = trimmedValue.split('�');
+      const splitted = trimmedValue.split('•');
       let i = 0;
       splitted.map(question => {
         const trimmed = question.trim();
