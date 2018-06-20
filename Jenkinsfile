@@ -16,17 +16,17 @@ def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
         ' -e PERRY_URL=https://web.dev.cwds.io';
-def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance ' +
-        ' -e JM_TARGET=api ' +
-        ' -e JM_PERRY_MODE=DEV ' +
-        ' -e JM_USERS_COUNT=3 ' +
-        ' -e JM_UPDATE_REQUESTS_PER_USER=3 ' +
-        ' -e JM_PERRY_PROTOCOL=https ' +
-        ' -e JM_PERRY_HOST=web.dev.cwds.io ' +
-        ' -e JM_PERRY_PORT=443 ' +
-        ' -e JM_CANS_API_PROTOCOL=https ' +
-        ' -e JM_CANS_API_HOST=cansapi.dev.cwds.io ' +
-        ' -e JM_CANS_API_PORT=443 ';
+def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
+        ' -e JM_TARGET=api' +
+        ' -e JM_PERRY_MODE=DEV' +
+        ' -e JM_USERS_COUNT=3' +
+        ' -e JM_UPDATE_REQUESTS_PER_USER=3' +
+        ' -e JM_PERRY_PROTOCOL=https' +
+        ' -e JM_PERRY_HOST=web.dev.cwds.io' +
+        ' -e JM_PERRY_PORT=443' +
+        ' -e JM_CANS_API_PROTOCOL=https' +
+        ' -e JM_CANS_API_HOST=cansapi.dev.cwds.io' +
+        ' -e JM_CANS_API_PORT=443';
 
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
