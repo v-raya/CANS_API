@@ -189,7 +189,6 @@ node('cans-slave') {
                     ]
             )
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
-            sleep(30)
         }
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
@@ -198,7 +197,7 @@ node('cans-slave') {
             sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
         stage('Performance Tests (Short Run)') {
-            sh "docker run --rm -v performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+            sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
     } catch (Exception e) {
         errorcode = e
