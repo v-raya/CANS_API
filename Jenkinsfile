@@ -198,7 +198,7 @@ node('cans-slave') {
         }
         stage('Performance Tests (Short Run)') {
             sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'performance-results-api/web-report', reportFiles: 'index.html', reportName: 'Performance Tests', reportTitles: 'Performance Tests summary'])
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, includes: '**/*.*', keepAll: true, reportDir: 'performance-results-api/web-report', reportFiles: 'index.html', reportName: 'Performance Tests', reportTitles: 'Performance Tests summary'])
         }
     } catch (Exception e) {
         errorcode = e
