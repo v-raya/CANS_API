@@ -10,6 +10,7 @@ ENV JMETER_HOME /opt/apache-jmeter-4.0/
 RUN mkdir /opt/cans-api-perf-test
 ADD jmeter /opt/cans-api-perf-test
 ENV JMETER_TESTS /opt/cans-api-perf-test
+RUN mkdir $JMETER_TESTS/results && mkdir $JMETER_TESTS/results/api && mkdir $JMETER_TESTS/results/rails
 
 # Smoke & Functional
 RUN mkdir /opt/cans-api-test
