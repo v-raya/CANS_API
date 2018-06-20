@@ -207,7 +207,7 @@ node('cans-slave') {
     } finally {
         sh "docker rmi $dockerImageName || true"
         sh "docker rmi $testsDockerImageName || true"
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'performance-results-api/web-report', reportFiles: 'index.html', reportName: 'Performance Tests', reportTitles: 'Performance Tests summary'])
+        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, includes: '**/*.*', keepAll: true, reportDir: 'performance-results-api/web-report', reportFiles: 'index.html', reportName: 'Performance Tests', reportTitles: 'Performance Tests summary'])
         cleanWs()
     }
 }
