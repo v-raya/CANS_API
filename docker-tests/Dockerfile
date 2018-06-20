@@ -1,14 +1,15 @@
 FROM cwds/javajdk
 
 # Performance tests
-RUN mkdir /opt/jmeter \
-    && cd /opt/jmeter/ \
+RUN yum -y install wget
+RUN cd /opt/ \
     && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-4.0.tgz \
     && tar -xvzf apache-jmeter-4.0.tgz \
     && rm apache-jmeter-4.0.tgz
-ENV JMETER_HOME /jmeter/apache-jmeter-4.0/
-# TODO: Copy jmx files
-
+ENV JMETER_HOME /opt/apache-jmeter-4.0/
+RUN mkdir /opt/cans-api-perf-test
+ADD jmeter /opt/cans-api-perf-test
+ENV JMETER_TESTS /opt/cans-api-perf-test
 
 # Smoke & Functional
 RUN mkdir /opt/cans-api-test
