@@ -1,12 +1,19 @@
 exports.changesetTemplate =
     '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
-    + '<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
+    + '<databaseChangeLog \n'
+    + '  logicalFilePath="ca/add_ca_instrument_i18n.xml"\n'
+    + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
     + '  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"\n'
     + '  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog\n'
     + '  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">\n'
     + '\n'
-    + '  <changeSet id="RENAME" author="PLACE_YOU_NAME_HERE">\n'
+    + '  <changeSet id="instrument-ca-i18n-insert" author="denys.davydov">\n'
     + '  %INSERTS_PLACE_HOLDER%'
+    + '    <rollback>\n'
+    + '      <delete tableName="i_18_n">\n'
+    + '        <where>lang = \'en\' and k like \'instrument.1%\'</where>\n'
+    + '      </delete>\n'
+    + '    </rollback>\n'
     + '  </changeSet>\n'
     + '</databaseChangeLog>\n';
 
@@ -37,6 +44,7 @@ exports.domainTemplate = {
 };
 
 exports.itemTemplate = {
+  "id": null,
   "under_six_id": null,
   "above_six_id": null,
   "code": null,
