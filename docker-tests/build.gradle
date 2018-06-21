@@ -84,6 +84,11 @@ task dockerTestsCopyConfig(type: Copy) {
     into "$dockerContextDir/config"
 }
 
+task dockerTestsCopyJMeterFiles(type: Copy) {
+    from '../jmeter'
+    into "$dockerContextDir/jmeter"
+}
+
 task dockerTestsCopyScripts(type: Copy) {
     from projectDir
     into dockerContextDir
@@ -92,7 +97,7 @@ task dockerTestsCopyScripts(type: Copy) {
     filter(FixCrLfFilter.class, eol: FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
-task dockerTestsCreateImage(type: Exec, dependsOn: [checkDockerService, dockerTestsCleanUp, testsJar, dockerTestsCopyResources, dockerTestsCopyConfig, dockerTestsCopyScripts]) {
+task dockerTestsCreateImage(type: Exec, dependsOn: [checkDockerService, dockerTestsCleanUp, testsJar, dockerTestsCopyResources, dockerTestsCopyConfig, dockerTestsCopyJMeterFiles, dockerTestsCopyScripts]) {
     environment << project.dockerEnvVars
     doFirst {
         commandLine 'docker', 'build', '-t', dockerImageName, '-f', "$dockerContextDir/Dockerfile", dockerContextDir

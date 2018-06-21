@@ -16,6 +16,17 @@ def smokeTestsDockerEnvVars = " -e CANS_API_URL=$cansApiUrl "
 def functionalTestsDockerEnvVars = smokeTestsDockerEnvVars +
         ' -e TEST_TYPE=functional' +
         ' -e PERRY_URL=https://web.dev.cwds.io';
+def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
+        ' -e JM_TARGET=api' +
+        ' -e JM_PERRY_MODE=DEV' +
+        ' -e JM_USERS_COUNT=3' +
+        ' -e JM_UPDATE_REQUESTS_PER_USER=3' +
+        ' -e JM_PERRY_PROTOCOL=https' +
+        ' -e JM_PERRY_HOST=web.dev.cwds.io' +
+        ' -e JM_PERRY_PORT=443' +
+        ' -e JM_CANS_API_PROTOCOL=https' +
+        ' -e JM_CANS_API_HOST=cansapi.dev.cwds.io' +
+        ' -e JM_CANS_API_PORT=443';
 
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
@@ -178,13 +189,16 @@ node('cans-slave') {
                     ]
             )
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
-            sleep(30)
         }
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         }
         stage('Functional Tests') {
             sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+        }
+        stage('Performance Tests (Short Run)') {
+            sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+            perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
         }
     } catch (Exception e) {
         errorcode = e
