@@ -68,6 +68,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     assessment.setState(instrument.getPrototype());
     assessment.setAssessmentType(request.getAssessmentType());
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
+    assessment.setCanReleaseConfidentialInfo(false);
     assessment.setInstrument(instrument);
     assessment.setInstrumentId(instrument.getId());
     assessment.setPerson(person);
