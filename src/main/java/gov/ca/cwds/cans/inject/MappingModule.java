@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.inject;
 
 import com.google.inject.AbstractModule;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
-import gov.ca.cwds.cans.domain.mapper.CftMapper;
 import gov.ca.cwds.cans.domain.mapper.I18nMapper;
 import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
@@ -21,7 +20,6 @@ public class MappingModule extends AbstractModule {
   @Override
   protected void configure() {
     bindMapperAsEagerSingleton(AssessmentMapper.class);
-    bindMapperAsEagerSingleton(CftMapper.class);
     bindMapperAsEagerSingleton(CountyMapper.class);
     bindMapperAsEagerSingleton(I18nMapper.class);
     bindMapperAsEagerSingleton(InstrumentMapper.class);

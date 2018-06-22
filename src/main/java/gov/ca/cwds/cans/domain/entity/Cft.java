@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/** A CftDto. */
+/** A Cft. */
 @Entity
 @Table(name = "cft")
 @Data
