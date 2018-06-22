@@ -50,6 +50,7 @@ exports.itemTemplate = {
   "code": null,
   "required": true,
   "confidential": false,
+  "confidential_by_default": false,
   "rating_type": null,
   "rating": -1
 };

@@ -23,6 +23,7 @@ public class ItemJson implements Json {
   private String code;
   private Boolean required;
   private Boolean confidential;
+  private Boolean confidentialByDefault;
   private RatingType ratingType;
   private Boolean hasNaOption;
   private Integer rating;

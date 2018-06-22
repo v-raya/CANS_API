@@ -14,6 +14,7 @@
             "code": "lf10family",
             "required": true,
             "confidential": false,
+            "confidential_by_default": true,
             "rating_type": "REGULAR",
             "rating": -1
           },

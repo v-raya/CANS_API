@@ -1,25 +1,32 @@
-*.iml
-.gradle/
+# temp files
+out/
 build/
+bin/
+
+# dot files
 .classpath
 .project
 .settings/
-bin/
-.idea
-*.env
 *.sw*
-/build/
-/.idea/
-/.gradle/
 
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-gradle/wrapper
+# gradle
 /gradle/
-/tools/instrument-parser/npm_modules/
+.gradle/
+
+# tools
+/tools/instrument-parser/node_modules/
 /tools/instrument-parser/output/changelog.xml
 /tools/instrument-parser/output/assessment.json
+
+# log files
+*.log
+
+# IDE
+/.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# env
+*.env
