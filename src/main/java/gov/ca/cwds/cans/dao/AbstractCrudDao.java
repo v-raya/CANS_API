@@ -26,11 +26,22 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
 
   private SessionFactory sessionFactory;
 
+  public AbstractCrudDao(SessionFactory sessionFactory) {
+    super(sessionFactory);
+    this.sessionFactory = sessionFactory;
+  }
+
+  @Override
+  public SessionFactory getSessionFactory() {
+    return sessionFactory;
+  }
+
   public Session grabSession() {
     Session session;
     try {
       session = sessionFactory.getCurrentSession();
     } catch (HibernateException e) {
+      LOGGER.info("No hibernate session found, opening a new one: {}", e.getMessage());
       session = sessionFactory.openSession();
     }
 
@@ -46,16 +57,6 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
     }
 
     return txn;
-  }
-
-  public AbstractCrudDao(SessionFactory sessionFactory) {
-    super(sessionFactory);
-    this.sessionFactory = sessionFactory;
-  }
-
-  @Override
-  public SessionFactory getSessionFactory() {
-    return sessionFactory;
   }
 
   @Override
@@ -122,7 +123,5 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
   protected String constructNamedQueryName(String suffix) {
     return getEntityClass().getName() + "." + suffix;
   }
-
-
 
 }

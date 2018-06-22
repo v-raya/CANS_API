@@ -4,11 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.Constants;
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.usertype.ParameterizedType;
-import org.hibernate.usertype.UserType;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.usertype.ParameterizedType;
+import org.hibernate.usertype.UserType;
 
 /**
  * @author CWDS CALS API Team.
@@ -147,13 +146,7 @@ public class JsonType implements UserType, ParameterizedType {
   @Override
   public void setParameterValues(Properties parameters) {
     String sqlTypeName = parameters.getProperty(Constants.SQL_TYPE);
-    SQLTypes sqlTypeEnum = SQLTypes.valueOf(sqlTypeName);
-    if (sqlTypeEnum != null) {
-      sqlType = sqlTypeEnum.getType();
-    } else {
-      throw new IllegalArgumentException("The sqlType: " + sqlTypeName + " is not supported");
-    }
-
+    sqlType = SQLTypes.valueOf(sqlTypeName).getType();
     returnedClassName = parameters.getProperty(Constants.RETURNED_CLASS_NAME_PARAM);
   }
 }
