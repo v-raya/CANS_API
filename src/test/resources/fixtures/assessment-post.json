@@ -2,6 +2,7 @@
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
   "competed_as": "COMMUNIMETRIC",
+  "can_release_confidential_info": false,
   "state": {
     "domains": [
       {
@@ -12,6 +13,7 @@
             "code": "lf10family",
             "required": true,
             "confidential": false,
+            "confidential_by_default": true,
             "rating_type": "REGULAR",
             "rating": -1
           },

@@ -82,6 +82,9 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "completed_as")
   private CompletedAs completedAs;
 
+  @Column(name = "can_release_confidential_info")
+  private Boolean canReleaseConfidentialInfo;
+
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;
 

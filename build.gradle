@@ -32,7 +32,7 @@ project.ext {
     projectMajorVersion = '0.7.3'
     coreApiVersion = '1.7.2_796-RC'
     apiSecurityVersion = '3.0.3_734-RC'
-    dataModelVersion = '0.7.3_598-RC'
+    dataModelVersion = '0.7.4_608-RC'
     dropwizardVersion = '1.1.0'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
