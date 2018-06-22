@@ -20,6 +20,7 @@
             "code": "1",
             "required": true,
             "confidential": false,
+            "confidential_by_default": false,
             "rating_type": "REGULAR",
             "rating": -1
           },
