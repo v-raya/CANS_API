@@ -10,7 +10,6 @@ bin/
 *.sw*
 
 # gradle
-gradle/wrapper
 /gradle/
 .gradle/
 
