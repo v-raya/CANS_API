@@ -18,14 +18,15 @@ import lombok.extern.slf4j.Slf4j;
  * @author denys.davydov
  */
 @Slf4j
-public class DbUpgrader {
-  private DbUpgrader() {
-  }
+public final class DbUpgrader {
 
   private static final String LB_SCRIPT_CREATE_SCHEMA = "liquibase/util/cans_schema.xml";
   private static final String LB_SCRIPT_CANS_MASTER = "liquibase/cans_database_master.xml";
   private static final String LB_SCRIPT_DEMO_MASTER = "liquibase/cans_database_demo_master.xml";
   private static final String HIBERNATE_DEFAULT_SCHEMA = "hibernate.default_schema";
+
+  private DbUpgrader() {
+  }
 
   public static void upgradeCansDb(CansConfiguration configuration)  {
     log.info("Upgrading CANS DB...");

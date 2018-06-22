@@ -157,7 +157,7 @@ public class AssessmentResource {
     final SearchAssessmentPo searchPo = searchAssessmentMapper.fromSearchRequest(searchRequest);
     final Collection<Assessment> entities = assessmentService.search(searchPo);
     final Collection<AssessmentMetaDto> dtos = assessmentMapper.toMetaDtos(entities);
-    return ResponseUtil.responseOk(dtos);
+    return ResponseUtil.responseCreatedOrNot(dtos);
   }
 
   @UnitOfWork(CANS)

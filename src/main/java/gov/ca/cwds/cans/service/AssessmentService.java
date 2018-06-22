@@ -45,9 +45,6 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment update(Assessment assessment) {
-    // TODO(dd): Implement here:
-    // 1. If new status is SUBMITTED, validate all required fields are set
-    // 2. Validate assessment lifecycle is preserved
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
   }

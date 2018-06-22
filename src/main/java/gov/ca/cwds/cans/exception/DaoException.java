@@ -3,22 +3,12 @@ package gov.ca.cwds.cans.exception;
 /** @author denys.davydov */
 public class DaoException extends RuntimeException {
 
-  public DaoException() {}
+  private static final long serialVersionUID = -1522328644617447850L;
 
-  public DaoException(String message) {
-    super(message);
-  }
+  public DaoException() {}
 
   public DaoException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public DaoException(Throwable cause) {
-    super(cause);
-  }
-
-  public DaoException(
-      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
 }
