@@ -19,6 +19,9 @@ gradle/wrapper
 /tools/instrument-parser/output/changelog.xml
 /tools/instrument-parser/output/assessment.json
 
+# log files
+*.log
+
 # IDE
 /.idea/
 *.iml
