@@ -25,7 +25,7 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
     final E inputEntity = mapper.fromDto(inputDto);
     final E resultEntity = crudService.create(inputEntity);
     final D resultDto = mapper.toDto(resultEntity);
-    return Response.ok().entity(resultDto).build();
+    return ResponseUtil.responseCreatedOrNot(resultDto);
   }
 
   public Response put(final Serializable id, final D inputDto) {
@@ -34,7 +34,7 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
     inputEntity.setId(id);
     final E resultEntity = crudService.update(inputEntity);
     final D resultDto = mapper.toDto(resultEntity);
-    return Response.ok().entity(resultDto).build();
+    return ResponseUtil.responseOrNotFound(resultDto);
   }
 
   public Response get(final Long id) {
