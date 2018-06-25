@@ -118,11 +118,12 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void personPost_fails_whenNonAlphaSymbolsInNames() throws IOException {
+  public void personPost_fails_whenValidationIssues() throws IOException {
     // given
     final PersonDto input = new PersonDto();
     input.setFirstName("123");
     input.setLastName("123");
+    input.setExternalId("123");
     input.setPersonRole(PersonRole.CLIENT);
     input.setCaseId("123");
     input.setCounty(new CountyDto().setExportId("1"));
@@ -140,13 +141,12 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
         actualResponse
             .getIssueDetails()
             .stream()
-            .filter(issue -> ALPHA_SYMBOLS.equals(issue.getUserMessage()))
             .map(IssueDetails::getProperty)
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName"));
+    assertThat(actualViolatedFields.size(), is(3));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "externalId"));
   }
 
   @Test

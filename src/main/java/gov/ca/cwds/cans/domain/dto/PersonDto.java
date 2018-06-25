@@ -38,6 +38,7 @@ public class PersonDto extends Dto {
   @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
   private String lastName;
 
+  @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-\\d{7}$")
   private String externalId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
