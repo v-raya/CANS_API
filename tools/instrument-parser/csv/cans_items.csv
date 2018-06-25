@@ -217,7 +217,7 @@ interfering with child/youth’s functioning.
 Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldom
 obtains a full night of sleep.","Problems are dangerous or disabling; requires immediate and/or intensive action.
 Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth is
-not able to get a full night’s sleep.",,,1,,"• Does the child/youth appear rested?
+not able to get a full night’s sleep.",,,,,"• Does the child/youth appear rested?
 • Is the child/youth often sleepy during the day?
 • Does the child/youth have frequent nightmares or difficulty sleeping?
 • How many hours does the child/youth sleep each night?
@@ -811,3 +811,17 @@ There is no evidence of identified spiritual or religious beliefs, nor does the 
 • Is the family involved with any religious community? 
 • Is family interested in exploring spirituality?
 ",,,,1,,,1,,
+83,20,EC09,Sleep,SLEEP_CHILD,"This item rates the child/youth’s sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues.","No current need; no need for action or intervention.
+Child/youth gets a full night’s sleep each night.","Identified need requires monitoring, watchful waiting, or preventive activities.
+Child/youth has some problems sleeping. Generally, child/youth gets a full night’s sleep but at
+least once a week problems arise. This may include occasionally awakening or bed wetting or
+having nightmares.","Action or intervention is required to ensure that the identified need is addressed; need is
+interfering with child/youth’s functioning.
+Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldom
+obtains a full night of sleep.","Problems are dangerous or disabling; requires immediate and/or intensive action.
+Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth is
+not able to get a full night’s sleep.",,,1,,"• Does the child/youth appear rested?
+• Is the child/youth often sleepy during the day?
+• Does the child/youth have frequent nightmares or difficulty sleeping?
+• How many hours does the child/youth sleep each night?
+",,1,1,1,,,1,,
