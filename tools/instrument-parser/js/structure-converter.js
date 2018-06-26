@@ -45,6 +45,7 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
       if (!rawItem) return;
       item.code = rawItem['Item_Abbr'];
       item.confidential_by_default = rawItem['Confidential_by_Default'] === '1';
+      item.confidential = item.confidential_by_default;
       item.rating_type = rawItem['Rate_Yes'].trim() ? 'BOOLEAN' : 'REGULAR';
       item.has_na_option = !!rawItem['Rate_NA'].trim();
     });
