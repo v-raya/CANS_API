@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,10 +80,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(5));
+    assertThat(actualViolatedFields.size(), is(6));
     assertThat(
         actualViolatedFields,
-        containsInAnyOrder("firstName", "lastName", "caseId", "county", "personRole"));
+        containsInAnyOrder("firstName", "lastName", "caseId", "externalId", "county", "personRole"));
   }
 
   @Test
