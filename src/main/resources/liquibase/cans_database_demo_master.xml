@@ -14,5 +14,7 @@
   <include file="ca/2018-06-25_update_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
   <include file="ca/2018-06-26_update_ca_instrument.xml" relativeToChangelogFile="true"/>
   <include file="ca/2018-06-26_update_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
+  <include file="ca/2018-06-27_update_ca_instrument.xml" relativeToChangelogFile="true"/>
+  <include file="ca/2018-06-27_update_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

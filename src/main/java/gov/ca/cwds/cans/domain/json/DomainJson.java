@@ -23,6 +23,7 @@ public class DomainJson extends AbstractAssessmentChildJson {
   private static final long serialVersionUID = -6556978839318901887L;
 
   private RatingType ratingType;
+  private Boolean isCaregiverDomain;
   private List<ItemJson> items = new ArrayList<>();
 
 }

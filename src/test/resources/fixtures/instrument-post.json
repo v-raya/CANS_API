@@ -9,6 +9,7 @@
       {
         "class": "domain",
         "code": "life_functioning",
+        "is_caregiver_domain":true,
         "items": [
           {
             "code": "lf10family",
@@ -30,6 +31,7 @@
       {
         "class": "domain",
         "code": "potentially_traumatic_experience",
+        "is_caregiver_domain":false,
         "items": [
           {
             "code": "pte51sexual",

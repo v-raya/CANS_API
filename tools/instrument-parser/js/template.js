@@ -57,6 +57,7 @@ exports.domainTemplate = {
   "code": null,
   "under_six": null,
   "above_six": null,
+  "is_caregiver_domain": false,
   "items": []
 };
 
