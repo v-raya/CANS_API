@@ -7,6 +7,8 @@ const domainConverter = require('./js/domain-to-object-converter');
 const itemConverter = require('./js/item-to-object-converter');
 const linkConverter = require('./js/structure-converter');
 const liquibaseConverter = require('./js/object-to-liquibase');
+const template = require('./js/template');
+const util = require('./js/util');
 
 console.log(chalk.yellow(
     figlet.textSync('CSV > assessment + i18n', {horizontalLayout: 'full'})
@@ -42,16 +44,20 @@ const rawLink = csvToArray('csv/cans_to_domains_to_items.csv');
 const domainObjectArray = domainConverter.toDomainObjectArray(rawDomains.data);
 const itemObjectArray = itemConverter.toItemsObjectArray(rawItems.data);
 
+const currentDate = util.getCurrentDate();
+const dateRegExp = new RegExp(template.DATE_PLACE_HOLDER, 'g');
+
 const mergedArray = domainObjectArray.concat(itemObjectArray);
-const liquibaseChangeset = liquibaseConverter.toLiquibaseChangeset(mergedArray);
-saveFile("output/changelog.xml", liquibaseChangeset);
-console.log(liquibaseChangeset);
+const i18nChangeset = liquibaseConverter.toLiquibaseChangeset(mergedArray).replace(dateRegExp, currentDate);
+saveFile(`output/${currentDate}_update_ca_instrument_i18n.xml`, i18nChangeset);
+console.log(i18nChangeset);
 
 // generate assessment json
 const assessmentDraft = linkConverter.toAssessmentDraft(rawLink.data);
 const assessment = linkConverter.enrichAssessmentWithDomainsAndItems(
     assessmentDraft, rawDomains.data, rawItems.data);
-saveFile("output/assessment.json", JSON.stringify(assessment));
+const assessmentChangeset = template.changesetInstrumentTemplate.replace(template.INSERTS_PLACE_HOLDER,
+    JSON.stringify(assessment)).replace(dateRegExp,
+    currentDate);
+saveFile(`output/${currentDate}_update_ca_instrument.xml`, assessmentChangeset);
 console.log(JSON.stringify(assessment));
-
-

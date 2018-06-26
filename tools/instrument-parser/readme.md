@@ -4,9 +4,9 @@
 
 - **`./csv/cans_domains.csv`** file is a source for domains
 - **`./csv/cans_items.csv`** file is a source for items
-- **`./csv/structure-converter.csv`** file is a source for basic assessment structure
+- **`./csv/cans_to_domains_to_items.csv`** file is a source for basic assessment structure
 
 To run the app write in terminal:
-`npm start`
+`npm i && npm start`
 
-Generated database changelog and assesment.json will be created in the **`./output`** folder
+Generated database changelogs for the new assessment and it's I18n will be created in the **`./output`** folder. To use them in project copy-paste them into **`src/main/resources/liquibase/ca`** folder and _include_ in **`src/main/resources/liquibase/cans_database_demo_master.xml`**

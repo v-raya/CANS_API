@@ -22,12 +22,12 @@ exports.toLiquibaseChangeset = parsedArray => {
           .replace(/"/g, '&quot;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;');
-      const insertRecord = template.insertRecordTemplate.replace(
+      const insertRecord = template.insertI18nRecordTemplate.replace(
           template.KEY_PLACEHOLDER, key).replace(template.VALUE_PLACEHOLDER,
           value);
       insertRecords.push(insertRecord);
     }
   }
-  return template.changesetTemplate.replace(template.INSERTS_PLACE_HOLDER,
+  return template.changesetI18nTemplate.replace(template.INSERTS_PLACE_HOLDER,
       insertRecords.join(''));
 };
