@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.util;
 
 import gov.ca.cwds.cans.CansConfiguration;
+import gov.ca.cwds.cans.exception.DaoException;
 import io.dropwizard.db.DataSourceFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +43,7 @@ public final class DbUpgrader {
       new Liquibase(LB_SCRIPT_CANS_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
-      log.error("Upgrading of CANS DB is failed: " + e.getMessage(), e);
+      throw new DaoException("Upgrading of CANS DB is failed: " + e.getMessage(), e);
     } finally {
       if (database != null) {
         try {
@@ -66,7 +67,7 @@ public final class DbUpgrader {
       new Liquibase(LB_SCRIPT_DEMO_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
-      log.error("Running dml scripts on CANS DB is failed: " + e.getMessage(), e);
+      throw new DaoException("Running dml scripts on CANS DB is failed: " + e.getMessage(), e);
     } finally {
       if (database != null) {
         try {
