@@ -15,8 +15,7 @@ bin/
 
 # tools
 /tools/instrument-parser/node_modules/
-/tools/instrument-parser/output/changelog.xml
-/tools/instrument-parser/output/assessment.json
+/tools/instrument-parser/output/*.xml
 
 # log files
 *.log
