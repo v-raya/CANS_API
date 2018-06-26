@@ -28,7 +28,6 @@
   "state": {
     "domains": [
       {
-        "class": "domain",
         "code": "life_functioning",
         "items": [
           {

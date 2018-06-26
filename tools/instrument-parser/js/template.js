@@ -53,7 +53,6 @@ exports.assessmentTemplate = {
 
 exports.domainTemplate = {
   "id": null,
-  "class": "domain",
   "code": null,
   "under_six": null,
   "above_six": null,

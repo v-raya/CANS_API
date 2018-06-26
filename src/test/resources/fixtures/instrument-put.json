@@ -7,7 +7,6 @@
   "prototype": {
     "domains": [
       {
-        "class": "domain",
         "code": "early_childhood",
         "under_six": true,
         "domains": [

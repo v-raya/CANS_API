@@ -17,5 +17,5 @@ public class AssessmentJson implements Json {
 
   private Long id;
   private Boolean underSix;
-  private List<AbstractAssessmentChildJson> domains = new ArrayList<>();
+  private List<DomainJson> domains = new ArrayList<>();
 }
