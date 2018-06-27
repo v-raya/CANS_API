@@ -4,6 +4,28 @@
   "competed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
   "state": {
+    "caregiver_domain_template": {
+      "class": "domain",
+      "code": "life_functioning",
+      "is_caregiver_domain":true,
+      "items": [
+        {
+          "code": "lf10family",
+          "required": true,
+          "confidential": false,
+          "confidential_by_default": true,
+          "rating_type": "REGULAR",
+          "rating": -1
+        },
+        {
+          "code": "lf11living",
+          "required": true,
+          "confidential": false,
+          "rating_type": "REGULAR",
+          "rating": -1
+        }
+      ]
+    },
     "domains": [
       {
         "code": "life_functioning",

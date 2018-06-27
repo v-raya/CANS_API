@@ -51,6 +51,8 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
       item.has_na_option = !!rawItem['Rate_NA'].trim();
     });
   });
+
+  setCaregiverDomain(assessment);
   return assessment;
 };
 
@@ -74,4 +76,12 @@ const getRawItemById = (rawItems, id) => {
       return rawItem;
     }
   }
+};
+
+const setCaregiverDomain = assessment => {
+  assessment.domains.forEach(domain => {
+    if (domain.is_caregiver_domain) {
+      assessment.caregiver_domain_template = domain;
+    }
+  });
 };
