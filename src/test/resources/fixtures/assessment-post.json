@@ -8,6 +8,7 @@
       "class": "domain",
       "code": "life_functioning",
       "is_caregiver_domain":true,
+      "caregiver_index": "a",
       "items": [
         {
           "code": "lf10family",

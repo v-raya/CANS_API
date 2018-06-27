@@ -28,6 +28,7 @@ public class DomainJson implements Json {
   private Boolean aboveSix;
   private RatingType ratingType;
   private Boolean isCaregiverDomain;
+  private String caregiverIndex;
   private List<ItemJson> items = new ArrayList<>();
 
 }
