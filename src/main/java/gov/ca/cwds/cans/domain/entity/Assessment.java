@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
+import gov.ca.cwds.cans.validation.ValidAssessment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -49,6 +50,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Filter(name = FILTER_PERSON_ID, condition = "person_id = :" + PARAM_PERSON_ID)
 @Data
 @Accessors(chain = true)
+@ValidAssessment
 public class Assessment implements Persistent<Long> {
   private static final long serialVersionUID = 4921833959434495906L;
 

@@ -11,8 +11,10 @@ import gov.ca.cwds.cans.domain.entity.Cft;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.rest.resources.ResourceParamValidator;
 import java.util.Collection;
 
 /** @author denys.davydov */
@@ -39,12 +41,14 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment create(Assessment assessment) {
+    ResourceParamValidator.validate(assessment);
     assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.create(assessment);
   }
 
   @Override
   public Assessment update(Assessment assessment) {
+    ResourceParamValidator.validate(assessment);
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
   }
@@ -66,6 +70,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     assessment.setAssessmentType(request.getAssessmentType());
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     assessment.setCanReleaseConfidentialInfo(Boolean.FALSE);
+    assessment.setCompletedAs(CompletedAs.COMMUNIMETRIC);
     assessment.setInstrument(instrument);
     assessment.setInstrumentId(instrument.getId());
     assessment.setPerson(person);

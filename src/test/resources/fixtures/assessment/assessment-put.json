@@ -1,13 +1,16 @@
 {
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
-  "competed_as": "COMMUNIMETRIC",
+  "completed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
   "state": {
+    "under_six": false,
     "domains": [
       {
         "class": "domain",
         "code": "life_functioning",
+        "under_six": true,
+        "above_six": true,
         "items": [
           {
             "code": "lf10family",
