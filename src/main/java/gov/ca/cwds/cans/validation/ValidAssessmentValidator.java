@@ -52,7 +52,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
 
   private boolean isAssessmentTypeValid(final Assessment assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
-        assessment.getEventDate(),
+        assessment.getAssessmentType(),
         "Assessment Type",
         "assessment_type",
         context
