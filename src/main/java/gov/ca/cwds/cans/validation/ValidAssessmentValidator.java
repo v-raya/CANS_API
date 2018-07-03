@@ -40,7 +40,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
             & isCompletedAsValid(assessment, context)
             & isCanReleaseConfidentialInfoValid(assessment, context)
             & isUnderSixValid(assessment, context)
-            & areItemsValid(assessment, context); //NOSONAR
+            & areItemsValid(assessment, context);
   }
 
   private boolean isEventDateValid(final Assessment assessment, final ConstraintValidatorContext context) {
@@ -105,7 +105,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
   private List<ItemJson> findItemsWithNoRating(final AssessmentJson assessment) {
     final boolean isUnderSix = isTrue(assessment.getUnderSix());
     final List<ItemJson> allItemsByAgeGroup = assessment.getDomains().stream()
-        .filter(d -> (isTrue(d.getUnderSix()) && isUnderSix) || (isTrue(d.getAboveSix()) && !isUnderSix))
+        .filter(d -> (isUnderSix && isTrue(d.getUnderSix())) || (!isUnderSix && isTrue(d.getAboveSix())))
         .map(domain -> ((DomainJson) domain).getItems())
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
