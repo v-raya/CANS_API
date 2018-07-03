@@ -24,7 +24,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
   }
 
   @Override
-  @SuppressWarnings(value = "fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER")
+  @SuppressWarnings({"fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER", "findbugs:NS_DANGEROUS_NON_SHORT_CIRCUIT"})
   // Justification: No short circle applicable because we need all the violation, not the first one only
   public boolean isValid(final Assessment assessment, final ConstraintValidatorContext context) {
     if (assessment == null) {
