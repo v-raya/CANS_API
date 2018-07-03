@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.validation;
 
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
@@ -25,10 +24,8 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
   }
 
   @Override
-  @SuppressFBWarnings(
-      value = "fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER",
-      justification = "No short circle applicable because we need all the violation, not the first one only"
-  )
+  @SuppressWarnings(value = "fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER")
+  // Justification: No short circle applicable because we need all the violation, not the first one only
   public boolean isValid(final Assessment assessment, final ConstraintValidatorContext context) {
     if (assessment == null) {
       return true;
