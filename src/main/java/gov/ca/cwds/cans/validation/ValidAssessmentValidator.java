@@ -40,7 +40,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
             & isCompletedAsValid(assessment, context)
             & isCanReleaseConfidentialInfoValid(assessment, context)
             & isUnderSixValid(assessment, context)
-            & areItemsValid(assessment, context);
+            & areItemsValid(assessment, context); //NOSONAR
   }
 
   private boolean isEventDateValid(final Assessment assessment, final ConstraintValidatorContext context) {
