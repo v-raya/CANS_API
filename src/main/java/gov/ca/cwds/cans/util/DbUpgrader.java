@@ -43,7 +43,7 @@ public final class DbUpgrader {
       new Liquibase(LB_SCRIPT_CANS_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
-      throw new DaoException("Upgrading of CANS DB is failed: " + e.getMessage(), e);
+      throw new DaoException("Upgrading of CANS DB is failed: " + e.getMessage(), e); //NOSONAR
     } finally {
       if (database != null) {
         try {
@@ -67,7 +67,7 @@ public final class DbUpgrader {
       new Liquibase(LB_SCRIPT_DEMO_MASTER, resourceAccessor, database)
           .update((String) null);
     } catch (SQLException | LiquibaseException e) {
-      throw new DaoException("Running dml scripts on CANS DB is failed: " + e.getMessage(), e);
+      throw new DaoException("Running dml scripts on CANS DB is failed: " + e.getMessage(), e); //NOSONAR
     } finally {
       if (database != null) {
         try {

@@ -78,7 +78,7 @@ public class JsonType implements UserType, ParameterizedType {
           String.format(
               "Failed to convert String to %s: %s",
               returnedClass().getSimpleName(), ex.getMessage()),
-          ex);
+          ex); //NOSONAR
     }
   }
 
@@ -102,7 +102,7 @@ public class JsonType implements UserType, ParameterizedType {
           String.format(
               "Failed to convert %s to String: %s",
               returnedClass().getSimpleName(), ex.getMessage()),
-          ex);
+          ex); //NOSONAR
     }
   }
 

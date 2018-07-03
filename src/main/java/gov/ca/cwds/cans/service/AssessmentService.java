@@ -32,7 +32,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
       PersonDao personDao,
       CftDao cftDao,
       PerryService perryService) {
-    super(assessmentDao);
+    super(assessmentDao); //NOSONAR
     this.instrumentDao = instrumentDao;
     this.personDao = personDao;
     this.cftDao = cftDao;
