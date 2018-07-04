@@ -77,8 +77,10 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert String to %s: %s",
-              returnedClass().getSimpleName(), ex.getMessage()),
-          ex); //NOSONAR
+              returnedClass().getSimpleName(),
+              ex.getMessage()
+          ), //NOSONAR
+          ex);
     }
   }
 
@@ -101,8 +103,10 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert %s to String: %s",
-              returnedClass().getSimpleName(), ex.getMessage()),
-          ex); //NOSONAR
+              returnedClass().getSimpleName(),
+              ex.getMessage()
+          ), //NOSONAR
+          ex);
     }
   }
 
