@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.validation;
 
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
@@ -29,7 +30,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
       "findbugs:NS_DANGEROUS_NON_SHORT_CIRCUIT",
       "squid:S2178"
   })
-  // Justification: No short circle applicable because we need all the violation, not the first one only
+  // Justification: No short circle applicable because we need all the violations, not the first one only
   public boolean isValid(final Assessment assessment, final ConstraintValidatorContext context) {
     if (assessment == null) {
       return true;
@@ -112,6 +113,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
         .filter(d -> (isUnderSix && isTrue(d.getUnderSix())) || (!isUnderSix && isTrue(d.getAboveSix())))
         .map(domain -> ((DomainJson) domain).getItems())
         .flatMap(Collection::stream)
+        .filter(item -> (isUnderSix && isNotBlank(item.getUnderSixId())) || (!isUnderSix && isNotBlank(item.getAboveSixId())))
         .collect(Collectors.toList());
 
     return allItemsByAgeGroup.stream()
