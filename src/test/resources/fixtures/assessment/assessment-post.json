@@ -1,14 +1,17 @@
 {
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
-  "competed_as": "COMMUNIMETRIC",
+  "completed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
   "state": {
+    "under_six": false,
     "caregiver_domain_template": {
       "class": "domain",
       "code": "life_functioning",
       "is_caregiver_domain":true,
       "caregiver_index": "a",
+      "under_six": true,
+      "above_six": true,
       "items": [
         {
           "code": "lf10family",
@@ -31,6 +34,8 @@
       {
         "code": "life_functioning",
         "is_caregiver_domain": true,
+        "under_six": true,
+        "above_six": true,
         "items": [
           {
             "code": "lf10family",

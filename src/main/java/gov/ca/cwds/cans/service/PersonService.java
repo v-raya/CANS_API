@@ -11,7 +11,7 @@ public class PersonService extends AbstractCrudService<Person> {
 
   @Inject
   public PersonService(PersonDao dao) {
-    super(dao);
+    super(dao); //NOSONAR
   }
 
   public Collection<Person> findAll() {

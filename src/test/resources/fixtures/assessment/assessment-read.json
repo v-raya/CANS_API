@@ -1,7 +1,7 @@
 {
   "instrument_id": 49999,
   "assessment_type": "INITIAL",
-  "competed_as": "COMMUNIMETRIC",
+  "completed_as": "COMMUNIMETRIC",
   "status": "IN_PROGRESS",
   "can_release_confidential_info": false,
   "state": {
@@ -9,6 +9,8 @@
       "class": "domain",
       "code": "life_functioning",
       "is_caregiver_domain":true,
+      "under_six": true,
+      "above_six": true,
       "items": [
         {
           "code": "lf10family",
@@ -31,6 +33,8 @@
       {
         "code": "life_functioning",
         "is_caregiver_domain": true,
+        "under_six": true,
+        "above_six": true,
         "items": [
           {
             "code": "lf10family",
@@ -52,6 +56,8 @@
       {
         "code": "potentially_traumatic_experience",
         "is_caregiver_domain": false,
+        "under_six": true,
+        "above_six": true,
         "items": [
           {
             "code": "pte51sexual",

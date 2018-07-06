@@ -40,7 +40,7 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
     Session session;
     try {
       session = sessionFactory.getCurrentSession();
-    } catch (HibernateException e) {
+    } catch (HibernateException e) { //NOSONAR
       LOGGER.info("No hibernate session found, opening a new one: {}", e.getMessage());
       session = sessionFactory.openSession();
     }
