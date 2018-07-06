@@ -5,6 +5,7 @@
   "status": "IN_PROGRESS",
   "can_release_confidential_info": false,
   "state": {
+    "under_six": false,
     "caregiver_domain_template": {
       "class": "domain",
       "code": "life_functioning",
