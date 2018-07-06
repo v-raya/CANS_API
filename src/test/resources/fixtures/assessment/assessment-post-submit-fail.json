@@ -9,10 +9,12 @@
         "items": [
           {
             "code": "code1",
+            "under_six_id": "123",
             "rating": 2
           },
           {
             "code": "code2",
+            "under_six_id": "123",
             "rating": -1
           }
         ]
@@ -24,6 +26,7 @@
         "items": [
           {
             "code": "code3",
+            "above_six_id": "1234",
             "rating": -1
           }
         ]
@@ -35,6 +38,7 @@
         "items": [
           {
             "code": "code4",
+            "under_six_id": "1234",
             "rating": -1
           }
         ]

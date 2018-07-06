@@ -236,10 +236,9 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     final List<String> itemCodes = exceptionResponse.getIssueDetails().stream()
         .map(IssueDetails::getProperty)
         .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(7));
+    assertThat(itemCodes.size(), is(6));
     assertThat(itemCodes, containsInAnyOrder(
         "item.code3",
-        "item.code4",
         "can_release_confidential_info",
         "assessment_type",
         "event_date",
