@@ -62,6 +62,7 @@ public class JsonType implements UserType, ParameterizedType {
   }
 
   @Override
+  @SuppressWarnings("fb-contrib:EXS_EXCEPTION_SOFTENING_HAS_CHECKED")
   public Object nullSafeGet(
           ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
       throws SQLException {
@@ -77,12 +78,15 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert String to %s: %s",
-              returnedClass().getSimpleName(), ex.getMessage()),
+              returnedClass().getSimpleName(),
+              ex.getMessage()
+          ),
           ex);
     }
   }
 
   @Override
+  @SuppressWarnings("fb-contrib:EXS_EXCEPTION_SOFTENING_HAS_CHECKED")
   public void nullSafeSet(
       PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
       throws SQLException {
@@ -101,7 +105,9 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert %s to String: %s",
-              returnedClass().getSimpleName(), ex.getMessage()),
+              returnedClass().getSimpleName(),
+              ex.getMessage()
+          ),
           ex);
     }
   }

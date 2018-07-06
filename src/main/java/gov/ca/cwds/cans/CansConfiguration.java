@@ -6,7 +6,7 @@ import io.dropwizard.db.DataSourceFactory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true) //NOSONAR
 @Data
 public class CansConfiguration extends MinimalApiConfiguration {
 
