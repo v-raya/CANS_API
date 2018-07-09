@@ -14,22 +14,22 @@
           </elementProp>
           <elementProp name="perryMode" elementType="Argument">
             <stringProp name="Argument.name">perryMode</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,PROD)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,DEV)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
             <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryHost" elementType="Argument">
             <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,web.integration.cwds.io)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,localhost)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryPort" elementType="Argument">
             <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,18080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiProtocol" elementType="Argument">
@@ -754,7 +754,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
     &quot;under_six&quot;: false,&#xd;
     &quot;domains&quot;: [&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;&quot;,&#xd;
@@ -818,7 +817,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
     &quot;under_six&quot;: false,&#xd;
     &quot;domains&quot;: [&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;&quot;,&#xd;
@@ -908,7 +906,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC10&quot;,&#xd;
@@ -1016,7 +1013,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;&quot;,&#xd;
@@ -1097,7 +1093,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC22&quot;,&#xd;
@@ -1133,7 +1128,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC25&quot;,&#xd;
@@ -1223,7 +1217,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC01&quot;,&#xd;
@@ -1313,7 +1306,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: false&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC10&quot;,&#xd;
@@ -1367,7 +1359,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: false&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC15&quot;,&#xd;
@@ -1439,7 +1430,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: false&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC22&quot;,&#xd;
@@ -1475,7 +1465,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: false&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC25&quot;,&#xd;
@@ -1547,7 +1536,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: false&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;EC34&quot;,&#xd;
@@ -1646,7 +1634,6 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         &quot;above_six&quot;: true&#xd;
       },&#xd;
       {&#xd;
-        &quot;class&quot;: &quot;domain&quot;,&#xd;
         &quot;items&quot;: [&#xd;
           {&#xd;
             &quot;under_six_id&quot;: &quot;T01&quot;,&#xd;
@@ -1764,7 +1751,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
       }&#xd;
     ]&#xd;
   }&#xd;
-}</stringProp>
+}&#xd;
+</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
                 </collectionProp>
