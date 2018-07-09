@@ -5,11 +5,35 @@
     "external_id": "1126"
   },
   "prototype": {
+    "caregiver_domain_template": {
+      "class": "domain",
+      "code": "life_functioning",
+      "is_caregiver_domain":true,
+      "under_six": true,
+      "above_six": true,
+      "items": [
+        {
+          "code": "lf10family",
+          "required": true,
+          "confidential": false,
+          "confidential_by_default": true,
+          "rating_type": "REGULAR",
+          "rating": -1
+        },
+        {
+          "code": "lf11living",
+          "required": true,
+          "confidential": false,
+          "rating_type": "REGULAR",
+          "rating": -1
+        }
+      ]
+    },
     "under_six": false,
     "domains": [
       {
-        "class": "domain",
         "code": "life_functioning",
+        "is_caregiver_domain": true,
         "under_six": true,
         "above_six": true,
         "items": [
@@ -31,8 +55,8 @@
         ]
       },
       {
-        "class": "domain",
         "code": "potentially_traumatic_experience",
+        "is_caregiver_domain": false,
         "under_six": true,
         "above_six": true,
         "items": [
@@ -53,41 +77,29 @@
         ]
       },
       {
-        "class": "domainsGroup",
-        "code": "early_childhood",
+        "code": "ec_challenges",
         "under_six": true,
-        "above_six": true,
-        "domains": [
+        "items": [
           {
-            "class": "domain",
-            "code": "ec_challenges",
-            "under_six": true,
-            "above_six": true,
-            "items": [
-              {
-                "code": "ec09sleep",
-                "required": true,
-                "confidential": false,
-                "rating_type": "REGULAR",
-                "has_na_option": true,
-                "rating": -1
-              }
-            ]
-          },
+            "code": "ec09sleep",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "has_na_option": true,
+            "rating": -1
+          }
+        ]
+      },
+      {
+        "code": "ec_functioning",
+        "under_six": true,
+        "items": [
           {
-            "class": "domain",
-            "code": "ec_functioning",
-            "under_six": true,
-            "above_six": true,
-            "items": [
-              {
-                "code": "ec10supervision",
-                "required": true,
-                "confidential": false,
-                "rating_type": "REGULAR",
-                "rating": -1
-              }
-            ]
+            "code": "ec10supervision",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "rating": -1
           }
         ]
       }

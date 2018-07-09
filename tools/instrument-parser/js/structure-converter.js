@@ -38,6 +38,7 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
     domain.code = rawDomain['Domain_Abbr'];
     domain.under_six = rawDomain['0-5'] === "1";
     domain.above_six = rawDomain['6-21'] === "1";
+    domain.is_caregiver_domain = rawDomain['Is_A_Caregiver_Domain'] === "1";
 
     domain.items.forEach(item => {
       const rawItem = getRawItemById(rawItems, item.id);
@@ -50,6 +51,8 @@ exports.enrichAssessmentWithDomainsAndItems = (assessment, rawDomains, rawItems)
       item.has_na_option = !!rawItem['Rate_NA'].trim();
     });
   });
+
+  setCaregiverDomain(assessment);
   return assessment;
 };
 
@@ -73,4 +76,12 @@ const getRawItemById = (rawItems, id) => {
       return rawItem;
     }
   }
+};
+
+const setCaregiverDomain = assessment => {
+  assessment.domains.forEach(domain => {
+    if (domain.is_caregiver_domain) {
+      assessment.caregiver_domain_template = domain;
+    }
+  });
 };

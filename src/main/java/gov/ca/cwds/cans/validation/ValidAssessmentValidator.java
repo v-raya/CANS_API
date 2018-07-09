@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.domain.json.DomainJson;
 import gov.ca.cwds.cans.domain.json.ItemJson;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -110,15 +111,23 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
   private List<ItemJson> findItemsWithNoRating(final AssessmentJson assessment) {
     final boolean isUnderSix = isTrue(assessment.getUnderSix());
     final List<ItemJson> allItemsByAgeGroup = assessment.getDomains().stream()
-        .filter(d -> (isUnderSix && isTrue(d.getUnderSix())) || (!isUnderSix && isTrue(d.getAboveSix())))
-        .map(domain -> ((DomainJson) domain).getItems())
+        .filter(isUnderSixDomainFilter(isUnderSix))
+        .map(DomainJson::getItems)
         .flatMap(Collection::stream)
-        .filter(item -> (isUnderSix && isNotBlank(item.getUnderSixId())) || (!isUnderSix && isNotBlank(item.getAboveSixId())))
+        .filter(isUnderSixItemFilter(isUnderSix))
         .collect(Collectors.toList());
 
     return allItemsByAgeGroup.stream()
         .filter(item -> item.getRating() == -1)
         .collect(Collectors.toList());
+  }
+
+  private Predicate<DomainJson> isUnderSixDomainFilter(boolean isUnderSix) {
+    return d -> (isUnderSix && isTrue(d.getUnderSix())) || (!isUnderSix && isTrue(d.getAboveSix()));
+  }
+
+  private Predicate<ItemJson> isUnderSixItemFilter(boolean isUnderSix) {
+    return item -> (isUnderSix && isNotBlank(item.getUnderSixId())) || (!isUnderSix && isNotBlank(item.getAboveSixId()));
   }
 
   private boolean isPropertyNotNull(final Object value, final String propertyName,

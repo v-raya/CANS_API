@@ -18,8 +18,6 @@ import org.junit.Test;
 /** @author denys.davydov */
 public class InstrumentResourceTest extends AbstractCrudFunctionalTest<InstrumentDto> {
 
-  private static final String FIXTURE_CA_POST = "fixtures/instrument-ca-post.json";
-
   @Override
   String getPostFixturePath() {
     return "fixtures/instrument-post.json";
@@ -38,34 +36,6 @@ public class InstrumentResourceTest extends AbstractCrudFunctionalTest<Instrumen
   @Test
   public void instrument_postGetPutDelete_success() throws IOException {
     this.assertPostGetPutDelete();
-  }
-
-  @Test
-  public void postCaAssessment_success() throws IOException {
-    // given
-    final InstrumentDto inputInstrument =
-        FixtureReader.readObject(FIXTURE_CA_POST, InstrumentDto.class);
-
-    // when
-    final InstrumentDto actualInstrument =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(INSTRUMENTS)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(inputInstrument, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(InstrumentDto.class);
-
-    // then
-    final Long id = actualInstrument.getId();
-    actualInstrument.setId(null);
-    assertThat(actualInstrument, is(inputInstrument));
-
-    // tear down
-    clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(INSTRUMENTS + SLASH + id)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .delete();
   }
 
   @Test

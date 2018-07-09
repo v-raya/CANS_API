@@ -16,13 +16,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(Include.NON_NULL)
-public class DomainJson extends AbstractAssessmentChildJson {
-  private static final long serialVersionUID = -6556978839318901887L;
+public class DomainJson implements Json {
+  private static final long serialVersionUID = -7610361544786543959L;
 
+  private Long id;
+  private String code;
+  private Boolean underSix;
+  private Boolean aboveSix;
   private RatingType ratingType;
+  private Boolean isCaregiverDomain;
+  private String caregiverIndex;
   private List<ItemJson> items = new ArrayList<>();
 
 }

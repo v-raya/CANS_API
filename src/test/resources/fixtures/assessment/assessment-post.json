@@ -5,11 +5,36 @@
   "can_release_confidential_info": false,
   "state": {
     "under_six": false,
+    "caregiver_domain_template": {
+      "class": "domain",
+      "code": "life_functioning",
+      "is_caregiver_domain":true,
+      "caregiver_index": "a",
+      "under_six": true,
+      "above_six": true,
+      "items": [
+        {
+          "code": "lf10family",
+          "required": true,
+          "confidential": false,
+          "confidential_by_default": true,
+          "rating_type": "REGULAR",
+          "rating": -1
+        },
+        {
+          "code": "lf11living",
+          "required": true,
+          "confidential": false,
+          "rating_type": "REGULAR",
+          "rating": -1
+        }
+      ]
+    },
     "domains": [
       {
-        "class": "domain",
         "code": "life_functioning",
-        "under_six": false,
+        "is_caregiver_domain": true,
+        "under_six": true,
         "above_six": true,
         "items": [
           {
@@ -18,36 +43,61 @@
             "confidential": false,
             "confidential_by_default": true,
             "rating_type": "REGULAR",
-            "rating": 1
+            "rating": -1
           },
           {
             "code": "lf11living",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",
-            "rating": 0
+            "rating": -1
           }
         ]
       },
       {
-        "class": "domain",
         "code": "potentially_traumatic_experience",
-        "under_six": true,
-        "above_six": true,
+        "is_caregiver_domain": false,
         "items": [
           {
             "code": "pte51sexual",
             "required": true,
             "confidential": false,
             "rating_type": "BOOLEAN",
-            "rating": 1
+            "rating": -1
           },
           {
             "code": "pte52physical",
             "required": true,
             "confidential": false,
             "rating_type": "BOOLEAN",
-            "rating": 0
+            "rating": -1
+          }
+        ]
+      },
+      {
+        "code": "ec_challenges",
+        "under_six": true,
+        "items": [
+          {
+            "code": "ec09sleep",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "has_na_option": true,
+            "rating": -1
+          }
+        ]
+      },
+      {
+        "code": "ec_functioning",
+        "under_six": true,
+        "items": [
+          {
+            "code": "ec10supervision",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "rating": -1
           }
         ]
       }

@@ -29,7 +29,6 @@
     "under_six": true,
     "domains": [
       {
-        "class": "domain",
         "code": "life_functioning",
         "under_six": true,
         "above_six": true,
