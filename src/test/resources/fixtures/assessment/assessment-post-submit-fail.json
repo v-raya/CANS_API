@@ -3,9 +3,9 @@
   "state": {
     "domains": [
       {
-        "class": "domain",
         "under_six": true,
         "above_six": false,
+        "caregiver_name": "123456789012345678901234567890123456789012345678901",
         "items": [
           {
             "code": "code1",
@@ -20,7 +20,6 @@
         ]
       },
       {
-        "class": "domain",
         "under_six": false,
         "above_six": true,
         "items": [
@@ -32,7 +31,6 @@
         ]
       },
       {
-        "class": "domain",
         "under_six": true,
         "above_six": true,
         "items": [
