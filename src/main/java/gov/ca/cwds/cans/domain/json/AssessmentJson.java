@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.Data;
 
 /** @author denys.davydov */
@@ -17,6 +18,8 @@ public class AssessmentJson implements Json {
 
   private Long id;
   private Boolean underSix;
+  @Valid
   private DomainJson caregiverDomainTemplate;
+  @Valid
   private List<DomainJson> domains = new ArrayList<>();
 }

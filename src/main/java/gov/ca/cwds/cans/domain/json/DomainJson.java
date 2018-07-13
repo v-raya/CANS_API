@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.enumeration.RatingType;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,8 @@ public class DomainJson implements Json {
   private RatingType ratingType;
   private Boolean isCaregiverDomain;
   private String caregiverIndex;
+  @Size(max = 50)
+  private String caregiverName;
   private List<ItemJson> items = new ArrayList<>();
 
 }

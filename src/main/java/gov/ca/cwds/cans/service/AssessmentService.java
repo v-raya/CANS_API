@@ -14,7 +14,6 @@ import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
 import gov.ca.cwds.cans.util.Require;
-import gov.ca.cwds.rest.resources.ResourceParamValidator;
 import java.util.Collection;
 
 /** @author denys.davydov */
@@ -41,14 +40,12 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment create(Assessment assessment) {
-    ResourceParamValidator.validate(assessment);
     assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.create(assessment);
   }
 
   @Override
   public Assessment update(Assessment assessment) {
-    ResourceParamValidator.validate(assessment);
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
   }

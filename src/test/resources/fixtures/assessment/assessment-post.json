@@ -34,6 +34,7 @@
       {
         "code": "life_functioning",
         "is_caregiver_domain": true,
+        "caregiver_name": "Tony Giving Care",
         "under_six": true,
         "above_six": true,
         "items": [

@@ -3,7 +3,7 @@ package gov.ca.cwds.cans.validation;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
 import gov.ca.cwds.cans.domain.json.DomainJson;
@@ -18,7 +18,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * @author denys.davydov
  */
-public class ValidAssessmentValidator implements ConstraintValidator<ValidAssessment, Assessment> {
+public class ValidAssessmentValidator implements ConstraintValidator<ValidAssessment, AssessmentDto> {
 
   @Override
   public void initialize(ValidAssessment constraintAnnotation) {
@@ -32,7 +32,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
       "squid:S2178"
   })
   // Justification: No short circle applicable because we need all the violations, not the first one only
-  public boolean isValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  public boolean isValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     if (assessment == null) {
       return true;
     }
@@ -49,7 +49,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
             & areItemsValid(assessment, context);
   }
 
-  private boolean isEventDateValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean isEventDateValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
         assessment.getEventDate(),
         "Assessment Date",
@@ -58,7 +58,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
     );
   }
 
-  private boolean isAssessmentTypeValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean isAssessmentTypeValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
         assessment.getAssessmentType(),
         "Assessment Type",
@@ -67,7 +67,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
     );
   }
 
-  private boolean isCompletedAsValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean isCompletedAsValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
         assessment.getCompletedAs(),
         "Complete As",
@@ -76,7 +76,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
     );
   }
 
-  private boolean isCanReleaseConfidentialInfoValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean isCanReleaseConfidentialInfoValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
         assessment.getCanReleaseConfidentialInfo(),
         "Authorization for release of information on file",
@@ -85,7 +85,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
     );
   }
 
-  private boolean isUnderSixValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean isUnderSixValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
         assessment.getState().getUnderSix(),
         "Age Group",
@@ -94,7 +94,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
     );
   }
 
-  private boolean areItemsValid(final Assessment assessment, final ConstraintValidatorContext context) {
+  private boolean areItemsValid(final AssessmentDto assessment, final ConstraintValidatorContext context) {
     final List<ItemJson> itemsWithNoRating = findItemsWithNoRating(assessment.getState());
     if (itemsWithNoRating.isEmpty()) {
       return true;
