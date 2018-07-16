@@ -56,3 +56,24 @@ To run Functional tests set "api.url" and "perry.url" properties to point to env
 
 ### Smoke Testing
 Smoke test suite is part of Functional tests. Set "api.url", use gradle smokeTestSuite task. Smoke test endpoint is not protected by Perry.
+
+## Development
+
+### Running the Application
+
+install the latest version of Gradle
+     
+* for macOS `brew install gradle`
+* other - https://gradle.org/install/
+ 
+Run the application
+
+_Make sure you have the CANS postgres and Perry containers running or the build will fail_
+
+`./gradlew run`
+
+
+
+
+
+
