@@ -63,7 +63,7 @@ Smoke test suite is part of Functional tests. Set "api.url", use gradle smokeTes
 
 install the latest version of Gradle
      
-* for macOS `brew install gradle`
+* macOS - `brew install gradle`
 * other - https://gradle.org/install/
  
 Run the application
