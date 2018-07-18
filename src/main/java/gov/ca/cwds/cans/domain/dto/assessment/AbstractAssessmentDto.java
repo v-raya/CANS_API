@@ -32,6 +32,7 @@ public abstract class AbstractAssessmentDto extends Dto
   private AssessmentStatus status;
   private CompletedAs completedAs;
   private Boolean canReleaseConfidentialInfo;
+  private Boolean hasCaregiver;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate eventDate;

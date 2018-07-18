@@ -3,6 +3,7 @@
   "status": "IN_PROGRESS",
   "completed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
+  "has_caregiver": true,
   "state": {
     "under_six": false,
     "domains": [

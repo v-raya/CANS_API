@@ -4,6 +4,7 @@
   "completed_as": "COMMUNIMETRIC",
   "status": "IN_PROGRESS",
   "can_release_confidential_info": false,
+  "has_caregiver": true,
   "state": {
     "under_six": false,
     "caregiver_domain_template": {
