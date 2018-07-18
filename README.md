@@ -61,13 +61,6 @@ Smoke test suite is part of Functional tests. Set "api.url", use gradle smokeTes
 
 ### Running the Application
 
-install the latest version of Gradle
-     
-* macOS - `brew install gradle`
-* other - https://gradle.org/install/
- 
-Run the application
-
 _Make sure you have the CANS postgres and Perry containers running or the build will fail_
 
 `./gradlew run`
