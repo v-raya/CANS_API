@@ -45,6 +45,7 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
             & isAssessmentTypeValid(assessment, context)
             & isCompletedAsValid(assessment, context)
             & isCanReleaseConfidentialInfoValid(assessment, context)
+            & hasCaregiver(assessment, context)
             & isUnderSixValid(assessment, context)
             & areItemsValid(assessment, context);
   }
@@ -82,6 +83,15 @@ public class ValidAssessmentValidator implements ConstraintValidator<ValidAssess
         "Authorization for release of information on file",
         "can_release_confidential_info",
         context
+    );
+  }
+
+  private boolean hasCaregiver(final AssessmentDto assessment, final ConstraintValidatorContext context) {
+    return isPropertyNotNull(
+            assessment.getCanReleaseConfidentialInfo(),
+            "Youth Has Caregiver",
+            "has_caregiver",
+            context
     );
   }
 
