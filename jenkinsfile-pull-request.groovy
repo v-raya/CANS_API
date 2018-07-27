@@ -59,14 +59,12 @@ node('linux') {
             rtGradle.resolver repo: 'repo', server: serverArti
             rtGradle.useWrapper = true
         }
-        stage('Build 2') {
+        stage('Build') {
             echo("RELEASE: ${params.RELEASE_PROJECT}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
-            echo("BEFORE")
             def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
             echo ("BUILD INFO: ${buildInfo}")
-            echo ("AFTER")
         }
         stage('Unit Tests') {
             buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
