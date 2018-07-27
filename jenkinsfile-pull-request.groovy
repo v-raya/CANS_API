@@ -59,7 +59,7 @@ node('linux') {
             rtGradle.resolver repo: 'repo', server: serverArti
             rtGradle.useWrapper = true
         }
-        stage('Build') {
+        stage('Build 2') {
             echo("RELEASE: ${params.RELEASE_PROJECT}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
