@@ -33,10 +33,18 @@ public class PersonDto extends Dto {
   @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
   private String firstName;
 
+  @Size(max = 50)
+  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
+  private String middleName;
+
   @NotEmpty
   @Size(min = 1, max = 50)
   @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
   private String lastName;
+
+  @Size(max = 10)
+  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
+  private String suffix;
 
   @NotEmpty
   @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-\\d{7}$")

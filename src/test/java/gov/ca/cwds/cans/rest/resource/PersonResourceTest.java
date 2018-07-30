@@ -121,7 +121,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // given
     final PersonDto input = new PersonDto();
     input.setFirstName("123");
+    input.setMiddleName("123");
     input.setLastName("123");
+    input.setSuffix("123");
     input.setExternalId("123");
     input.setPersonRole(PersonRole.CLIENT);
     input.setCaseId("123");

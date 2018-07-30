@@ -1,6 +1,8 @@
 {
   "first_name": "Joe",
+  "middle_name": "Sam",
   "last_name": "Bon",
+  "suffix": "Mr",
   "person_role": "CLIENT",
   "external_id": "4321-4321-4321-7654321",
   "dob": "1999-01-28",
