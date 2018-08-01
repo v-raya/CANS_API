@@ -1,6 +1,8 @@
 {
   "first_name": "Jackie",
+  "middle_name": "Kong",
   "last_name": "Chan",
+  "suffix": "Mr",
   "person_role": "CLIENT",
   "external_id": "1234-1234-1234-1234567",
   "dob": "2010-10-13",
