@@ -80,10 +80,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(6));
+    assertThat(actualViolatedFields.size(), is(5));
     assertThat(
         actualViolatedFields,
-        containsInAnyOrder("firstName", "lastName", "caseId", "externalId", "county", "personRole"));
+        containsInAnyOrder("firstName", "lastName", "externalId", "county", "personRole"));
   }
 
   @Test
@@ -112,8 +112,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(3));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "caseId"));
+    assertThat(actualViolatedFields.size(), is(2));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName"));
   }
 
   @Test
@@ -144,8 +144,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(3));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "externalId"));
+    assertThat(actualViolatedFields.size(), is(4));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "caseId", "externalId"));
   }
 
   @Test

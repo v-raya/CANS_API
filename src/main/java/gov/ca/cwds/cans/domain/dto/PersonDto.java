@@ -49,8 +49,8 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
-  
-  @Size(min = 0, max = 22)
+
+  //@Size(min = 0, max = 22)
   @Pattern(regexp = "^$|^\\d{4}-\\d{3}-\\d{4}-\\d{8}$")
   private String caseId;
 
