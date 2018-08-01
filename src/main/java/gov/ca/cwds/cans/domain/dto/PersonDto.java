@@ -26,7 +26,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PersonDto extends Dto {
-  @NotNull private PersonRole personRole;
+  @NotNull
+  private PersonRole personRole;
 
   @NotEmpty
   @Size(min = 1, max = 50)
@@ -48,12 +49,13 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
-
-  @NotEmpty
-  @Size(min = 1, max = 50)
+  
+  @Size(min = 0, max = 22)
+  @Pattern(regexp = "^$|^\\d{4}-\\d{3}-\\d{4}-\\d{8}$")
   private String caseId;
 
   private String countyClientNumber;
   private String clientIndexNumber;
-  @NotNull private CountyDto county;
+  @NotNull
+  private CountyDto county;
 }
