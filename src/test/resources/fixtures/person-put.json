@@ -11,5 +11,10 @@
     "name": "Fresno",
     "external_id": "1077",
     "export_id": "10"
-  }
+  },
+  "cases": [
+    {
+      "external_id": "123"
+    }
+  ]
 }

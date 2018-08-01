@@ -10,6 +10,9 @@ import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -51,4 +54,8 @@ public class PersonDto extends Dto {
   private String countyClientNumber;
   private String clientIndexNumber;
   @NotNull private CountyDto county;
+
+  @Valid
+  @NotEmpty
+  private List<CaseDto> cases = new ArrayList<>();
 }
