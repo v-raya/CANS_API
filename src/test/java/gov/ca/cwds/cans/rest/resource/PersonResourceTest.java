@@ -121,7 +121,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // given
     final PersonDto input = new PersonDto();
     input.setFirstName("123");
+    input.setMiddleName("123");
     input.setLastName("123");
+    input.setSuffix("123");
     input.setExternalId("123");
     input.setPersonRole(PersonRole.CLIENT);
     input.setCaseId("123");
@@ -144,8 +146,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(3));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName", "externalId"));
+    assertThat(actualViolatedFields.size(), is(5));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "middleName", "lastName", "suffix", "externalId"));
   }
 
   @Test
