@@ -72,8 +72,14 @@ public class Person implements Persistent<Long> {
   @Column(name = "first_name")
   private String firstName;
 
+  @Column(name = "middle_name")
+  private String middleName;
+
   @Column(name = "last_name")
   private String lastName;
+
+  @Column(name = "suffix")
+  private String suffix;
 
   @Column(name = "external_id")
   private String externalId;
