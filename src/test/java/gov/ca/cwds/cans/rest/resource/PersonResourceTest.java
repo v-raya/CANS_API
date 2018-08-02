@@ -146,8 +146,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(5));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "middleName", "lastName", "suffix", "externalId"));
+    assertThat(actualViolatedFields.size(), is(6));
+    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "middleName", "lastName", "suffix", "caseId", "externalId"));
   }
 
   @Test
