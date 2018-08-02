@@ -96,10 +96,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(6));
+    assertThat(actualViolatedFields.size(), is(5));
     assertThat(
         actualViolatedFields,
-        containsInAnyOrder("firstName", "lastName", "externalId", "county", "personRole", "cases"));
+        containsInAnyOrder("firstName", "lastName", "externalId", "county", "personRole"));
   }
 
   @Test
@@ -203,6 +203,26 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actual, is(expected));
+  }
+
+  @Test
+  public void postPerson_success_whenPersonHasNoCases() throws IOException {
+    // given
+    final PersonDto inputPerson = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    inputPerson.getCases().clear();
+
+    // when
+    final PersonDto actualPerson = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(PersonDto.class);
+    cleanUpPeopleIds.add(actualPerson.getId());
+
+    // then
+    actualPerson.setId(null);
+    assertThat(actualPerson, is(inputPerson));
   }
 
   @Test

@@ -56,6 +56,5 @@ public class PersonDto extends Dto {
   @NotNull private CountyDto county;
 
   @Valid
-  @NotEmpty
   private List<CaseDto> cases = new ArrayList<>();
 }
