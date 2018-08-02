@@ -40,6 +40,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String LONG_ALPHA_SYMBOLS_STRING =
       "abcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyz";
   private static final String SIZE_VALIDATION_MESSAGE = "size must be between 1 and 50";
+  private final Set<Long> cleanUpPeopleIds = new HashSet<>();
 
   @Override
   String getPostFixturePath() {
@@ -55,8 +56,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   String getApiPath() {
     return PEOPLE;
   }
-
-  private final Set<Long> cleanUpPeopleIds = new HashSet<>();
 
   @After
   public void tearDown() throws IOException {
@@ -162,7 +161,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(6));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "middleName", "lastName", "suffix", "caseId", "externalId"));
+    assertThat(
+        actualViolatedFields,
+        containsInAnyOrder(
+            "firstName", "middleName", "lastName", "suffix", "externalId", "cases.externalId"));
   }
 
   @Test
@@ -214,12 +216,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     inputPerson.getCases().clear();
 
     // when
-    final PersonDto actualPerson = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class);
+    final PersonDto actualPerson =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(PersonDto.class);
     cleanUpPeopleIds.add(actualPerson.getId());
 
     // then
@@ -231,14 +234,15 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void postPerson_success_whenPersonHasExistentAndNewCases() throws IOException {
     // given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
-    final PersonDto postedPerson = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class);
+    final PersonDto postedPerson =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(PersonDto.class);
     cleanUpPeopleIds.add(postedPerson.getId());
-    person.getCases().add(new CaseDto().setExternalId("2"));
+    person.getCases().add(new CaseDto().setExternalId("2000-123-1234-12345678"));
 
     // when
     final PersonDto actual =
@@ -251,13 +255,17 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cleanUpPeopleIds.add(actual.getId());
 
     // then
-    final Set<CaseDto> caseIds = actual.getCases().stream().filter(aCase -> aCase.getId() != null)
-        .collect(Collectors.toSet());
+    final Set<CaseDto> caseIds =
+        actual
+            .getCases()
+            .stream()
+            .filter(aCase -> aCase.getId() != null)
+            .collect(Collectors.toSet());
     assertThat(caseIds.size(), is(2));
-    final List<String> externalIds = actual.getCases().stream().map(CaseDto::getExternalId)
-        .collect(Collectors.toList());
+    final List<String> externalIds =
+        actual.getCases().stream().map(CaseDto::getExternalId).collect(Collectors.toList());
     assertThat(externalIds.size(), is(2));
-    assertThat(externalIds, containsInAnyOrder("123", "2"));
+    assertThat(externalIds, containsInAnyOrder("4321-321-4321-87654321", "2000-123-1234-12345678"));
   }
 
   @Test
@@ -265,19 +273,20 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     final List<CaseDto> cases = person.getCases();
-    cases.add(new CaseDto().setExternalId("2"));
-    cases.add(new CaseDto().setExternalId("3"));
-    final PersonDto postedPerson = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class);
+    cases.add(new CaseDto().setExternalId("2000-123-1234-12345678"));
+    cases.add(new CaseDto().setExternalId("3000-123-1234-12345678"));
+    final PersonDto postedPerson =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(PersonDto.class);
     cleanUpPeopleIds.add(postedPerson.getId());
     final List<CaseDto> createdPersonCases = postedPerson.getCases();
     createdPersonCases.remove(0);
-    createdPersonCases.get(0).setExternalId("222");
-    createdPersonCases.add(new CaseDto().setExternalId("4"));
+    createdPersonCases.get(0).setExternalId("2222-123-1234-12345678");
+    createdPersonCases.add(new CaseDto().setExternalId("4000-123-1234-12345678"));
 
     // when
     final PersonDto actual =
@@ -290,12 +299,19 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cleanUpPeopleIds.add(actual.getId());
 
     // then
-    final Set<CaseDto> caseIds = actual.getCases().stream().filter(aCase -> aCase.getId() != null)
-        .collect(Collectors.toSet());
+    final Set<CaseDto> caseIds =
+        actual
+            .getCases()
+            .stream()
+            .filter(aCase -> aCase.getId() != null)
+            .collect(Collectors.toSet());
     assertThat(caseIds.size(), is(3));
-    final List<String> externalIds = actual.getCases().stream().map(CaseDto::getExternalId)
-        .collect(Collectors.toList());
+    final List<String> externalIds =
+        actual.getCases().stream().map(CaseDto::getExternalId).collect(Collectors.toList());
     assertThat(externalIds.size(), is(3));
-    assertThat(externalIds, containsInAnyOrder("222", "3", "4"));
+    assertThat(
+        externalIds,
+        containsInAnyOrder(
+            "2222-123-1234-12345678", "3000-123-1234-12345678", "4000-123-1234-12345678"));
   }
 }
