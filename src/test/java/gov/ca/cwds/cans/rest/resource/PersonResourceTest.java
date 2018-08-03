@@ -189,6 +189,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .readEntity(PersonDto[].class);
 
     // then
-    assertThat(actual, is(expected));
+    final List<PersonDto> actualList = Arrays.asList(actual);
+    for (PersonDto person : expected) {
+      assertThat(actualList, hasItem(person));
+    }
   }
 }
