@@ -57,6 +57,7 @@ public class InMemoryFunctionalTestSuite {
   @BeforeClass
   public static void init() throws Exception {
     final CansConfiguration configuration = DROPWIZARD_APP_RULE.getConfiguration();
+    FunctionalTestContextHolder.isInMemoryTestRunning = true;
     FunctionalTestContextHolder.cansConfiguration = configuration;
     FunctionalTestContextHolder.clientTestRule =
         new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);

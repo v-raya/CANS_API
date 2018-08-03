@@ -4,6 +4,7 @@ import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
@@ -13,6 +14,7 @@ import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.SearchPersonRequest;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.test.util.FixtureReader;
+import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -168,7 +171,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void getAllPeople_success_whenFound() throws IOException {
+  public void getAllPeople_success_whenFoundInMemoryOnly() throws IOException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
     // given
     final PersonDto[] expected = FixtureReader.readObject(FIXTURES_GET_ALL, PersonDto[].class);
 
@@ -189,7 +194,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void searchPeople_success_whenSearchingForClients() throws IOException {
+  public void searchPeople_success_whenSearchingForClientsInMemoryOnly() throws IOException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
     // given
     final PersonDto[] expected =
         FixtureReader.readObject(FIXTURES_SEARCH_CLIENTS_RESPONSE, PersonDto[].class);
@@ -210,6 +217,25 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     for (PersonDto person : expected) {
       assertThat(actualList, hasItem(person));
     }
+  }
+
+  @Test
+  public void searchPeople_success_whenSearchingForClients() throws IOException {
+    // given
+    final Entity searchInput =
+        FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST, SearchPersonRequest.class);
+
+    // when
+    final PersonDto[] actual =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(searchInput)
+            .readEntity(PersonDto[].class);
+
+    // then
+    assertThat(actual, is(notNullValue()));
   }
 
   @Test
