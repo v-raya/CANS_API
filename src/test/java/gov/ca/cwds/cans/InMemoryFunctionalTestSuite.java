@@ -67,6 +67,7 @@ public class InMemoryFunctionalTestSuite {
   private static void initCansDb() throws LiquibaseException {
     try (final DatabaseHelper databaseHelper = createCansDbHelper()) {
       databaseHelper.runScript("liquibase/cans_database_master.xml");
+      databaseHelper.runScript("liquibase/demo/add_demo_people.xml");
     } catch (IOException e) {
       throw new LiquibaseException(e);
     }
