@@ -5,7 +5,6 @@
     "first_name": "Bruce",
     "last_name": "Wayne",
     "dob": "2015-11-14",
-    "case_id": "123RTF321",
     "county": {
       "id": 99,
       "name": "State of California",
@@ -18,7 +17,6 @@
     "first_name": "Clark",
     "last_name": "Kent",
     "dob": "2016-01-31",
-    "case_id": "234RTF321",
     "county": {
       "id": 99,
       "name": "State of California",
@@ -31,7 +29,6 @@
     "first_name": "Peter",
     "last_name": "Parker",
     "dob": "2011-10-13",
-    "case_id": "345RTF321",
     "county": {
       "id": 99,
       "name": "State of California",
@@ -44,7 +41,6 @@
     "first_name": "Charley",
     "last_name": "Parker",
     "dob": "2008-01-31",
-    "case_id": "567RTF321",
     "county": {
       "id": 99,
       "name": "State of California",

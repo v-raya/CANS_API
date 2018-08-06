@@ -11,6 +11,9 @@ import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -27,8 +30,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PersonDto extends Dto {
-  @NotNull
-  private PersonRole personRole;
+  @NotNull private PersonRole personRole;
 
   @NotEmpty
   @Size(min = 1, max = 50)
@@ -58,12 +60,10 @@ public class PersonDto extends Dto {
   private Boolean estimatedDob;
   private Gender gender;
   private Race race;
-
-  @Pattern(regexp = "^$|^\\d{4}-\\d{3}-\\d{4}-\\d{8}$")
-  private String caseId;
-
   private String countyClientNumber;
   private String clientIndexNumber;
-  @NotNull
-  private CountyDto county;
+  @NotNull private CountyDto county;
+
+  @Valid
+  private List<CaseDto> cases = new ArrayList<>();
 }
