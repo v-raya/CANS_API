@@ -41,8 +41,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String FIXTURES_SEARCH_CLIENTS_RESPONSE =
       "fixtures/person-search-clients-response.json";
   private static final String LONG_ALPHA_SYMBOLS_STRING =
-      "abcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyz";
-  private static final String SIZE_VALIDATION_MESSAGE = "size must be between 1 and 50";
+      "abcdefghijklmnopqrstuvxyza";
+  private static final String SIZE_VALIDATION_MESSAGE_START = "size must be between";
   private final Set<Long> cleanUpPeopleIds = new HashSet<>();
 
   @Override
@@ -109,7 +109,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // given
     final PersonDto input = new PersonDto();
     input.setFirstName(LONG_ALPHA_SYMBOLS_STRING);
+    input.setMiddleName(LONG_ALPHA_SYMBOLS_STRING);
     input.setLastName(LONG_ALPHA_SYMBOLS_STRING);
+    input.setSuffix(LONG_ALPHA_SYMBOLS_STRING);
 
     // when
     final BaseExceptionResponse actualResponse =
@@ -124,13 +126,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
         actualResponse
             .getIssueDetails()
             .stream()
-            .filter(issue -> SIZE_VALIDATION_MESSAGE.equals(issue.getUserMessage()))
+            .filter(issue -> issue.getUserMessage().startsWith(SIZE_VALIDATION_MESSAGE_START))
             .map(IssueDetails::getProperty)
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder("firstName", "lastName"));
+    assertThat(actualViolatedFields.size(), is(4));
+    assertThat(actualViolatedFields, containsInAnyOrder( "firstName", "middleName", "lastName", "suffix"));
   }
 
   @Test
@@ -163,11 +165,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(6));
-    assertThat(
-        actualViolatedFields,
-        containsInAnyOrder(
-            "firstName", "middleName", "lastName", "suffix", "externalId", "cases.externalId"));
+    assertThat(actualViolatedFields.size(), is(2));
+    assertThat(actualViolatedFields, containsInAnyOrder( "cases.externalId", "externalId"));
   }
 
   @Test

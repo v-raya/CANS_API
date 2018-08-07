@@ -29,24 +29,6 @@ public final class Constants {
     private API() {}
   }
 
-  public static class ValidationMessages {
-
-    public static final String ALPHA_SYMBOLS = "Must have alpha symbols only";
-    public static final String ALPHA_SYMBOLS_WITH_PERIOD = "Must only have alpha symbols with optional period at end";
-
-    private ValidationMessages() {}
-  }
-
-  public static class ExpectedExceptionMessages {
-
-    private ExpectedExceptionMessages() {}
-  }
-
-  public static class Validation {
-
-    private Validation() {}
-  }
-
   public static class UnitOfWork {
 
     public static final String CANS = "cans";

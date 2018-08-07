@@ -1,7 +1,5 @@
 package gov.ca.cwds.cans.domain.dto;
 
-import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS;
-import static gov.ca.cwds.cans.Constants.ValidationMessages.ALPHA_SYMBOLS_WITH_PERIOD;
 import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,21 +31,17 @@ public class PersonDto extends Dto {
   @NotNull private PersonRole personRole;
 
   @NotEmpty
-  @Size(min = 1, max = 50)
-  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
+  @Size(min = 1, max = 20)
   private String firstName;
 
-  @Size(max = 50)
-  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
+  @Size(max = 20)
   private String middleName;
 
   @NotEmpty
-  @Size(min = 1, max = 50)
-  @Pattern(regexp = "^[\\p{Alpha}]*$", message = ALPHA_SYMBOLS)
+  @Size(min = 1, max = 25)
   private String lastName;
 
-  @Size(max = 10)
-  @Pattern(regexp = "^([\\p{Alpha}]*)|([\\p{Alpha}]+\\.)$", message = ALPHA_SYMBOLS_WITH_PERIOD)
+  @Size(max = 4)
   private String suffix;
 
   @NotEmpty
