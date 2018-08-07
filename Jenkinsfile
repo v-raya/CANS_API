@@ -201,10 +201,10 @@ node('cans-slave') {
             perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
         }
         stage('Trigger Security scan') {
-            def props = readProperties  file: 'build\resources\main\version.properties'
+            def props = readProperties  file: 'build/resources/main/version.properties'
             build job: 'tenable-scan', parameters: [
                 [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
-                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: props['build.version'] ]
+                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${props['build.version']}" ]
             ]
         }
     } catch (Exception e) {
