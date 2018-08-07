@@ -171,6 +171,15 @@ node('cans-slave') {
                 )
             }
         }
+        stage('Trigger Security scan') {
+            def props = readProperties  file: 'build/resources/main/version.properties'
+            def build_version = props["build.version"]
+            sh "echo build_version: ${build_version}"
+            build job: 'tenable-scan', parameters: [
+                [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
+                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}" ]
+            ]
+        }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
         }
