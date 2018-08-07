@@ -171,6 +171,15 @@ node('cans-slave') {
                 )
             }
         }
+        stage('Trigger Security scan') {
+            def props = readProperties  file: 'build/resources/main/version.properties'
+            def build_version = props["build.version"]
+            sh "echo build_version: ${build_version}"
+            build job: 'tenable-scan', parameters: [
+                [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
+                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}" ]
+            ]
+        }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
         }
@@ -199,15 +208,6 @@ node('cans-slave') {
         stage('Performance Tests (Short Run)') {
             sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
             perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
-        }
-        stage('Trigger Security scan') {
-            def props = readProperties  file: 'build/resources/main/version.properties'
-            def build_version = props["build.version"]
-            sh "echo build_version: ${build_version}"
-            build job: 'tenable-scan', parameters: [
-                [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
-                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}" ]
-            ]
         }
     } catch (Exception e) {
         errorcode = e
