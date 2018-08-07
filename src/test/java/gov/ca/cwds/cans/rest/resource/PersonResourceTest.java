@@ -166,7 +166,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder( "caseId", "externalId"));
+    assertThat(actualViolatedFields, containsInAnyOrder( "cases.externalId", "externalId"));
   }
 
   @Test
