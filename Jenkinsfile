@@ -200,6 +200,13 @@ node('cans-slave') {
             sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
             perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
         }
+        stage('Trigger Security scan') {
+            def props = readProperties  file: 'build\resources\main\version.properties'
+            build job: 'tenable-scan', parameters: [
+                [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
+                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: props['build.version'] ]
+            ]
+        }
     } catch (Exception e) {
         errorcode = e
         currentBuild.result = "FAIL"
