@@ -57,6 +57,7 @@ public class InMemoryFunctionalTestSuite {
   @BeforeClass
   public static void init() throws Exception {
     final CansConfiguration configuration = DROPWIZARD_APP_RULE.getConfiguration();
+    FunctionalTestContextHolder.isInMemoryTestRunning = true;
     FunctionalTestContextHolder.cansConfiguration = configuration;
     FunctionalTestContextHolder.clientTestRule =
         new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);
@@ -67,6 +68,7 @@ public class InMemoryFunctionalTestSuite {
   private static void initCansDb() throws LiquibaseException {
     try (final DatabaseHelper databaseHelper = createCansDbHelper()) {
       databaseHelper.runScript("liquibase/cans_database_master.xml");
+      databaseHelper.runScript("liquibase/demo/add_demo_people.xml");
     } catch (IOException e) {
       throw new LiquibaseException(e);
     }

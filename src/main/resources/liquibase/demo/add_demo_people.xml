@@ -13,7 +13,6 @@
       <column name="first_name" value="Bruce"/>
       <column name="last_name" value="Wayne"/>
       <column name="dob" value="2015-11-14"/>
-      <column name="case_id" value="123RTF321"/>
       <column name="county_id" value="99"/>
     </insert>
     <insert tableName="person">
@@ -22,7 +21,6 @@
       <column name="first_name" value="Clark"/>
       <column name="last_name" value="Kent"/>
       <column name="dob" value="2016-01-31"/>
-      <column name="case_id" value="234RTF321"/>
       <column name="county_id" value="99"/>
     </insert>
     <insert tableName="person">
@@ -31,7 +29,6 @@
       <column name="first_name" value="Peter"/>
       <column name="last_name" value="Parker"/>
       <column name="dob" value="2011-10-13"/>
-      <column name="case_id" value="345RTF321"/>
       <column name="county_id" value="99"/>
     </insert>
     <insert tableName="person">
@@ -40,7 +37,6 @@
       <column name="first_name" value="Charley"/>
       <column name="last_name" value="Parker"/>
       <column name="dob" value="2008-01-31"/>
-      <column name="case_id" value="567RTF321"/>
       <column name="county_id" value="99"/>
     </insert>
 

@@ -7,6 +7,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import gov.ca.cwds.cans.CansConfiguration;
 import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Cft;
 import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.I18n;
@@ -26,6 +27,7 @@ public class DataAccessModule extends AbstractModule {
       ImmutableList.<Class<?>>builder()
           .add(
               Assessment.class,
+              Case.class,
               Cft.class,
               County.class,
               I18n.class,

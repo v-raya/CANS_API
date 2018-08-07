@@ -14,4 +14,6 @@ public final class FunctionalTestContextHolder {
   public static CansConfiguration cansConfiguration = null;
 
   public static AbstractRestClientTestRule clientTestRule = null;
+
+  public static boolean isInMemoryTestRunning = false;
 }
