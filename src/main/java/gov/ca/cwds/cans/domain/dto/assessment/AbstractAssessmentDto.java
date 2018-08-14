@@ -4,6 +4,8 @@ import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 import static gov.ca.cwds.rest.api.domain.DomainObject.TIMESTAMP_ISO8601_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import gov.ca.cwds.cans.domain.dto.CaseDto;
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
@@ -14,6 +16,7 @@ import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,7 +30,9 @@ public abstract class AbstractAssessmentDto extends Dto
         UpdateLoggable<AbstractAssessmentDto>,
         SubmitLoggable<AbstractAssessmentDto> {
   private Long instrumentId;
-  private PersonDto person;
+  @NotNull private PersonDto person;
+  private CountyDto county;
+  private CaseDto theCase;
   private AssessmentType assessmentType;
   private AssessmentStatus status;
   private CompletedAs completedAs;

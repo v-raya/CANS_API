@@ -28,22 +28,42 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     super(sessionFactory);
   }
 
+  public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
+    grabSession()
+        .createQuery(
+            "update Assessment set case_id = :newCaseId where person_id = :personId and case_id = :oldCaseId")
+        .setParameter("personId", personId)
+        .setParameter("oldCaseId", oldCaseId)
+        .setParameter("newCaseId", newCaseId)
+        .executeUpdate();
+  }
+
   @Override
   public Assessment create(Assessment assessment) {
-    hibernateInitializeIfNeeded(assessment.getCft());
-    hibernateInitializeIfNeeded(assessment.getPerson());
-    hibernateInitializeIfNeeded(assessment.getInstrument());
-    hibernateInitializeInstrument(assessment);
+    initializeRelationships(assessment);
+    assessment.setCounty(assessment.getPerson().getCounty());
     return super.create(assessment);
   }
 
   @Override
   public Assessment update(Assessment assessment) {
+    revertCountyToInitialValue(assessment);
+    initializeRelationships(assessment);
+    return super.update(assessment);
+  }
+
+  private void revertCountyToInitialValue(Assessment assessment) {
+    final Assessment previousState = super.find(assessment.getId());
+    assessment.setCounty(previousState.getCounty());
+  }
+
+  private void initializeRelationships(Assessment assessment) {
     hibernateInitializeIfNeeded(assessment.getCft());
+    hibernateInitializeIfNeeded(assessment.getTheCase());
+    hibernateInitializeIfNeeded(assessment.getCounty());
     hibernateInitializeIfNeeded(assessment.getPerson());
     hibernateInitializeIfNeeded(assessment.getInstrument());
     hibernateInitializeInstrument(assessment);
-    return super.update(assessment);
   }
 
   public Collection<Assessment> search(SearchAssessmentPo searchPo) {
@@ -57,11 +77,10 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return ImmutableList.copyOf(results);
   }
 
-  private void addFilterIfNeeded(Session session, String filterName,
-      String filterParameter, Object parameterValue) {
+  private void addFilterIfNeeded(
+      Session session, String filterName, String filterParameter, Object parameterValue) {
     if (parameterValue != null) {
-      session.enableFilter(filterName)
-          .setParameter(filterParameter, parameterValue);
+      session.enableFilter(filterName).setParameter(filterParameter, parameterValue);
     }
   }
 

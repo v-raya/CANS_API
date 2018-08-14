@@ -293,7 +293,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final List<String> externalIds =
         actual.getCases().stream().map(CaseDto::getExternalId).collect(Collectors.toList());
     assertThat(externalIds.size(), is(2));
-    assertThat(externalIds, containsInAnyOrder("4321-321-4321-87654321", "2000-123-1234-12345678"));
+    assertThat(externalIds, containsInAnyOrder("4444-321-4321-87654321", "2000-123-1234-12345678"));
   }
 
   @Test
