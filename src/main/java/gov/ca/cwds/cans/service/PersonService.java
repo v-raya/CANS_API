@@ -8,11 +8,9 @@ import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
 import gov.ca.cwds.cans.util.Require;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.tuple.Pair;
 
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
@@ -53,16 +51,12 @@ public class PersonService extends AbstractCrudService<Person> {
     if (CollectionUtils.isEmpty(cases)) {
       return;
     }
-    final List<Pair<Long, Long>> updatedCasesIds = new ArrayList<>();
+
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    cases.forEach(
-        aCase -> {
-          final Collection<Pair<Long, Long>> currentUpdatedCases =
-              caseDao.findByExternalIdOrCreate(aCase, currentUser);
-          updatedCasesIds.addAll(currentUpdatedCases);
-        });
-    updatedCasesIds.forEach(
-        pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()));
+    cases.forEach(aCase -> caseDao
+        .findByExternalIdOrCreate(aCase, currentUser)
+        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
+    );
   }
 
   @Override
@@ -77,15 +71,11 @@ public class PersonService extends AbstractCrudService<Person> {
     if (CollectionUtils.isEmpty(cases)) {
       return;
     }
-    final List<Pair<Long, Long>> updatedCasesIds = new ArrayList<>();
+
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    cases.forEach(
-        aCase -> {
-          final Collection<Pair<Long, Long>> currentUpdatedCases =
-              caseDao.createOrReplace(aCase, currentUser);
-          updatedCasesIds.addAll(currentUpdatedCases);
-        });
-    updatedCasesIds.forEach(
-        pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()));
+    cases.forEach(aCase -> caseDao
+        .createOrReplace(aCase, currentUser)
+        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
+    );
   }
 }
