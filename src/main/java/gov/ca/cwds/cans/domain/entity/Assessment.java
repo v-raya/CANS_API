@@ -97,6 +97,13 @@ public class Assessment implements Persistent<Long> {
 
   @ManyToOne private Cft cft;
 
+  @ManyToOne
+  private County county;
+
+  @ManyToOne
+  @JoinColumn(name = "case_id")
+  private Case theCase;
+
   @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
   private LocalDateTime createdTimestamp;
