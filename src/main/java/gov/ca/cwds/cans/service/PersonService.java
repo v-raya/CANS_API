@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.service;
 
 import com.google.inject.Inject;
+import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Case;
@@ -15,12 +16,18 @@ import org.apache.commons.collections4.CollectionUtils;
 public class PersonService extends AbstractCrudService<Person> {
 
   private final CaseDao caseDao;
+  private final AssessmentDao assessmentDao;
   private final PerryService perryService;
 
   @Inject
-  public PersonService(PersonDao dao, CaseDao caseDao, PerryService perryService) {
-    super(dao); //NOSONAR
+  public PersonService(
+      final PersonDao dao,
+      final CaseDao caseDao,
+      final AssessmentDao assessmentDao,
+      final PerryService perryService) {
+    super(dao); // NOSONAR
     this.caseDao = caseDao;
+    this.assessmentDao = assessmentDao;
     this.perryService = perryService;
   }
 
@@ -28,41 +35,47 @@ public class PersonService extends AbstractCrudService<Person> {
     return dao.findAll();
   }
 
-  public Collection<Person> search(SearchPersonPo searchPo) {
+  public Collection<Person> search(final SearchPersonPo searchPo) {
     return ((PersonDao) dao).search(searchPo);
   }
 
   @Override
-  public Person create(Person person) {
+  public Person create(final Person person) {
     Require.requireNotNullAndNotEmpty(person);
-    initializeCasesForCreate(person.getCases());
+    initializeCasesForCreate(person);
     return super.create(person);
   }
 
-  private void initializeCasesForCreate(List<Case> cases) {
+  private void initializeCasesForCreate(final Person person) {
+    final List<Case> cases = person.getCases();
     if (CollectionUtils.isEmpty(cases)) {
       return;
     }
+
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    for (Case aCase : cases) {
-      caseDao.findByExternalIdOrCreate(aCase, currentUser);
-    }
+    cases.forEach(aCase -> caseDao
+        .findByExternalIdOrCreate(aCase, currentUser)
+        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
+    );
   }
 
   @Override
-  public Person update(Person person) {
+  public Person update(final Person person) {
     Require.requireNotNullAndNotEmpty(person);
-    initializeCasesForUpdate(person.getCases());
+    initializeCasesForUpdate(person);
     return super.update(person);
   }
 
-  private void initializeCasesForUpdate(List<Case> cases) {
+  private void initializeCasesForUpdate(final Person person) {
+    final List<Case> cases = person.getCases();
     if (CollectionUtils.isEmpty(cases)) {
       return;
     }
+
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    for (Case aCase : cases) {
-      caseDao.createOrReplace(aCase, currentUser);
-    }
+    cases.forEach(aCase -> caseDao
+        .createOrReplace(aCase, currentUser)
+        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
+    );
   }
 }

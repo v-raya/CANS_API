@@ -9,12 +9,14 @@ import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.IN_PROGRESS;
 import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.SUBMITTED;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
+import static gov.ca.cwds.cans.util.DtoCleaner.cleanDtoIfNeed;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
@@ -41,7 +43,7 @@ import org.junit.After;
 import org.junit.Test;
 
 /** @author denys.davydov */
-public class AssessmentResourceTest extends AbstractCrudFunctionalTest<AssessmentDto> {
+public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
@@ -56,7 +58,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
 
   private final Set<Long> cleanUpAssessmentIds = new HashSet<>();
   private final Set<Long> cleanUpPeopleIds = new HashSet<>();
-  private Long tearDownInstrumentId;
+  private Long cleanUpInstrumentId;
 
   @After
   public void tearDown() throws IOException {
@@ -67,10 +69,10 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    if (tearDownInstrumentId != null) {
+    if (cleanUpInstrumentId != null) {
       clientTestRule
           .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(INSTRUMENTS + SLASH + tearDownInstrumentId)
+          .target(INSTRUMENTS + SLASH + cleanUpInstrumentId)
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
@@ -83,31 +85,13 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     }
   }
 
-  @Override
-  String getPostFixturePath() {
-    return FIXTURE_POST;
-  }
-
-  @Override
-  String getPutFixturePath() {
-    return FIXTURE_PUT;
-  }
-
-  @Override
-  String getApiPath() {
-    return ASSESSMENTS;
-  }
-
-  @Test
-  public void assessment_postGetPutDelete_success() throws IOException {
-    this.assertPostGetPutDelete();
-  }
-
   @Test
   public void startDemoAssessment_success() throws IOException {
     // given
+    final PersonDto person = postPerson();
     final StartAssessmentRequest request = readObject(FIXTURE_START, StartAssessmentRequest.class);
     request.setInstrumentId(1L);
+    request.setPersonId(person.getId());
 
     // when
     final Response postResponse =
@@ -120,10 +104,11 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
 
     // then
     assertThat(postResponse.getStatus(), is(200));
-    this.handleCreationLoggableInstance(assessment);
     assertThat(assessment, is(not(nullValue())));
+    assertThat(assessment.getCounty().getId(), is(9L));
 
     // clean up
+    cleanUpPeopleIds.add(person.getId());
     cleanUpAssessmentIds.add(assessment.getId());
   }
 
@@ -131,7 +116,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
   public void startAssessment_success() throws IOException {
     // given
     final Entity newInstrument = readRestObject(FIXTURE_POST_INSTRUMENT, InstrumentDto.class);
-    tearDownInstrumentId =
+    cleanUpInstrumentId =
         clientTestRule
             .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
             .target(INSTRUMENTS)
@@ -139,27 +124,33 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
             .post(newInstrument)
             .readEntity(InstrumentDto.class)
             .getId();
-    final Entity<StartAssessmentRequest> startRequest =
-        readRestObject(FIXTURE_START, StartAssessmentRequest.class);
-    startRequest.getEntity().setInstrumentId(tearDownInstrumentId);
+    final PersonDto person = postPerson();
+    final StartAssessmentRequest startRequest =
+        readObject(FIXTURE_START, StartAssessmentRequest.class);
+    startRequest.setInstrumentId(cleanUpInstrumentId);
+    startRequest.setPersonId(person.getId());
 
     // when
-    final Response response =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(ASSESSMENTS + SLASH + START)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(startRequest);
+    final AssessmentDto actual = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + START)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(startRequest, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
 
     // then
-    final AssessmentDto actual = response.readEntity(AssessmentDto.class);
-    cleanUpAssessmentIds.add(actual.getId());
-    final AssessmentDto expected = FixtureReader.readObject(FIXTURE_READ, AssessmentDto.class);
     actual.setId(null);
-    expected.setId(null);
-    expected.setInstrumentId(tearDownInstrumentId);
-    this.handleCreationLoggableInstance(actual);
+    cleanDtoIfNeed(actual);
+    final AssessmentDto expected = FixtureReader.readObject(FIXTURE_READ, AssessmentDto.class);
+    expected.setInstrumentId(cleanUpInstrumentId);
+    expected.setPerson(person);
+    expected.setCounty(person.getCounty());
     assertThat(actual, is(expected));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(actual.getId());
+    cleanUpAssessmentIds.add(actual.getId());
   }
 
   @Test
@@ -185,8 +176,10 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
+    final PersonDto person = postPerson();
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
+    inputAssessment.setPerson(person);
 
     // when
     final AssessmentDto actualAssessment =
@@ -212,8 +205,8 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     assertThat(actualAssessment.getSubmittedTimestamp(), is(nullValue()));
 
     // clean up
+    cleanUpPeopleIds.add(person.getId());
     cleanUpAssessmentIds.add(actualAssessment.getId());
-    this.handleCreationLoggableInstance(actualAssessment);
   }
 
   @Test
@@ -236,7 +229,7 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     final List<String> itemCodes = exceptionResponse.getIssueDetails().stream()
         .map(IssueDetails::getProperty)
         .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(8));
+    assertThat(itemCodes.size(), is(9));
     assertThat(itemCodes, containsInAnyOrder(
         "item.code3",
         "can_release_confidential_info",
@@ -245,7 +238,8 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
         "event_date",
         "completed_as",
         "state.is_under_six",
-        "state.domains.caregiverName"
+        "state.domains.caregiverName",
+        "person"
     ));
   }
 
@@ -277,7 +271,6 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
           (String) property[3]
       );
       assessmentIds.add(newAssessment.getId());
-      this.handleCreationLoggableInstance(newAssessment);
     }
     // when
     final Entity<SearchAssessmentRequest> searchRequest = Entity.entity(
@@ -302,6 +295,72 @@ public class AssessmentResourceTest extends AbstractCrudFunctionalTest<Assessmen
     cleanUpAssessmentIds.addAll(assessmentIds);
     this.cleanUpPeopleIds.add(person.getId());
     this.cleanUpPeopleIds.add(otherPerson.getId());
+  }
+
+  @Test
+  public void putAssessment_assessmentCaseNumberUpdated_whenPersonsCaseNumberUpdated() throws IOException {
+    // given
+    final PersonDto person = postPerson();
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    assessment.setTheCase(person.getCases().get(0));
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    person.getCases().get(0).setExternalId("2222-222-3333-44444444");
+    clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE + SLASH + person.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .put(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE));
+
+    // then
+    final AssessmentDto updatedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get()
+        .readEntity(AssessmentDto.class);
+    assertThat(updatedAssessment.getTheCase().getExternalId(), is("2222-222-3333-44444444"));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
+  public void putAssessment_notUpdatingCounty_whenUpdatingAssessment() throws IOException {
+    // given
+    final PersonDto person = postPerson();
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    postedAssessment.setCounty((CountyDto) new CountyDto().setId(1L));
+    final AssessmentDto actualAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // then
+    assertThat(actualAssessment.getCounty().getId(), is(9L));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
   }
 
   private AssessmentDto postAssessment(
