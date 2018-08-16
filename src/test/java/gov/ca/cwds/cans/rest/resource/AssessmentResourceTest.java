@@ -16,6 +16,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
+import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
@@ -52,7 +53,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String FIXTURE_READ = "fixtures/assessment/assessment-read.json";
-  private static final String FIXTURE_PUT = "fixtures/assessment/assessment-put.json";
   private static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
 
@@ -300,6 +300,15 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void putAssessment_assessmentCaseNumberUpdated_whenPersonsCaseNumberUpdated() throws IOException {
     // given
+    final PersonDto person0 = readObject(FIXTURE_POST_PERSON, PersonDto.class);
+    person0.getCases().get(0).setExternalId("4321-321-4321-87654321");
+    final PersonDto postedPerson0 = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(person0, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(PersonDto.class);
+
     final PersonDto person = postPerson();
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
@@ -313,6 +322,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     person.getCases().get(0).setExternalId("2222-222-3333-44444444");
+    person.getCases().add((CaseDto) new CaseDto().setExternalId("4321-321-4321-87654321").setId(123L));
     clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + person.getId())
@@ -330,6 +340,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // clean up
     cleanUpPeopleIds.add(person.getId());
+    cleanUpPeopleIds.add(postedPerson0.getId());
     cleanUpAssessmentIds.add(postedAssessment.getId());
   }
 
