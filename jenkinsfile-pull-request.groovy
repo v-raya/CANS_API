@@ -2,18 +2,6 @@ def dockerImageName = 'cwds/cans-api'
 def testsDockerImageName = 'cwds/cans-api-test'
 def dockerCredentialsId = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
 
-def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
-        ' -e JM_TARGET=api' +
-        ' -e JM_PERRY_MODE=DEV' +
-        ' -e JM_USERS_COUNT=3' +
-        ' -e JM_UPDATE_REQUESTS_PER_USER=3' +
-        ' -e JM_PERRY_PROTOCOL=http' +
-        ' -e JM_PERRY_HOST=localhost' +
-        ' -e JM_PERRY_PORT=18080' +
-        ' -e JM_CANS_API_PROTOCOL=http' +
-        ' -e JM_CANS_API_HOST=localhost' +
-        ' -e JM_CANS_API_PORT=8080'
-
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
@@ -98,14 +86,10 @@ node('linux') {
             }
         }
         stage('Run Functional Tests') {
-            rtGradle.run(
-                    buildFile: 'build.gradle',
-                    tasks: 'functionalTest'
-            )
+            sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
         }
         stage('Performance Tests (Short Run)') {
-            sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName"
-            perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
+            sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
         }
     } catch (Exception e) {
         errorcode = e

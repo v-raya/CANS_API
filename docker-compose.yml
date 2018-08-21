@@ -37,3 +37,26 @@ services:
       DB_NS_SCHEMA: ${DB_NS_SCHEMA}
       DB_NS_USER: ${DB_NS_USER}
       DB_NS_PASSWORD: ${DB_NS_PASSWORD}
+
+  cans-api-test:
+    image: cwds/cans-api-test
+    hostname: cans-api-test
+    entrypoint: sleep infinity
+    depends_on:
+      - postgres
+      - perry
+      - cans-api
+    environment:
+      TEST_TYPE: ${TEST_TYPE}
+      CANS_API_URL: ${CANS_API_URL}
+      PERRY_URL: ${PERRY_URL}
+      JM_TARGET: ${JM_TARGET}
+      JM_PERRY_MODE: ${JM_PERRY_MODE}
+      JM_USERS_COUNT: ${JM_USERS_COUNT}
+      JM_UPDATE_REQUESTS_PER_USER: ${JM_UPDATE_REQUESTS_PER_USER}
+      JM_PERRY_PROTOCOL: ${JM_PERRY_PROTOCOL}
+      JM_PERRY_HOST: ${JM_PERRY_HOST}
+      JM_PERRY_PORT: ${JM_PERRY_PORT}
+      JM_CANS_API_PROTOCOL: ${JM_CANS_API_PROTOCOL}
+      JM_CANS_API_HOST: ${JM_CANS_API_HOST}
+      JM_CANS_API_PORT: ${JM_CANS_API_PORT}

@@ -22,3 +22,17 @@ SWAGGER_CALLBACK_URL=http://localhost:8080/swagger
 SHIRO_CONFIG_PATH=/opt/cans-api/config/shiro_v2_docker_compose.ini
 KEY_STORE_FILE=/opt/cans-api/config/testKeyStore.jks
 AUTHORIZATION_ENABLED=true
+
+#tests
+CANS_API_URL=http://cans-api:8080
+PERRY_URL=http://perry:8080
+JM_TARGET=api
+JM_PERRY_MODE=DEV
+JM_USERS_COUNT=3
+JM_UPDATE_REQUESTS_PER_USER=3
+JM_PERRY_PROTOCOL=http
+JM_PERRY_HOST=perry
+JM_PERRY_PORT=8080
+JM_CANS_API_PROTOCOL=http
+JM_CANS_API_HOST=cans-api
+JM_CANS_API_PORT=8080
