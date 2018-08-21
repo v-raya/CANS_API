@@ -1,0 +1,39 @@
+version: '3.2'
+services:
+  perry:
+    image: cwds/perry:3.0.1_581-RC
+    hostname: perry
+    ports:
+      - ${PERRY_PORT}:8080
+    environment:
+      DEV_MODE: ${DEV_MODE}
+      LOG_LEVEL: ${LOG_LEVEL}
+
+  postgres:
+    image: cwds/postgresql_data
+    hostname: postgresql_data
+    ports:
+      - ${POSTGRES_PORT}:5432
+
+  cans-api:
+    image: cwds/cans-api
+    hostname: cans-api
+    depends_on:
+      - postgres
+      - perry
+    restart: on-failure
+    ports:
+      - ${CANS_API_PORT}:8080
+    environment:
+      LOGIN_URL: ${LOGIN_URL}
+      LOGOUT_URL: ${LOGOUT_URL}
+      SWAGGER_TOKEN_URL: ${SWAGGER_TOKEN_URL}
+      SWAGGER_JSON_URL: ${SWAGGER_JSON_URL}
+      SWAGGER_CALLBACK_URL: ${SWAGGER_CALLBACK_URL}
+      SHIRO_CONFIG_PATH: ${SHIRO_CONFIG_PATH}
+      KEY_STORE_FILE: ${KEY_STORE_FILE}
+      AUTHORIZATION_ENABLED: ${AUTHORIZATION_ENABLED}
+      DB_NS_JDBC_URL: ${DB_NS_JDBC_URL}
+      DB_NS_SCHEMA: ${DB_NS_SCHEMA}
+      DB_NS_USER: ${DB_NS_USER}
+      DB_NS_PASSWORD: ${DB_NS_PASSWORD}

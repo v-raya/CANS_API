@@ -14,11 +14,11 @@ DB_NS_USER=postgres_data
 DB_NS_PASSWORD=postgres_data
 
 #cans-api
-LOGIN_URL=http://localhost:${PERRY_PORT}/perry/authn/login
-LOGOUT_URL=http://localhost:${PERRY_PORT}/perry/authn/logout
+LOGIN_URL=http://localhost:18080/perry/authn/login
+LOGOUT_URL=http://localhost:18080/perry/authn/logout
 SWAGGER_TOKEN_URL=http://perry:8080/perry/authn/token
-SWAGGER_JSON_URL=http://localhost:${CANS_API_PORT}/swagger.json
-SWAGGER_CALLBACK_URL=http://localhost:${CANS_API_PORT}/swagger
+SWAGGER_JSON_URL=http://localhost:8080/swagger.json
+SWAGGER_CALLBACK_URL=http://localhost:8080/swagger
 SHIRO_CONFIG_PATH=/opt/cans-api/config/shiro_v2_docker_compose.ini
 KEY_STORE_FILE=/opt/cans-api/config/testKeyStore.jks
-AUTHORIZATION_ENABLED=false
+AUTHORIZATION_ENABLED=true

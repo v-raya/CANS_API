@@ -1,3 +1,19 @@
+def dockerImageName = 'cwds/cans-api'
+def testsDockerImageName = 'cwds/cans-api-test'
+def dockerCredentialsId = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+
+def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
+        ' -e JM_TARGET=api' +
+        ' -e JM_PERRY_MODE=DEV' +
+        ' -e JM_USERS_COUNT=3' +
+        ' -e JM_UPDATE_REQUESTS_PER_USER=3' +
+        ' -e JM_PERRY_PROTOCOL=http' +
+        ' -e JM_PERRY_HOST=localhost' +
+        ' -e JM_PERRY_PORT=18080' +
+        ' -e JM_CANS_API_PROTOCOL=http' +
+        ' -e JM_CANS_API_HOST=localhost' +
+        ' -e JM_CANS_API_PORT=8080'
+
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
@@ -30,7 +46,7 @@ def notifyBuild(String buildStatus, Exception e) {
             body: details,
             attachLog: true,
             recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-            to: "Leonid.Marushevskiy@osi.ca.gov, Alex.Kuznetsov@osi.ca.gov, Oleg.Korniichuk@osi.ca.gov, alexander.serbin@engagepoint.com, vladimir.petrusha@engagepoint.com"
+            to: "Denys.Davydov@osi.ca.gov, Alex.Kuznetsov@osi.ca.gov"
     )
 }
 
@@ -40,16 +56,8 @@ node('linux') {
     def rtGradle = Artifactory.newGradleBuild()
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
                 parameters([
-                        string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
                         string(defaultValue: 'master', description: '', name: 'branch'),
                         string(defaultValue: '', description: 'Used for mergerequest default is empty', name: 'refspec'),
-                        booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
-                        string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
-                        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-                        string(defaultValue: 'inventories/tpt2dev/hosts.yml', description: '', name: 'inventory'),
-                        string(defaultValue: 'https://cansapi.dev.cwds.io/', description: '', name: 'APP_URL'),
-                        string(defaultValue: 'https://web.dev.cwds.io/', description: 'Perry base URL', name: 'PERRY_URL'),
-                        string(defaultValue: 'https://web.dev.cwds.io/perry/login', description: 'The URL where the login form posts a login information', name: 'LOGIN_FORM_TARGET_URL')
                 ])
     ])
     try {
@@ -60,32 +68,57 @@ node('linux') {
             rtGradle.useWrapper = true
         }
         stage('Build') {
-            echo("RELEASE: ${params.RELEASE_PROJECT}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-            echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
-            def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION'
+            rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
         }
         stage('Unit Tests') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
+            rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
         }
         stage('SonarQube analysis') {
             withSonarQubeEnv('Core-SonarQube') {
-                buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
+                rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
+        }
+        stage('Build Docker Images') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: 'createDockerImage'
+                )
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: 'dockerTestsCreateImage'
+                )
+            }
+        }
+        stage('Run docker-compose environment') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                sh "docker-compose up -d"
+                sh "sleep 30"
+            }
+        }
+        stage('Run Functional Tests') {
+            rtGradle.run(
+                    buildFile: 'build.gradle',
+                    tasks: 'functionalTest'
+            )
+        }
+        stage('Performance Tests (Short Run)') {
+            sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName"
+            perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
         }
     } catch (Exception e) {
         errorcode = e
         currentBuild.result = "FAIL"
         notifyBuild(currentBuild.result, errorcode)
-        throw e;
+        throw e
     } finally {
         archiveArtifacts allowEmptyArchive: true, artifacts: 'version.txt', fingerprint: true, onlyIfSuccessful: true
         fingerprint 'version.txt'
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: 'JUnit Report', reportTitles: 'JUnit tests summary'])
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/license', reportFiles: 'license-dependency.html', reportName: 'License Report', reportTitles: 'License summary'])
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/smokeTest', reportFiles: 'index.html', reportName: 'Smoke Tests Report', reportTitles: 'Smoke tests summary'])
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/integrationTest', reportFiles: 'index.html', reportName: 'Integration Tests Report', reportTitles: 'Integration tests summary'])
+        sh "docker-compose down || true"
+        sh "docker rmi $dockerImageName || true"
+        sh "docker rmi $testsDockerImageName || true"
         cleanWs()
     }
 }
-
