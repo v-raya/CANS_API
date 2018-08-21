@@ -98,9 +98,9 @@ node('linux') {
                 parameters([
                         string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
                         string(defaultValue: 'master', description: '', name: 'branch'),
-                        booleanParam(defaultValue: false, description: 'Runs liquibase ddl on application start', name: 'UPGRADE_CANS_DB_ON_START'),
+                        booleanParam(defaultValue: true, description: 'Runs liquibase ddl on application start', name: 'UPGRADE_CANS_DB_ON_START'),
                         booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
-                        booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
+                        booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
                         string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
                         booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
                         string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
