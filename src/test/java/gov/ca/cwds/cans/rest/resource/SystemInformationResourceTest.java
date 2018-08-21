@@ -28,6 +28,7 @@ public class SystemInformationResourceTest extends AbstractFunctionalTest {
 
     assertHealthCheck(systemInformation.getDeadlocks());
     assertHealthCheck(systemInformation.getCans());
+    throw new RuntimeException();
   }
 
   private void assertHealthCheck(final HealthCheckResultDto healthCheckResult) {
