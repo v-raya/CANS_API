@@ -46,6 +46,7 @@ if [ "$TEST_TYPE" == "smoke" ] || [ "$TEST_TYPE" == "functional" ]; then
   echo "TEST_CLASS = '$TEST_CLASS'"
 
   java ${JAVA_OPT} -Dapi.url="${CANS_API_URL}" -Dperry.url="${PERRY_URL}" -Dlogin.form.target.url="${PERRY_LOGIN_FORM_URL}" -cp /opt/cans-api-test/resources:cans-api-test.jar org.junit.runner.JUnitCore ${TEST_CLASS}
+  exit
 fi
 
 if [ "$TEST_TYPE" == "performance" ]; then
@@ -135,4 +136,5 @@ if [ "$TEST_TYPE" == "performance" ]; then
     -JJM_USERS_CSV_PATH=$JM_USERS_CSV_PATH \
     -JJM_USERS_COUNT=$JM_USERS_COUNT \
     -JJM_UPDATE_REQUESTS_PER_USER=$JM_UPDATE_REQUESTS_PER_USER
+  exit
 fi
