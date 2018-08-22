@@ -82,7 +82,7 @@ node('linux') {
         stage('Run docker-compose environment') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
                 sh "docker-compose up -d"
-                sh "sleep 30"
+                sh "sleep 45"
             }
         }
         stage('Run Functional Tests') {
