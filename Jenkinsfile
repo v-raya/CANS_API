@@ -94,6 +94,7 @@ def publishLicenseReportHtml() {
 node('linux') {
     def artifactoryServer = Artifactory.server artifactoryServerId
     def rtGradle = Artifactory.newGradleBuild()
+// DO NOT DELETE THIS BLOCK        
 //    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 //                parameters([
 //                        string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
@@ -105,6 +106,7 @@ node('linux') {
 //                        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
 //                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
 //                ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
+// DO NOT DELETE THIS BLOCK        
     try {
         stage('Preparation') {
             cleanWs()
