@@ -18,6 +18,7 @@ services:
   cans-api:
     image: cwds/cans-api
     hostname: cans-api
+    restart: on-failure
     depends_on:
       - postgres
       - perry
