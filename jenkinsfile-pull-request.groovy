@@ -86,10 +86,10 @@ node('linux') {
             }
         }
         stage('Run Functional Tests') {
-            sh "docker-compose run -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
+            sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
         }
         stage('Performance Tests (Short Run)') {
-            sh "docker-compose run -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
+            sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
         }
     } catch (Exception e) {
         errorcode = e
