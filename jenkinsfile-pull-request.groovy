@@ -57,23 +57,23 @@ node('linux') {
         }
         stage('Build') {
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-            def buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
+            rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
         }
         stage('Unit Tests') {
-            buildInfo = rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
+            rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
         }
         stage('SonarQube analysis') {
             withSonarQubeEnv('Core-SonarQube') {
-                buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
+                rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
             }
         }
         stage('Build Docker Images') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                buildInfo = rtGradle.run(
+                rtGradle.run(
                         buildFile: 'build.gradle',
                         tasks: 'createDockerImage'
                 )
-                buildInfo = rtGradle.run(
+                rtGradle.run(
                         buildFile: 'build.gradle',
                         tasks: 'dockerTestsCreateImage'
                 )
@@ -81,15 +81,18 @@ node('linux') {
         }
         stage('Run docker-compose environment') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                buildInfo = sh "docker-compose up -d"
-                buildInfo = sh "sleep 30"
+                sh "docker-compose up -d"
+                sh "sleep 30"
             }
         }
+        stage('Failing Tests (Temp)') {
+            sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
+        }
         stage('Run Functional Tests') {
-            buildInfo = sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh --exit-code-from"
+            sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
         }
         stage('Performance Tests (Short Run)') {
-            buildInfo = sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh --exit-code-from"
+            sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
         }
     } catch (Exception e) {
         errorcode = e
