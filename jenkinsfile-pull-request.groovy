@@ -86,7 +86,7 @@ node('linux') {
             }
         }
         stage('Failing Tests (Temp)') {
-            sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
+            sh "docker-compose exec -T -e TEST_TYPE=ABCDEF cans-api-test ./entrypoint.sh"
         }
         stage('Run Functional Tests') {
             sh "docker-compose exec -T -e TEST_TYPE=functional cans-api-test ./entrypoint.sh"
