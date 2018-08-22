@@ -41,13 +41,12 @@ services:
   cans-api-test:
     image: cwds/cans-api-test
     hostname: cans-api-test
-    entrypoint: sleep infinity
     depends_on:
       - postgres
       - perry
       - cans-api
     environment:
-      TEST_TYPE: ${TEST_TYPE}
+      TEST_TYPE: ""
       CANS_API_URL: ${CANS_API_URL}
       PERRY_URL: ${PERRY_URL}
       JM_TARGET: ${JM_TARGET}
