@@ -3,10 +3,8 @@
 JAVA_OPT="-Xms128m -Xmx512m"
 
 if ([ -z "$TEST_TYPE" ]); then
-  echo "TEST_TYPE is not set"
-  echo "Known test types: smoke, functional, performance"
-  echo "Exiting gracefully"
-  exit 0
+  TEST_TYPE="smoke"
+  echo "Default value is set: TEST_TYPE = smoke"
 fi
 
 if [ "$TEST_TYPE" != "smoke" ] && [ "$TEST_TYPE" != "functional" ] && [ "$TEST_TYPE" != "performance" ]; then
