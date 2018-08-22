@@ -31,7 +31,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-//  SystemInformationResourceTest.class,
+  SystemInformationResourceTest.class,
   AssessmentResourceTest.class,
   CountyResourceTest.class,
   I18nResourceTest.class,

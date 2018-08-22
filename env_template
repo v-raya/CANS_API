@@ -10,8 +10,8 @@ LOG_LEVEL=INFO
 #cans db
 DB_NS_JDBC_URL=jdbc:postgresql://postgres:5432/postgres_data
 DB_NS_SCHEMA=cans
-DB_NS_USER=postgres_data
-DB_NS_PASSWORD=postgres_data
+DB_NS_USER=********
+DB_NS_PASSWORD=********
 
 #cans-api
 LOGIN_URL=http://localhost:18080/perry/authn/login
