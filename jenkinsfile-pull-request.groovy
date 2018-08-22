@@ -81,7 +81,7 @@ node('linux') {
         }
         stage('Run docker-compose environment') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                sh "docker-compose up -d"
+                sh "docker-compose up"
                 sh "sleep 45"
             }
         }
