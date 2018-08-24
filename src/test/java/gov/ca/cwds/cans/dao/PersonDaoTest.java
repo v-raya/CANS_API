@@ -18,26 +18,26 @@ import static org.mockito.Mockito.mock;
 
 public class PersonDaoTest {
 
-    @Test(expected = NullOrEmptyException.class)
-    public void testSearchWithNullSearch() {
-        SessionFactory sessionFactoy = mock(SessionFactory.class);
-        PersonDao personDao = new PersonDao(sessionFactoy);
-        personDao.search(null);
-    }
+  @Test(expected = NullOrEmptyException.class)
+  public void testSearchWithNullSearch() {
+    SessionFactory sessionFactory = mock(SessionFactory.class);
+    PersonDao personDao = new PersonDao(sessionFactory);
+    personDao.search(null);
+  }
 
-    @Test
-    public void testSearchWithNoFilters() throws Exception {
-        List<Person> people = Collections.singletonList(new Person());
-        SessionFactory sessionFactory = mock(SessionFactory.class);
-        Session session = mock(Session.class);
-        Query<Person> query = mock(Query.class);
-        Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
-        Mockito.when(session.createNamedQuery(Person.NQ_ALL, Person.class)).thenReturn(query);
-        Mockito.when(query.list()).thenReturn(people);
+  @Test
+  public void testSearchWithNoFilters() throws Exception {
+    List<Person> people = Collections.singletonList(new Person());
+    SessionFactory sessionFactory = mock(SessionFactory.class);
+    Session session = mock(Session.class);
+    Query<Person> query = mock(Query.class);
+    Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
+    Mockito.when(session.createNamedQuery(Person.NQ_ALL, Person.class)).thenReturn(query);
+    Mockito.when(query.list()).thenReturn(people);
 
-        PersonDao personDao = new PersonDao(sessionFactory);
-        SearchPersonPo searchPersonPo = new SearchPersonPo();
-        searchPersonPo.setExternalId("");
-        assertThat(personDao.search(searchPersonPo), is(people));
-    }
+    PersonDao personDao = new PersonDao(sessionFactory);
+    SearchPersonPo searchPersonPo = new SearchPersonPo();
+    searchPersonPo.setExternalId("");
+    assertThat(personDao.search(searchPersonPo), is(people));
+  }
 }
