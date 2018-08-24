@@ -19,7 +19,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.BEN._description_"/>
-      <column name="v" value="The ratings in this section identify the behavioral health needs of the youth. While the CANS is not a diagnostic tool, it is designed to be consistent with diagnostic communication. In the DSM, a diagnosis is defined by a set of symptoms that is associated with either dysfunction or distress. This is consistent with the ratings of ‘2’ or ‘3’ as described by the action levels below."/>
+      <column name="v" value="The ratings in this section identify the behavioral health needs of the youth. While the CANS is not a diagnostic tool, it is designed to be consistent with diagnostic communication. In the DSM, a diagnosis is defined by a set of symptoms that is associated with either dysfunction or distress. This is consistent with the ratings of '2' or '3' as described by the action levels below."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -89,7 +89,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RSK._description_"/>
-      <column name="v" value="This section focuses on behaviors that can get children and youth in trouble or put them in danger of harming themselves or others. Time frames in this section can change (particularly for ratings ‘1’ and ‘3’) away from the standard 30-day rating window."/>
+      <column name="v" value="This section focuses on behaviors that can get children and youth in trouble or put them in danger of harming themselves or others. Time frames in this section can change (particularly for ratings '1' and '3') away from the standard 30-day rating window."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -114,7 +114,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RSK._to_consider_.0"/>
-      <column name="v" value="Does the child/youth’s behaviors put them at risk for serious harm?"/>
+      <column name="v" value="Does the child/youth's behaviors put them at risk for serious harm?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -124,7 +124,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CUL._description_"/>
-      <column name="v" value="These items identify linguistic or cultural issues for which service providers need to make accommodations (e.g., provide interpreter, finding therapist who speaks family’s primary language, and/or ensure that a child/youth in placement has the opportunity to participate in cultural rituals associated with their cultural identity). Items in the Cultural Factors Domain describe difficulties that children and youth may experience or encounter as a result of their membership in any cultural group, and/or because of the relationship between members of that group and members of the dominant society. It is it important to remember when using the CANS that the family should be defined from the individual youth’s perspective (i.e., who the individual describes as part of her/his family). The cultural issues in this domain should be considered in relation to the impact they are having on the life of the individual when rating these items and creating a treatment or service plan."/>
+      <column name="v" value="These items identify linguistic or cultural issues for which service providers need to make accommodations (e.g., provide interpreter, finding therapist who speaks family's primary language, and/or ensure that a child/youth in placement has the opportunity to participate in cultural rituals associated with their cultural identity). Items in the Cultural Factors Domain describe difficulties that children and youth may experience or encounter as a result of their membership in any cultural group, and/or because of the relationship between members of that group and members of the dominant society. It is it important to remember when using the CANS that the family should be defined from the individual youth's perspective (i.e., who the individual describes as part of her/his family). The cultural issues in this domain should be considered in relation to the impact they are having on the life of the individual when rating these items and creating a treatment or service plan."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -149,7 +149,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CUL._to_consider_.0"/>
-      <column name="v" value="How does the child/youth’s membership in a particular cultural group impact his or her stress and wellbeing?"/>
+      <column name="v" value="How does the child/youth's membership in a particular cultural group impact his or her stress and wellbeing?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -159,7 +159,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.STR._description_"/>
-      <column name="v" value="This domain describes the assets of the child/youth that can be used to advance healthy development. It is important to remember that strengths are NOT the opposite of needs. Increasing a child/youth’s strengths while also addressing their behavioral/emotional needs leads to better functioning, and better outcomes, than does focusing just on the child/youth’s needs. Identifying areas where strengths can be built is a significant element of service planning. In these items the ‘best’ assets and resources available to the child/youth are rated based on how accessible and useful those strengths are. These are the only items that use the Strength Rating Scale with action levels."/>
+      <column name="v" value="This domain describes the assets of the child/youth that can be used to advance healthy development. It is important to remember that strengths are NOT the opposite of needs. Increasing a child/youth's strengths while also addressing their behavioral/emotional needs leads to better functioning, and better outcomes, than does focusing just on the child/youth's needs. Identifying areas where strengths can be built is a significant element of service planning. In these items the 'best' assets and resources available to the child/youth are rated based on how accessible and useful those strengths are. These are the only items that use the Strength Rating Scale with action levels."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -219,12 +219,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CGV._to_consider_.0"/>
-      <column name="v" value="What are the resources and needs of the child/youth’s caregiver(s)?"/>
+      <column name="v" value="What are the resources and needs of the child/youth's caregiver(s)?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CGV._to_consider_.1"/>
-      <column name="v" value="How are these needs impacting the caregiver’s ability to provide care to the child/youth?"/>
+      <column name="v" value="How are these needs impacting the caregiver's ability to provide care to the child/youth?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -234,7 +234,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.TRM._description_"/>
-      <column name="v" value="All of the potentially traumatic/adverse childhood experiences items are static indicators. In other words, these items indicate whether or not a child/youth has experienced a particular trauma. If the child/youth has ever had one of these experiences it would always be rated in this section, even if the experience was not currently causing problems or distress in the child/youth’s life. Thus, these items are not expected to change except in the case that the child/youth has a new trauma experience or a historical trauma is identified that was not previously known."/>
+      <column name="v" value="All of the potentially traumatic/adverse childhood experiences items are static indicators. In other words, these items indicate whether or not a child/youth has experienced a particular trauma. If the child/youth has ever had one of these experiences it would always be rated in this section, even if the experience was not currently causing problems or distress in the child/youth's life. Thus, these items are not expected to change except in the case that the child/youth has a new trauma experience or a historical trauma is identified that was not previously known."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -424,7 +424,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PSYCHOSIS._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Evidence of disturbance in thought process or content that may be impairing the child/youth’s functioning in at least one life domain. Child/youth may be somewhat delusional or have brief intermittent hallucinations. Speech may be at times quite tangential or illogical."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Evidence of disturbance in thought process or content that may be impairing the child/youth's functioning in at least one life domain. Child/youth may be somewhat delusional or have brief intermittent hallucinations. Speech may be at times quite tangential or illogical."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -444,7 +444,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PSYCHOSIS._to_consider_.2"/>
-      <column name="v" value="Are the unusual behaviors, hallucinations or delusions interfering with the youth’s functioning?"/>
+      <column name="v" value="Are the unusual behaviors, hallucinations or delusions interfering with the youth's functioning?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -464,12 +464,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.IMPULSIVITY_HYPERACTIVITY._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.There is a history or evidence of mild levels of impulsivity evident in action or thought that place the child/youth at risk of future functioning difficulties. The child/youth may exhibit limited impulse control, e.g., child/youth may yell out answers to questions or may have difficulty waiting one’s turn. Some motor difficulties may be present as well, such as pushing or shoving others."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.There is a history or evidence of mild levels of impulsivity evident in action or thought that place the child/youth at risk of future functioning difficulties. The child/youth may exhibit limited impulse control, e.g., child/youth may yell out answers to questions or may have difficulty waiting one's turn. Some motor difficulties may be present as well, such as pushing or shoving others."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.IMPULSIVITY_HYPERACTIVITY._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of problems with impulsive, distractible, or hyperactive behavior that interferes with the child/youth’s functioning in at least one life domain. This indicates a child/youth with impulsive behavior who may represent a significant management problem for adults (e.g., caregivers, teachers, coaches, etc.). A child/youth who often intrudes on others and often exhibits aggressive impulses would be rated here."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of problems with impulsive, distractible, or hyperactive behavior that interferes with the child/youth's functioning in at least one life domain. This indicates a child/youth with impulsive behavior who may represent a significant management problem for adults (e.g., caregivers, teachers, coaches, etc.). A child/youth who often intrudes on others and often exhibits aggressive impulses would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -514,7 +514,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DEPRESSION._rating_.2._description_"/>
-      <column name="v" value="ction or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of depression associated with either depressed mood or significant irritability. Depression has interfered significantly in child/youth’s ability to function in at least one life domain."/>
+      <column name="v" value="ction or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of depression associated with either depressed mood or significant irritability. Depression has interfered significantly in child/youth's ability to function in at least one life domain."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -559,7 +559,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ANXIETY._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of anxiety associated with either anxious mood or significant fearfulness. Anxiety has interfered in the child/youth’s ability to function in at least one life domain."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Clear evidence of anxiety associated with either anxious mood or significant fearfulness. Anxiety has interfered in the child/youth's ability to function in at least one life domain."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -589,7 +589,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.OPPOSITIONAL._description_"/>
-      <column name="v" value="This item rates the child/youth’s relationship with authority figures. Generally oppositional behavior is displayed in response to conditions set by a parent, teacher or other authority figure with responsibility for and control over the child/youth."/>
+      <column name="v" value="This item rates the child/youth's relationship with authority figures. Generally oppositional behavior is displayed in response to conditions set by a parent, teacher or other authority figure with responsibility for and control over the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -604,7 +604,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.OPPOSITIONAL._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth’s functioning.Clear evidence of oppositional and/or defiant behavior towards authority figures that is currently interfering with the child/youth’s functioning in at least one life domain. Behavior causes emotional harm to others. Children/youth whose behavior meets the criteria for Oppositional Defiant Disorder in DSM-5 would be rated here."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth's functioning.Clear evidence of oppositional and/or defiant behavior towards authority figures that is currently interfering with the child/youth's functioning in at least one life domain. Behavior causes emotional harm to others. Children/youth whose behavior meets the criteria for Oppositional Defiant Disorder in DSM-5 would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -614,7 +614,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.OPPOSITIONAL._to_consider_.0"/>
-      <column name="v" value="Does the child/youth follow their caregivers’ rules?"/>
+      <column name="v" value="Does the child/youth follow their caregivers' rules?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -654,7 +654,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CONDUCT._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth’s functioning.Clear evidence of antisocial behavior including but not limited to lying, stealing, manipulating others, sexual aggression, violence towards people, property, or animals. A child/youth rated at this level will likely meet criteria for a diagnosis of Conduct Disorder."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth's functioning.Clear evidence of antisocial behavior including but not limited to lying, stealing, manipulating others, sexual aggression, violence towards people, property, or animals. A child/youth rated at this level will likely meet criteria for a diagnosis of Conduct Disorder."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -709,7 +709,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SUBSTANCE_USE._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth’s functioning.Child/youth has a substance use problem that consistently interferes with the ability to function optimally but does not completely preclude functioning in an unstructured setting."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth's functioning.Child/youth has a substance use problem that consistently interferes with the ability to function optimally but does not completely preclude functioning in an unstructured setting."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -739,7 +739,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ANGER_CONTROL._description_"/>
-      <column name="v" value="This item captures the child/youth’s ability to identify and manage their anger when frustrated."/>
+      <column name="v" value="This item captures the child/youth's ability to identify and manage their anger when frustrated."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -754,12 +754,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ANGER_CONTROL._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth’s functioning.Child/youth’s difficulties with controlling anger are impacting functioning in at least one life domain. Child/youth’s temper has resulted in significant trouble with peers, family and/or school. Anger may be associated with physical violence. Others are likely quite aware of anger potential."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth's functioning.Child/youth's difficulties with controlling anger are impacting functioning in at least one life domain. Child/youth's temper has resulted in significant trouble with peers, family and/or school. Anger may be associated with physical violence. Others are likely quite aware of anger potential."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ANGER_CONTROL._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth’s temper or anger control problem is dangerous. Child/youth frequently gets into fights that are often physical. Others likely fear the child/youth."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth's temper or anger control problem is dangerous. Child/youth frequently gets into fights that are often physical. Others likely fear the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -804,7 +804,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ADJUSTMENT_TO_TRAUMA._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth’s functioning.Clear evidence of adjustment problems associated with traumatic life event(s). Symptoms can vary widely and may include sleeping or eating disturbances, regressive behavior, behavior problems or problems with attachment. Adjustment is interfering with child/youth’s functioning in at least one life domain. Infants may have developmental regression, and/or eating and sleeping disturbance. Older children may have all of the above as well as behavior symptoms, tantrums, and withdrawn behavior."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with youth's functioning.Clear evidence of adjustment problems associated with traumatic life event(s). Symptoms can vary widely and may include sleeping or eating disturbances, regressive behavior, behavior problems or problems with attachment. Adjustment is interfering with child/youth's functioning in at least one life domain. Infants may have developmental regression, and/or eating and sleeping disturbance. Older children may have all of the above as well as behavior symptoms, tantrums, and withdrawn behavior."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -829,7 +829,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ADJUSTMENT_TO_TRAUMA._to_consider_.3"/>
-      <column name="v" value="What are the child/youth’s current coping skills?"/>
+      <column name="v" value="What are the child/youth's current coping skills?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -839,7 +839,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_FUNCTIONING._description_"/>
-      <column name="v" value="This rates the child/youth’s relationships with those who are in their family. It is recommended that the description of family should come from the child/youth’s perspective (i.e. who the child/youth describes as their family). In the absence of this information, consider biological and adoptive relatives and their significant others with whom the child/youth is still in contact. Foster families should only be considered if they have made a significant commitment to the child/youth. For children/youth involved with child welfare, family refers to the person(s) fulfilling the permanency plan. When rating this item, take into account the relationship the child/youth has with their family as well as the relationship of the family as a whole."/>
+      <column name="v" value="This rates the child/youth's relationships with those who are in their family. It is recommended that the description of family should come from the child/youth's perspective (i.e. who the child/youth describes as their family). In the absence of this information, consider biological and adoptive relatives and their significant others with whom the child/youth is still in contact. Foster families should only be considered if they have made a significant commitment to the child/youth. For children/youth involved with child welfare, family refers to the person(s) fulfilling the permanency plan. When rating this item, take into account the relationship the child/youth has with their family as well as the relationship of the family as a whole."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -854,7 +854,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_FUNCTIONING._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth is having problems with parents, siblings and/or other family members that are impacting the child/youth’s functioning. Frequent arguing, difficulty maintaining positive relationships may be observed."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth is having problems with parents, siblings and/or other family members that are impacting the child/youth's functioning. Frequent arguing, difficulty maintaining positive relationships may be observed."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -889,12 +889,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LIVING_SITUATION._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth experiences mild problems with functioning in current living situation. Caregivers express some concern about child/youth’s behavior in living situation, and/or child/youth and caregiver have some difficulty dealing with issues that arise in daily life."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth experiences mild problems with functioning in current living situation. Caregivers express some concern about child/youth's behavior in living situation, and/or child/youth and caregiver have some difficulty dealing with issues that arise in daily life."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LIVING_SITUATION._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth has moderate to severe problems with functioning in current living situation. Child/youth’s difficulties in maintaining appropriate behavior in this setting are creating significant problems for others in the residence. Child/youth and caregivers have difficulty interacting effectively with each other much of the time."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth has moderate to severe problems with functioning in current living situation. Child/youth's difficulties in maintaining appropriate behavior in this setting are creating significant problems for others in the residence. Child/youth and caregivers have difficulty interacting effectively with each other much of the time."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -934,7 +934,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SOCIAL_FUNCTIONING._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is experiencing significant disruptions in social relationships. Child/youth may have no friends or have constant conflict in relations with others, or have maladaptive relationships with others. The quality of the child/youth’s social relationships presents imminent danger to the child/youth’s safety, health, and/or development."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is experiencing significant disruptions in social relationships. Child/youth may have no friends or have constant conflict in relations with others, or have maladaptive relationships with others. The quality of the child/youth's social relationships presents imminent danger to the child/youth's safety, health, and/or development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -954,7 +954,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DEVELOPMENTAL_INTELLECTUAL._description_"/>
-      <column name="v" value="This item describes the child/youth’s development as compared to standard developmental milestones, as well as rates the presence of any developmental or intellectual disabilities. It includes Intellectual Developmental Disorder (IDD) and Autism Spectrum Disorders. Rate the item depending on the significance of the disability and the related level of impairment in personal, social, family, school, or occupational functioning."/>
+      <column name="v" value="This item describes the child/youth's development as compared to standard developmental milestones, as well as rates the presence of any developmental or intellectual disabilities. It includes Intellectual Developmental Disorder (IDD) and Autism Spectrum Disorders. Rate the item depending on the significance of the disability and the related level of impairment in personal, social, family, school, or occupational functioning."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -979,7 +979,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DEVELOPMENTAL_INTELLECTUAL._to_consider_.0"/>
-      <column name="v" value="Does the child/youth’s growth and development seem healthy?"/>
+      <column name="v" value="Does the child/youth's growth and development seem healthy?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1004,7 +1004,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._description_"/>
-      <column name="v" value="This item describes the child/youth’s age-appropriate decision making process and understanding of choices and consequences."/>
+      <column name="v" value="This item describes the child/youth's age-appropriate decision making process and understanding of choices and consequences."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1014,22 +1014,22 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.There is a history or suspicion of problems with judgment in which the child/youth makes decisions that are in some way harmful to the child/youth’s development and/or well-being."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.There is a history or suspicion of problems with judgment in which the child/youth makes decisions that are in some way harmful to the child/youth's development and/or well-being."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Problems with judgment in which the youth makes decisions that are in some way harmful to the child/youth’s development and/or well-being. As a result, more supervision is required than expected for the child/youth’s age."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Problems with judgment in which the youth makes decisions that are in some way harmful to the child/youth's development and/or well-being. As a result, more supervision is required than expected for the child/youth's age."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth makes decisions that would likely result in significant physical harm to self or others. Therefore, youth requires intense and constant supervision, over and above that expected for the child/youth’s age."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth makes decisions that would likely result in significant physical harm to self or others. Therefore, youth requires intense and constant supervision, over and above that expected for the child/youth's age."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._to_consider_.0"/>
-      <column name="v" value="How is the child/youth’s judgment and ability to make good decisions?"/>
+      <column name="v" value="How is the child/youth's judgment and ability to make good decisions?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1059,7 +1059,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SCHOOL_BEHAVIOR._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth’s behavior problems are interfering with functioning at school. The child/youth is disruptive and may have received sanctions including suspensions."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth's behavior problems are interfering with functioning at school. The child/youth is disruptive and may have received sanctions including suspensions."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1089,7 +1089,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SCHOOL_ACHIEVEMENT._description_"/>
-      <column name="v" value="This item rates the child/youth’s grades or level of academic achievement."/>
+      <column name="v" value="This item rates the child/youth's grades or level of academic achievement."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1114,7 +1114,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SCHOOL_ACHIEVEMENT._to_consider_.0"/>
-      <column name="v" value="How are the child/youth’s grades?"/>
+      <column name="v" value="How are the child/youth's grades?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1149,7 +1149,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SCHOOL_ATTENDANCE._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth’s problems with school attendance are interfering with academic progress."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth's problems with school attendance are interfering with academic progress."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1199,7 +1199,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MEDICAL_PHYSICAL._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth has life-threatening illness or medical/physical condition. Immediate and/or intense action should be taken due to imminent danger to child/youth’s safety, health, and/or development."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth has life-threatening illness or medical/physical condition. Immediate and/or intense action should be taken due to imminent danger to child/youth's safety, health, and/or development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1209,7 +1209,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MEDICAL_PHYSICAL._to_consider_.1"/>
-      <column name="v" value="How much does this interfere with the child/youth’s life?"/>
+      <column name="v" value="How much does this interfere with the child/youth's life?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1219,7 +1219,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SEXUAL_DEVELOPMENT._description_"/>
-      <column name="v" value="This item looks at broad issues of sexual development including developmentally inappropriate sexual behavior or sexual concerns, and the reactions of others to any of these factors. The child/youth’s sexual orientation, gender identity or expression (SOGIE) could be rated here only if they are leading to difficulties. Sexually abusive behaviors are rated elsewhere."/>
+      <column name="v" value="This item looks at broad issues of sexual development including developmentally inappropriate sexual behavior or sexual concerns, and the reactions of others to any of these factors. The child/youth's sexual orientation, gender identity or expression (SOGIE) could be rated here only if they are leading to difficulties. Sexually abusive behaviors are rated elsewhere."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1229,12 +1229,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SEXUAL_DEVELOPMENT._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.History or suspicion of problems with sexual development, but does not interfere with functioning in other life domains. May include the child/youth’s concerns about sexual orientation, gender identity and expression (SOGIE), or anxiety about the reaction of others."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.History or suspicion of problems with sexual development, but does not interfere with functioning in other life domains. May include the child/youth's concerns about sexual orientation, gender identity and expression (SOGIE), or anxiety about the reaction of others."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SEXUAL_DEVELOPMENT._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Moderate to serious problems with sexual development that interferes with the child/youth’s life functioning in other life domains."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Moderate to serious problems with sexual development that interferes with the child/youth's life functioning in other life domains."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1244,7 +1244,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SEXUAL_DEVELOPMENT._to_consider_.0"/>
-      <column name="v" value="Are there concerns about the child/youth’s healthy sexual development?"/>
+      <column name="v" value="Are there concerns about the child/youth's healthy sexual development?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1264,27 +1264,27 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP._description_"/>
-      <column name="v" value="This item rates the child/youth’s sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues."/>
+      <column name="v" value="This item rates the child/youth's sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention.Child/youth gets a full night’s sleep each night."/>
+      <column name="v" value="No current need; no need for action or intervention.Child/youth gets a full night's sleep each night."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth has some problems sleeping. Generally, child/youth gets a full night’s sleep but atleast once a week problems arise. This may include occasionally awakening or bed wetting orhaving nightmares."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth has some problems sleeping. Generally, child/youth gets a full night's sleep but atleast once a week problems arise. This may include occasionally awakening or bed wetting orhaving nightmares."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need isinterfering with child/youth’s functioning.Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldomobtains a full night of sleep."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need isinterfering with child/youth's functioning.Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldomobtains a full night of sleep."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth isnot able to get a full night’s sleep."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth isnot able to get a full night's sleep."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1314,7 +1314,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SUICIDE_RISK._description_"/>
-      <column name="v" value="This item is intended to describe the presence of thoughts or behaviors aimed at taking one’s life. This rating describes both suicidal and significant self-injurious behavior. This item rates overt and covert thoughts and efforts on the part of a child or youth to end their life. A rating of ‘2’ or ‘3’ would indicate the need for a safety plan. Notice the specific time frames for each rating"/>
+      <column name="v" value="This item is intended to describe the presence of thoughts or behaviors aimed at taking one's life. This rating describes both suicidal and significant self-injurious behavior. This item rates overt and covert thoughts and efforts on the part of a child or youth to end their life. A rating of '2' or '3' would indicate the need for a safety plan. Notice the specific time frames for each rating"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1374,7 +1374,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SELF_INJURIOUS_BEHVIOR._rating_.3._description_"/>
-      <column name="v" value="Intensive and/or immediate action is required to address the need or risk behavior.Engaged in self-injurious behavior requiring medical intervention (e.g., sutures, surgery) and that is significant enough to put the child/youth’s health at risk."/>
+      <column name="v" value="Intensive and/or immediate action is required to address the need or risk behavior.Engaged in self-injurious behavior requiring medical intervention (e.g., sutures, surgery) and that is significant enough to put the child/youth's health at risk."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1434,7 +1434,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DANGERS_TO_OTHERS._description_"/>
-      <column name="v" value="This item rates the child/youth’s violent or aggressive behavior. The intention of this behavior is to cause significant bodily harm to others. A rating of ‘2’ or ‘3’ would indicate the need for a safety plan. Reckless behavior that may cause physical harm to others is not rated on this item."/>
+      <column name="v" value="This item rates the child/youth's violent or aggressive behavior. The intention of this behavior is to cause significant bodily harm to others. A rating of '2' or '3' would indicate the need for a safety plan. Reckless behavior that may cause physical harm to others is not rated on this item."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1619,7 +1619,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.INTENTIONAL_MISBEHAVIOR._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed. Youth may be intentionally getting in trouble in school or at home and the consequences, or threat of consequences is causing problems in the youth’s life."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed. Youth may be intentionally getting in trouble in school or at home and the consequences, or threat of consequences is causing problems in the youth's life."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1659,12 +1659,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LANGUAGE._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth and/or significant family members do not speak the primary language where the youth or family lives. Translator or family’s native language speaker is needed for successful intervention; a qualified individual(s) can be identified within natural supports."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child/youth and/or significant family members do not speak the primary language where the youth or family lives. Translator or family's native language speaker is needed for successful intervention; a qualified individual(s) can be identified within natural supports."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LANGUAGE._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth and/or significant family members do not speak the primary language where the youth or family lives. Translator or family’s native language speaker is needed for successful intervention; no such individual is available from among natural supports."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth and/or significant family members do not speak the primary language where the youth or family lives. Translator or family's native language speaker is needed for successful intervention; no such individual is available from among natural supports."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1674,7 +1674,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LANGUAGE._to_consider_.1"/>
-      <column name="v" value="Is there a child/youth interpreting for the family in situations that may compromise the child/youth or family’s care?"/>
+      <column name="v" value="Is there a child/youth interpreting for the family in situations that may compromise the child/youth or family's care?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1689,7 +1689,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.TRADITIONS_RITUALS._description_"/>
-      <column name="v" value="This item rates the child/youth and family’s access to and participation in cultural tradition, rituals and practices, including the celebration of culturally specific holidays such as Kwanza, Dia de los Muertos, Yom Kippur, Quinceanera, etc. This also may include daily activities that are culturally specific (e.g., wearing a hijab, praying toward Mecca at specific times, eating a specific diet, access to media), and traditions and activities to include newer cultural identities."/>
+      <column name="v" value="This item rates the child/youth and family's access to and participation in cultural tradition, rituals and practices, including the celebration of culturally specific holidays such as Kwanza, Dia de los Muertos, Yom Kippur, Quinceanera, etc. This also may include daily activities that are culturally specific (e.g., wearing a hijab, praying toward Mecca at specific times, eating a specific diet, access to media), and traditions and activities to include newer cultural identities."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1734,17 +1734,17 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_STRESS._description_"/>
-      <column name="v" value="This item identifies circumstances in which the child/youth’s cultural identity is met with hostility or other problems within the child/youth’s environment due to differences in attitudes, behavior, or beliefs of others (this includes cultural differences that are causing stress between the youth and the child/youth’s family). Racism, negativity toward SOGIE and other forms of discrimination would be rated here."/>
+      <column name="v" value="This item identifies circumstances in which the child/youth's cultural identity is met with hostility or other problems within the child/youth's environment due to differences in attitudes, behavior, or beliefs of others (this includes cultural differences that are causing stress between the youth and the child/youth's family). Racism, negativity toward SOGIE and other forms of discrimination would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_STRESS._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention. No evidence of stress between the child/youth’s cultural identity and current living situation."/>
+      <column name="v" value="No current need; no need for action or intervention. No evidence of stress between the child/youth's cultural identity and current living situation."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_STRESS._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Some occasional stress resulting from friction between the child/youth’s cultural identity and current living situation."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Some occasional stress resulting from friction between the child/youth's cultural identity and current living situation."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1769,7 +1769,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_STRESS._to_consider_.2"/>
-      <column name="v" value="How does the caregiver support the child/youth’s identity and experiences if different from their own?"/>
+      <column name="v" value="How does the caregiver support the child/youth's identity and experiences if different from their own?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1779,7 +1779,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_STRENGTHS._description_"/>
-      <column name="v" value="This item refers to the presence of a sense of family identity as well as love and communication among family members. Even families who are struggling often have a firm foundation that consists of a positive sense of family and strong underlying love and commitment to each other. These are the constructs this strength is intended to identify. As with Family Functioning, the definition of family comes from the child/youth’s perspective (i.e., who the child/youth describes as their family). If this information is not known, then we recommend a definition of family that includes biological/adoptive relatives and their significant others with whom the child/youth is still in contact."/>
+      <column name="v" value="This item refers to the presence of a sense of family identity as well as love and communication among family members. Even families who are struggling often have a firm foundation that consists of a positive sense of family and strong underlying love and commitment to each other. These are the constructs this strength is intended to identify. As with Family Functioning, the definition of family comes from the child/youth's perspective (i.e., who the child/youth describes as their family). If this information is not known, then we recommend a definition of family that includes biological/adoptive relatives and their significant others with whom the child/youth is still in contact."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1789,7 +1789,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_STRENGTHS._rating_.1._description_"/>
-      <column name="v" value="Useful strength is evident but requires some effort to maximize the strength. Strength might be used and built upon in treatment.Family has some good relationships and good communication. Family members are able to enjoy each other’s company. There is at least one family member who has a strong, loving relationship with the child/youth and is able to provide limited emotional or concrete support."/>
+      <column name="v" value="Useful strength is evident but requires some effort to maximize the strength. Strength might be used and built upon in treatment.Family has some good relationships and good communication. Family members are able to enjoy each other's company. There is at least one family member who has a strong, loving relationship with the child/youth and is able to provide limited emotional or concrete support."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1839,7 +1839,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.INTERPERSONAL._description_"/>
-      <column name="v" value="This item is used to identify a child/youth’s social and relationship skills. Interpersonal skills are rated independently of Social Functioning because a child/youth can have social skills but still struggle in their relationships at a particular point in time. This strength indicates an ability to make and maintain long-standing relationships."/>
+      <column name="v" value="This item is used to identify a child/youth's social and relationship skills. Interpersonal skills are rated independently of Social Functioning because a child/youth can have social skills but still struggle in their relationships at a particular point in time. This strength indicates an ability to make and maintain long-standing relationships."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1899,12 +1899,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._description_"/>
-      <column name="v" value="This item is used to evaluate the nature of the school’s relationship with the youth and family, as well as, the level of support the youth receives from the school. Rate according to how much the school is an effective partner in promoting youth’s functioning and addressing youth’s needs in school."/>
+      <column name="v" value="This item is used to evaluate the nature of the school's relationship with the youth and family, as well as, the level of support the youth receives from the school. Rate according to how much the school is an effective partner in promoting youth's functioning and addressing youth's needs in school."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._rating_.0._description_"/>
-      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.The school works closely with the child/youth and family to identify and successfully address the youth’s educational needs; OR the child/youth excels in school."/>
+      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.The school works closely with the child/youth and family to identify and successfully address the youth's educational needs; OR the child/youth excels in school."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1914,17 +1914,17 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._rating_.2._description_"/>
-      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.The school is currently unable to adequately address the child/youth’s academic or behavioral needs."/>
+      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.The school is currently unable to adequately address the child/youth's academic or behavioral needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._rating_.3._description_"/>
-      <column name="v" value="An area in which no current strength is identified; efforts are needed to identify potential strengths.There is no evidence of the school working to identify or successfully address the youth’s needs at this time and/or the school is unable and/or unwilling to work to identify and address the youth’s needs and/or there is no school to partner with at this time."/>
+      <column name="v" value="An area in which no current strength is identified; efforts are needed to identify potential strengths.There is no evidence of the school working to identify or successfully address the youth's needs at this time and/or the school is unable and/or unwilling to work to identify and address the youth's needs and/or there is no school to partner with at this time."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._to_consider_.0"/>
-      <column name="v" value="Is the school an active partner in the child/youth’s education?"/>
+      <column name="v" value="Is the school an active partner in the child/youth's education?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1999,7 +1999,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SPIRITUAL_RELIGIOUS._description_"/>
-      <column name="v" value="This item refers to the child/youth’s experience of receiving comfort and support from religious or spiritual involvement. This item rates the presence of beliefs that could be useful to the child/youth; however, an absence of spiritual/religious beliefs does not represent a need for the family."/>
+      <column name="v" value="This item refers to the child/youth's experience of receiving comfort and support from religious or spiritual involvement. This item rates the presence of beliefs that could be useful to the child/youth; however, an absence of spiritual/religious beliefs does not represent a need for the family."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2044,12 +2044,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_IDENTITY._description_"/>
-      <column name="v" value="Cultural identify refers to the child/youth’s view of self as belonging to a specific cultural group. This cultural group may be defined by a number of factors including race, religion, ethnicity, geography, sexual orientation or gender identity and expression (SOGIE)."/>
+      <column name="v" value="Cultural identify refers to the child/youth's view of self as belonging to a specific cultural group. This cultural group may be defined by a number of factors including race, religion, ethnicity, geography, sexual orientation or gender identity and expression (SOGIE)."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CULTURAL_IDENTITY._rating_.0._description_"/>
-      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.The youth has defined a cultural identity and is connected to others who support the youth’s cultural identity."/>
+      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.The youth has defined a cultural identity and is connected to others who support the youth's cultural identity."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2084,7 +2084,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.COMMUNITY_LIFE._description_"/>
-      <column name="v" value="This item reflects the child/youth’s connection to people, places or institutions in their community. This connection is measured by the degree to which the child/youth is involved with institutions of that community which might include (but are not limited to) community centers, little league teams, jobs, after-school activities, religious groups, etc. Connections through specific people (e.g., friends and family) could be considered an important community connection, if many people who are important to the child/youth live in the same neighborhood."/>
+      <column name="v" value="This item reflects the child/youth's connection to people, places or institutions in their community. This connection is measured by the degree to which the child/youth is involved with institutions of that community which might include (but are not limited to) community centers, little league teams, jobs, after-school activities, religious groups, etc. Connections through specific people (e.g., friends and family) could be considered an important community connection, if many people who are important to the child/youth live in the same neighborhood."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2129,7 +2129,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.NATURAL_SUPPORTS._description_"/>
-      <column name="v" value="This item refers to unpaid helpers in the child/youth’s natural environment. These include individuals who provide social support to the target youth and family. All family members and paid caregivers are excluded."/>
+      <column name="v" value="This item refers to unpaid helpers in the child/youth's natural environment. These include individuals who provide social support to the target youth and family. All family members and paid caregivers are excluded."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2144,7 +2144,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.NATURAL_SUPPORTS._rating_.2._description_"/>
-      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.Child/youth has some identified natural supports however they are not actively contributing to the child/youth’s healthy development."/>
+      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.Child/youth has some identified natural supports however they are not actively contributing to the child/youth's healthy development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2169,12 +2169,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RESILIENCY._description_"/>
-      <column name="v" value="This rating refers to the child/youth’s ability to recognize their internal strengths and use them in times of stress and in managing daily life. Resilience also refers to the child/youth’s ability to bounce back from stressful life events"/>
+      <column name="v" value="This rating refers to the child/youth's ability to recognize their internal strengths and use them in times of stress and in managing daily life. Resilience also refers to the child/youth's ability to bounce back from stressful life events"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RESILIENCY._rating_.0._description_"/>
-      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.Child/youth’s internal strength in overcoming or the ability to bounce back is a core part of identity and associated with a well-developed and recognizable set of supports and strengths for dealing with challenges."/>
+      <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan.Child/youth's internal strength in overcoming or the ability to bounce back is a core part of identity and associated with a well-developed and recognizable set of supports and strengths for dealing with challenges."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2184,7 +2184,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RESILIENCY._rating_.2._description_"/>
-      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.Child/youth has limited ability to recognize and use internal strengths in overcoming or the ability to bounce back to effectively to support the youth’s healthy development, problem solving or dealing with stressful life events."/>
+      <column name="v" value="Strengths have been identified but require significant strength building efforts before they can be effectively utilized as part of a plan.Child/youth has limited ability to recognize and use internal strengths in overcoming or the ability to bounce back to effectively to support the youth's healthy development, problem solving or dealing with stressful life events."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2234,7 +2234,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SUPERVISION._description_"/>
-      <column name="v" value="This item rates the caregiver’s capacity to provide the level of monitoring and discipline needed by the child/youth. Discipline is defined in the broadest sense, and includes all of the things that parents/caregivers can do to promote positive behavior with their children."/>
+      <column name="v" value="This item rates the caregiver's capacity to provide the level of monitoring and discipline needed by the child/youth. Discipline is defined in the broadest sense, and includes all of the things that parents/caregivers can do to promote positive behavior with their children."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2274,7 +2274,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.INVOLVEMENT_WITH_CARE._description_"/>
-      <column name="v" value="This item rates the caregiver’s participation in the child/youth’s care and ability to advocate for the child/youth."/>
+      <column name="v" value="This item rates the caregiver's participation in the child/youth's care and ability to advocate for the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2289,7 +2289,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.INVOLVEMENT_WITH_CARE._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Caregiver is not actively involved in the child/youth’s services and/or interventions intended to assist."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Caregiver is not actively involved in the child/youth's services and/or interventions intended to assist."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2319,7 +2319,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.KNOWLEDGE._description_"/>
-      <column name="v" value="This item identifies the caregiver’s knowledge of the child/youth’s strengths and needs, any problems experienced by the child/youth, and his/her ability to understand the rationale for the treatment or management of these problems."/>
+      <column name="v" value="This item identifies the caregiver's knowledge of the child/youth's strengths and needs, any problems experienced by the child/youth, and his/her ability to understand the rationale for the treatment or management of these problems."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2339,17 +2339,17 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.KNOWLEDGE._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Caregiver has little or no understanding of the child/youth's current condition. Their lack of knowledge about the child/youth’s strengths and needs places the child/youth at risk of significant negative outcomes."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Caregiver has little or no understanding of the child/youth's current condition. Their lack of knowledge about the child/youth's strengths and needs places the child/youth at risk of significant negative outcomes."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.KNOWLEDGE._to_consider_.0"/>
-      <column name="v" value="How does the caregiver understand the child/youth’s needs?"/>
+      <column name="v" value="How does the caregiver understand the child/youth's needs?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.KNOWLEDGE._to_consider_.1"/>
-      <column name="v" value="Does the caregiver have the necessary information to meet the child/youth’s needs?"/>
+      <column name="v" value="Does the caregiver have the necessary information to meet the child/youth's needs?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2424,7 +2424,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RESIDENT_STABILITY._to_consider_.0"/>
-      <column name="v" value="Is the family’s current housing situation stable?"/>
+      <column name="v" value="Is the family's current housing situation stable?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2469,7 +2469,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MEDICAL_PHYSICAL_CAREGIVER._to_consider_.0"/>
-      <column name="v" value="How is the caregiver’s health?"/>
+      <column name="v" value="How is the caregiver's health?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2499,7 +2499,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MENTAL_HEALTH._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning. Caregiver’s mental health difficulties interfere with their capacity to parent."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning. Caregiver's mental health difficulties interfere with their capacity to parent."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2519,7 +2519,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MENTAL_HEALTH._to_consider_.2"/>
-      <column name="v" value="Is there any evidence of transgenerational trauma that is impacting the caregiver or the child/youth’s ability to give care effectively?"/>
+      <column name="v" value="Is there any evidence of transgenerational trauma that is impacting the caregiver or the child/youth's ability to give care effectively?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2569,7 +2569,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DEVELOPMENTAL._description_"/>
-      <column name="v" value="This item describes the presence of limited cognitive capacity or developmental disabilities that challenges the caregiver’s ability to provide care for the child/youth."/>
+      <column name="v" value="This item describes the presence of limited cognitive capacity or developmental disabilities that challenges the caregiver's ability to provide care for the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2609,7 +2609,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SAFETY._description_"/>
-      <column name="v" value="This item describes the caregiver’s ability to maintain the child/youth’s safety within the household. It does not refer to the safety of other family or household members based on any danger presented by the assessed caregiver."/>
+      <column name="v" value="This item describes the caregiver's ability to maintain the child/youth's safety within the household. It does not refer to the safety of other family or household members based on any danger presented by the assessed caregiver."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2709,7 +2709,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EMOTIONAL_ABUSE._description_"/>
-      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, “no good.” This item includes both “emotional abuse,” which would include psychological maltreatment such as insults or humiliation towards a child and “emotional neglect,” described as the denial of emotional attention and/or support from caregivers."/>
+      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, &quot;no good.&quot; This item includes both &quot;emotional abuse,&quot; which would include psychological maltreatment such as insults or humiliation towards a child and &quot;emotional neglect,&quot; described as the denial of emotional attention and/or support from caregivers."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2759,7 +2759,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.NEGLECT._to_consider_.1"/>
-      <column name="v" value="Are the child/youth’s basic needs for food and shelter being met?"/>
+      <column name="v" value="Are the child/youth's basic needs for food and shelter being met?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2784,7 +2784,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.MEDICAL_TRAUMA._rating_.1._description_"/>
-      <column name="v" value="Child/youth has had a medical experience that was perceived as emotionally or mentally overwhelming. This includes events that were acute in nature and did not result in ongoing medical needs; associated distress such as minor surgery, stitches or bone setting; acute injuries and moderately invasive medical procedures such as major surgery that required only short term hospitalization; events that may have been life threatening and may have resulted in chronic health problems that alter the child/youth’s physical functioning. A suspicion that a child/youth has had a medical experience that was perceived as emotionally or mentally overwhelming should be rated here."/>
+      <column name="v" value="Child/youth has had a medical experience that was perceived as emotionally or mentally overwhelming. This includes events that were acute in nature and did not result in ongoing medical needs; associated distress such as minor surgery, stitches or bone setting; acute injuries and moderately invasive medical procedures such as major surgery that required only short term hospitalization; events that may have been life threatening and may have resulted in chronic health problems that alter the child/youth's physical functioning. A suspicion that a child/youth has had a medical experience that was perceived as emotionally or mentally overwhelming should be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2804,7 +2804,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.WITNESS_FAMILY_VIOLENCE._description_"/>
-      <column name="v" value="This item describes exposure to violence within the child/youth’s home or family."/>
+      <column name="v" value="This item describes exposure to violence within the child/youth's home or family."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2819,7 +2819,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.WITNESS_FAMILY_VIOLENCE._to_consider_.0"/>
-      <column name="v" value="Is there frequent fighting in the child/youth’s family?"/>
+      <column name="v" value="Is there frequent fighting in the child/youth's family?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2834,7 +2834,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.WITNESS_COMMUNITY_SCHOOL_VIOLENCE._description_"/>
-      <column name="v" value="This item describes the exposure to incidents of violence the youth has witnessed or experienced in his/her community. This includes witnessing violence at the child/youth’s school or educational setting."/>
+      <column name="v" value="This item describes the exposure to incidents of violence the youth has witnessed or experienced in his/her community. This includes witnessing violence at the child/youth's school or educational setting."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2864,7 +2864,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.NATURAL_MANMADE_DISASTER._description_"/>
-      <column name="v" value="This item describes the child/youth’s exposure to either natural or manmade disasters."/>
+      <column name="v" value="This item describes the child/youth's exposure to either natural or manmade disasters."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2874,7 +2874,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.NATURAL_MANMADE_DISASTER._rating_.1._description_"/>
-      <column name="v" value="Child/youth has experienced, been exposed to or witnessed natural or manmade disasters either directly or second-hand (e.g., on television, hearing others discuss disasters). This includes disasters such as a fire or earthquake or manmade disaster; car accident, plane crashes, or bombings; observing a caregiver who has been injured in a car accident or fire or watching a neighbor’s house burn down; a disaster that caused significant harm or death to a loved one; or there is an ongoing impact or life disruption due to the disaster (e.g. caregiver loses job). A suspicion that the child/youth has experienced, been exposed to or witnessed natural or manmade disasters either directly or second-hand would be rated here."/>
+      <column name="v" value="Child/youth has experienced, been exposed to or witnessed natural or manmade disasters either directly or second-hand (e.g., on television, hearing others discuss disasters). This includes disasters such as a fire or earthquake or manmade disaster; car accident, plane crashes, or bombings; observing a caregiver who has been injured in a car accident or fire or watching a neighbor's house burn down; a disaster that caused significant harm or death to a loved one; or there is an ongoing impact or life disruption due to the disaster (e.g. caregiver loses job). A suspicion that the child/youth has experienced, been exposed to or witnessed natural or manmade disasters either directly or second-hand would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2894,7 +2894,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.WAR_TERRORISM_AFFECTED._description_"/>
-      <column name="v" value="This item describes the child/youth’s exposure to war, political violence, torture or terrorism."/>
+      <column name="v" value="This item describes the child/youth's exposure to war, political violence, torture or terrorism."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2929,7 +2929,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.VICTIM_WITNESS_CRIMINAL_ACTIVITY._description_"/>
-      <column name="v" value="This item describes the child/youth’s exposure to criminal activity. Criminal behavior includes any behavior for which an adult could go to prison including drug dealing, prostitution, assault, or battery."/>
+      <column name="v" value="This item describes the child/youth's exposure to criminal activity. Criminal behavior includes any behavior for which an adult could go to prison including drug dealing, prostitution, assault, or battery."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2994,17 +2994,17 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CG_CRIMINAL_BEHAVIOR._rating_.0._description_"/>
-      <column name="v" value="There is no evidence that child/youth’s parents have ever engaged in criminal behavior."/>
+      <column name="v" value="There is no evidence that child/youth's parents have ever engaged in criminal behavior."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CG_CRIMINAL_BEHAVIOR._rating_.1._description_"/>
-      <column name="v" value="One or both of the child/youth’s parents/guardians have a history of criminal behavior that resulted in a conviction or incarceration. A suspicion that one or both of the child/youth’s parents/guardians have a history of criminal behavior that resulted in conviction or incarceration would be rated here."/>
+      <column name="v" value="One or both of the child/youth's parents/guardians have a history of criminal behavior that resulted in a conviction or incarceration. A suspicion that one or both of the child/youth's parents/guardians have a history of criminal behavior that resulted in conviction or incarceration would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CG_CRIMINAL_BEHAVIOR._to_consider_.0"/>
-      <column name="v" value="• Has the child/youth’s parent/guardian or family been involved in criminal activities or ever been in jail?"/>
+      <column name="v" value="• Has the child/youth's parent/guardian or family been involved in criminal activities or ever been in jail?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3029,7 +3029,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ATTACHMENT_DIFFICULTIES._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning. Clear evidence of adjustment problems associated with traumatic life event(s). Symptoms can vary widely and may include sleeping or eating disturbances, regressive behavior, behavior problems or problems with attachment. Adjustment is interfering with child/youth’s functioning in at least one life domain."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning. Clear evidence of adjustment problems associated with traumatic life event(s). Symptoms can vary widely and may include sleeping or eating disturbances, regressive behavior, behavior problems or problems with attachment. Adjustment is interfering with child/youth's functioning in at least one life domain."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3054,7 +3054,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ATTACHMENT_DIFFICULTIES._to_consider_.3"/>
-      <column name="v" value="What are the child’s current coping skills?"/>
+      <column name="v" value="What are the child's current coping skills?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3069,7 +3069,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.REGULATORY._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention. Strong evidence the child is developing strong self-' capacities. This is indicated by the capacity to fall asleep, regular patterns of feeding and sleeping. Young infants can regulate breathing and body temperature, are able to move smoothly between states of alertness, sleep, feeding on schedule, able to make use of caregiver/ pacifier to be soothed, and moving toward regulating themselves (e.g., infant can begin to calm to caregiver’s voice prior to being picked up). Toddlers are able to make use of caregiver to help regulate emotions, fall asleep with appropriate transitional objects, can attend to play with increased attention and play is becoming more elaborated, or have some ability to calm themselves down."/>
+      <column name="v" value="No current need; no need for action or intervention. Strong evidence the child is developing strong self-' capacities. This is indicated by the capacity to fall asleep, regular patterns of feeding and sleeping. Young infants can regulate breathing and body temperature, are able to move smoothly between states of alertness, sleep, feeding on schedule, able to make use of caregiver/ pacifier to be soothed, and moving toward regulating themselves (e.g., infant can begin to calm to caregiver's voice prior to being picked up). Toddlers are able to make use of caregiver to help regulate emotions, fall asleep with appropriate transitional objects, can attend to play with increased attention and play is becoming more elaborated, or have some ability to calm themselves down."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3119,12 +3119,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ATYPICAL_BEHAVIORS._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Atypical behaviors (repetitive or stereotyped behaviors) reported by caregivers or familiar individuals that may have mild or occasional interference in the child’s functioning."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Atypical behaviors (repetitive or stereotyped behaviors) reported by caregivers or familiar individuals that may have mild or occasional interference in the child's functioning."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ATYPICAL_BEHAVIORS._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Atypical behaviors (repetitive or stereotyped behaviors) generally noticed by unfamiliar people and have notable interference in the child’s functioning."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Atypical behaviors (repetitive or stereotyped behaviors) generally noticed by unfamiliar people and have notable interference in the child's functioning."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3144,7 +3144,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ATYPICAL_BEHAVIORS._to_consider_.2"/>
-      <column name="v" value="Are the unusual behaviors or repeated actions interfering with the child’s functioning?"/>
+      <column name="v" value="Are the unusual behaviors or repeated actions interfering with the child's functioning?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3154,7 +3154,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EARLY_EDUCATION._description_"/>
-      <column name="v" value="This item rates the child’s experiences in educational settings (such as daycare and preschool) and the child’s ability to get their needs met in these settings. This item also considers the presence of problems within these environments in terms of attendance, progress, support from the school staff to meet the child’s needs, and the child’s behavioral response to these environments."/>
+      <column name="v" value="This item rates the child's experiences in educational settings (such as daycare and preschool) and the child's ability to get their needs met in these settings. This item also considers the presence of problems within these environments in terms of attendance, progress, support from the school staff to meet the child's needs, and the child's behavioral response to these environments."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3174,12 +3174,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EARLY_EDUCATION._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child’s problems with functioning in the daycare or preschool environment place them at immediate risk of being removed from program due to their behaviors, lack of progress, or unmet needs."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child's problems with functioning in the daycare or preschool environment place them at immediate risk of being removed from program due to their behaviors, lack of progress, or unmet needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EARLY_EDUCATION._to_consider_.0"/>
-      <column name="v" value="What is the child’s experience in preschool/daycare?"/>
+      <column name="v" value="What is the child's experience in preschool/daycare?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3194,7 +3194,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SOCIAL_EMOTIONAL_FUNCTIONING._description_"/>
-      <column name="v" value="This item rates the child’s social and relationship functioning. This includes age appropriate behavior and the ability to make and maintain relationships during the past 30 days. When rating this item, consider the child’s level of development."/>
+      <column name="v" value="This item rates the child's social and relationship functioning. This includes age appropriate behavior and the ability to make and maintain relationships during the past 30 days. When rating this item, consider the child's level of development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3289,22 +3289,22 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PRENATAL_CARE._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention. Child’s biological mother had adequate prenatal care (e.g. 10 or more planned visits to a physician) that began in the first trimester. Child’s mother did not experience any pregnancy-related illnesses."/>
+      <column name="v" value="No current need; no need for action or intervention. Child's biological mother had adequate prenatal care (e.g. 10 or more planned visits to a physician) that began in the first trimester. Child's mother did not experience any pregnancy-related illnesses."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PRENATAL_CARE._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child’s biological mother had some shortcomings in prenatal care, or had a mild form of a pregnancy-related illness. A child whose mother had 6 or fewer planned visits to a physician would be rated here; her care must have begun in the first or early second trimester. A child whose mother had a mild or well-controlled form of pregnancy-related illness such as gestational diabetes, or who had an uncomplicated high-risk pregnancy, would be rated here."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child's biological mother had some shortcomings in prenatal care, or had a mild form of a pregnancy-related illness. A child whose mother had 6 or fewer planned visits to a physician would be rated here; her care must have begun in the first or early second trimester. A child whose mother had a mild or well-controlled form of pregnancy-related illness such as gestational diabetes, or who had an uncomplicated high-risk pregnancy, would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PRENATAL_CARE._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child’s biological mother received poor prenatal care, initiated only in the last trimester, or had a moderate form of pregnancy-related illness. A child whose mother had 4 or fewer planned visits to a physician would be rated here. A mother who experienced a high-risk pregnancy with some complications would be rated here."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child's biological mother received poor prenatal care, initiated only in the last trimester, or had a moderate form of pregnancy-related illness. A child whose mother had 4 or fewer planned visits to a physician would be rated here. A mother who experienced a high-risk pregnancy with some complications would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PRENATAL_CARE._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child’s biological mother had no prenatal care, or had a severe form of pregnancy-related illness. A mother who had toxemia/preeclampsia would be rated here."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child's biological mother had no prenatal care, or had a severe form of pregnancy-related illness. A mother who had toxemia/preeclampsia would be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3324,7 +3324,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EXPOSURE._description_"/>
-      <column name="v" value="This item describes the child’s exposure to environmental toxins and substance use and abuse both before and after birth."/>
+      <column name="v" value="This item describes the child's exposure to environmental toxins and substance use and abuse both before and after birth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3394,7 +3394,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.BIRTH_WEIGHT._description_"/>
-      <column name="v" value="This describes the child’s birth weight as compared to normal development."/>
+      <column name="v" value="This describes the child's birth weight as compared to normal development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3419,7 +3419,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.BIRTH_WEIGHT._to_consider_.0"/>
-      <column name="v" value="• How did the child’s birth weight compare to typical averages?"/>
+      <column name="v" value="• How did the child's birth weight compare to typical averages?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3459,12 +3459,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAILURE_TO_THRIVE._to_consider_.1"/>
-      <column name="v" value="Are there any concerns about the child’s eating habits?"/>
+      <column name="v" value="Are there any concerns about the child's eating habits?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAILURE_TO_THRIVE._to_consider_.2"/>
-      <column name="v" value="Does the child’s doctor have any concerns about the child’s growth or weight gain?"/>
+      <column name="v" value="Does the child's doctor have any concerns about the child's growth or weight gain?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3499,12 +3499,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RELATIONSHIP_PERMANENCE._to_consider_.0"/>
-      <column name="v" value="Has anyone consistently been in the child’s life since birth?"/>
+      <column name="v" value="Has anyone consistently been in the child's life since birth?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RELATIONSHIP_PERMANENCE._to_consider_.1"/>
-      <column name="v" value="Are there other significant adults in the child’s life?"/>
+      <column name="v" value="Are there other significant adults in the child's life?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3564,27 +3564,27 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._description_"/>
-      <column name="v" value="This item refers to the caregiver’s ability to understand and respond to the joys, sorrows and other feelings of the child with similar or helpful feelings."/>
+      <column name="v" value="This item refers to the caregiver's ability to understand and respond to the joys, sorrows and other feelings of the child with similar or helpful feelings."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention. This may be strength of the caregiver. Caregiver is emotionally empathic and attends to the child’s emotional needs."/>
+      <column name="v" value="No current need; no need for action or intervention. This may be strength of the caregiver. Caregiver is emotionally empathic and attends to the child's emotional needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities. This may be an opportunity for strength building.The caregiver can be emotionally empathic and typically attends to the child’s emotional needs. There are times, however, when the caregiver is not able to attend to the child’s emotional needs."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities. This may be an opportunity for strength building.The caregiver can be emotionally empathic and typically attends to the child's emotional needs. There are times, however, when the caregiver is not able to attend to the child's emotional needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with caregiver’s functioning.The caregiver is often not empathic and frequently is unable to attend to the child’s emotional needs."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with caregiver's functioning.The caregiver is often not empathic and frequently is unable to attend to the child's emotional needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver has significant difficulties with emotional responsiveness. They are not empathic and rarely attends to the child’s emotional needs."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver has significant difficulties with emotional responsiveness. They are not empathic and rarely attends to the child's emotional needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3594,12 +3594,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._to_consider_.1"/>
-      <column name="v" value="Is the caregiver able to respond to the child’s needs in an emotionally appropriate manner?"/>
+      <column name="v" value="Is the caregiver able to respond to the child's needs in an emotionally appropriate manner?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._to_consider_.2"/>
-      <column name="v" value="Is the caregiver’s level of empathy impacting the child’s development?"/>
+      <column name="v" value="Is the caregiver's level of empathy impacting the child's development?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3609,7 +3609,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_ADJ_TRAUMA_EXP._description_"/>
-      <column name="v" value="This rating covers the caregiver’s reactions to a variety of traumatic experiences that challenges the caregiver’s ability to provide care for the child/youth."/>
+      <column name="v" value="This rating covers the caregiver's reactions to a variety of traumatic experiences that challenges the caregiver's ability to provide care for the child/youth."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3624,7 +3624,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_ADJ_TRAUMA_EXP._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with caregiver’s functioning.The caregiver has marked adjustment problems and is symptomatic in response to a traumatic event (e.g., anger, depression, and anxiety)."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with caregiver's functioning.The caregiver has marked adjustment problems and is symptomatic in response to a traumatic event (e.g., anger, depression, and anxiety)."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3649,7 +3649,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_ADJ_TRAUMA_EXP._to_consider_.3"/>
-      <column name="v" value="What are the caregiver’s current coping skills?"/>
+      <column name="v" value="What are the caregiver's current coping skills?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3659,7 +3659,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_RELATIONSHIP_TO_SYSTEM._description_"/>
-      <column name="v" value="This item describes the degree to which the family’s apprehension to engage with the formal health care system creates a barrier to receipt of care. For example, if a family refuses to see a psychiatrist due to their belief that medications are over-prescribed for children, a clinician must consider this belief and understand its impact on the family’s choices. These complicated factors may translate into generalized discomfort with the formal health care system and may require the care provider to reconsider their approach."/>
+      <column name="v" value="This item describes the degree to which the family's apprehension to engage with the formal health care system creates a barrier to receipt of care. For example, if a family refuses to see a psychiatrist due to their belief that medications are over-prescribed for children, a clinician must consider this belief and understand its impact on the family's choices. These complicated factors may translate into generalized discomfort with the formal health care system and may require the care provider to reconsider their approach."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3679,7 +3679,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_RELATIONSHIP_TO_SYSTEM._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver’s hesitancy to engage with the formal helping system prohibits the family’s engagement with the treatment team at this time. When this occurs, the development of an alternate treatment plan may be required."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver's hesitancy to engage with the formal helping system prohibits the family's engagement with the treatment team at this time. When this occurs, the development of an alternate treatment plan may be required."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3689,7 +3689,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_RELATIONSHIP_TO_SYSTEM._to_consider_.1"/>
-      <column name="v" value="How does the caregiver’s hesitancy impact their engagement in care for their child?"/>
+      <column name="v" value="How does the caregiver's hesitancy impact their engagement in care for their child?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3699,7 +3699,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LEGAL_INVOLVEMENT._description_"/>
-      <column name="v" value="This item rates the caregiver’s level of involvement in the criminal justice system which impacts their ability to parent. This includes divorce, civil disputes, custody, eviction, property issues, worker’s comp, immigration etc."/>
+      <column name="v" value="This item rates the caregiver's level of involvement in the criminal justice system which impacts their ability to parent. This includes divorce, civil disputes, custody, eviction, property issues, worker's comp, immigration etc."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3744,7 +3744,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ORGANIZATION._description_"/>
-      <column name="v" value="This item is used to rate the caregiver’s ability to organize and manage their household within the context of intensive community services."/>
+      <column name="v" value="This item is used to rate the caregiver's ability to organize and manage their household within the context of intensive community services."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3804,12 +3804,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SELF_HARM._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child’s self-harm behaviors such as head banging that cannot be impacted by supervising adult and interferes with their functioning."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need is interfering with functioning.Child's self-harm behaviors such as head banging that cannot be impacted by supervising adult and interferes with their functioning."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SELF_HARM._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child’s self-harm behavior that puts their safety and well-being at risk."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child's self-harm behavior that puts their safety and well-being at risk."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3819,7 +3819,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SELF_HARM._to_consider_.1"/>
-      <column name="v" value="If so, does the caregiver’s support help stop the behavior?"/>
+      <column name="v" value="If so, does the caregiver's support help stop the behavior?"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3829,7 +3829,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.FAMILY_SPRITUAL_RELIGIOUS._description_"/>
-      <column name="v" value="This item refers to the family’s experience of receiving comfort and support from religious or spiritual involvement. This item rates the presence of beliefs that could be useful to the family; however, an absence of spiritual and/or religious beliefs does not represent a need for the family."/>
+      <column name="v" value="This item refers to the family's experience of receiving comfort and support from religious or spiritual involvement. This item rates the presence of beliefs that could be useful to the family; however, an absence of spiritual and/or religious beliefs does not represent a need for the family."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3874,27 +3874,27 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._description_"/>
-      <column name="v" value="This item rates the child/youth’s sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues."/>
+      <column name="v" value="This item rates the child/youth's sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention.Child/youth gets a full night’s sleep each night."/>
+      <column name="v" value="No current need; no need for action or intervention.Child/youth gets a full night's sleep each night."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._rating_.1._description_"/>
-      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth has some problems sleeping. Generally, child/youth gets a full night’s sleep but atleast once a week problems arise. This may include occasionally awakening or bed wetting orhaving nightmares."/>
+      <column name="v" value="Identified need requires monitoring, watchful waiting, or preventive activities.Child/youth has some problems sleeping. Generally, child/youth gets a full night's sleep but atleast once a week problems arise. This may include occasionally awakening or bed wetting orhaving nightmares."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._rating_.2._description_"/>
-      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need isinterfering with child/youth’s functioning.Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldomobtains a full night of sleep."/>
+      <column name="v" value="Action or intervention is required to ensure that the identified need is addressed; need isinterfering with child/youth's functioning.Child/youth is having problems with sleep. Sleep is often disrupted and child/youth seldomobtains a full night of sleep."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth isnot able to get a full night’s sleep."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action.Child/youth is generally sleep deprived. Sleeping is almost always difficult and the child/youth isnot able to get a full night's sleep."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
