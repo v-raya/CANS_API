@@ -4,6 +4,8 @@ import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
@@ -34,6 +36,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 
 /** @author denys.davydov */
 @Api(value = PEOPLE, tags = PEOPLE)
@@ -64,6 +68,8 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Post new Person", response = PersonDto.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response post(
       @ApiParam(name = "Person", value = "The Person object") @Valid final PersonDto dto) {
@@ -80,6 +86,8 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Update existent Person", response = PersonDto.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response put(
       @PathParam(ID)
@@ -99,6 +107,8 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Get Person by id", response = PersonDto.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
       @PathParam(ID)
@@ -115,6 +125,8 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Get all people", response = PersonDto[].class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response getAll() {
     final Collection<Person> entities = personService.findAll();
@@ -131,6 +143,8 @@ public class PersonResource {
       }
   )
   @ApiOperation(value = "Search people by parameters", response = PersonDto[].class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response search(
       @ApiParam(required = true, name = "Search Parameters", value = "Search People parameters")
@@ -152,6 +166,8 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Delete Person by id", response = PersonDto.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response delete(
       @PathParam(ID)

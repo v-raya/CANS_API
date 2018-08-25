@@ -2,6 +2,8 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
@@ -24,6 +26,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 
 /** @author denys.davydov */
 @Api(value = I18N, tags = I18N)
@@ -51,6 +55,8 @@ public class I18nResource {
     }
   )
   @ApiOperation(value = "Get i18n map by key prefix and language", response = Map.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response findByKeyPrefixAndLanguage(
       @PathParam(value = "keyPrefix")
@@ -84,6 +90,8 @@ public class I18nResource {
     }
   )
   @ApiOperation(value = "Get i18n map by key prefix and default language", response = Map.class)
+  @RequiresRoles(CANS_WORKER_ROLE)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response findByKeyPrefixAndDefaultLanguage(
       @PathParam(value = "keyPrefix")

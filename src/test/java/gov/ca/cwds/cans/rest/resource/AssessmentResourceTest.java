@@ -53,7 +53,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String FIXTURE_READ = "fixtures/assessment/assessment-read.json";
-  private static final String FIXTURE_START = "fixtures/start-assessment-post.json";
+  protected static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
 
   private final Set<Long> cleanUpAssessmentIds = new HashSet<>();

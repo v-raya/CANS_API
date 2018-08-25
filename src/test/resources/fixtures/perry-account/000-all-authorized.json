@@ -2,14 +2,15 @@
   "user": "000 supervisor",
   "staffId": "000",
   "roles": [
-    "Supervisor"
+    "Supervisor",
+    "CANS-worker"
   ],
   "county_code": "21",
   "county_name": "Marin",
   "county_cws_code": "1088",
   "privileges": [
-    "CWS CANS System",
     "Sensitive Persons",
-    "Sealed"
+    "Sealed",
+    "CANS-rollout"
   ]
 }
