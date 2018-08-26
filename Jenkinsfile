@@ -94,17 +94,19 @@ def publishLicenseReportHtml() {
 node('linux') {
     def artifactoryServer = Artifactory.server artifactoryServerId
     def rtGradle = Artifactory.newGradleBuild()
-    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
-                parameters([
-                        string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
-                        string(defaultValue: 'master', description: '', name: 'branch'),
-                        booleanParam(defaultValue: false, description: 'Runs liquibase ddl on application start', name: 'UPGRADE_CANS_DB_ON_START'),
-                        booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
-                        booleanParam(defaultValue: false, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
-                        string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
-                        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
-                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
-                ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
+// DO NOT DELETE THIS BLOCK        
+//    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
+//                parameters([
+//                        string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
+//                        string(defaultValue: 'master', description: '', name: 'branch'),
+//                        booleanParam(defaultValue: true, description: 'Runs liquibase ddl on application start', name: 'UPGRADE_CANS_DB_ON_START'),
+//                        booleanParam(defaultValue: false, description: '', name: 'ONLY_TESTING'),
+//                        booleanParam(defaultValue: true, description: 'Default release version template is: <majorVersion>_<buildNumber>-RC', name: 'RELEASE_PROJECT'),
+//                        string(defaultValue: "", description: 'Fill this field if need to specify custom version ', name: 'OVERRIDE_VERSION'),
+//                        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
+//                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
+//                ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
+// DO NOT DELETE THIS BLOCK        
     try {
         stage('Preparation') {
             cleanWs()
