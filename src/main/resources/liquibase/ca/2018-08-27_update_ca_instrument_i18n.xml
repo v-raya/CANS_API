@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-08-26_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-08-27_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-  <changeSet id="2018-08-26-instrument-ca-i18n-update" author="denys.davydov">
+  <changeSet id="2018-08-27-instrument-ca-i18n-update" author="denys.davydov">
      <delete tableName="i_18_n">
       <where>lang = 'en' and k like 'instrument.1%'</where>
     </delete>
@@ -1023,7 +1023,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.DECISION_MAKING._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action. Child/youth makes decisions that would likely result in significant physical harm to self or others. Therefore, youth requires intense and constant supervision, over and above that expected for the child/yo uth's age."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action. Child/youth makes decisions that would likely result in significant physical harm to self or others. Therefore, youth requires intense and constant supervision, over and above that expected for the child/youth's age."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2658,7 +2658,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SEXUAL_ABUSE._rating_.1._description_"/>
-      <column name="v" value="Child/youth has experienced sexual abuse, or there is a suspicion that they have experienced sexual abuse • including single or multiple episodes, or chronic over an extended period of time. The abuse may have involved penetration, multiple perpetrators, and/or associated physical injury. Child/youth with exposure to secondary sexual abuse (e.g., witnessing sexual abuse, having a sibling sexually abused) should be rated here."/>
+      <column name="v" value="Child/youth has experienced sexual abuse, or there is a suspicion that they have experienced sexual abuse - including single or multiple episodes, or chronic over an extended period of time. The abuse may have involved penetration, multiple perpetrators, and/or associated physical injury. Child/youth with exposure to secondary sexual abuse (e.g., witnessing sexual abuse, having a sibling sexually abused) should be rated here."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2688,7 +2688,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.PHYSICAL_ABUSE._rating_.1._description_"/>
-      <column name="v" value="Child/youth has experienced or there is a suspicion that they experienced physical abuse • mild to severe, or repeated physical abuse with sufficient physical harm requiring medical treatment."/>
+      <column name="v" value="Child/youth has experienced or there is a suspicion that they experienced physical abuse - mild to severe, or repeated physical abuse with sufficient physical harm requiring medical treatment."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2708,7 +2708,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EMOTIONAL_ABUSE._description_"/>
-      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, &amp;quot;no good.&amp;quot; This item includes both &amp;quot;emotional abuse,&amp;quot; which would include psychological maltreatment such as insults or humiliation towards a child and &amp;quot;emotional neglect,&amp;quot; described as the denial of emotional attention and/or support from caregivers."/>
+      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, &quot;no good.&quot; This item includes both &quot;emotional abuse,&quot; which would include psychological maltreatment such as insults or humiliation towards a child and &quot;emotional neglect,&quot; described as the denial of emotional attention and/or support from caregivers."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -2813,7 +2813,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.WITNESS_FAMILY_VIOLENCE._rating_.1._description_"/>
-      <column name="v" value="Child/youth has witnessed, or there is a suspicion that they witnessed family violence • single, repeated, or severe episodes. This includes episodes of family violence but no significant injuries (i.e. requiring emergency medical attention) and episodes in which significant injuries have occurred as a direct result of the violence."/>
+      <column name="v" value="Child/youth has witnessed, or there is a suspicion that they witnessed family violence - single, repeated, or severe episodes. This includes episodes of family violence but no significant injuries (i.e. requiring emergency medical attention) and episodes in which significant injuries have occurred as a direct result of the violence."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3083,7 +3083,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.REGULATORY._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action .Concern in two or more areas of regulation, including but not limited to: difficulties in breathing, body movements, crying, sleeping, feeding, attention, ability to self soothe, and/or sensitivity to environmental stressors."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action. Concern in two or more areas of regulation, including but not limited to: difficulties in breathing, body movements, crying, sleeping, feeding, attention, ability to self soothe, and/or sensitivity to environmental stressors."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3583,7 +3583,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_EMOTIONAL_RESPONSIVENESS._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver has significant difficulties with emotional responsiveness. They are not empathic and rarely attends to the child's emotional needs."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action. The caregiver has significant difficulties with emotional responsiveness. They are not empathic and rarely attends to the child's emotional needs."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3628,7 +3628,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CAREGIVER_ADJ_TRAUMA_EXP._rating_.3._description_"/>
-      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action The caregiver has post-traumatic stress difficulties. Symptoms may include intrusive thoughts, hyper-vigilance, constant anxiety, and other common symptoms of Post-Traumatic Stress Disorder (PTSD)."/>
+      <column name="v" value="Problems are dangerous or disabling; requires immediate and/or intensive action. The caregiver has post-traumatic stress difficulties. Symptoms may include intrusive thoughts, hyper-vigilance, constant anxiety, and other common symptoms of Post-Traumatic Stress Disorder (PTSD)."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
