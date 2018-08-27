@@ -12,6 +12,9 @@ import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import gov.ca.cwds.cans.domain.dto.InstrumentDto;
+import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -20,9 +23,9 @@ import org.junit.Test;
 
 public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
-  private static final String START_ASSESSMENT_REQUEST = "gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest";
-  private static final String INSTRUMENT_DTO = "gov.ca.cwds.cans.domain.dto.InstrumentDto";
-  private static final String PERSON_DTO = "gov.ca.cwds.cans.domain.dto.PersonDto";
+  private static final String START_ASSESSMENT_REQUEST = StartAssessmentRequest.class.getCanonicalName();
+  private static final String INSTRUMENT_DTO = InstrumentDto.class.getCanonicalName();
+  private static final String PERSON_DTO = PersonDto.class.getCanonicalName();
 
   private static final String ID = "1";
   private static final String KEY_PREFIX = "instrument.1.";
@@ -42,82 +45,82 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   @Test
   public void assessmentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    callEndpoint(ASSESSMENTS + SLASH + START, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST, 403);
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + START, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.POST);
 
-    callEndpoint(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE, 403);
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
+        null, HttpMethod.DELETE);
 
-    callEndpoint(ASSESSMENTS + SLASH + ID, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.PUT, 403);
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.PUT);
 
-    callEndpoint(ASSESSMENTS, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST, 403);
+    assertEndpointIsSecured(ASSESSMENTS, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.POST);
   }
 
   @Test
   public void countiesEndpoint_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    callEndpoint(COUNTIES, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(COUNTIES, null,
+        null, HttpMethod.GET);
   }
 
   @Test
   public void i18nEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    callEndpoint(I18N + SLASH + KEY_PREFIX, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE, null,
+        null, HttpMethod.GET);
   }
 
   @Test
   public void instrumentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    callEndpoint(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(INSTRUMENTS + SLASH + ID + I18N + LANGUAGE, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID + I18N + LANGUAGE, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(INSTRUMENTS + SLASH + ID, FIXTURES_INSTRUMENT_PUT_JSON,
-        INSTRUMENT_DTO, HttpMethod.PUT, 403);
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, FIXTURES_INSTRUMENT_PUT_JSON,
+        INSTRUMENT_DTO, HttpMethod.PUT);
 
-    callEndpoint(INSTRUMENTS, FIXTURES_INSTRUMENT_POST_JSON,
-        INSTRUMENT_DTO, HttpMethod.POST, 403);
+    assertEndpointIsSecured(INSTRUMENTS, FIXTURES_INSTRUMENT_POST_JSON,
+        INSTRUMENT_DTO, HttpMethod.POST);
 
-    callEndpoint(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE, 403);
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
+        null, HttpMethod.DELETE);
   }
 
   @Test
   public void peopleEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    callEndpoint(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(PEOPLE, null,
-        null, HttpMethod.GET, 403);
+    assertEndpointIsSecured(PEOPLE, null,
+        null, HttpMethod.GET);
 
-    callEndpoint(PEOPLE + SLASH + ID, FIXTURES_PERSON_PUT_JSON,
-        PERSON_DTO, HttpMethod.PUT, 403);
+    assertEndpointIsSecured(PEOPLE + SLASH + ID, FIXTURES_PERSON_PUT_JSON,
+        PERSON_DTO, HttpMethod.PUT);
 
-    callEndpoint(PEOPLE, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST, 403);
+    assertEndpointIsSecured(PEOPLE, FIXTURES_PERSON_POST_JSON,
+        PERSON_DTO, HttpMethod.POST);
 
-    callEndpoint(PEOPLE + SLASH + SEARCH, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST, 403);
+    assertEndpointIsSecured(PEOPLE + SLASH + SEARCH, FIXTURES_PERSON_POST_JSON,
+        PERSON_DTO, HttpMethod.POST);
 
-    callEndpoint(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.DELETE, 403);
+    assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
+        null, HttpMethod.DELETE);
   }
 
-  private void callEndpoint(String resourceUrl, String requestFixture, String requestClass,
-      HttpMethod httpMethod, Integer expectedResponseCode)
+  private void assertEndpointIsSecured(String resourceUrl, String requestFixture, String requestClass,
+      HttpMethod httpMethod)
       throws ClassNotFoundException, IOException {
     // given
     Object request = null;
@@ -163,7 +166,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
     }
 
     // then
-    assertThat(response.getStatus(), is(expectedResponseCode));
+    assertThat(response.getStatus(), is(403));
   }
 
 }
