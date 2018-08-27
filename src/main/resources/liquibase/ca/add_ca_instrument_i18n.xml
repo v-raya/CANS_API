@@ -6,7 +6,9 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
+
   <changeSet id="instrument-ca-i18n-insert" author="denys.davydov">
+    <validCheckSum>7:101efd4707e4b85c776a9743fb0e6b22</validCheckSum>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.BEN._title_"/>
