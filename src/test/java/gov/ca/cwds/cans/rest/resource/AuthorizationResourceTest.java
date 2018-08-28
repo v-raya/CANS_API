@@ -34,6 +34,8 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURES_INSTRUMENT_POST_JSON = "fixtures/instrument-post.json";
   private static final String FIXTURES_PERSON_PUT_JSON = "fixtures/person-put.json";
   private static final String FIXTURES_PERSON_POST_JSON = "fixtures/person-post.json";
+  private static final String NOT_AUTHORIZED_WITH_CANS_ROLE = "fixtures/perry-account/not-authorized-with-cans-role.json";
+  private static final String NOT_AUTHORIZED_WITH_CANS_PRIVILEGE = "fixtures/perry-account/not-authorized-with-cans-privilege.json";
 
   private enum HttpMethod {
     POST,
@@ -43,84 +45,158 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void assessmentEndpoints_failed_whenUserHasJustRole()
+      throws IOException, ClassNotFoundException {
+    assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
+  }
+
+  @Test
+  public void assessmentEndpoints_failed_whenUserHasJustPrivilege()
+      throws IOException, ClassNotFoundException {
+    assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
+  }
+
+  @Test
   public void assessmentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + START, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST);
-
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.GET);
-
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE);
-
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.PUT);
-
-    assertEndpointIsSecured(ASSESSMENTS, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST);
+    assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   @Test
   public void countiesEndpoint_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(COUNTIES, null,
-        null, HttpMethod.GET);
+        null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+
+    assertEndpointIsSecured(COUNTIES, null,
+        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
+
+    assertEndpointIsSecured(COUNTIES, null,
+        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_ROLE);
   }
 
   @Test
   public void i18nEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX, null,
-        null, HttpMethod.GET);
+    assertI18nEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
 
-    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE, null,
-        null, HttpMethod.GET);
+  @Test
+  public void i18nEndpoints_failed_whenUserHasJustRole()
+      throws IOException, ClassNotFoundException {
+    assertI18nEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
+  }
+
+  @Test
+  public void i18nEndpoints_failed_whenUserHasJustPrivilege()
+      throws IOException, ClassNotFoundException {
+    assertI18nEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
   }
 
   @Test
   public void instrumentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.GET);
+    assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
 
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID + I18N + LANGUAGE, null,
-        null, HttpMethod.GET);
+  @Test
+  public void instrumentEndpoints_failed_whenUserHasJustRole()
+      throws IOException, ClassNotFoundException {
+    assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
+  }
 
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, FIXTURES_INSTRUMENT_PUT_JSON,
-        INSTRUMENT_DTO, HttpMethod.PUT);
-
-    assertEndpointIsSecured(INSTRUMENTS, FIXTURES_INSTRUMENT_POST_JSON,
-        INSTRUMENT_DTO, HttpMethod.POST);
-
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE);
+  @Test
+  public void instrumentEndpoints_failed_whenUserHasJustPrivilege()
+      throws IOException, ClassNotFoundException {
+    assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
   }
 
   @Test
   public void peopleEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
+    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  @Test
+  public void peopleEndpoints_failed_whenUserHasJustRole()
+      throws IOException, ClassNotFoundException {
+    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
+  }
+
+  @Test
+  public void peopleEndpoints_failed_whenUserHasJustPrivilege()
+      throws IOException, ClassNotFoundException {
+    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
+  }
+
+  private void assertI18nEndpointsAreSecured(String securityTokenFixturePath)
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX, null,
+        null, HttpMethod.GET, securityTokenFixturePath);
+
+    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE, null,
+        null, HttpMethod.GET, securityTokenFixturePath);
+  }
+
+  private void assertInstrumentEndpointsAreSecured(String securityTokenFixturePath)
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
+        null, HttpMethod.GET, securityTokenFixturePath);
+
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID + I18N + LANGUAGE, null,
+        null, HttpMethod.GET, securityTokenFixturePath);
+
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, FIXTURES_INSTRUMENT_PUT_JSON,
+        INSTRUMENT_DTO, HttpMethod.PUT, securityTokenFixturePath);
+
+    assertEndpointIsSecured(INSTRUMENTS, FIXTURES_INSTRUMENT_POST_JSON,
+        INSTRUMENT_DTO, HttpMethod.POST, securityTokenFixturePath);
+
+    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
+        null, HttpMethod.DELETE, securityTokenFixturePath);
+  }
+
+  private void assertPeopleEndpointsAreSecured(String securityTokenFixturePath)
+      throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.GET);
+        null, HttpMethod.GET, securityTokenFixturePath);
 
     assertEndpointIsSecured(PEOPLE, null,
-        null, HttpMethod.GET);
+        null, HttpMethod.GET, securityTokenFixturePath);
 
     assertEndpointIsSecured(PEOPLE + SLASH + ID, FIXTURES_PERSON_PUT_JSON,
-        PERSON_DTO, HttpMethod.PUT);
+        PERSON_DTO, HttpMethod.PUT, securityTokenFixturePath);
 
     assertEndpointIsSecured(PEOPLE, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST);
+        PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
 
     assertEndpointIsSecured(PEOPLE + SLASH + SEARCH, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST);
+        PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
 
     assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.DELETE);
+        null, HttpMethod.DELETE, securityTokenFixturePath);
+  }
+
+  private void assertAssessmentEndpointsAreSecured(String securityTokenFixturePath)
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + START, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.POST, securityTokenFixturePath);
+
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
+        null, HttpMethod.GET, securityTokenFixturePath);
+
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
+        null, HttpMethod.DELETE, securityTokenFixturePath);
+
+    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.PUT, securityTokenFixturePath);
+
+    assertEndpointIsSecured(ASSESSMENTS, FIXTURE_START,
+        START_ASSESSMENT_REQUEST, HttpMethod.POST, securityTokenFixturePath);
   }
 
   private void assertEndpointIsSecured(String resourceUrl, String requestFixture, String requestClass,
-      HttpMethod httpMethod)
+      HttpMethod httpMethod, String securityTokenFixturePath)
       throws ClassNotFoundException, IOException {
     // given
     Object request = null;
@@ -134,7 +210,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
       case GET:
         response =
             clientTestRule
-                .withSecurityToken(NOT_AUTHORIZED_ACCOUNT_FIXTURE)
+                .withSecurityToken(securityTokenFixturePath)
                 .target(resourceUrl)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
@@ -142,7 +218,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
       case POST:
         response =
             clientTestRule
-                .withSecurityToken(NOT_AUTHORIZED_ACCOUNT_FIXTURE)
+                .withSecurityToken(securityTokenFixturePath)
                 .target(resourceUrl)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -150,7 +226,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
       case PUT:
         response =
             clientTestRule
-                .withSecurityToken(NOT_AUTHORIZED_ACCOUNT_FIXTURE)
+                .withSecurityToken(securityTokenFixturePath)
                 .target(resourceUrl)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .put(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -158,7 +234,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
       case DELETE:
         response =
             clientTestRule
-                .withSecurityToken(NOT_AUTHORIZED_ACCOUNT_FIXTURE)
+                .withSecurityToken(securityTokenFixturePath)
                 .target(resourceUrl)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .delete();

@@ -17,11 +17,6 @@ import org.junit.Test;
 
 public class CansStaticAuthorizerTest {
 
-  public static final String NOT_AUTHORIZED_WITH_CANS_ROLE = "fixtures/perry-account/not-authorized-with-cans-role.json";
-
-  public static final String NOT_AUTHORIZED_WITH_CANS_PRIVILEGE = "fixtures/perry-account/not-authorized-with-cans-privilege.json";
-
-
   public CansStaticAuthorizerTest() {
   }
 
