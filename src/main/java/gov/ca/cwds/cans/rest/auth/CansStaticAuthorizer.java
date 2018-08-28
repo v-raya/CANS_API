@@ -21,10 +21,6 @@ public class CansStaticAuthorizer implements StaticAuthorizer {
         .anyMatch(CANS_ROLLOUT_PERMISSION::equals)) {
       simpleAuthInfo.addObjectPermission(new WildcardPermission(CANS_ROLLOUT_PERMISSION));
     }
-    if (perryAccount.getRoles().stream()
-        .anyMatch(CANS_WORKER_ROLE::equals)) {
-      simpleAuthInfo.addRole(CANS_WORKER_ROLE);
-    }
   }
 
 }

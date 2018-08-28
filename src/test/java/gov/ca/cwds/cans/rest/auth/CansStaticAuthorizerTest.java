@@ -32,26 +32,6 @@ public class CansStaticAuthorizerTest {
     PerryAccount authorizedUserAccount = readObject(AUTHORIZED_ACCOUNT_FIXTURE, PerryAccount.class);
     SimpleAuthorizationInfo simpleAuthInfo = new SimpleAuthorizationInfo();
     cansStaticAuthorizer.authorize(authorizedUserAccount, simpleAuthInfo);
-    assertThat(simpleAuthInfo.getRoles(), hasItems("CANS-worker"));
-    Permission cansRolloutPermission = new WildcardPermission(CANS_ROLLOUT_PERMISSION);
-    assertThat(simpleAuthInfo.getObjectPermissions(), hasItems(cansRolloutPermission));
-  }
-
-  @Test
-  public void testAuthorize_whenUserHasOnlyRole() throws IOException {
-    PerryAccount userAccount = readObject(NOT_AUTHORIZED_WITH_CANS_ROLE, PerryAccount.class);
-    SimpleAuthorizationInfo simpleAuthInfo = new SimpleAuthorizationInfo();
-    cansStaticAuthorizer.authorize(userAccount, simpleAuthInfo);
-    assertThat(simpleAuthInfo.getRoles(), hasItems("CANS-worker"));
-    assertTrue(simpleAuthInfo.getObjectPermissions() == null);
-   }
-
-  @Test
-  public void testAuthorize_whenUserHasOnlyPrivilege() throws IOException {
-    PerryAccount userAccount = readObject(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE, PerryAccount.class);
-    SimpleAuthorizationInfo simpleAuthInfo = new SimpleAuthorizationInfo();
-    cansStaticAuthorizer.authorize(userAccount, simpleAuthInfo);
-    assertTrue(simpleAuthInfo.getRoles() == null);
     Permission cansRolloutPermission = new WildcardPermission(CANS_ROLLOUT_PERMISSION);
     assertThat(simpleAuthInfo.getObjectPermissions(), hasItems(cansRolloutPermission));
   }
@@ -61,7 +41,6 @@ public class CansStaticAuthorizerTest {
     PerryAccount userAccount = readObject(NOT_AUTHORIZED_ACCOUNT_FIXTURE, PerryAccount.class);
     SimpleAuthorizationInfo simpleAuthInfo = new SimpleAuthorizationInfo();
     cansStaticAuthorizer.authorize(userAccount, simpleAuthInfo);
-    assertTrue(simpleAuthInfo.getRoles() == null);
     assertTrue(simpleAuthInfo.getObjectPermissions() == null);
   }
 }
