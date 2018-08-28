@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-08-27_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-08-27-1_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
@@ -2708,7 +2708,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EMOTIONAL_ABUSE._description_"/>
-      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, &quot;no good.&quot; This item includes both &quot;emotional abuse,&quot; which would include psychological maltreatment such as insults or humiliation towards a child and &quot;emotional neglect,&quot; described as the denial of emotional attention and/or support from caregivers."/>
+      <column name="v" value="This item describes whether or not the child/youth has experienced verbal and/or nonverbal emotional abuse, including belittling, shaming, and humiliating a child/youth, calling names, making negative comparisons to others, or telling a child/youth that they are, &quot;no good&quot;. This item includes both &quot;emotional abuse&quot;, which would include psychological maltreatment such as insults or humiliation towards a child and &quot;emotional neglect&quot;, described as the denial of emotional attention and/or support from caregivers."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
