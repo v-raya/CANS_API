@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans;
 
 import com.squarespace.jersey2.guice.JerseyGuiceUtils;
+import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
@@ -22,6 +23,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+  AuthorizationResourceTest.class,
   SystemInformationResourceTest.class,
   AssessmentResourceTest.class,
   CountyResourceTest.class,
