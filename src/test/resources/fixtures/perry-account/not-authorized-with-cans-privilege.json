@@ -2,8 +2,7 @@
   "user": "000 supervisor",
   "staffId": "000",
   "roles": [
-    "Supervisor",
-    "CANS-worker"
+    "Supervisor"
   ],
   "county_code": "21",
   "county_name": "Marin",

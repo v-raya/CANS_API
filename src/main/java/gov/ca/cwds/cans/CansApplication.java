@@ -10,6 +10,7 @@ import com.google.inject.Module;
 import gov.ca.cwds.cans.inject.ApplicationModule;
 import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
+import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.cans.util.DbUpgrader;
@@ -43,7 +44,10 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       protected void configure() {
         super.configure();
         install(new DataAccessModule(bootstrap));
-        install(new SecurityModule(BaseApiApplication::getInjector));
+        install(new SecurityModule(BaseApiApplication::getInjector)
+            .addStaticAuthorizer(CansStaticAuthorizer.class)
+        );
+
       }
     };
   }
