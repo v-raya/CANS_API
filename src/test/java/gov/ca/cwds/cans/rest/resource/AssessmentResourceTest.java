@@ -43,9 +43,15 @@ import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Test;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
+  private static final String AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE =
+      "fixtures/perry-account/el-dorado-all-authorized.json";
+  private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
+      "fixtures/perry-account/marlin-all-authorized.json";
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
@@ -54,7 +60,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String FIXTURE_READ = "fixtures/assessment/assessment-read.json";
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
-
   private final Set<Long> cleanUpAssessmentIds = new HashSet<>();
   private final Set<Long> cleanUpPeopleIds = new HashSet<>();
   private Long cleanUpInstrumentId;
@@ -254,7 +259,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
         new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_ACCOUNT_FIXTURE},
         // out of search results because of the other person
-        new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_ACCOUNT_FIXTURE},
+        new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10),
+            AUTHORIZED_ACCOUNT_FIXTURE},
         new Object[]{person, SUBMITTED, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
         new Object[]{person, SUBMITTED, LocalDate.of(2015, 10, 10), AUTHORIZED_ACCOUNT_FIXTURE},
         // out of search results because of the other created by user
@@ -297,7 +303,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void putAssessment_assessmentCaseNumberUpdated_whenPersonsCaseNumberUpdated() throws IOException {
+  public void putAssessment_assessmentCaseNumberUpdated_whenPersonsCaseNumberUpdated()
+      throws IOException {
     // given
     final PersonDto person0 = readObject(FIXTURE_POST_PERSON, PersonDto.class);
     person0.getCases().get(0).setExternalId("4321-321-4321-87654321");
@@ -321,7 +328,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     person.getCases().get(0).setExternalId("2222-222-3333-44444444");
-    person.getCases().add((CaseDto) new CaseDto().setExternalId("4321-321-4321-87654321").setId(123L));
+    person.getCases()
+        .add((CaseDto) new CaseDto().setExternalId("4321-321-4321-87654321").setId(123L));
     clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + person.getId())
@@ -358,8 +366,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     postedAssessment.setCounty((CountyDto) new CountyDto().setId(1L));
+    postedAssessment.getCounty().setName("Sacramento");
     final AssessmentDto actualAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + postedAssessment.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE))
@@ -370,6 +379,34 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // clean up
     cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
+  public void putAssessment_unauthorized_whenUserFromDifferentCounty() throws IOException {
+    // given
+    final PersonDto personElDoradoCounty = postPerson();
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(personElDoradoCounty);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_MARLIN_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE)).getStatus();
+
+    // then
+    assertThat(status, is(403));
+
+    // clean up
+    cleanUpPeopleIds.add(personElDoradoCounty.getId());
     cleanUpAssessmentIds.add(postedAssessment.getId());
   }
 

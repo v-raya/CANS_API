@@ -1,15 +1,16 @@
 package gov.ca.cwds.cans;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public final class Constants {
 
-  private Constants() {}
-
   public static final String INSTRUMENT_KEY_PREFIX = "instrument.";
-
   public static final String SQL_TYPE = "sqlType";
-
   public static final String RETURNED_CLASS_NAME_PARAM = "returnedClassName";
+
+  private Constants() {
+  }
 
   public static class API {
 
@@ -22,17 +23,21 @@ public final class Constants {
     public static final String PEOPLE = "people";
     public static final String INSTRUMENTS = "instruments";
     public static final String ASSESSMENTS = "assessments";
+    public static final String SECURITY = "security";
+    public static final String CHECK_PERMISSION = "check_permission";
     public static final String START = "_start";
     public static final String I18N = "i18n";
     public static final String I18N_LANG_PARAM = "lang";
 
-    private API() {}
+    private API() {
+    }
   }
 
   public static class UnitOfWork {
 
     public static final String CANS = "cans";
 
-    private UnitOfWork() {}
+    private UnitOfWork() {
+    }
   }
 }

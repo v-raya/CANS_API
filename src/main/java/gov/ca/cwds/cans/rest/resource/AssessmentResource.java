@@ -42,11 +42,15 @@ import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 
+/**
+ * @author denys.davydov
+ */
 @Api(value = ASSESSMENTS, tags = ASSESSMENTS)
 @Path(value = ASSESSMENTS)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AssessmentResource {
+
   private final AssessmentService assessmentService;
   private final AssessmentMapper assessmentMapper;
   private final ACrudResource<Assessment, AssessmentDto> crudResource;
@@ -85,18 +89,17 @@ public class AssessmentResource {
   @POST
   @Path(START)
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
   )
   @ApiOperation(value = "Start new Assessment", response = AssessmentDto.class)
   @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response start(
-      @ApiParam(name = "Assessment", value = "The Assessment object") @Valid
-          final StartAssessmentRequest request) {
+      @ApiParam(name = "Assessment", value = "The Assessment object") @Valid final StartAssessmentRequest request) {
     final Assessment assessment = assessmentService.start(request);
     final AssessmentDto resultDto = assessmentMapper.toDto(assessment);
     return Response.ok().entity(resultDto).build();
@@ -106,10 +109,10 @@ public class AssessmentResource {
   @PUT
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
   )
   @ApiOperation(value = "Update existent Assessment", response = AssessmentDto.class)
   @RequiresRoles(CANS_WORKER_ROLE)
@@ -117,10 +120,8 @@ public class AssessmentResource {
   @Timed
   public Response put(
       @PathParam("id")
-          @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
-          final Long id,
-      @ApiParam(name = "Assessment", value = "The Assessment object") @Valid
-          final AssessmentDto dto) {
+      @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000") final Long id,
+      @ApiParam(name = "Assessment", value = "The Assessment object") @Valid final AssessmentDto dto) {
     return crudResource.put(id, dto);
   }
 
@@ -128,10 +129,10 @@ public class AssessmentResource {
   @GET
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
   )
   @ApiOperation(value = "Get Assessment by id", response = AssessmentDto.class)
   @RequiresRoles(CANS_WORKER_ROLE)
@@ -139,8 +140,7 @@ public class AssessmentResource {
   @Timed
   public Response get(
       @PathParam("id")
-          @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
-          final Long id) {
+      @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000") final Long id) {
     return crudResource.get(id);
   }
 
@@ -148,25 +148,24 @@ public class AssessmentResource {
   @POST
   @Path(SEARCH)
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-    }
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+      }
   )
   @ApiOperation(
-    value = "Search assessments by parameters, returns records created by the logged in user ONLY",
-    response = AssessmentDto[].class
+      value = "Search assessments by parameters, returns records created by the logged in user ONLY",
+      response = AssessmentDto[].class
   )
   @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response search(
       @ApiParam(
-            required = true,
-            name = "Search Parameters",
-            value = "Search assessments parameters"
-          )
-          @NotNull
-          final SearchAssessmentRequest searchRequest) {
+          required = true,
+          name = "Search Parameters",
+          value = "Search assessments parameters"
+      )
+      @NotNull final SearchAssessmentRequest searchRequest) {
     final SearchAssessmentPo searchPo = searchAssessmentMapper.fromSearchRequest(searchRequest);
     final Collection<Assessment> entities = assessmentService.search(searchPo);
     final Collection<AssessmentMetaDto> dtos = assessmentMapper.toMetaDtos(entities);
@@ -177,10 +176,10 @@ public class AssessmentResource {
   @DELETE
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
+      value = {
+          @ApiResponse(code = 401, message = "Not Authorized"),
+          @ApiResponse(code = 404, message = "Not found")
+      }
   )
   @ApiOperation(value = "Delete Assessment by id", response = AssessmentDto.class)
   @RequiresRoles(CANS_WORKER_ROLE)
@@ -188,8 +187,8 @@ public class AssessmentResource {
   @Timed
   public Response delete(
       @PathParam("id")
-          @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
-          final Long id) {
+      @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000") final Long id) {
     return crudResource.delete(id);
   }
+
 }

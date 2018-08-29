@@ -1,0 +1,5 @@
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+  <kbase name="assessment-authorization-rules">
+    <ksession name="assessment-authorization-rules"/>
+  </kbase>
+</kmodule>

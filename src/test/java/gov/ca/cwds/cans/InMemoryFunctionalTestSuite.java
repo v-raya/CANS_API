@@ -7,6 +7,7 @@ import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
+import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
@@ -39,6 +40,7 @@ import org.junit.runners.Suite;
   I18nResourceTest.class,
   InstrumentResourceTest.class,
   PersonResourceTest.class,
+  SecurityResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 

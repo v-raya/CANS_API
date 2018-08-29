@@ -14,6 +14,7 @@ import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 
 /** @author denys.davydov */
@@ -45,7 +46,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
   }
 
   @Override
-  public Assessment update(Assessment assessment) {
+  public Assessment update(@Authorize("assessment:write:assessment.id") Assessment assessment) {
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
   }

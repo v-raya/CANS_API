@@ -1,0 +1,15 @@
+{
+  "user": "000 supervisor",
+  "staffId": "000",
+  "roles": [
+    "Supervisor",
+    "CANS-worker"
+  ],
+  "county_code": "09",
+  "county_name": "El Dorado",
+  "county_cws_code": "1076",
+  "privileges": [
+    "CWS CANS System",
+    "CANS-rollout"
+  ]
+}

@@ -32,7 +32,7 @@ public abstract class AbstractRestClientTestRule implements TestRule {
   ObjectMapper mapper;
   String apiUrl;
   String token;
-  private Client client;
+  protected Client client;
 
   abstract String generateToken(String identity, String password) throws IOException;
 
