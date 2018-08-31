@@ -682,8 +682,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
   &quot;dob&quot;: &quot;${__Random(2001,2017)}-${__Random(10,12)}-${__Random(10,28)}&quot;,&#xd;
   &quot;external_id&quot;: &quot;${__Random(1000,9999)}-${__Random(1000,9999)}-${__Random(1000,9999)}-7777777&quot;,&#xd;
   &quot;county&quot;: {&#xd;
-    &quot;id&quot;: 10,&#xd;
-    &quot;name&quot; : &quot;Madera&quot;&#xd;
+    &quot;id&quot;: 20&#xd;
   },&#xd;
   &quot;cases&quot;: []&#xd;
 }</stringProp>
@@ -883,8 +882,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
   &quot;assessment_type&quot;: &quot;INITIAL&quot;,&#xd;
   &quot;status&quot;: &quot;IN_PROGRESS&quot;,&#xd;
   &quot;county&quot; : {&#xd;
-    &quot;id&quot; : 10,&#xd;
-    &quot;name&quot; : &quot;Madera&quot;&#xd;
+    &quot;id&quot; : 20&#xd;
   },&#xd;
   &quot;person&quot;: {&#xd;
   	&quot;id&quot;: ${childId}&#xd;
