@@ -682,7 +682,8 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
   &quot;dob&quot;: &quot;${__Random(2001,2017)}-${__Random(10,12)}-${__Random(10,28)}&quot;,&#xd;
   &quot;external_id&quot;: &quot;${__Random(1000,9999)}-${__Random(1000,9999)}-${__Random(1000,9999)}-7777777&quot;,&#xd;
   &quot;county&quot;: {&#xd;
-    &quot;id&quot;: 10&#xd;
+    &quot;id&quot;: 10,&#xd;
+    &quot;name&quot; : &quot;Madera&quot;&#xd;
   },&#xd;
   &quot;cases&quot;: []&#xd;
 }</stringProp>
