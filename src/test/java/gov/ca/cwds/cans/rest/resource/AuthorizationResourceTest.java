@@ -6,6 +6,7 @@ import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.rest.resource.AssessmentResourceTest.FIXTURE_START;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
@@ -127,6 +128,19 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   public void peopleEndpoints_failed_whenUserHasJustPrivilege()
       throws IOException, ClassNotFoundException {
     assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
+  }
+
+  @Test
+  public void securityEndpoints_failed_whenUnauthorizedUser()
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(SECURITY, null,
+        null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+
+    assertEndpointIsSecured(SECURITY, null,
+        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
+
+    assertEndpointIsSecured(SECURITY, null,
+        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_ROLE);
   }
 
   private void assertI18nEndpointsAreSecured(String securityTokenFixturePath)
