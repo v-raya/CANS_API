@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
 import static gov.ca.cwds.cans.Constants.API.COUNTIES;
 import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
@@ -133,13 +134,13 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   @Test
   public void securityEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(SECURITY, null,
+    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
         null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
 
-    assertEndpointIsSecured(SECURITY, null,
+    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
         null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
 
-    assertEndpointIsSecured(SECURITY, null,
+    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
         null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_ROLE);
   }
 
