@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * @author denys.davydov
+ * @author dmitry.rudenko
  */
 public class ValidPersonValidator implements ConstraintValidator<ValidPerson, PersonDto> {
 
