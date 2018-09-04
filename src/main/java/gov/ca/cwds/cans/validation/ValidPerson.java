@@ -11,7 +11,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * @author denys.davydov
+ * @author dmitry.rudenko
  */
 @Target({TYPE, FIELD})
 @Retention(RUNTIME)
