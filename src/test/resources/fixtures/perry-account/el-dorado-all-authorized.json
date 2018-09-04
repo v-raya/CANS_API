@@ -1,6 +1,6 @@
 {
-  "user": "000 supervisor",
-  "staffId": "000",
+  "user": "001 supervisor",
+  "staffId": "001",
   "roles": [
     "Supervisor",
     "CANS-worker"
