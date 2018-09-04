@@ -22,6 +22,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/** @author denys.davydov */
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
