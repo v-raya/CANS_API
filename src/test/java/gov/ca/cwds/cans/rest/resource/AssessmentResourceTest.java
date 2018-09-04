@@ -257,7 +257,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties = Arrays.asList(
         new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
-        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_ACCOUNT_FIXTURE},
+        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         // out of search results because of the other person
         new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10),
             AUTHORIZED_ACCOUNT_FIXTURE},

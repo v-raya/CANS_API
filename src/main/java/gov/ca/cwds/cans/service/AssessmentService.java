@@ -52,8 +52,6 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
   }
 
   public Collection<Assessment> search(SearchAssessmentPo searchPo) {
-    final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    searchPo.setCreatedById(currentUser.getId());
     return ((AssessmentDao) dao).search(searchPo);
   }
 
