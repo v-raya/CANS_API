@@ -18,6 +18,7 @@ import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,9 @@ import org.junit.After;
 import org.junit.Assume;
 import org.junit.Test;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
   private static final String FIXTURES_EMPTY_OBJECT = "fixtures/empty-object.json";
@@ -132,7 +135,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(4));
-    assertThat(actualViolatedFields, containsInAnyOrder( "firstName", "middleName", "lastName", "suffix"));
+    assertThat(actualViolatedFields,
+        containsInAnyOrder("firstName", "middleName", "lastName", "suffix"));
   }
 
   @Test
@@ -147,6 +151,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     input.setPersonRole(PersonRole.CLIENT);
     input.setCounty(new CountyDto().setExportId("1"));
     input.getCases().add(new CaseDto().setExternalId("1234"));
+    input.setDob(LocalDate.now().plusDays(1));
 
     // when
     final BaseExceptionResponse actualResponse =
@@ -165,8 +170,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder( "cases.externalId", "externalId"));
+    assertThat(actualViolatedFields.size(), is(3));
+    assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "externalId", "dob"));
   }
 
   @Test
