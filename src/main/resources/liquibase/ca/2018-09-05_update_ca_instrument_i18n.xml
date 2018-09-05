@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-08-27-1_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-09-05_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-  <changeSet id="2018-08-27-instrument-ca-i18n-update" author="denys.davydov">
+  <changeSet id="2018-09-05-instrument-ca-i18n-update" author="denys.davydov">
      <delete tableName="i_18_n">
       <where>lang = 'en' and k like 'instrument.1%'</where>
     </delete>
@@ -3068,7 +3068,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.REGULATORY._rating_.0._description_"/>
-      <column name="v" value="No current need; no need for action or intervention. Strong evidence the child is developing strong self-' capacities. This is indicated by the capacity to fall asleep, regular patterns of feeding and sleeping. Young infants can regulate breathing and body temperature, are able to move smoothly between states of alertness, sleep, feeding on schedule, able to make use of caregiver/ pacifier to be soothed, and moving toward regulating themselves (e.g., infant can begin to calm to caregiver's voice prior to being picked up). Toddlers are able to make use of caregiver to help regulate emotions, fall asleep with appropriate transitional objects, can attend to play with increased attention and play is becoming more elaborated, or have some ability to calm themselves down."/>
+      <column name="v" value="No current need; no need for action or intervention. Strong evidence the child is developing strong self-capacities. This is indicated by the capacity to fall asleep, regular patterns of feeding and sleeping. Young infants can regulate breathing and body temperature, are able to move smoothly between states of alertness, sleep, feeding on schedule, able to make use of caregiver/pacifier to be soothed, and moving toward regulating themselves (e.g., infant can begin to calm to caregiver's voice prior to being picked up). Toddlers are able to make use of caregiver to help regulate emotions, fall asleep with appropriate transitional objects, can attend to play with increased attention and play is becoming more elaborated, or have some ability to calm themselves down."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
