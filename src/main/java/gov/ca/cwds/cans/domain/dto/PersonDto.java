@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
+import gov.ca.cwds.cans.validation.ValidPerson;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@ValidPerson
 public class PersonDto extends Dto {
-  @NotNull private PersonRole personRole;
+
+  @NotNull
+  private PersonRole personRole;
 
   @NotEmpty
   @Size(min = 1, max = 20)
@@ -56,7 +60,8 @@ public class PersonDto extends Dto {
   private Race race;
   private String countyClientNumber;
   private String clientIndexNumber;
-  @NotNull private CountyDto county;
+  @NotNull
+  private CountyDto county;
 
   @Valid
   private List<CaseDto> cases = new ArrayList<>();
