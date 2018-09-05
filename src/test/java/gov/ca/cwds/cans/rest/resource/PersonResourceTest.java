@@ -4,6 +4,7 @@ import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -105,6 +106,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     assertThat(
         actualViolatedFields,
         containsInAnyOrder("firstName", "lastName", "externalId", "county", "personRole"));
+    //dob error is not present on null dob
+    assertThat(actualViolatedFields, not(containsInAnyOrder("dob")));
   }
 
   @Test
@@ -172,6 +175,12 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     assertThat(actualViolatedFields.size(), is(3));
     assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "externalId", "dob"));
+    //valid error message is present for dob in future
+    assertThat(actualResponse.getIssueDetails()
+            .stream()
+            .anyMatch(issueDetails -> issueDetails.getUserMessage()
+                .equals("Date of birth must not be a future date")),
+        is(true));
   }
 
   @Test
