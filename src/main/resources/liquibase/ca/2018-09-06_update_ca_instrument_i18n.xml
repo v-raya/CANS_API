@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-09-06_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-09-06-2_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
