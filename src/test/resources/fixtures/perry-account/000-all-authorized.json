@@ -5,9 +5,9 @@
     "Supervisor",
     "CANS-worker"
   ],
-  "county_code": "21",
-  "county_name": "Marin",
-  "county_cws_code": "1088",
+  "county_code": "99",
+  "county_name": "State of California",
+  "county_cws_code": "1126",
   "privileges": [
     "Sensitive Persons",
     "Sealed",

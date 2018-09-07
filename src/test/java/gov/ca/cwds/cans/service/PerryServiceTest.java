@@ -34,6 +34,7 @@ public class PerryServiceTest {
         expectedPersonWithCounty.setLastName("Rick");
         expectedPersonWithCounty.setPersonRole(PersonRole.USER);
         County county = new County();
+        county.setId(42L);
         expectedPersonWithCounty.setCounty(county);
 
         mockStatic(PrincipalUtils.class);

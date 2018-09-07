@@ -7,11 +7,12 @@ import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
-import java.util.Collection;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import java.util.Collection;
+import java.util.List;
 
 /** @author denys.davydov */
 public class PersonDao extends AbstractCrudDao<Person> {
@@ -21,11 +22,12 @@ public class PersonDao extends AbstractCrudDao<Person> {
     super(sessionFactory);
   }
 
-  public Collection<Person> search(SearchPersonPo searchPo) {
+  public Collection<Person> search(SearchPersonPo searchPo, String countyId) {
     Require.requireNotNullAndNotEmpty(searchPo);
 
     final Session session = grabSession();
     final PersonRole personRole = searchPo.getPersonRole();
+    session.enableFilter(Person.FILTER_COUNTY).setParameter(Person.PARAM_COUNTY_ID, countyId);
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());

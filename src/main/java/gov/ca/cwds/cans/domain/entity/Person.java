@@ -1,19 +1,15 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
-import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
-import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
-import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
-import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
-
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.ParamDef;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,12 +24,20 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.NamedQuery;
-import org.hibernate.annotations.ParamDef;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_COUNTY;
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
+import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_COUNTY_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
+
 
 /** A Person. */
 @Entity
@@ -49,15 +53,22 @@ import org.hibernate.annotations.ParamDef;
   name = FILTER_EXTERNAL_ID,
   parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
 )
+@FilterDef(
+  name = FILTER_COUNTY,
+  parameters = @ParamDef(name = PARAM_COUNTY_ID, type = "string")
+)
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
 @Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
+@Filter(name = FILTER_COUNTY, condition = "county_id = :" + PARAM_COUNTY_ID)
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
+  public static final String FILTER_COUNTY = "countyFilter";
   public static final String FILTER_PERSON_ROLE = "personRoleFilter";
   public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
   public static final String PARAM_EXTERNAL_ID = "externalId";
+  public static final String PARAM_COUNTY_ID = "countyId";
   private static final long serialVersionUID = 8541617675397448400L;
 
   @Id

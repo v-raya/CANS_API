@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.dao;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
 import gov.ca.cwds.cans.util.NullOrEmptyException;
+import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -22,7 +23,7 @@ public class PersonDaoTest {
   public void testSearchWithNullSearch() {
     SessionFactory sessionFactory = mock(SessionFactory.class);
     PersonDao personDao = new PersonDao(sessionFactory);
-    personDao.search(null);
+    personDao.search(null, "");
   }
 
   @Test
@@ -31,13 +32,16 @@ public class PersonDaoTest {
     SessionFactory sessionFactory = mock(SessionFactory.class);
     Session session = mock(Session.class);
     Query<Person> query = mock(Query.class);
+    Filter countyFilter = mock(Filter.class);
     Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
+    Mockito.when(session.enableFilter(Person.FILTER_COUNTY)).thenReturn(countyFilter);
+    Mockito.when(countyFilter.setParameter(Person.PARAM_COUNTY_ID, "42")).thenReturn(countyFilter);
     Mockito.when(session.createNamedQuery(Person.NQ_ALL, Person.class)).thenReturn(query);
     Mockito.when(query.list()).thenReturn(people);
 
     PersonDao personDao = new PersonDao(sessionFactory);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
     searchPersonPo.setExternalId("");
-    assertThat(personDao.search(searchPersonPo), is(people));
+    assertThat(personDao.search(searchPersonPo, "42"), is(people));
   }
 }

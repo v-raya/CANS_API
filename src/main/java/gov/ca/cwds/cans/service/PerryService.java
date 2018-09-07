@@ -28,16 +28,16 @@ public class PerryService {
   public Person getOrPersistAndGetCurrentUser() {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     final String userUniqueId = perryAccount.getUser();
-    final Collection<Person> users = findUserById(userUniqueId);
+    final County county = countyDao.findByExternalId(perryAccount.getCountyCwsCode());
+    final Collection<Person> users = findUserById(userUniqueId, county.getId().toString());
     if (!users.isEmpty()) {
       return users.iterator().next();
     }
-    final Person newUser = buildNewUser(perryAccount, userUniqueId);
+    final Person newUser = buildNewUser(perryAccount, userUniqueId, county);
     return personDao.create(newUser);
   }
 
-  private Person buildNewUser(PerryAccount perryAccount, String userUniqueId) {
-    County county = countyDao.findByExternalId(perryAccount.getCountyCwsCode());
+  private Person buildNewUser(PerryAccount perryAccount, String userUniqueId, County county) {
     return new Person()
         .setExternalId(userUniqueId)
         .setFirstName(perryAccount.getFirstName())
@@ -46,9 +46,9 @@ public class PerryService {
         .setCounty(county);
   }
 
-  private Collection<Person> findUserById(String userUniqueId) {
+  private Collection<Person> findUserById(String userUniqueId, String countyId) {
     final SearchPersonPo searchPo =
         new SearchPersonPo().setExternalId(userUniqueId).setPersonRole(PersonRole.USER);
-    return personDao.search(searchPo);
+    return personDao.search(searchPo, countyId);
   }
 }
