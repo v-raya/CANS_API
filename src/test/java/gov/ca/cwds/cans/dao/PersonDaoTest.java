@@ -10,12 +10,12 @@ import org.hibernate.query.Query;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PersonDaoTest {
 
@@ -27,7 +27,7 @@ public class PersonDaoTest {
   }
 
   @Test
-  public void testSearchWithNoFilters() throws Exception {
+  public void testSearchwithNoRoleOrExternalIdSetsCountyFilter() throws Exception {
     List<Person> people = Collections.singletonList(new Person());
     SessionFactory sessionFactory = mock(SessionFactory.class);
     Session session = mock(Session.class);
@@ -35,13 +35,15 @@ public class PersonDaoTest {
     Filter countyFilter = mock(Filter.class);
     Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
     Mockito.when(session.enableFilter(Person.FILTER_COUNTY)).thenReturn(countyFilter);
-    Mockito.when(countyFilter.setParameter(Person.PARAM_COUNTY_ID, "42")).thenReturn(countyFilter);
     Mockito.when(session.createNamedQuery(Person.NQ_ALL, Person.class)).thenReturn(query);
     Mockito.when(query.list()).thenReturn(people);
 
     PersonDao personDao = new PersonDao(sessionFactory);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
     searchPersonPo.setExternalId("");
-    assertThat(personDao.search(searchPersonPo, "42"), is(people));
+    personDao.search(searchPersonPo, "11");
+
+    verify(session).enableFilter(Person.FILTER_COUNTY);
+    verify(countyFilter).setParameter(Person.PARAM_COUNTY_ID, new BigInteger("11"));
   }
 }

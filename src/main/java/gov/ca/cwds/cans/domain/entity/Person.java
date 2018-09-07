@@ -55,7 +55,7 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 )
 @FilterDef(
   name = FILTER_COUNTY,
-  parameters = @ParamDef(name = PARAM_COUNTY_ID, type = "string")
+  parameters = @ParamDef(name = PARAM_COUNTY_ID, type = "big_integer")
 )
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
 @Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
