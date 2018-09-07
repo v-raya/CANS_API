@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-09-05_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-09-06-2_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-  <changeSet id="2018-09-05-instrument-ca-i18n-update" author="denys.davydov">
+  <changeSet id="2018-09-06-instrument-ca-i18n-update" author="denys.davydov">
      <delete tableName="i_18_n">
       <where>lang = 'en' and k like 'instrument.1%'</where>
     </delete>
@@ -243,7 +243,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.TRM._rating_.1._description_"/>
-      <column name="v" value="Child/youth has had experience or there is suspicion that the child/youth has experienced this type of trauma—one incident, multiple incidents, or chronic, on-going experiences."/>
+      <column name="v" value="Child/youth has had experience or there is suspicion that the child/youth has experienced this type of trauma-one incident, multiple incidents, or chronic, on-going experiences."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -254,6 +254,11 @@
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ECH._title_"/>
       <column name="v" value="CHALLENGES"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.ECH._description_"/>
+      <column name="v" value="This section focuses on identifying the child's social/emotional or behavioral challenges."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -282,6 +287,11 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.EFX._description_"/>
+      <column name="v" value="This section focuses primarily on the various developmental domains and functioning of the child in a variety of settings including the home, school and community. For items in this section, it may be helpful to ask the general question, &quot;Do you have any concerns in this area?&quot;"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EFX._rating_.0._description_"/>
       <column name="v" value="No current need; no need for action or intervention."/>
     </insert>
@@ -307,6 +317,11 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.ERB._description_"/>
+      <column name="v" value="Risk behaviors are actions that can get children in trouble or put them in danger of harming themselves or others. This section also includes factors that may place the child's development at risk."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ERB._rating_.0._description_"/>
       <column name="v" value="No current need; no need for action or intervention."/>
     </insert>
@@ -328,7 +343,12 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ECF._title_"/>
-      <column name="v" value="CULTURAL FACTORS – FAMILY"/>
+      <column name="v" value="CULTURAL FACTORS - FAMILY"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.ECF._description_"/>
+      <column name="v" value="These items identify linguistic or cultural issues for which service providers need to make accommodations. Items in the Cultural Factors Domain describe difficulties that the child's family experiences or encounters as a result of their membership in any cultural group, and/or because of the relationship between members of that group and members of the dominant society. In rating these items, please use the perspective of the child's family."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -357,6 +377,11 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.EST._description_"/>
+      <column name="v" value="This domain describes the assets of the child/youth that can be used to advance healthy development. It is important to remember that strengths are NOT the opposite of needs. Increasing a child/youth's strengths while also addressing their behavioral/emotional needs leads to better functioning, and better outcomes, than does focusing just on the child/youth's needs. Identifying areas where strengths can be built is a significant element of service planning. In these items the 'best' assets and resources available to the child/youth are rated based on how accessible and useful those strengths are. These are the only items that use the Strength Rating Scale with action levels."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EST._rating_.0._description_"/>
       <column name="v" value="Well-developed or centerpiece strength; may be used as a protective factor and a centerpiece of a strength-based plan."/>
     </insert>
@@ -379,6 +404,11 @@
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDY._title_"/>
       <column name="v" value="DYADIC CONSIDERATIONS"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.EDY._description_"/>
+      <column name="v" value="This section considers factors that impact the ways in which the caregiver/child dyad interacts. There is nothing that has more impact on a child than the way that their parent or caregiver interacts with them. The dyadic interaction that is supportive allows for the child to focus fully on growth and development. It is the foundation for the development of all other social relationships and guides and supports all areas of development."/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
