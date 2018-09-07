@@ -28,7 +28,7 @@ public final class Constants {
     public static final String START = "_start";
     public static final String I18N = "i18n";
     public static final String I18N_LANG_PARAM = "lang";
-    public static final String SENSITIVITY_TYPES = "sensitivity_types";
+    public static final String SENSITIVITY_TYPES = "sensitivity-types";
 
     private API() {
     }
