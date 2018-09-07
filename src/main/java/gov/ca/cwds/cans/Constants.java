@@ -28,6 +28,7 @@ public final class Constants {
     public static final String START = "_start";
     public static final String I18N = "i18n";
     public static final String I18N_LANG_PARAM = "lang";
+    public static final String SENSITIVITY_TYPES = "sensitivity_types";
 
     private API() {
     }
@@ -38,6 +39,14 @@ public final class Constants {
     public static final String CANS = "cans";
 
     private UnitOfWork() {
+    }
+  }
+
+  public static class Privileges {
+    public static final String SENSITIVE_PERSONS = "Sensitive Persons";
+    public static final String SEALED = "Sealed";
+
+    private Privileges() {
     }
   }
 }

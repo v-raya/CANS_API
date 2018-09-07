@@ -9,6 +9,7 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -104,7 +105,8 @@ public class Person implements Persistent<Long> {
   @Column(name = "client_index_number")
   private String clientIndexNumber;
 
-  @ManyToOne private County county;
+  @ManyToOne
+  private County county;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
@@ -116,4 +118,8 @@ public class Person implements Persistent<Long> {
       inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id")
   )
   private List<Case> cases = new ArrayList<>();
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "sensitivity_type")
+  private SensitivityType sensitivityType;
 }
