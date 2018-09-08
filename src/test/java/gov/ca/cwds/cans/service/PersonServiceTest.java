@@ -22,26 +22,26 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(gov.ca.cwds.security.utils.PrincipalUtils.class)
 public class PersonServiceTest {
 
-    @Test
-    public void testSearchReturnsPeople() throws Exception {
-        PersonDao personDao = mock(PersonDao.class);
-        CountyDao countyDao = mock(CountyDao.class);
-        CaseDao caseDao = mock(CaseDao.class);
-        AssessmentDao assessmentDao = mock(AssessmentDao.class);
-        PerryService perryService = mock(PerryService.class);
-        mockStatic(PrincipalUtils.class);
-        PerryAccount perryAccount = new PerryAccount();
-        perryAccount.setFirstName("Slick");
-        perryAccount.setLastName("Rick");
-        perryAccount.setCountyCwsCode("1126");
-        when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
-        County county = new County();
-        county.setId(42L);
-        when(countyDao.findByExternalId("1126")).thenReturn(county);
+  @Test
+  public void testSearchReturnsPeople() throws Exception {
+    PersonDao personDao = mock(PersonDao.class);
+    CountyDao countyDao = mock(CountyDao.class);
+    CaseDao caseDao = mock(CaseDao.class);
+    AssessmentDao assessmentDao = mock(AssessmentDao.class);
+    PerryService perryService = mock(PerryService.class);
+    mockStatic(PrincipalUtils.class);
+    PerryAccount perryAccount = new PerryAccount();
+    perryAccount.setFirstName("Slick");
+    perryAccount.setLastName("Rick");
+    perryAccount.setCountyCwsCode("1126");
+    when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
+    County county = new County();
+    county.setId(42L);
+    when(countyDao.findByExternalId("1126")).thenReturn(county);
 
-        PersonService personService = new PersonService(personDao, countyDao, caseDao, assessmentDao, perryService);
-        SearchPersonPo searchPersonPo = new SearchPersonPo();
-        personService.search(searchPersonPo);
-        verify(personDao).search(searchPersonPo, "42");
-    }
+    PersonService personService = new PersonService(personDao, countyDao, caseDao, assessmentDao, perryService);
+    SearchPersonPo searchPersonPo = new SearchPersonPo();
+    personService.search(searchPersonPo);
+    verify(personDao).search(searchPersonPo, "42");
+  }
 }

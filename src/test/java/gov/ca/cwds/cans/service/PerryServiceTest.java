@@ -19,29 +19,29 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(gov.ca.cwds.security.utils.PrincipalUtils.class)
 public class PerryServiceTest {
 
-    @Test
-    public void testGetOrPersistAndGetCurrentUserSetsCounty() throws Exception {
-        PersonDao personDao = mock(PersonDao.class);
-        CountyDao countyDao = mock(CountyDao.class);
-        PerryService perryService = new PerryService(personDao, countyDao);
-        PerryAccount perryAccount = new PerryAccount();
-        perryAccount.setFirstName("Slick");
-        perryAccount.setLastName("Rick");
-        perryAccount.setCountyCwsCode("1126");
+  @Test
+  public void testGetOrPersistAndGetCurrentUserSetsCounty() throws Exception {
+    PersonDao personDao = mock(PersonDao.class);
+    CountyDao countyDao = mock(CountyDao.class);
+    PerryService perryService = new PerryService(personDao, countyDao);
+    PerryAccount perryAccount = new PerryAccount();
+    perryAccount.setFirstName("Slick");
+    perryAccount.setLastName("Rick");
+    perryAccount.setCountyCwsCode("1126");
 
-        Person expectedPersonWithCounty = new Person();
-        expectedPersonWithCounty.setFirstName("Slick");
-        expectedPersonWithCounty.setLastName("Rick");
-        expectedPersonWithCounty.setPersonRole(PersonRole.USER);
-        County county = new County();
-        county.setId(42L);
-        expectedPersonWithCounty.setCounty(county);
+    Person expectedPersonWithCounty = new Person();
+    expectedPersonWithCounty.setFirstName("Slick");
+    expectedPersonWithCounty.setLastName("Rick");
+    expectedPersonWithCounty.setPersonRole(PersonRole.USER);
+    County county = new County();
+    county.setId(42L);
+    expectedPersonWithCounty.setCounty(county);
 
-        mockStatic(PrincipalUtils.class);
-        when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
-        when(countyDao.findByExternalId("1126")).thenReturn(county);
+    mockStatic(PrincipalUtils.class);
+    when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
+    when(countyDao.findByExternalId("1126")).thenReturn(county);
 
-        perryService.getOrPersistAndGetCurrentUser();
-        verify(personDao).create(expectedPersonWithCounty);
-    }
+    perryService.getOrPersistAndGetCurrentUser();
+    verify(personDao).create(expectedPersonWithCounty);
+  }
 }
