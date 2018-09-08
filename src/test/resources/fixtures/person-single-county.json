@@ -1,0 +1,22 @@
+{
+  "id": 5,
+  "first_name": "Lois",
+  "middle_name": null,
+  "last_name": "Lane",
+  "suffix": null,
+  "person_role": "CLIENT",
+  "external_id": null,
+  "dob": "2006-01-31",
+  "estimated_dob": null,
+  "gender": null,
+  "race": null,
+  "county_client_number": null,
+  "client_index_number": null,
+  "county": {
+    "id": 49,
+    "name": "Sonoma",
+    "external_id": "1116",
+    "export_id": "49"
+  },
+  "cases": [ ]
+}
