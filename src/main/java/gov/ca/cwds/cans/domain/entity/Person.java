@@ -35,6 +35,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.Type;
 
 /** A Person. */
 @Entity
@@ -120,6 +121,7 @@ public class Person implements Persistent<Long> {
   private List<Case> cases = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)
+  @Type(type = "PostgreSqlEnum")
   @Column(name = "sensitivity_type")
   private SensitivityType sensitivityType;
 }
