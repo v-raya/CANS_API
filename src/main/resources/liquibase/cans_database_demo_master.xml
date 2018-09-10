@@ -9,7 +9,7 @@
   <include file="ca/add_ca_instrument.xml" relativeToChangelogFile="true"/>
   <include file="ca/add_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
 
-  <include file="ca/2018-09-05_update_ca_instrument.xml" relativeToChangelogFile="true"/>
-  <include file="ca/2018-09-05_update_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
+  <include file="ca/2018-09-06_update_ca_instrument.xml" relativeToChangelogFile="true"/>
+  <include file="ca/2018-09-06_update_ca_instrument_i18n.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
