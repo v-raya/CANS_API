@@ -28,7 +28,7 @@ public class PostgreSqlEnumType extends org.hibernate.type.EnumType {
   @Override
   public void setParameterValues(Properties parameters) {
     super.setParameterValues(parameters);
-    active = Boolean.valueOf(parameters.getProperty(PARAM_ACTIVE, "true"));
+    active = Boolean.parseBoolean(parameters.getProperty(PARAM_ACTIVE, "true"));
   }
 
   private void customNullSafeSet(PreparedStatement st, Object value, int index)
