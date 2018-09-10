@@ -58,8 +58,8 @@ public class SensitivityTypeResource {
   private List<SensitivityType> getSensitivityTypesByPrivileges(Set<String> privileges) {
     return Arrays.stream(SensitivityType.values()).filter(value -> {
       boolean res =
-          value.equals(SensitivityType.SENSITIVE) && privileges.contains(SENSITIVE_PERSONS);
-      res |= value.equals(SensitivityType.SEALED) && privileges.contains(SEALED);
+          value == SensitivityType.SENSITIVE && privileges.contains(SENSITIVE_PERSONS);
+      res |= value == SensitivityType.SEALED && privileges.contains(SEALED);
       return res;
     }).collect(Collectors.toList());
   }
