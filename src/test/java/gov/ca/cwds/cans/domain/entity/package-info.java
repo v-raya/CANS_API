@@ -10,6 +10,13 @@
           value = "gov.ca.cwds.cans.domain.json.AssessmentJson"
         )
       }
+    ),
+    @TypeDef(
+        name = "PostgreSqlEnum",
+        typeClass = PostgreSqlEnumType.class,
+        parameters = {
+            @Parameter(name = PostgreSqlEnumType.PARAM_ACTIVE, value = "false"),
+        }
     )
   }
 )
@@ -19,6 +26,7 @@ import static gov.ca.cwds.cans.Constants.RETURNED_CLASS_NAME_PARAM;
 import static gov.ca.cwds.cans.Constants.SQL_TYPE;
 
 import gov.ca.cwds.cans.dao.hibernate.JsonType;
+import gov.ca.cwds.cans.dao.hibernate.PostgreSqlEnumType;
 import gov.ca.cwds.cans.dao.hibernate.SQLTypes;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
