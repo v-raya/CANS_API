@@ -26,6 +26,15 @@ public class PersonDaoTest {
     personDao.search(null, "");
   }
 
+  @Test(expected = NullOrEmptyException.class)
+  public void testSearchWithNullCountyId() {
+    SessionFactory sessionFactory = mock(SessionFactory.class);
+    SearchPersonPo searchPersonPo = new SearchPersonPo();
+    searchPersonPo.setExternalId("22");
+    PersonDao personDao = new PersonDao(sessionFactory);
+    personDao.search(searchPersonPo, null);
+  }
+
   @Test
   public void testSearchwithNoRoleOrExternalIdSetsCountyFilter() throws Exception {
     List<Person> people = Collections.singletonList(new Person());
