@@ -14,12 +14,14 @@ import org.junit.Test;
  */
 public class SensitivityTypeResourceTest extends AbstractFunctionalTest {
 
+  public static final String STAFF_PERSON_COUNTY_ID = "1088";
+
   @Test
   public void getSensitivityTypes_AllPrivilege_success() throws IOException {
     // when
     final SensitivityType[] actualResult = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(API.SENSITIVITY_TYPES)
+        .target(API.SENSITIVITY_TYPES + "?county=" + STAFF_PERSON_COUNTY_ID)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(SensitivityType[].class);
 
@@ -32,7 +34,7 @@ public class SensitivityTypeResourceTest extends AbstractFunctionalTest {
     // when
     final SensitivityType[] actualResult = clientTestRule
         .withSecurityToken(SENSITIVE_PERSONS_ACCOUNT_FIXTURE)
-        .target(API.SENSITIVITY_TYPES)
+        .target(API.SENSITIVITY_TYPES + "?county=" + STAFF_PERSON_COUNTY_ID)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(SensitivityType[].class);
 
@@ -46,7 +48,7 @@ public class SensitivityTypeResourceTest extends AbstractFunctionalTest {
     // when
     final SensitivityType[] actualResult = clientTestRule
         .withSecurityToken(SEALED_ACCOUNT_FIXTURE)
-        .target(API.SENSITIVITY_TYPES)
+        .target(API.SENSITIVITY_TYPES + "?county=" + STAFF_PERSON_COUNTY_ID)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(SensitivityType[].class);
 
@@ -60,7 +62,20 @@ public class SensitivityTypeResourceTest extends AbstractFunctionalTest {
     // when
     final SensitivityType[] actualResult = clientTestRule
         .withSecurityToken(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE)
-        .target(API.SENSITIVITY_TYPES)
+        .target(API.SENSITIVITY_TYPES + "?county=" + STAFF_PERSON_COUNTY_ID)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get(SensitivityType[].class);
+
+    // then
+    assertThat(actualResult.length, is(0));
+  }
+
+  @Test
+  public void getSensitivityTypes_other_county_empty() throws IOException {
+    // when
+    final SensitivityType[] actualResult = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(API.SENSITIVITY_TYPES + "?county=" + "1081")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get(SensitivityType[].class);
 
