@@ -1,0 +1,26 @@
+{
+  "first_name": "Jackie",
+  "middle_name": "Kong",
+  "last_name": "Chan",
+  "suffix": "Mr",
+  "person_role": "CLIENT",
+  "external_id": "1234-1234-1234-1234567",
+  "dob": "2010-10-13",
+  "estimated_dob": false,
+  "gender": "MALE",
+  "race": "WHITE_OR_CAUCASIAN",
+  "county_client_number": "ccn12345",
+  "client_index_number": "cin54321",
+  "county": {
+    "id": 9,
+    "name": "El Dorado",
+    "external_id": "1076",
+    "export_id": "09"
+  },
+  "cases": [
+    {
+      "external_id": "4444-321-4321-87654321"
+    }
+  ],
+  "sensitivity_type": "SENSITIVE"
+}
