@@ -54,17 +54,17 @@ public class SensitivityTypeResource {
   @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
-  public Response getAllowedSensitivityTypes(
+  public Response get(
       @ApiParam(
           name = "county",
           value = "The county external id related to the Client"
       )
       @QueryParam("county")
       String clientCountyExternalId) {
-    return ResponseUtil.responseOk(getSensitivityTypesByPrivileges(clientCountyExternalId));
+    return ResponseUtil.responseOk(getAllowedSensitivityTypes(clientCountyExternalId));
   }
 
-  private List<SensitivityType> getSensitivityTypesByPrivileges(String clientCountyExternalId) {
+  private List<SensitivityType> getAllowedSensitivityTypes(String clientCountyExternalId) {
     PerryAccount principal = PrincipalUtils.getPrincipal();
     Set<String> privileges = principal.getPrivileges();
     return principal.getCountyCode().equals(clientCountyExternalId) ?

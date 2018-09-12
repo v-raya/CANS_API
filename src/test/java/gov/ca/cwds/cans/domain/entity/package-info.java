@@ -13,10 +13,7 @@
     ),
     @TypeDef(
         name = "PostgreSqlEnum",
-        typeClass = PostgreSqlEnumType.class,
-        parameters = {
-            @Parameter(name = PostgreSqlEnumType.PARAM_ACTIVE, value = "false"),
-        }
+        typeClass = EnumType.class
     )
   }
 )
@@ -26,8 +23,8 @@ import static gov.ca.cwds.cans.Constants.RETURNED_CLASS_NAME_PARAM;
 import static gov.ca.cwds.cans.Constants.SQL_TYPE;
 
 import gov.ca.cwds.cans.dao.hibernate.JsonType;
-import gov.ca.cwds.cans.dao.hibernate.PostgreSqlEnumType;
 import gov.ca.cwds.cans.dao.hibernate.SQLTypes;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.hibernate.type.EnumType;
