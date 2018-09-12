@@ -50,6 +50,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String LONG_ALPHA_SYMBOLS_STRING =
       "abcdefghijklmnopqrstuvxyza";
   private static final String SIZE_VALIDATION_MESSAGE_START = "size must be between";
+  private final static String EXTERNAL_ID = "6666-6666-6666-6666666";
   private final Set<Long> cleanUpPeopleIds = new HashSet<>();
 
   @Override
@@ -377,5 +378,104 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
         externalIds,
         containsInAnyOrder(
             "2222-123-1234-12345678", "3000-123-1234-12345678", "4000-123-1234-12345678"));
+  }
+
+  @Test
+  public void searchPersons_sealedClientIsAvailable_whenUserHasSealedPrivilege()
+      throws IOException {
+
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    person.setExternalId(EXTERNAL_ID);
+    cleanUpPeopleIds.add(postPerson(person));
+
+    //when
+    List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_ACCOUNT_FIXTURE);
+
+    // then
+    assertThat(persons.size(), is(1));
+  }
+
+  @Test
+  public void searchPersons_sealedClientIsNotAvailable_whenUserHasNotSealedPrivilege()
+      throws IOException {
+
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    person.setExternalId(EXTERNAL_ID);
+    cleanUpPeopleIds.add(postPerson(person));
+
+    //when
+    List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE);
+
+    // then
+    assertThat(persons.size(), is(0));
+  }
+
+  @Test
+  public void getPerson_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    long personId = postPerson(person);
+    cleanUpPeopleIds.add(personId);
+
+    //when
+    int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE + SLASH + personId)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(200));
+  }
+
+  @Test
+  public void getPerson_unauthorized_whenUserHasNotSealedAndClientIsSealed()
+      throws IOException {
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    long personId = postPerson(person);
+    cleanUpPeopleIds.add(personId);
+
+    //when
+    int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+        .target(PEOPLE + SLASH + personId)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+  }
+
+
+  private long postPerson(PersonDto person) throws IOException {
+    return clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(PersonDto.class).getId();
+  }
+
+  private List<PersonDto> searchPersons(String externalId, String accountFixture)
+      throws IOException {
+    final Entity<SearchPersonRequest> searchInput =
+        FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST,
+            SearchPersonRequest.class);
+    searchInput.getEntity().setExternalId(externalId);
+    final PersonDto[] actual =
+        clientTestRule
+            .withSecurityToken(accountFixture)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(searchInput)
+            .readEntity(PersonDto[].class);
+    return Arrays.asList(actual);
   }
 }

@@ -12,6 +12,8 @@ import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.annotations.Authorize;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import org.hibernate.Hibernate;
@@ -50,6 +52,12 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     revertCountyToInitialValue(assessment);
     initializeRelationships(assessment);
     return super.update(assessment);
+  }
+
+  @Override
+  @Authorize("assessment:read:result")
+  public Assessment find(Serializable primaryKey) {
+    return super.find(primaryKey);
   }
 
   private void revertCountyToInitialValue(Assessment assessment) {

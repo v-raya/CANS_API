@@ -17,6 +17,7 @@ public class DroolsAuthorizer<Type, ID> extends BaseAuthorizer<Type, ID> {
     this.configuration = configuration;
   }
 
+  @Override
   protected boolean checkInstance(Type instance) {
     return droolsService.performAuthorizationRules(
         configuration, Arrays.asList(instance, PrincipalUtils.getPrincipal()));

@@ -1,0 +1,26 @@
+import gov.ca.cwds.cans.domain.entity.Assessment
+import gov.ca.cwds.cans.domain.entity.Person
+import gov.ca.cwds.security.realm.PerryAccount
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType
+
+global Boolean authorizationResult
+
+rule "Person is sealed"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person(sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains "Sealed")
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person is not sealed"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person(sensitivityType != SensitivityType.SEALED )
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+

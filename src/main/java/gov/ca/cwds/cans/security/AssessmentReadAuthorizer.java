@@ -5,14 +5,14 @@ import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.drools.DroolsConfiguration;
 
-public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long> {
+public class AssessmentReadAuthorizer extends DroolsAuthorizer<Assessment, Long> {
 
   private static final String CONFIGURATION_NAME = "authorization-rules";
-  private static final String AGENDA_GROUP_NAME = "assessment-write-authorization-rules";
+  private static final String AGENDA_GROUP_NAME = "assessment-read-authorization-rules";
   @Inject
   private AssessmentDao assessmentDao;
 
-  public AssessmentWriteAuthorizer() {
+  public AssessmentReadAuthorizer() {
     super(new DroolsConfiguration<>(
         CONFIGURATION_NAME,
         AGENDA_GROUP_NAME,

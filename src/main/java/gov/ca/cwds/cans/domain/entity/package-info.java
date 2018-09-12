@@ -21,6 +21,7 @@ import static gov.ca.cwds.cans.Constants.SQL_TYPE;
 
 import gov.ca.cwds.cans.dao.hibernate.PostgreSqlEnumType;
 import gov.ca.cwds.cans.dao.hibernate.JsonType;
+import gov.ca.cwds.cans.dao.hibernate.PostgreSqlEnumType;
 import gov.ca.cwds.cans.dao.hibernate.SQLTypes;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;

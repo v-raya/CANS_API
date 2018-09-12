@@ -25,6 +25,7 @@ import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
@@ -257,7 +258,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties = Arrays.asList(
         new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
-        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
+        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
+            AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         // out of search results because of the other person
         new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10),
             AUTHORIZED_ACCOUNT_FIXTURE},
@@ -410,6 +412,68 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     cleanUpAssessmentIds.add(postedAssessment.getId());
   }
 
+  @Test
+  public void getAssessment_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(200));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
+  public void getAssessment_unauthorized_whenUserHasNotSealedAndClientIsSealed()
+      throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON,
+        PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
   private AssessmentDto postAssessment(
       AssessmentDto assessment,
       PersonDto person,
@@ -430,6 +494,10 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private PersonDto postPerson() throws IOException {
     final Entity person = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    return postPerson(person);
+  }
+
+  private PersonDto postPerson(Entity person) throws IOException {
     return clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
         .target(PEOPLE)

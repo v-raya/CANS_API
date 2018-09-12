@@ -1,5 +1,6 @@
 package gov.ca.cwds.cans.domain.entity;
 
+import static gov.ca.cwds.cans.domain.entity.Person.AUTHORIZATION_FILTER;
 import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
 import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
@@ -51,8 +52,12 @@ import org.hibernate.annotations.Type;
   name = FILTER_EXTERNAL_ID,
   parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
 )
+
+@FilterDef(name = AUTHORIZATION_FILTER)
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
 @Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
+@Filter(name = AUTHORIZATION_FILTER,
+    condition = "(sensitivity_type <> 'SEALED'  OR sensitivity_type IS NULL)")
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
@@ -60,6 +65,7 @@ public class Person implements Persistent<Long> {
   public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
   public static final String PARAM_EXTERNAL_ID = "externalId";
+  public static final String AUTHORIZATION_FILTER = "authorizationFilter";
   private static final long serialVersionUID = 8541617675397448400L;
 
   @Id
