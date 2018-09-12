@@ -1,18 +1,18 @@
 package gov.ca.cwds.cans.security;
 
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.dao.AssessmentDao;
-import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.dao.PersonDao;
+import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.drools.DroolsConfiguration;
 
-public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long> {
+public class PersonReadAuthorizer extends DroolsAuthorizer<Person, Long> {
 
   private static final String CONFIGURATION_NAME = "authorization-rules";
-  private static final String AGENDA_GROUP_NAME = "assessment-write-authorization-rules";
+  private static final String AGENDA_GROUP_NAME = "person-read-authorization-rules";
   @Inject
-  private AssessmentDao assessmentDao;
+  private PersonDao personDao;
 
-  public AssessmentWriteAuthorizer() {
+  public PersonReadAuthorizer() {
     super(new DroolsConfiguration<>(
         CONFIGURATION_NAME,
         AGENDA_GROUP_NAME,
@@ -21,8 +21,8 @@ public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long
 
   @Override
   protected boolean checkId(Long id) {
-    Assessment assessment = assessmentDao.find(id);
-    return checkInstance(assessment);
+    Person person = personDao.find(id);
+    return checkInstance(person);
   }
 
   @Override
