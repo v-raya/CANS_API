@@ -10,6 +10,10 @@
           value = "gov.ca.cwds.cans.domain.json.AssessmentJson"
         )
       }
+    ),
+    @TypeDef(
+        name = "PostgreSqlEnum",
+        typeClass = EnumType.class
     )
   }
 )
@@ -23,3 +27,4 @@ import gov.ca.cwds.cans.dao.hibernate.SQLTypes;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.hibernate.type.EnumType;

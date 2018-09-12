@@ -9,6 +9,7 @@ import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
+import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -41,6 +42,7 @@ import org.junit.runners.Suite;
   InstrumentResourceTest.class,
   PersonResourceTest.class,
   SecurityResourceTest.class,
+  SensitivityTypeResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 

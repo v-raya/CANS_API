@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.validation.ValidPerson;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class PersonDto extends Dto {
   private String clientIndexNumber;
   @NotNull
   private CountyDto county;
-
+  private SensitivityType sensitivityType;
   @Valid
   private List<CaseDto> cases = new ArrayList<>();
 }
