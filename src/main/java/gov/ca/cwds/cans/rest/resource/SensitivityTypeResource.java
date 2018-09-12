@@ -67,12 +67,12 @@ public class SensitivityTypeResource {
   private List<SensitivityType> getSensitivityTypesByPrivileges(String clientCountyExternalId) {
     PerryAccount principal = PrincipalUtils.getPrincipal();
     Set<String> privileges = principal.getPrivileges();
-    return principal.getCountyCwsCode().equals(clientCountyExternalId) ?
+    return principal.getCountyCode().equals(clientCountyExternalId) ?
         Arrays.stream(SensitivityType.values()).filter(value -> {
-          boolean res =
+          boolean result =
               value == SensitivityType.SENSITIVE && privileges.contains(SENSITIVE_PERSONS);
-          res |= value == SensitivityType.SEALED && privileges.contains(SEALED);
-          return res;
+          result |= value == SensitivityType.SEALED && privileges.contains(SEALED);
+          return result;
         }).collect(Collectors.toList()) : Collections.emptyList();
   }
 

@@ -16,12 +16,12 @@ public class PostgreSqlEnumType extends org.hibernate.type.EnumType {
   private boolean active = true;
 
   @Override
-  public void nullSafeSet(PreparedStatement st, Object value, int index,
+  public void nullSafeSet(PreparedStatement statement, Object value, int index,
       SharedSessionContractImplementor session) throws SQLException {
     if (active) {
-      customNullSafeSet(st, value, index);
+      customNullSafeSet(statement, value, index);
     } else {
-      super.nullSafeSet(st, value, index, session);
+      super.nullSafeSet(statement, value, index, session);
     }
   }
 
@@ -31,12 +31,12 @@ public class PostgreSqlEnumType extends org.hibernate.type.EnumType {
     active = Boolean.parseBoolean(parameters.getProperty(PARAM_ACTIVE, "true"));
   }
 
-  private void customNullSafeSet(PreparedStatement st, Object value, int index)
+  private void customNullSafeSet(PreparedStatement statement, Object value, int index)
       throws SQLException {
     if (value == null) {
-      st.setNull(index, Types.OTHER);
+      statement.setNull(index, Types.OTHER);
     } else {
-      st.setObject(index, value.toString(), Types.OTHER);
+      statement.setObject(index, value.toString(), Types.OTHER);
     }
   }
 }
