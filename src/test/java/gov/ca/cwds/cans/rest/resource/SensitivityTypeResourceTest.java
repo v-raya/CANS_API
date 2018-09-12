@@ -14,7 +14,7 @@ import org.junit.Test;
  */
 public class SensitivityTypeResourceTest extends AbstractFunctionalTest {
 
-  public static final String STAFF_PERSON_COUNTY_ID = "1088";
+  public static final String STAFF_PERSON_COUNTY_ID = "21";
 
   @Test
   public void getSensitivityTypes_AllPrivilege_success() throws IOException {
