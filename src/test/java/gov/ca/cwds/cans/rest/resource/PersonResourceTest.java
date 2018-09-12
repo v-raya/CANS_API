@@ -14,6 +14,7 @@ import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.SearchPersonRequest;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
@@ -38,7 +39,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
   private static final String FIXTURES_EMPTY_OBJECT = "fixtures/empty-object.json";
   private static final String FIXTURES_POST = "fixtures/person-post.json";
-  private static final String FIXTURES_POST_WITH_SENSITIVITY_TYPE = "fixtures/person-post-with-sensityvity-type.json";
+  private static final String FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE =
+      "fixtures/person-post-with-sensityvity-type.json";
   private static final String FIXTURES_PUT = "fixtures/person-put.json";
   private static final String FIXTURES_GET_ALL = "fixtures/person-get-all.json";
   private static final String FIXTURES_SEARCH_CLIENTS_REQUEST =
@@ -315,7 +317,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void postPerson_success_whenPersonHasSensitivityType() throws IOException {
     // given
     final PersonDto person = FixtureReader
-        .readObject(FIXTURES_POST_WITH_SENSITIVITY_TYPE, PersonDto.class);
+        .readObject(FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE, PersonDto.class);
     final PersonDto postedPerson =
         clientTestRule
             .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
@@ -327,7 +329,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(postedPerson.getId(), notNullValue());
-    assertThat(postedPerson.getSensitivityType(), notNullValue());
+    assertThat(postedPerson.getSensitivityType(), is(SensitivityType.SEALED));
   }
 
   @Test
