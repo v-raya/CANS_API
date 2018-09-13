@@ -49,8 +49,6 @@ import org.junit.Test;
  */
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
-  private static final String AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE =
-      "fixtures/perry-account/el-dorado-all-authorized.json";
   private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
       "fixtures/perry-account/marlin-all-authorized.json";
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
@@ -101,7 +99,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final Response postResponse =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + START)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -137,7 +135,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     final AssessmentDto actual = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + START)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(startRequest, MediaType.APPLICATION_JSON_TYPE))
@@ -311,7 +309,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final PersonDto person0 = readObject(FIXTURE_POST_PERSON, PersonDto.class);
     person0.getCases().get(0).setExternalId("4321-321-4321-87654321");
     final PersonDto postedPerson0 = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(person0, MediaType.APPLICATION_JSON_TYPE))
@@ -322,7 +320,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assessment.setPerson(person);
     assessment.setTheCase(person.getCases().get(0));
     final AssessmentDto postedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
@@ -333,14 +331,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     person.getCases()
         .add((CaseDto) new CaseDto().setExternalId("4321-321-4321-87654321").setId(123L));
     clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + person.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .put(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     final AssessmentDto updatedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + postedAssessment.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get()
@@ -429,7 +427,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     final int status = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + postedAssessment.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get().getStatus();
@@ -499,7 +497,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private PersonDto postPerson(Entity person) throws IOException {
     return clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(person)

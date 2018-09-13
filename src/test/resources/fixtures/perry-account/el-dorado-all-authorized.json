@@ -10,6 +10,7 @@
   "county_cws_code": "1076",
   "privileges": [
     "CWS CANS System",
-    "CANS-rollout"
+    "CANS-rollout",
+    "Sealed"
   ]
 }
