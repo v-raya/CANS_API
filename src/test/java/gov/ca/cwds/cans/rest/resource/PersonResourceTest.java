@@ -434,6 +434,25 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
+  public void getPerson_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty() throws IOException {
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    long personId = postPerson(person);
+    cleanUpPeopleIds.add(personId);
+
+    //when
+    int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE + SLASH + personId)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+  }
+
+  @Test
   public void getPerson_unauthorized_whenUserHasNotSealedAndClientIsSealed()
       throws IOException {
     //given

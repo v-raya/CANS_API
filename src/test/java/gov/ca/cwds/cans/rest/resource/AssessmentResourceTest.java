@@ -441,6 +441,37 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void getAssessment_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty()
+      throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
   public void getAssessment_unauthorized_whenUserHasNotSealedAndClientIsSealed()
       throws IOException {
     // given
