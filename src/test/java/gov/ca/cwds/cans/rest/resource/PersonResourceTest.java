@@ -342,7 +342,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cases.add(new CaseDto().setExternalId("3000-123-1234-12345678"));
     final PersonDto postedPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
@@ -356,7 +356,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE + SLASH + postedPerson.getId())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .put(Entity.entity(postedPerson, MediaType.APPLICATION_JSON_TYPE))
@@ -424,13 +424,32 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     //when
     int status = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + personId)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get().getStatus();
 
     // then
     assertThat(status, is(200));
+  }
+
+  @Test
+  public void getPerson_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty() throws IOException {
+    //given
+    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    person.setSensitivityType(SensitivityType.SEALED);
+    long personId = postPerson(person);
+    cleanUpPeopleIds.add(personId);
+
+    //when
+    int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(PEOPLE + SLASH + personId)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
   }
 
   @Test

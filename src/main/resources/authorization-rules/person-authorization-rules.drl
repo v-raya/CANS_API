@@ -10,8 +10,18 @@ rule "Person is sealed"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person(sensitivityType == SensitivityType.SEALED )
-      PerryAccount(privileges contains "Sealed")
+      Person($countyExtId : county.externalId, sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains "Sealed", $countyExtId == countyCwsCode)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person is not sealed"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person($countyExtId : county.externalId, sensitivityType != SensitivityType.SEALED )
+      PerryAccount($countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end

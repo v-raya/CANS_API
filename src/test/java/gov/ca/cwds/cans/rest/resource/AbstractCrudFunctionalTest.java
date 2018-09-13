@@ -43,7 +43,7 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
     // when
     final T getDtoResult =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(this.getApiPath() + SLASH + id)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get(managedClass);
@@ -65,7 +65,7 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
     // when
     final T getDto2Result =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(this.getApiPath() + SLASH + id)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get(managedClass);
@@ -78,14 +78,14 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
     // ======================== DELETE =======================
     // when
     clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(this.getApiPath() + SLASH + id)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .delete();
 
     final Response getDtoResult2 =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(this.getApiPath() + SLASH + id)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
@@ -101,7 +101,7 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
     // when
     final Response postResponse =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(this.getApiPath())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(inputDto);
@@ -149,7 +149,7 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
     // when
     final Response putResponse =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(this.getApiPath() + SLASH + dto.getId())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .put(inputDto);

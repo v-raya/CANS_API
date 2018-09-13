@@ -9,10 +9,10 @@
   "estimated_dob": true,
   "gender": "FEMALE",
   "county": {
-    "id": 10,
-    "name": "Fresno",
-    "external_id": "1077",
-    "export_id": "10"
+    "id": 9,
+    "name": "El Dorado",
+    "external_id": "1076",
+    "export_id": "09"
   },
   "cases": [
     {
