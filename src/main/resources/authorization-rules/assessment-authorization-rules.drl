@@ -19,8 +19,8 @@ rule "Assessment has sealed person"
   dialect "mvel"
   agenda-group "assessment-read-authorization-rules"
   when
-      Assessment(person!.sensitivityType == SensitivityType.SEALED )
-      PerryAccount(privileges contains "Sealed")
+      Assessment($countyExtId : person!.county.externalId, person!.sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains "Sealed", $countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
@@ -29,7 +29,8 @@ rule "Assessment has not sealed person"
   dialect "mvel"
   agenda-group "assessment-read-authorization-rules"
   when
-      Assessment(person!.sensitivityType != SensitivityType.SEALED )
+      Assessment($countyExtId : person!.county.externalId, person!.sensitivityType != SensitivityType.SEALED )
+      PerryAccount($countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
