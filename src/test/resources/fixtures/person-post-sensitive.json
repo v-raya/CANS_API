@@ -12,10 +12,10 @@
   "county_client_number": "ccn12345",
   "client_index_number": "cin54321",
   "county": {
-    "id": 9,
-    "name": "El Dorado",
-    "external_id": "1076",
-    "export_id": "09"
+    "id": 21,
+    "name": "Marin",
+    "external_id": "1088",
+    "export_id": "21"
   },
   "cases": [
     {
