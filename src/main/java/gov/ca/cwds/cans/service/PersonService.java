@@ -8,6 +8,7 @@ import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
@@ -60,7 +61,7 @@ public class PersonService extends AbstractCrudService<Person> {
   }
 
   @Override
-  public Person update(final Person person) {
+  public Person update(@Authorize("person:write:person.id") final Person person) {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForUpdate(person);
     return super.update(person);
