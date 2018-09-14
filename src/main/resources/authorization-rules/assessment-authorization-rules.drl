@@ -6,44 +6,12 @@ import gov.ca.cwds.cans.Constants
 
 global Boolean authorizationResult
 
-/*
 rule "Assessment in the same county"
   dialect "mvel"
   agenda-group "assessment-write-authorization-rules"
   when
       $assessment : Assessment($county : county)
       $user : PerryAccount(countyName.equalsIgnoreCase($county.name))
-  then
-      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
-end
-*/
-
-rule "Assessment has sealed person"
-  dialect "mvel"
-  agenda-group "assessment-read-authorization-rules"
-  when
-      Assessment($countyExtId : person!.county.externalId, person!.sensitivityType == SensitivityType.SEALED )
-      PerryAccount(privileges contains "Sealed", $countyExtId == countyCwsCode)
-  then
-      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
-end
-
-rule "Assessment has Sensitive person"
-  dialect "mvel"
-  agenda-group "assessment-read-authorization-rules"
-  when
-      Assessment($countyExtId : county.externalId, person!.sensitivityType == SensitivityType.SENSITIVE )
-      PerryAccount(privileges contains Constants.Privileges.SENSITIVE_PERSONS, $countyExtId == countyCwsCode)
-  then
-      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
-end
-
-rule " Assessment for Person with no sensitivity type"
-  dialect "mvel"
-  agenda-group "assessment-read-authorization-rules"
-  when
-      Assessment(person!.sensitivityType == null, $countyExtId : county.externalId)
-      PerryAccount($countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
