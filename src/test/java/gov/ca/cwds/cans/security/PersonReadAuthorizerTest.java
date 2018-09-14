@@ -53,6 +53,30 @@ public class PersonReadAuthorizerTest extends BaseUnitTest {
     Assert.assertTrue(personReadAuthorizer.checkInstance(person));
   }
 
+  @Test
+  public void checkInstance_unauthorized_whenUserHasNotSensitiveAndClientIsSensitive() throws Exception {
+    securityContext("fixtures/perry-account/no_sealed_no_sensitive-authorized.json");
+    Person person = new Person();
+    person.setSensitivityType(SensitivityType.SENSITIVE);
+    Assert.assertFalse(personReadAuthorizer.checkInstance(person));
+  }
+
+  @Test
+  public void checkInstance_unauthorized_whenUserHasOtherCountyThanPerson() throws Exception {
+    securityContext("fixtures/perry-account/000-all-authorized.json");
+    Person person = new Person();
+
+    County elDoradoCounty = new County();
+    elDoradoCounty.setId(9L);
+    elDoradoCounty.setName("El Dorado");
+    elDoradoCounty.setExportId("09");
+    elDoradoCounty.setExternalId("1076");
+
+    person.setCounty(elDoradoCounty);
+    person.setSensitivityType(SensitivityType.SENSITIVE);
+    Assert.assertFalse(personReadAuthorizer.checkInstance(person));
+  }
+
   static Person getPerson(String countyExtId) {
     Person person = new Person();
     County county = new County();

@@ -2,6 +2,7 @@ import gov.ca.cwds.cans.domain.entity.Assessment
 import gov.ca.cwds.cans.domain.entity.Person
 import gov.ca.cwds.security.realm.PerryAccount
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType
+import gov.ca.cwds.cans.Constants
 
 global Boolean authorizationResult
 
@@ -9,19 +10,28 @@ rule "Person is sealed"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person($countyExtId : county.externalId, sensitivityType == SensitivityType.SEALED )
-      PerryAccount(privileges contains "Sealed", $countyExtId == countyCwsCode)
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains Constants.Privileges.SEALED, $countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
 
-rule "Person is not sealed"
+rule "Person is sensitive"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person($countyExtId : county.externalId, sensitivityType != SensitivityType.SEALED )
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SENSITIVE)
+      PerryAccount(privileges contains Constants.Privileges.SENSITIVE_PERSONS, $countyExtId == countyCwsCode)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person has no sensitivity type"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person($countyExtId : county!.externalId, sensitivityType == null )
       PerryAccount($countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
-
