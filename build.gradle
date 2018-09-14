@@ -185,7 +185,8 @@ test {
     systemProperty 'java.net.preferIPv4Stack', 'true'
     exclude '**/SmokeTestSuite.class',
             '**/FunctionalTestSuite.class',
-            '**/*ResourceTest.class'
+            '**/*ResourceTest.class',
+            '**/*ResourceAuthorizationTest.class'
 }
 
 jar {
