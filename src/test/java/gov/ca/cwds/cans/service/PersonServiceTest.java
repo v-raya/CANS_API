@@ -23,7 +23,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class PersonServiceTest {
 
   @Test
-  public void testSearchReturnsPeople() throws Exception {
+  public void search_returnsPeople() throws Exception {
     PersonDao personDao = mock(PersonDao.class);
     CountyDao countyDao = mock(CountyDao.class);
     CaseDao caseDao = mock(CaseDao.class);

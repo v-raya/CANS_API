@@ -22,7 +22,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class PerryServiceTest {
 
   @Test
-  public void testGetOrPersistAndGetCurrentUserSetsCounty() throws Exception {
+  public void getOrPersistAndGetCurrentUser_setsCountyOnNewPerson() throws Exception {
     PersonDao personDao = mock(PersonDao.class);
     CountyDao countyDao = mock(CountyDao.class);
     PerryService perryService = new PerryService(personDao, countyDao);
