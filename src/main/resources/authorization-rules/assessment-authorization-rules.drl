@@ -10,8 +10,8 @@ rule "Assessment in the same county"
   dialect "mvel"
   agenda-group "assessment-write-authorization-rules"
   when
-      $assessment : Assessment($county : county)
-      $user : PerryAccount(countyName.equalsIgnoreCase($county.name))
+      Assessment($county : county)
+      PerryAccount(countyName.equalsIgnoreCase($county!.name))
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end

@@ -10,7 +10,7 @@ rule "Person is sealed"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person($countyExtId : county.externalId, sensitivityType == SensitivityType.SEALED )
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SEALED )
       PerryAccount(privileges contains Constants.Privileges.SEALED, $countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
@@ -20,7 +20,7 @@ rule "Person is sensitive"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      $person : Person($countyExtId : county.externalId, sensitivityType == SensitivityType.SENSITIVE)
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SENSITIVE)
       PerryAccount(privileges contains Constants.Privileges.SENSITIVE_PERSONS, $countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
@@ -30,7 +30,7 @@ rule "Person has no sensitivity type"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person($countyExtId : county.externalId, sensitivityType == null )
+      Person($countyExtId : county!.externalId, sensitivityType == null )
       PerryAccount($countyExtId == countyCwsCode)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
