@@ -8,7 +8,7 @@ import gov.ca.cwds.drools.DroolsConfiguration;
 public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long> {
 
   private static final String CONFIGURATION_NAME = "authorization-rules";
-  private static final String AGENDA_GROUP_NAME = "assessment-write-authorization-rules";
+  private static final String AGENDA_GROUP_NAME = "assessment-read-authorization-rules";
   @Inject
   private AssessmentDao assessmentDao;
 

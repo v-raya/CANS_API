@@ -2,6 +2,7 @@ package gov.ca.cwds.cans;
 
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
+import gov.ca.cwds.cans.rest.resource.AssessmentResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceAuthorizationTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -36,6 +37,7 @@ import org.junit.runners.Suite;
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,*/
   PersonResourceAuthorizationTest.class,
+  AssessmentResourceAuthorizationTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 
