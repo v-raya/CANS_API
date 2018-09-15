@@ -3,7 +3,7 @@ package gov.ca.cwds.cans.service;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 
@@ -41,8 +41,8 @@ public class PerryService {
   }
 
   private Collection<Person> findUserById(String userUniqueId, String countyId) {
-    final SearchPersonPo searchPo =
-        new SearchPersonPo().setExternalId(userUniqueId).setPersonRole(PersonRole.USER);
-    return personDao.search(searchPo, countyId);
+    final SearchPersonParameters searchPersonParameters =
+        new SearchPersonParameters().setExternalId(userUniqueId).setPersonRole(PersonRole.USER);
+    return personDao.search(searchPersonParameters, countyId);
   }
 }

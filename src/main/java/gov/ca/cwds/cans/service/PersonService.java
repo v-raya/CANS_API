@@ -6,7 +6,7 @@ import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
@@ -38,9 +38,9 @@ public class PersonService extends AbstractCrudService<Person> {
     return dao.findAll();
   }
 
-  public Collection<Person> search(final SearchPersonPo searchPo) {
+  public Collection<Person> search(final SearchPersonParameters searchPersonParameters) {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
-    return ((PersonDao) dao).search(searchPo, perryAccount.getCountyCwsCode());
+    return ((PersonDao) dao).search(searchPersonParameters, perryAccount.getCountyCwsCode());
   }
 
   @Override

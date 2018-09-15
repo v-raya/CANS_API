@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import org.apache.commons.lang3.StringUtils;
@@ -22,18 +22,18 @@ public class PersonDao extends AbstractCrudDao<Person> {
     super(sessionFactory);
   }
 
-  public Collection<Person> search(SearchPersonPo searchPo, String countyId) {
-    Require.requireNotNullAndNotEmpty(searchPo);
+  public Collection<Person> search(SearchPersonParameters searchPersonParameters, String countyId) {
+    Require.requireNotNullAndNotEmpty(searchPersonParameters);
     Require.requireNotNullAndNotEmpty(countyId);
 
     final Session session = grabSession();
-    final PersonRole personRole = searchPo.getPersonRole();
+    final PersonRole personRole = searchPersonParameters.getPersonRole();
     session.enableFilter(Person.FILTER_COUNTY).setParameter("external_id", countyId);
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
     }
-    final String externalId = searchPo.getExternalId();
+    final String externalId = searchPersonParameters.getExternalId();
     if (StringUtils.isNotBlank(externalId)) {
       session.enableFilter(Person.FILTER_EXTERNAL_ID)
           .setParameter(Person.PARAM_EXTERNAL_ID, externalId);

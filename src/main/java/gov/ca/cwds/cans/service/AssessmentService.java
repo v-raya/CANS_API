@@ -12,7 +12,7 @@ import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
-import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
+import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
@@ -51,8 +51,8 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     return super.update(assessment);
   }
 
-  public Collection<Assessment> search(SearchAssessmentPo searchPo) {
-    return ((AssessmentDao) dao).search(searchPo);
+  public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
+    return ((AssessmentDao) dao).search(searchAssessmentParameters);
   }
 
   public Assessment start(StartAssessmentRequest request) {

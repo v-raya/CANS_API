@@ -3,7 +3,7 @@ package gov.ca.cwds.cans.service;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import org.junit.Test;
@@ -34,8 +34,8 @@ public class PersonServiceTest {
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
     PersonService personService = new PersonService(personDao, caseDao, assessmentDao, perryService);
-    SearchPersonPo searchPersonPo = new SearchPersonPo();
-    personService.search(searchPersonPo);
-    verify(personDao).search(searchPersonPo, "1126");
+    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
+    personService.search(searchPersonParameters);
+    verify(personDao).search(searchPersonParameters, "1126");
   }
 }

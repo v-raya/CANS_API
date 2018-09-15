@@ -1,12 +1,5 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.PEOPLE;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
-
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
@@ -14,7 +7,7 @@ import gov.ca.cwds.cans.domain.dto.person.SearchPersonRequest;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.mapper.PersonMapper;
 import gov.ca.cwds.cans.domain.mapper.SearchPersonMapper;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.PersonService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -23,7 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.Collection;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -36,8 +31,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import java.util.Collection;
+
+import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 /** @author denys.davydov */
 @Api(value = PEOPLE, tags = PEOPLE)
@@ -150,8 +151,8 @@ public class PersonResource {
       @ApiParam(required = true, name = "Search Parameters", value = "Search People parameters")
       @NotNull
       final SearchPersonRequest searchRequest) {
-    final SearchPersonPo searchPo = searchPersonMapper.fromSearchRequest(searchRequest);
-    final Collection<Person> entities = personService.search(searchPo);
+    final SearchPersonParameters searchPersonParameters = searchPersonMapper.fromSearchRequest(searchRequest);
+    final Collection<Person> entities = personService.search(searchPersonParameters);
     final Collection<PersonDto> dtos = personMapper.toDtos(entities);
     return ResponseUtil.responseOk(dtos);
   }

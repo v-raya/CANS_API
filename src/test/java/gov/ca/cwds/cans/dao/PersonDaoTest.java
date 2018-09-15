@@ -1,7 +1,7 @@
 package gov.ca.cwds.cans.dao;
 
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.util.NullOrEmptyException;
 import org.hibernate.Filter;
 import org.hibernate.Session;
@@ -28,10 +28,10 @@ public class PersonDaoTest {
   @Test(expected = NullOrEmptyException.class)
   public void search_errors_withNullCountyId() {
     SessionFactory sessionFactory = mock(SessionFactory.class);
-    SearchPersonPo searchPersonPo = new SearchPersonPo();
-    searchPersonPo.setExternalId("22");
+    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
+    searchPersonParameters.setExternalId("22");
     PersonDao personDao = new PersonDao(sessionFactory);
-    personDao.search(searchPersonPo, null);
+    personDao.search(searchPersonParameters, null);
   }
 
   @Test
@@ -47,9 +47,9 @@ public class PersonDaoTest {
     Mockito.when(query.list()).thenReturn(people);
 
     PersonDao personDao = new PersonDao(sessionFactory);
-    SearchPersonPo searchPersonPo = new SearchPersonPo();
-    searchPersonPo.setExternalId("");
-    personDao.search(searchPersonPo, "11");
+    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
+    searchPersonParameters.setExternalId("");
+    personDao.search(searchPersonParameters, "11");
 
     verify(session).enableFilter(Person.FILTER_COUNTY);
     verify(countyFilter).setParameter("external_id", "11");
