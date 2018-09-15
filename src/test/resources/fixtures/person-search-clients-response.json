@@ -9,6 +9,9 @@
       "id": 99,
       "name": "State of California",
       "external_id": "1126"
+    },
+    "metadata": {
+      "editable": false
     }
   },
   {
@@ -21,6 +24,9 @@
       "id": 99,
       "name": "State of California",
       "external_id": "1126"
+    },
+    "metadata": {
+      "editable": false
     }
   },
   {
@@ -33,6 +39,9 @@
       "id": 99,
       "name": "State of California",
       "external_id": "1126"
+    },
+    "metadata": {
+      "editable": false
     }
   }
 ]

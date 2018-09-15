@@ -264,7 +264,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto actualPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
@@ -282,7 +282,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     final PersonDto postedPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
@@ -293,7 +293,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
