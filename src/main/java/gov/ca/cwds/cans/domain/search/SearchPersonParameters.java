@@ -11,4 +11,5 @@ public class SearchPersonParameters implements SearchParameters {
 
   private PersonRole personRole;
   private String externalId;
+  private String usersCountyExternalId;
 }
