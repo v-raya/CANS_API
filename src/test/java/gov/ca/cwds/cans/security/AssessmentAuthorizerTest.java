@@ -8,10 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class AssessmentWriteAuthorizerTest extends BaseUnitTest {
+public class AssessmentAuthorizerTest extends BaseUnitTest {
 
   @Inject
-  private AssessmentWriteAuthorizer assessmentWriteAuthorizer;
+  private AssessmentReadAuthorizer assessmentWriteAuthorizer;
 
   @Test
   public void testAuthorized() throws Exception {

@@ -55,7 +55,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  @Authorize("assessment:read:result")
+  @Authorize({"assessment:read:result", "person:read:result.person.id"})
   public Assessment find(Serializable primaryKey) {
     return super.find(primaryKey);
   }
