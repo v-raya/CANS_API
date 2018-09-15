@@ -30,7 +30,6 @@ public abstract class PersonMapper implements AMapper<Person, PersonDto> {
 
   protected void unauthorizedPersonMapping(PersonDto personDto) {
     personDto.getMetadata().put(EDITABLE, false);
-//    personDto.setId(null);
     personDto.setCases(null);
     personDto.setExternalId(null);
   }
