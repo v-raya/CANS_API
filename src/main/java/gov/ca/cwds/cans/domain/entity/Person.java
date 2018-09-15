@@ -36,6 +36,7 @@ import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
 
 
 /** A Person. */
@@ -54,11 +55,12 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 )
 @FilterDef(
   name = FILTER_COUNTY,
-  parameters = @ParamDef(name = "external_id", type = "string")
+  parameters = @ParamDef(name = PARAM_USERS_COUNTY_EXTERNAL_ID, type = "string")
 )
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
 @Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
-@Filter(name = FILTER_COUNTY, condition = "county_id IN (SELECT county.id FROM cans.county WHERE county.external_id = :external_id)")
+@Filter(name = FILTER_COUNTY,
+    condition = "county_id IN (SELECT county.id FROM cans.county WHERE county.external_id = :" + PARAM_USERS_COUNTY_EXTERNAL_ID + ")")
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
@@ -67,7 +69,7 @@ public class Person implements Persistent<Long> {
   public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
   public static final String PARAM_EXTERNAL_ID = "externalId";
-  public static final String PARAM_COUNTY_ID = "countyId";
+  public static final String PARAM_USERS_COUNTY_EXTERNAL_ID = "usersCountyExternalId";
   private static final long serialVersionUID = 8541617675397448400L;
 
   @Id

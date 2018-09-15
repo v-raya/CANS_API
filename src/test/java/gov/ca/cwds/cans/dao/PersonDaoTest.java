@@ -44,6 +44,6 @@ public class PersonDaoTest {
     personDao.search(searchPersonParameters);
 
     verify(session).enableFilter(Person.FILTER_COUNTY);
-    verify(countyFilter).setParameter("external_id", "11");
+    verify(countyFilter).setParameter(Person.PARAM_USERS_COUNTY_EXTERNAL_ID, "11");
   }
 }

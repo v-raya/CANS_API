@@ -26,7 +26,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
     Require.requireNotNullAndNotEmpty(searchPersonParameters);
     final Session session = grabSession();
     final PersonRole personRole = searchPersonParameters.getPersonRole();
-    session.enableFilter(Person.FILTER_COUNTY).setParameter("external_id", searchPersonParameters.getUsersCountyExternalId());
+    session.enableFilter(Person.FILTER_COUNTY).setParameter("usersCountyExternalId", searchPersonParameters.getUsersCountyExternalId());
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
