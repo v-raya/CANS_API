@@ -22,16 +22,7 @@ public class PersonDaoTest {
   public void search_errors_withNullSearch() {
     SessionFactory sessionFactory = mock(SessionFactory.class);
     PersonDao personDao = new PersonDao(sessionFactory);
-    personDao.search(null, "");
-  }
-
-  @Test(expected = NullOrEmptyException.class)
-  public void search_errors_withNullCountyId() {
-    SessionFactory sessionFactory = mock(SessionFactory.class);
-    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
-    searchPersonParameters.setExternalId("22");
-    PersonDao personDao = new PersonDao(sessionFactory);
-    personDao.search(searchPersonParameters, null);
+    personDao.search(null);
   }
 
   @Test
@@ -49,7 +40,8 @@ public class PersonDaoTest {
     PersonDao personDao = new PersonDao(sessionFactory);
     SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
     searchPersonParameters.setExternalId("");
-    personDao.search(searchPersonParameters, "11");
+    searchPersonParameters.setUsersCountyExternalId("11");
+    personDao.search(searchPersonParameters);
 
     verify(session).enableFilter(Person.FILTER_COUNTY);
     verify(countyFilter).setParameter("external_id", "11");

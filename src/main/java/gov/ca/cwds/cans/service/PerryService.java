@@ -42,7 +42,7 @@ public class PerryService {
 
   private Collection<Person> findUserById(String userUniqueId, String countyId) {
     final SearchPersonParameters searchPersonParameters =
-        new SearchPersonParameters().setExternalId(userUniqueId).setPersonRole(PersonRole.USER).setExternalId(countyId);
-    return personDao.search(searchPersonParameters, countyId);
+        new SearchPersonParameters().setExternalId(userUniqueId).setPersonRole(PersonRole.USER).setUsersCountyExternalId(countyId);
+    return personDao.search(searchPersonParameters);
   }
 }

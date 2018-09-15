@@ -34,8 +34,8 @@ public class PersonServiceTest {
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
     PersonService personService = new PersonService(personDao, caseDao, assessmentDao, perryService);
-    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
+    SearchPersonParameters searchPersonParameters = new SearchPersonParameters().setUsersCountyExternalId("1126");
     personService.search(searchPersonParameters);
-    verify(personDao).search(searchPersonParameters, "1126");
+    verify(personDao).search(searchPersonParameters);
   }
 }

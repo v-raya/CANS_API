@@ -22,13 +22,11 @@ public class PersonDao extends AbstractCrudDao<Person> {
     super(sessionFactory);
   }
 
-  public Collection<Person> search(SearchPersonParameters searchPersonParameters, String countyId) {
+  public Collection<Person> search(SearchPersonParameters searchPersonParameters) {
     Require.requireNotNullAndNotEmpty(searchPersonParameters);
-    Require.requireNotNullAndNotEmpty(countyId);
-
     final Session session = grabSession();
     final PersonRole personRole = searchPersonParameters.getPersonRole();
-    session.enableFilter(Person.FILTER_COUNTY).setParameter("external_id", countyId);
+    session.enableFilter(Person.FILTER_COUNTY).setParameter("external_id", searchPersonParameters.getUsersCountyExternalId());
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
