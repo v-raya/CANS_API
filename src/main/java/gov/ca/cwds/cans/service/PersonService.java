@@ -3,7 +3,6 @@ package gov.ca.cwds.cans.service;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
-import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
@@ -19,7 +18,6 @@ import java.util.List;
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
 
-  private final CountyDao countyDao;
   private final CaseDao caseDao;
   private final AssessmentDao assessmentDao;
   private final PerryService perryService;
@@ -27,12 +25,10 @@ public class PersonService extends AbstractCrudService<Person> {
   @Inject
   public PersonService(
       final PersonDao dao,
-      final CountyDao countyDao,
       final CaseDao caseDao,
       final AssessmentDao assessmentDao,
       final PerryService perryService) {
     super(dao); // NOSONAR
-    this.countyDao = countyDao;
     this.caseDao = caseDao;
     this.assessmentDao = assessmentDao;
     this.perryService = perryService;

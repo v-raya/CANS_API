@@ -14,4 +14,5 @@ public class CountyDao extends AbstractCrudDao<County> {
   public CountyDao(@CansSessionFactory final SessionFactory sessionFactory) {
     super(sessionFactory);
   }
+
 }

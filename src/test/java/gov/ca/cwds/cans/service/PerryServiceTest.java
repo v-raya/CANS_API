@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.service;
 
-import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
@@ -21,24 +20,25 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class PerryServiceTest {
 
   @Test
-  public void getOrPersistAndGetCurrentUser_setsCountyOnNewPerson() throws Exception {
+  public void getOrPersistAndGetCurrentUser_setsAttributesOnUser() throws Exception {
     PersonDao personDao = mock(PersonDao.class);
-    CountyDao countyDao = mock(CountyDao.class);
-    PerryService perryService = new PerryService(personDao, countyDao);
+    PerryService perryService = new PerryService(personDao);
     PerryAccount perryAccount = new PerryAccount();
+    perryAccount.setUser("999");
     perryAccount.setFirstName("Slick");
     perryAccount.setLastName("Rick");
     perryAccount.setCountyCwsCode("1126");
 
-    Person expectedPersonWithCounty = new Person();
-    expectedPersonWithCounty.setFirstName("Slick");
-    expectedPersonWithCounty.setLastName("Rick");
-    expectedPersonWithCounty.setPersonRole(PersonRole.USER);
+    Person expectedPerson = new Person();
+    expectedPerson.setExternalId("999");
+    expectedPerson.setFirstName("Slick");
+    expectedPerson.setLastName("Rick");
+    expectedPerson.setPersonRole(PersonRole.USER);
 
     mockStatic(PrincipalUtils.class);
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
     perryService.getOrPersistAndGetCurrentUser();
-    verify(personDao).create(expectedPersonWithCounty);
+    verify(personDao).create(expectedPerson);
   }
 }

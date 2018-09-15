@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.service;
 
-import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
@@ -15,13 +14,11 @@ import java.util.Collection;
 public class PerryService {
 
   private final PersonDao personDao;
-  private final CountyDao countyDao;
 
   @Inject
-  public PerryService(PersonDao personDao, CountyDao countyDao)
+  public PerryService(PersonDao personDao)
   {
     this.personDao = personDao;
-    this.countyDao = countyDao;
   }
 
   public Person getOrPersistAndGetCurrentUser() {

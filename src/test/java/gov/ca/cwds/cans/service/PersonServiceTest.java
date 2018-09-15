@@ -2,9 +2,7 @@ package gov.ca.cwds.cans.service;
 
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
-import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
-import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
@@ -25,7 +23,6 @@ public class PersonServiceTest {
   @Test
   public void search_returnsPeople() throws Exception {
     PersonDao personDao = mock(PersonDao.class);
-    CountyDao countyDao = mock(CountyDao.class);
     CaseDao caseDao = mock(CaseDao.class);
     AssessmentDao assessmentDao = mock(AssessmentDao.class);
     PerryService perryService = mock(PerryService.class);
@@ -35,10 +32,8 @@ public class PersonServiceTest {
     perryAccount.setLastName("Rick");
     perryAccount.setCountyCwsCode("1126");
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
-    County county = new County();
-    county.setId(42L);
 
-    PersonService personService = new PersonService(personDao, countyDao, caseDao, assessmentDao, perryService);
+    PersonService personService = new PersonService(personDao, caseDao, assessmentDao, perryService);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
     personService.search(searchPersonPo);
     verify(personDao).search(searchPersonPo, "1126");
