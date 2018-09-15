@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.service;
 
 import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
-import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.security.realm.PerryAccount;
@@ -13,8 +12,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -35,13 +34,9 @@ public class PerryServiceTest {
     expectedPersonWithCounty.setFirstName("Slick");
     expectedPersonWithCounty.setLastName("Rick");
     expectedPersonWithCounty.setPersonRole(PersonRole.USER);
-    County county = new County();
-    county.setId(42L);
-    expectedPersonWithCounty.setCounty(county);
 
     mockStatic(PrincipalUtils.class);
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
-    when(countyDao.findByExternalId("1126")).thenReturn(county);
 
     perryService.getOrPersistAndGetCurrentUser();
     verify(personDao).create(expectedPersonWithCounty);

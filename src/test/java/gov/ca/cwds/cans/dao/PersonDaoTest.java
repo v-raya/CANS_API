@@ -19,14 +19,14 @@ import static org.mockito.Mockito.verify;
 public class PersonDaoTest {
 
   @Test(expected = NullOrEmptyException.class)
-  public void testSearchWithNullSearch() {
+  public void search_errors_withNullSearch() {
     SessionFactory sessionFactory = mock(SessionFactory.class);
     PersonDao personDao = new PersonDao(sessionFactory);
     personDao.search(null, "");
   }
 
   @Test(expected = NullOrEmptyException.class)
-  public void testSearchWithNullCountyId() {
+  public void search_errors_withNullCountyId() {
     SessionFactory sessionFactory = mock(SessionFactory.class);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
     searchPersonPo.setExternalId("22");
@@ -35,7 +35,7 @@ public class PersonDaoTest {
   }
 
   @Test
-  public void testSearchwithNoRoleOrExternalIdSetsCountyFilter() throws Exception {
+  public void search_setsJustCountyFilter_withNoRoleOrExternalId() throws Exception {
     List<Person> people = Collections.singletonList(new Person());
     SessionFactory sessionFactory = mock(SessionFactory.class);
     Session session = mock(Session.class);

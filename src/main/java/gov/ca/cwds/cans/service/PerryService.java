@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.service;
 
 import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.dao.PersonDao;
-import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.search.SearchPersonPo;
@@ -28,22 +27,20 @@ public class PerryService {
   public Person getOrPersistAndGetCurrentUser() {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     final String userUniqueId = perryAccount.getUser();
-    final County county = countyDao.findByExternalId(perryAccount.getCountyCwsCode());
-    final Collection<Person> users = findUserById(userUniqueId, county.getId().toString());
+    final Collection<Person> users = findUserById(userUniqueId, perryAccount.getCountyCwsCode());
     if (!users.isEmpty()) {
       return users.iterator().next();
     }
-    final Person newUser = buildNewUser(perryAccount, userUniqueId, county);
+    final Person newUser = buildNewUser(perryAccount, userUniqueId);
     return personDao.create(newUser);
   }
 
-  private Person buildNewUser(PerryAccount perryAccount, String userUniqueId, County county) {
+  private Person buildNewUser(PerryAccount perryAccount, String userUniqueId) {
     return new Person()
         .setExternalId(userUniqueId)
         .setFirstName(perryAccount.getFirstName())
         .setLastName(perryAccount.getLastName())
-        .setPersonRole(PersonRole.USER)
-        .setCounty(county);
+        .setPersonRole(PersonRole.USER);
   }
 
   private Collection<Person> findUserById(String userUniqueId, String countyId) {

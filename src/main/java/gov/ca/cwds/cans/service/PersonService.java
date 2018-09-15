@@ -44,7 +44,6 @@ public class PersonService extends AbstractCrudService<Person> {
 
   public Collection<Person> search(final SearchPersonPo searchPo) {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
-    final String countyId = countyDao.findByExternalId(perryAccount.getCountyCwsCode()).getId().toString();
     return ((PersonDao) dao).search(searchPo, perryAccount.getCountyCwsCode());
   }
 

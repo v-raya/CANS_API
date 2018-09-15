@@ -37,7 +37,6 @@ public class PersonServiceTest {
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
     County county = new County();
     county.setId(42L);
-    when(countyDao.findByExternalId("1126")).thenReturn(county);
 
     PersonService personService = new PersonService(personDao, countyDao, caseDao, assessmentDao, perryService);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
