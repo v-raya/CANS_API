@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
 
     final Session session = grabSession();
     final PersonRole personRole = searchPo.getPersonRole();
-    session.enableFilter(Person.FILTER_COUNTY).setParameter(Person.PARAM_COUNTY_ID, new BigInteger(countyId));
+    session.enableFilter(Person.FILTER_COUNTY).setParameter("external_id", countyId);
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());

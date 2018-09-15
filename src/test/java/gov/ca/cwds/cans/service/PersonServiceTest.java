@@ -42,6 +42,6 @@ public class PersonServiceTest {
     PersonService personService = new PersonService(personDao, countyDao, caseDao, assessmentDao, perryService);
     SearchPersonPo searchPersonPo = new SearchPersonPo();
     personService.search(searchPersonPo);
-    verify(personDao).search(searchPersonPo, "42");
+    verify(personDao).search(searchPersonPo, "1126");
   }
 }

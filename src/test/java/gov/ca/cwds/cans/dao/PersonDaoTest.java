@@ -10,7 +10,6 @@ import org.hibernate.query.Query;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,6 +52,6 @@ public class PersonDaoTest {
     personDao.search(searchPersonPo, "11");
 
     verify(session).enableFilter(Person.FILTER_COUNTY);
-    verify(countyFilter).setParameter(Person.PARAM_COUNTY_ID, new BigInteger("11"));
+    verify(countyFilter).setParameter("external_id", "11");
   }
 }
