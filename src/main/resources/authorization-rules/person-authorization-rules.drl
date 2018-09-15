@@ -36,11 +36,11 @@ rule "Person has no sensitivity type"
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
 
-rule "Person is not sealed and county is null"
+rule "Person has no sensitivity type and county is null"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
-      Person(county == null, sensitivityType != SensitivityType.SEALED )
+      Person(county == null, sensitivityType == null )
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
