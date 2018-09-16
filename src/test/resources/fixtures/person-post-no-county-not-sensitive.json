@@ -1,0 +1,17 @@
+{
+  "first_name": "Anna",
+  "last_name": "Pele",
+  "person_role": "CLIENT",
+  "external_id": "1234-1234-1234-7898767",
+  "dob": "2010-10-10",
+  "estimated_dob": false,
+  "gender": "FEMALE",
+  "race": "WHITE_OR_CAUCASIAN",
+  "county_client_number": "ccn12345",
+  "client_index_number": "cin54321",
+  "cases": [
+    {
+      "external_id": "4444-321-4321-87654321"
+    }
+  ]
+}
