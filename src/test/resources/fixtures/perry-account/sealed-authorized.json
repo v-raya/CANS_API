@@ -9,7 +9,6 @@
   "county_name": "Marin",
   "county_cws_code": "1088",
   "privileges": [
-    "Sensitive Persons",
     "Sealed",
     "CANS-rollout"
   ]

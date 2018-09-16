@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.domain.json;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 /** @author denys.davydov */

@@ -12,6 +12,7 @@ import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
+import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class PersonService extends AbstractCrudService<Person> {
   }
 
   @Override
-  public Person update(final Person person) {
+  public Person update(@Authorize("person:write:person.id") final Person person) {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForUpdate(person);
     return super.update(person);

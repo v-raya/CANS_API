@@ -13,18 +13,20 @@ import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
+import gov.ca.cwds.cans.security.AssessmentReadAuthorizer;
 import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
+import gov.ca.cwds.cans.security.PersonReadAuthorizer;
+import gov.ca.cwds.cans.security.PersonWriteAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import java.util.EnumSet;
+import javax.servlet.DispatcherType;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.DispatcherType;
-import java.util.EnumSet;
 
 /**
  * @author denys.davydov
@@ -48,6 +50,9 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
         install(new SecurityModule(BaseApiApplication::getInjector)
             .addStaticAuthorizer(CansStaticAuthorizer.class)
             .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class)
+            .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
+            .addAuthorizer("person:read", PersonReadAuthorizer.class)
+            .addAuthorizer("person:write", PersonWriteAuthorizer.class)
         );
       }
     };
@@ -63,13 +68,13 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
     }
 
     environment.getObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
     environment
-            .jersey()
-            .getResourceConfig()
-            .packages(getClass().getPackage().getName())
-            .register(DeclarativeLinkingFeature.class);
+        .jersey()
+        .getResourceConfig()
+        .packages(getClass().getPackage().getName())
+        .register(DeclarativeLinkingFeature.class);
 
     runDataSourceHealthChecks(environment);
 
@@ -79,14 +84,14 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
     InjectorHolder.INSTANCE.setInjector(injector);
 
     environment.servlets()
-            .addFilter("RequestExecutionContextManagingFilter",
-                    injector.getInstance(RequestExecutionContextFilter.class))
-            .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+        .addFilter("RequestExecutionContextManagingFilter",
+            injector.getInstance(RequestExecutionContextFilter.class))
+        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
     environment.servlets()
-            .addFilter("AuditAndLoggingFilter",
-                    injector.getInstance(RequestResponseLoggingFilter.class))
-            .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+        .addFilter("AuditAndLoggingFilter",
+            injector.getInstance(RequestResponseLoggingFilter.class))
+        .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
   }
 
   private void runDataSourceHealthChecks(Environment environment) {

@@ -9,9 +9,7 @@
   "county_name": "El Dorado",
   "county_cws_code": "1076",
   "privileges": [
-    "Sensitive Persons",
     "Sealed",
-    "CWS CANS System",
     "CANS-rollout"
   ]
 }

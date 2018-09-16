@@ -25,6 +25,7 @@ import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
@@ -48,10 +49,8 @@ import org.junit.Test;
  */
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
-  private static final String AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE =
-      "fixtures/perry-account/el-dorado-all-authorized.json";
   private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
-      "fixtures/perry-account/marlin-all-authorized.json";
+      "fixtures/perry-account/marin-all-authorized.json";
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
@@ -100,7 +99,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final Response postResponse =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + START)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -136,7 +135,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // when
     final AssessmentDto actual = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + START)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(startRequest, MediaType.APPLICATION_JSON_TYPE))
@@ -257,7 +256,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties = Arrays.asList(
         new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
-        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
+        new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
+            AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         // out of search results because of the other person
         new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10),
             AUTHORIZED_ACCOUNT_FIXTURE},
@@ -309,7 +309,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final PersonDto person0 = readObject(FIXTURE_POST_PERSON, PersonDto.class);
     person0.getCases().get(0).setExternalId("4321-321-4321-87654321");
     final PersonDto postedPerson0 = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(person0, MediaType.APPLICATION_JSON_TYPE))
@@ -320,7 +320,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assessment.setPerson(person);
     assessment.setTheCase(person.getCases().get(0));
     final AssessmentDto postedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
@@ -331,14 +331,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     person.getCases()
         .add((CaseDto) new CaseDto().setExternalId("4321-321-4321-87654321").setId(123L));
     clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + person.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .put(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     final AssessmentDto updatedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + postedAssessment.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get()
@@ -410,6 +410,99 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     cleanUpAssessmentIds.add(postedAssessment.getId());
   }
 
+  @Test
+  public void getAssessment_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(200));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
+  public void getAssessment_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty()
+      throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
+  @Test
+  public void getAssessment_unauthorized_whenUserHasNotSealedAndClientIsSealed()
+      throws IOException {
+    // given
+    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON,
+        PersonDto.class);
+    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = postPerson(personEntity);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    final AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+
+    // when
+    final int status = clientTestRule
+        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .get().getStatus();
+
+    // then
+    assertThat(status, is(403));
+
+    // clean up
+    cleanUpPeopleIds.add(person.getId());
+    cleanUpAssessmentIds.add(postedAssessment.getId());
+  }
+
   private AssessmentDto postAssessment(
       AssessmentDto assessment,
       PersonDto person,
@@ -430,8 +523,12 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private PersonDto postPerson() throws IOException {
     final Entity person = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
+    return postPerson(person);
+  }
+
+  private PersonDto postPerson(Entity person) throws IOException {
     return clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(person)

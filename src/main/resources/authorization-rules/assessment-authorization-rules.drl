@@ -1,0 +1,17 @@
+import gov.ca.cwds.cans.domain.entity.Assessment
+import gov.ca.cwds.cans.domain.entity.Person
+import gov.ca.cwds.security.realm.PerryAccount
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType
+import gov.ca.cwds.cans.Constants
+
+global Boolean authorizationResult
+
+rule "Assessment in the same county"
+  dialect "mvel"
+  agenda-group "assessment-write-authorization-rules"
+  when
+      Assessment($county : county)
+      PerryAccount(countyName.equalsIgnoreCase($county!.name))
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end

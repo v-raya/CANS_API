@@ -2,13 +2,16 @@ package gov.ca.cwds.cans;
 
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
+import gov.ca.cwds.cans.rest.resource.AssessmentResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.AssessmentResourceTest;
+import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
+import gov.ca.cwds.cans.rest.resource.PersonResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
-import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
+import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -41,6 +44,9 @@ import org.junit.runners.Suite;
   InstrumentResourceTest.class,
   PersonResourceTest.class,
   SecurityResourceTest.class,
+  SensitivityTypeResourceTest.class,
+  PersonResourceAuthorizationTest.class,
+  AssessmentResourceAuthorizationTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 
