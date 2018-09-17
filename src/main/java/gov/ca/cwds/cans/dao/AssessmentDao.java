@@ -41,6 +41,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
+//  public Assessment create(@Authorize({"assessment:write:assessment", "person:write:assessment.person.id"}) Assessment assessment) {
   public Assessment create(Assessment assessment) {
     initializeRelationships(assessment);
     assessment.setCounty(assessment.getPerson().getCounty());
@@ -48,7 +49,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment update(Assessment assessment) {
+  public Assessment update(@Authorize({"assessment:write:assessment.id", "person:write:assessment.person.id"}) Assessment assessment) {
     revertCountyToInitialValue(assessment);
     initializeRelationships(assessment);
     return super.update(assessment);
@@ -74,6 +75,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     hibernateInitializeInstrument(assessment);
   }
 
+  @Authorize({"person:write:assessment.person.id"})
   public Collection<Assessment> search(SearchAssessmentPo searchPo) {
     Require.requireNotNullAndNotEmpty(searchPo);
     final Session session = grabSession();

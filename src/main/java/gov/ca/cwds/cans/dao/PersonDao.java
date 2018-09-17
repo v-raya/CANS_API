@@ -31,6 +31,12 @@ public class PersonDao extends AbstractCrudDao<Person> {
     return super.find(primaryKey);
   }
 
+  @Override
+//  public Person create(@Authorize("person:write:person") Person person) {
+  public Person create(Person person) {
+    return super.create(person);
+  }
+
   public Collection<Person> search(SearchPersonPo searchPo) {
     Require.requireNotNullAndNotEmpty(searchPo);
     authorize();
