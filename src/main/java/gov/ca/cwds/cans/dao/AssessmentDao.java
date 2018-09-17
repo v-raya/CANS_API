@@ -55,7 +55,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  @Authorize({"person:read:result.person.id"})
+  @Authorize({"person:read:result.person"})
   public Assessment find(Serializable primaryKey) {
     return super.find(primaryKey);
   }
@@ -74,7 +74,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     hibernateInitializeInstrument(assessment);
   }
 
-  @Authorize({"person:write:assessment.person.id"})
+  @Authorize({"person:write:assessment.person"})
   public Collection<Assessment> search(SearchAssessmentPo searchPo) {
     Require.requireNotNullAndNotEmpty(searchPo);
     final Session session = grabSession();
