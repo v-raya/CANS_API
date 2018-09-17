@@ -416,7 +416,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cleanUpPeopleIds.add(postPerson(person));
 
     //when
-//    List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_ACCOUNT_FIXTURE);
     List<PersonDto> persons = searchPersons(EXTERNAL_ID, SEALED_EL_DORADO_ACCOUNT_FIXTURE);
 
     // then
