@@ -33,8 +33,12 @@ public class PersonResourceHelper {
   }
 
   public PersonDto postPerson(PersonDto input) throws IOException {
+    return postPerson(input, AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  public PersonDto postPerson(PersonDto input, String accountFixture) throws IOException {
     PersonDto person = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(accountFixture)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE))

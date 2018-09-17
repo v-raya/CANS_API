@@ -41,22 +41,21 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-//  public Assessment create(@Authorize({"assessment:write:assessment", "person:write:assessment.person.id"}) Assessment assessment) {
-  public Assessment create(Assessment assessment) {
+  public Assessment create(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
     initializeRelationships(assessment);
     assessment.setCounty(assessment.getPerson().getCounty());
     return super.create(assessment);
   }
 
   @Override
-  public Assessment update(@Authorize({"assessment:write:assessment.id", "person:write:assessment.person.id"}) Assessment assessment) {
+  public Assessment update(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
     revertCountyToInitialValue(assessment);
     initializeRelationships(assessment);
     return super.update(assessment);
   }
 
   @Override
-  @Authorize({"assessment:read:result", "person:read:result.person.id"})
+  @Authorize({"person:read:result.person.id"})
   public Assessment find(Serializable primaryKey) {
     return super.find(primaryKey);
   }

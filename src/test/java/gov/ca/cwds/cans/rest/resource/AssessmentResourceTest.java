@@ -187,7 +187,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentDto actualAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
@@ -358,7 +358,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
