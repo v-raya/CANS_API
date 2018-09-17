@@ -10,14 +10,15 @@ import gov.ca.cwds.security.utils.PrincipalUtils;
 import javax.inject.Inject;
 import java.util.Collection;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class PerryService {
 
   private final PersonDao personDao;
 
   @Inject
-  public PerryService(PersonDao personDao)
-  {
+  public PerryService(PersonDao personDao) {
     this.personDao = personDao;
   }
 
