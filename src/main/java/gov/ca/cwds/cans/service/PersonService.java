@@ -32,10 +32,6 @@ public class PersonService extends AbstractCrudService<Person> {
     this.perryService = perryService;
   }
 
-  public Collection<Person> findAll() {
-    return dao.findAll();
-  }
-
   public Collection<Person> search(final SearchPersonPo searchPo) {
     return ((PersonDao) dao).search(searchPo);
   }

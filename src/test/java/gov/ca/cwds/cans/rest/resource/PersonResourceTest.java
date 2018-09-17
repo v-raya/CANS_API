@@ -188,29 +188,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void getAllPeople_success_whenFoundInMemoryOnly() throws IOException {
-    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
-
-    // given
-    final PersonDto[] expected = FixtureReader.readObject(FIXTURES_GET_ALL, PersonDto[].class);
-
-    // when
-    final PersonDto[] actual =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .get()
-            .readEntity(PersonDto[].class);
-
-    // then
-    final List<PersonDto> actualList = Arrays.asList(actual);
-    for (PersonDto person : expected) {
-      assertThat(actualList, hasItem(person));
-    }
-  }
-
-  @Test
   public void searchPeople_success_whenSearchingForClientsInMemoryOnly() throws IOException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
