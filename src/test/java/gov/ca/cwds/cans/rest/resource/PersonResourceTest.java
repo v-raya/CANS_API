@@ -40,9 +40,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String FIXTURES_EMPTY_OBJECT = "fixtures/empty-object.json";
   private static final String FIXTURES_POST = "fixtures/person-post.json";
   private static final String FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE =
-      "fixtures/person-post-with-sensityvity-type.json";
+      "fixtures/person-post-with-sensitivity-type.json";
   private static final String FIXTURES_PUT = "fixtures/person-put.json";
-  private static final String FIXTURES_GET_ALL = "fixtures/person-get-all.json";
   private static final String FIXTURES_SEARCH_CLIENTS_REQUEST =
       "fixtures/person-search-clients-request.json";
   private static final String FIXTURES_SEARCH_CLIENTS_RESPONSE =
