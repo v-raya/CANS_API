@@ -32,8 +32,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
-//  public Person create(@Authorize("person:write:person") Person person) {
-  public Person create(Person person) {
+  public Person create(@Authorize("person:create:person") Person person) {
     return super.create(person);
   }
 

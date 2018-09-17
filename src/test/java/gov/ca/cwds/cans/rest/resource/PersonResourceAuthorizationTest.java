@@ -57,7 +57,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
   public void personGet_Unauthorized_whenCountyIsNotTheSame() throws IOException {
     PersonDto person = FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class);
     person.setCounty(EL_DORADO_COUNTY);
-    final PersonDto postedPerson = personHelper.postPerson(person);
+    final PersonDto postedPerson = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     Response response = personHelper.getPerson(AUTHORIZED_ACCOUNT_FIXTURE, postedPerson.getId());
     assertThat(response.getStatus(), is(HttpStatus.SC_FORBIDDEN));
   }
