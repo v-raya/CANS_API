@@ -22,5 +22,8 @@
       "external_id": "4444-321-4321-87654321"
     }
   ],
-  "sensitivity_type": "SENSITIVE"
+  "sensitivity_type": "SENSITIVE",
+  "metadata": {
+    "editable": true
+  }
 }

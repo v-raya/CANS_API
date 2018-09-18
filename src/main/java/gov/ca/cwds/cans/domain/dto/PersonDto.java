@@ -12,7 +12,9 @@ import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.validation.ValidPerson;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -66,4 +68,5 @@ public class PersonDto extends Dto {
   private SensitivityType sensitivityType;
   @Valid
   private List<CaseDto> cases = new ArrayList<>();
+  private Map<String, Object> metadata = new HashMap<>();
 }

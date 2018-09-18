@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Test;
@@ -399,14 +400,15 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cleanUpPeopleIds.add(personId);
 
     //when
-    int status = clientTestRule
+    Response response = clientTestRule
         .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(PEOPLE + SLASH + personId)
         .request(MediaType.APPLICATION_JSON_TYPE)
-        .get().getStatus();
+        .get();
 
     // then
-    assertThat(status, is(200));
+    assertThat(response.getStatus(), is(200));
+    checkMetadataEditable(response, true);
   }
 
   @Test

@@ -6,9 +6,13 @@
     "last_name": "Wayne",
     "dob": "2015-11-14",
     "county": {
-      "id": 99,
-      "name": "State of California",
-      "external_id": "1126"
+      "id": 21,
+      "name": "Marin",
+      "external_id": "1088",
+      "export_id": "21"
+    },
+    "metadata": {
+      "editable": true
     }
   },
   {
@@ -21,6 +25,9 @@
       "id": 99,
       "name": "State of California",
       "external_id": "1126"
+    },
+    "metadata": {
+      "editable": false
     }
   },
   {
@@ -33,6 +40,9 @@
       "id": 99,
       "name": "State of California",
       "external_id": "1126"
+    },
+    "metadata": {
+      "editable": false
     }
   }
 ]

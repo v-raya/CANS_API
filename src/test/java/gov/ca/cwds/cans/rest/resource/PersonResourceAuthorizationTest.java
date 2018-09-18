@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
@@ -10,16 +11,19 @@ import java.io.IOException;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 
   private static final String FIXTURES_POST_SENSITIVE = "fixtures/person-post-sensitive.json";
+  private static final String FIXTURES_POST_NON_SENSITIVE_NO_COUNTY = "fixtures/person-post-no-county-not-sensitive.json";
   private static final String FIXTURES_POST_SEALED = "fixtures/person-post-with-sensitivity-type.json";
   private static final String FIXTURES_POST_NON_SENSITIVE = "fixtures/person-post.json";
 
   private static final CountyDto EL_DORADO_COUNTY = new CountyDto();
+
   static {
     EL_DORADO_COUNTY.setId(9L);
     EL_DORADO_COUNTY.setName("El Dorado");
@@ -45,6 +49,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
         FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class));
     Response response = personHelper.getPerson(AUTHORIZED_ACCOUNT_FIXTURE, person.getId());
     assertThat(response.getStatus(), is(HttpStatus.SC_OK));
+    checkMetadataEditable(response, true);
   }
 
   @Test
@@ -71,6 +76,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
     person.setMiddleName("");
     Response response = personHelper.putPerson(AUTHORIZED_ACCOUNT_FIXTURE, person);
     assertThat(response.getStatus(), is(HttpStatus.SC_OK));
+    checkMetadataEditable(response, true);
   }
 
   @Test
