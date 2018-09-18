@@ -25,7 +25,7 @@ public class PerryService {
   public Person getOrPersistAndGetCurrentUser() {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     final String userUniqueId = perryAccount.getUser();
-    final Collection<Person> users = findUserById(userUniqueId, perryAccount.getCountyCwsCode());
+    final Collection<Person> users = findUserById(userUniqueId);
     if (!users.isEmpty()) {
       return users.iterator().next();
     }
@@ -41,9 +41,10 @@ public class PerryService {
         .setPersonRole(PersonRole.USER);
   }
 
-  private Collection<Person> findUserById(String userUniqueId, String countyId) {
-    final SearchPersonParameters searchPersonParameters =
-        new SearchPersonParameters().setExternalId(userUniqueId).setPersonRole(PersonRole.USER).setUsersCountyExternalId(countyId);
+  private Collection<Person> findUserById(String userUniqueId) {
+    final SearchPersonParameters searchPersonParameters = new SearchPersonParameters()
+        .setExternalId(userUniqueId)
+        .setPersonRole(PersonRole.USER);
     return personDao.search(searchPersonParameters);
   }
 }

@@ -1,22 +1,17 @@
 {
-  "id": 5,
-  "first_name": "Lois",
-  "middle_name": null,
-  "last_name": "Lane",
-  "suffix": null,
-  "person_role": "CLIENT",
-  "external_id": null,
-  "dob": "2006-01-31",
-  "estimated_dob": null,
-  "gender": null,
-  "race": null,
-  "county_client_number": null,
-  "client_index_number": null,
-  "county": {
-    "id": 49,
-    "name": "Sonoma",
-    "external_id": "1116",
-    "export_id": "49"
+  "id" : 1,
+  "person_role" : "CLIENT",
+  "first_name" : "Bruce",
+  "last_name" : "Wayne",
+  "dob" : "2015-11-14",
+  "county" : {
+    "id" : 21,
+    "name" : "Marin",
+    "external_id" : "1088",
+    "export_id" : "21"
   },
-  "cases": [ ]
+  "cases" : [ ],
+  "metadata" : {
+    "editable" : true
+  }
 }

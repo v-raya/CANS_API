@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.dao;
 
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
+
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.Constants.Privileges;
@@ -41,22 +43,29 @@ public class PersonDao extends AbstractCrudDao<Person> {
 
   public Collection<Person> search(SearchPersonParameters searchPersonParameters) {
     Require.requireNotNullAndNotEmpty(searchPersonParameters);
-    Require.requireNotNullAndNotEmpty(searchPersonParameters.getUsersCountyExternalId());
-    authorize();
     final Session session = grabSession();
+    authorize();
+
     final PersonRole personRole = searchPersonParameters.getPersonRole();
-    session.enableFilter(Person.FILTER_COUNTY).setParameter("usersCountyExternalId", searchPersonParameters.getUsersCountyExternalId());
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
     }
+
     final String externalId = searchPersonParameters.getExternalId();
     if (StringUtils.isNotBlank(externalId)) {
       session.enableFilter(Person.FILTER_EXTERNAL_ID)
           .setParameter(Person.PARAM_EXTERNAL_ID, externalId);
     }
 
-    final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).list();
+    final String usersCountyExternalId = searchPersonParameters.getUsersCountyExternalId();
+    if (StringUtils.isNotBlank(usersCountyExternalId)) {
+      session.enableFilter(Person.FILTER_COUNTY)
+          .setParameter(PARAM_USERS_COUNTY_EXTERNAL_ID, usersCountyExternalId);
+    }
+
+    // TODO: DELETE MAX_RECORDS LINE
+    final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).setMaxResults(50).list();
     return ImmutableList.copyOf(results);
   }
 

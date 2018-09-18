@@ -207,7 +207,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto[] actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_STATE_OF_CALIFORNIA_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
             .target(PEOPLE + SLASH + SEARCH)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(searchInput)
@@ -232,7 +232,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto[] actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
             .target(PEOPLE + SLASH + SEARCH)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(searchInput)
