@@ -14,6 +14,16 @@ public class PersonReadAuthorizerTest extends BaseUnitTest {
   @Inject
   private PersonReadAuthorizer personReadAuthorizer;
 
+
+  @Test
+  public void checkInstance_authorized_whenUserHasSealedAndClientHasNoCounty() throws Exception {
+    securityContext("fixtures/perry-account/000-all-authorized.json");
+    Person person = getPerson("1088");
+    person.setSensitivityType(SensitivityType.SEALED);
+    person.setCounty(null);
+    Assert.assertTrue(personReadAuthorizer.checkInstance(person));
+  }
+
   @Test
   public void checkInstance_authorized_whenUserHasSealedAndClientIsSealed() throws Exception {
     securityContext("fixtures/perry-account/000-all-authorized.json");
@@ -59,6 +69,15 @@ public class PersonReadAuthorizerTest extends BaseUnitTest {
     Person person = new Person();
     person.setSensitivityType(SensitivityType.SENSITIVE);
     Assert.assertFalse(personReadAuthorizer.checkInstance(person));
+  }
+
+  @Test
+  public void checkInstance_authorized_whenUserHasSensitiveAndClientHasNoCounty() throws Exception {
+    securityContext("fixtures/perry-account/000-all-authorized.json");
+    Person person = getPerson("1088");
+    person.setSensitivityType(SensitivityType.SENSITIVE);
+    person.setCounty(null);
+    Assert.assertTrue(personReadAuthorizer.checkInstance(person));
   }
 
   @Test
