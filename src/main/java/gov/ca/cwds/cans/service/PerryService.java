@@ -3,13 +3,16 @@ package gov.ca.cwds.cans.service;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
-import java.util.Collection;
-import javax.inject.Inject;
 
-/** @author denys.davydov */
+import javax.inject.Inject;
+import java.util.Collection;
+
+/**
+ * @author denys.davydov
+ */
 public class PerryService {
 
   private final PersonDao personDao;
@@ -39,8 +42,9 @@ public class PerryService {
   }
 
   private Collection<Person> findUserById(String userUniqueId) {
-    final SearchPersonPo searchPo =
-        new SearchPersonPo().setExternalId(userUniqueId).setPersonRole(PersonRole.USER);
-    return personDao.search(searchPo);
+    final SearchPersonParameters searchPersonParameters = new SearchPersonParameters()
+        .setExternalId(userUniqueId)
+        .setPersonRole(PersonRole.USER);
+    return personDao.search(searchPersonParameters);
   }
 }

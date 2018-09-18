@@ -24,9 +24,12 @@ public abstract class AbstractFunctionalTest {
       "fixtures/perry-account/authorized-no-sealed.json";
   public static final String SENSITIVE_PERSONS_ACCOUNT_FIXTURE = "fixtures/perry-account/sensitive_persons-authorized.json";
   public static final String SEALED_ACCOUNT_FIXTURE = "fixtures/perry-account/sealed-authorized.json";
+  public static final String SEALED_EL_DORADO_ACCOUNT_FIXTURE = "fixtures/perry-account/el-dorado-sealed-authorized.json";
   public static final String NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE = "fixtures/perry-account/no_sealed_no_sensitive-authorized.json";
   public static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   public static final String SLASH = "/";
+  static final String AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE =
+      "fixtures/perry-account/single-county-authorized.json";
   private static final String EDITABLE = "editable";
 
   @Rule

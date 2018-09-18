@@ -1,6 +1,9 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import static gov.ca.cwds.cans.domain.entity.County.NQ_ALL;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.NamedQuery;
+
+import static gov.ca.cwds.cans.domain.entity.County.NQ_ALL;
 
 /** A County. */
 @Entity
@@ -36,6 +38,7 @@ public class County implements Persistent<Long> {
   @Column(name = "name")
   private String name;
 
+  @NaturalId
   @Column(name = "external_id")
   private String externalId;
 

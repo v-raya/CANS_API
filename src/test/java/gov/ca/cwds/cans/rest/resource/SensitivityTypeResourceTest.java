@@ -1,13 +1,14 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.junit.MatcherAssert.assertThat;
-
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
-import java.io.IOException;
-import javax.ws.rs.core.MediaType;
 import org.junit.Test;
+
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 /**
  * @author volodymyr.petrusha

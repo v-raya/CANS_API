@@ -6,12 +6,15 @@ import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.cans.domain.search.SearchPersonPo;
+import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.realm.PerryAccount;
+import gov.ca.cwds.security.utils.PrincipalUtils;
+import org.apache.commons.collections4.CollectionUtils;
+
 import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 import java.util.List;
-import org.apache.commons.collections4.CollectionUtils;
 
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
@@ -32,8 +35,10 @@ public class PersonService extends AbstractCrudService<Person> {
     this.perryService = perryService;
   }
 
-  public Collection<Person> search(final SearchPersonPo searchPo) {
-    return ((PersonDao) dao).search(searchPo);
+  public Collection<Person> search(final SearchPersonParameters searchPersonParameters) {
+    final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
+    searchPersonParameters.setUsersCountyExternalId(perryAccount.getCountyCwsCode());
+    return ((PersonDao) dao).search(searchPersonParameters);
   }
 
   @Override

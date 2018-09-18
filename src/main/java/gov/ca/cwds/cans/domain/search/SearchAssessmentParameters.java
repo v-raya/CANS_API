@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 /** @author denys.davydov */
 @Data
 @Accessors(chain = true)
-public class SearchAssessmentPo implements SearchPo {
+public class SearchAssessmentParameters implements SearchParameters {
   private Long personId;
   private Long createdById;
 }

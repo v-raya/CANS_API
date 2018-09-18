@@ -1,21 +1,17 @@
 package gov.ca.cwds.cans.domain.entity;
 
-import static gov.ca.cwds.cans.domain.entity.Person.AUTHORIZATION_FILTER;
-import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
-import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
-import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
-import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
-import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
-
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,28 +26,45 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.NamedQuery;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.Type;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-/** A Person. */
+import static gov.ca.cwds.cans.domain.entity.Person.AUTHORIZATION_FILTER;
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_COUNTY;
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
+import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
+
+/**
+ * A Person.
+ */
 @Entity
 @Table(name = "person")
 @Data
 @Accessors(chain = true)
 @NamedQuery(name = NQ_ALL, query = "FROM Person")
 @FilterDef(
-  name = FILTER_PERSON_ROLE,
-  parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
+    name = FILTER_PERSON_ROLE,
+    parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
 )
 @FilterDef(
-  name = FILTER_EXTERNAL_ID,
-  parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
+    name = FILTER_EXTERNAL_ID,
+    parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
 )
+@FilterDef(
+    name = FILTER_COUNTY,
+    parameters = @ParamDef(name = PARAM_USERS_COUNTY_EXTERNAL_ID, type = "string")
+)
+@Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
+@Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
+@Filter(name = FILTER_COUNTY,
+    condition = "county_id IN (SELECT county.id FROM cans.county WHERE county.external_id = :" + PARAM_USERS_COUNTY_EXTERNAL_ID + ")")
 
 @FilterDef(name = AUTHORIZATION_FILTER)
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
@@ -61,10 +74,12 @@ import org.hibernate.annotations.Type;
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
+  public static final String FILTER_COUNTY = "countyFilter";
   public static final String FILTER_PERSON_ROLE = "personRoleFilter";
   public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
   public static final String PARAM_EXTERNAL_ID = "externalId";
+  public static final String PARAM_USERS_COUNTY_EXTERNAL_ID = "usersCountyExternalId";
   public static final String AUTHORIZATION_FILTER = "authorizationFilter";
   private static final long serialVersionUID = 8541617675397448400L;
 

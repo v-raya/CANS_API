@@ -39,10 +39,18 @@
       <column name="dob" value="2008-01-31"/>
       <column name="county_id" value="99"/>
     </insert>
+    <insert tableName="person">
+      <column name="id" value="5"/>
+      <column name="person_role" value="CLIENT"/>
+      <column name="first_name" value="Lois"/>
+      <column name="last_name" value="Lane"/>
+      <column name="dob" value="2006-01-31"/>
+      <column name="county_id" value="49"/>
+    </insert>
 
     <rollback>
       <delete tableName="person">
-        <where>id in (1, 2, 3, 4)</where>
+        <where>id in (1, 2, 3, 4, 5)</where>
       </delete>
     </rollback>
   </changeSet>

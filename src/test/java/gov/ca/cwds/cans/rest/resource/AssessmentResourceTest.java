@@ -50,7 +50,7 @@ import org.junit.Test;
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
-      "fixtures/perry-account/marlin-all-authorized.json";
+      "fixtures/perry-account/marin-all-authorized.json";
   private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";

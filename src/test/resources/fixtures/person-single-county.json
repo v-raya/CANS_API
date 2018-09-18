@@ -1,0 +1,17 @@
+{
+  "id" : 1,
+  "person_role" : "CLIENT",
+  "first_name" : "Bruce",
+  "last_name" : "Wayne",
+  "dob" : "2015-11-14",
+  "county" : {
+    "id" : 21,
+    "name" : "Marin",
+    "external_id" : "1088",
+    "export_id" : "21"
+  },
+  "cases" : [ ],
+  "metadata" : {
+    "editable" : true
+  }
+}

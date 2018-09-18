@@ -1,24 +1,25 @@
 package gov.ca.cwds.cans.dao;
 
-import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
-
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
-import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
+import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
 /**
  * @author denys.davydov
@@ -75,11 +76,11 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Authorize({"person:write:assessment.person"})
-  public Collection<Assessment> search(SearchAssessmentPo searchPo) {
-    Require.requireNotNullAndNotEmpty(searchPo);
+  public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
+    Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
-    addFilterIfNeeded(session, FILTER_CREATED_BY_ID, PARAM_CREATED_BY_ID, searchPo.getCreatedById());
-    addFilterIfNeeded(session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchPo.getPersonId());
+    addFilterIfNeeded(session, FILTER_CREATED_BY_ID, PARAM_CREATED_BY_ID, searchAssessmentParameters.getCreatedById());
+    addFilterIfNeeded(session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
     final List<Assessment> results = session
         .createNamedQuery(Assessment.NQ_ALL, Assessment.class)
         .list();

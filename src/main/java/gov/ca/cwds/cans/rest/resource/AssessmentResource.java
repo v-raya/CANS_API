@@ -1,13 +1,5 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.API.START;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
-
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
@@ -17,7 +9,7 @@ import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.SearchAssessmentMapper;
-import gov.ca.cwds.cans.domain.search.SearchAssessmentPo;
+import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.AssessmentService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -26,7 +18,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.Collection;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -39,8 +33,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import java.util.Collection;
+
+import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.API.START;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 /**
  * @author denys.davydov
@@ -166,8 +167,8 @@ public class AssessmentResource {
           value = "Search assessments parameters"
       )
       @NotNull final SearchAssessmentRequest searchRequest) {
-    final SearchAssessmentPo searchPo = searchAssessmentMapper.fromSearchRequest(searchRequest);
-    final Collection<Assessment> entities = assessmentService.search(searchPo);
+    final SearchAssessmentParameters searchAssessmentParameters = searchAssessmentMapper.fromSearchRequest(searchRequest);
+    final Collection<Assessment> entities = assessmentService.search(searchAssessmentParameters);
     final Collection<AssessmentMetaDto> dtos = assessmentMapper.toMetaDtos(entities);
     return ResponseUtil.responseCreatedOrNot(dtos);
   }

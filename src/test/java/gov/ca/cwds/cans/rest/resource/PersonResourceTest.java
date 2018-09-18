@@ -1,14 +1,5 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.PEOPLE;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PersonDto;
@@ -19,6 +10,12 @@ import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Test;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -33,6 +30,15 @@ import org.junit.After;
 import org.junit.Assume;
 import org.junit.Test;
 
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+
 /**
  * @author denys.davydov
  */
@@ -43,6 +49,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE =
       "fixtures/person-post-with-sensitivity-type.json";
   private static final String FIXTURES_PUT = "fixtures/person-put.json";
+  private static final String FIXTURES_PERSON_SINGLE_COUNTY = "fixtures/person-single-county.json";
   private static final String FIXTURES_SEARCH_CLIENTS_REQUEST =
       "fixtures/person-search-clients-request.json";
   private static final String FIXTURES_SEARCH_CLIENTS_RESPONSE =
@@ -200,7 +207,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto[] actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
             .target(PEOPLE + SLASH + SEARCH)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(searchInput)
@@ -211,6 +218,29 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     for (PersonDto person : expected) {
       assertThat(actualList, hasItem(person));
     }
+  }
+
+  @Test
+  public void searchPeople_success_whenSearchingForClientsFiltersCounty() throws IOException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+    // given
+    final Entity searchInput =
+        FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST, SearchPersonRequest.class);
+    final PersonDto singleCountyPerson =
+        FixtureReader.readObject(FIXTURES_PERSON_SINGLE_COUNTY, PersonDto.class);
+
+    // when
+    final PersonDto[] actual =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(searchInput)
+            .readEntity(PersonDto[].class);
+
+    // then
+    assertThat(actual.length, is(1));
+    assertThat(actual[0], is(singleCountyPerson));
   }
 
   @Test
@@ -368,7 +398,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     cleanUpPeopleIds.add(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
     //when
-    List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_ACCOUNT_FIXTURE);
+    List<PersonDto> persons = searchPersons(EXTERNAL_ID, SEALED_EL_DORADO_ACCOUNT_FIXTURE);
 
     // then
     assertThat(persons.size(), is(1));
