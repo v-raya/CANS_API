@@ -187,7 +187,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentDto actualAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
@@ -255,14 +255,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties = Arrays.asList(
-        new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
+        new Object[]{person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         new Object[]{person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
             AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         // out of search results because of the other person
         new Object[]{otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10),
-            AUTHORIZED_ACCOUNT_FIXTURE},
-        new Object[]{person, SUBMITTED, LocalDate.of(2010, 1, 1), AUTHORIZED_ACCOUNT_FIXTURE},
-        new Object[]{person, SUBMITTED, LocalDate.of(2015, 10, 10), AUTHORIZED_ACCOUNT_FIXTURE},
+            AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
+        new Object[]{person, SUBMITTED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
+        new Object[]{person, SUBMITTED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE},
         // out of search results because of the other created by user
         new Object[]{person, SUBMITTED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE}
     );
@@ -283,7 +283,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         MediaType.APPLICATION_JSON_TYPE
     );
     final AssessmentMetaDto[] actualResults = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS + SLASH + SEARCH)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(searchRequest)
@@ -358,7 +358,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
