@@ -176,9 +176,6 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
     assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
         null, HttpMethod.GET, securityTokenFixturePath);
 
-    assertEndpointIsSecured(PEOPLE, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
-
     assertEndpointIsSecured(PEOPLE + SLASH + ID, FIXTURES_PERSON_PUT_JSON,
         PERSON_DTO, HttpMethod.PUT, securityTokenFixturePath);
 

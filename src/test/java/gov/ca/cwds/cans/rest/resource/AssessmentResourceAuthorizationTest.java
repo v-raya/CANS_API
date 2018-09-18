@@ -132,14 +132,14 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
     final PersonDto person = readObject(FIXTURE_POST_ELDORADO_PERSON, PersonDto.class);
     person.setSensitivityType(SensitivityType.SENSITIVE);
-    final PersonDto postedPerson = personHelper.postPerson(person);
+    final PersonDto postedPerson = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     assessment.setPerson(postedPerson);
     return postAssesment(assessment);
   }
 
   private AssessmentDto postAssesment(AssessmentDto assessment) throws IOException {
-    AssessmentDto postedAssessment = clientTestRule.withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+    AssessmentDto postedAssessment = clientTestRule.withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))

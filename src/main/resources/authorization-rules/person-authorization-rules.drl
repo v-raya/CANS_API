@@ -35,3 +35,32 @@ rule "Person has no sensitivity type"
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
+
+rule "Create Person with no sensitivity type"
+  dialect "mvel"
+  agenda-group "person-create-authorization-rules"
+  when
+      Person(sensitivityType == null)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Create sealed Person"
+  dialect "mvel"
+  agenda-group "person-create-authorization-rules"
+  when
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains Constants.Privileges.SEALED, $countyExtId == countyCwsCode)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Create sensitive Person"
+  dialect "mvel"
+  agenda-group "person-create-authorization-rules"
+  when
+      Person($countyExtId : county!.externalId, sensitivityType == SensitivityType.SENSITIVE )
+      PerryAccount(privileges contains Constants.Privileges.SENSITIVE_PERSONS, $countyExtId == countyCwsCode)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end

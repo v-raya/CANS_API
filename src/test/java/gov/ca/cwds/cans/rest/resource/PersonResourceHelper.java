@@ -33,14 +33,21 @@ public class PersonResourceHelper {
   }
 
   public PersonDto postPerson(PersonDto input) throws IOException {
-    PersonDto person = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class);
+    return postPerson(input, AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  public PersonDto postPerson(PersonDto input, String accountFixture) throws IOException {
+    PersonDto person = postPersonAndGetResponse(input, accountFixture).readEntity(PersonDto.class);
     cleanUpPeopleIds.push(person.getId());
     return person;
+  }
+
+  public Response postPersonAndGetResponse(PersonDto input, String accountFixture) throws IOException {
+    return clientTestRule
+        .withSecurityToken(accountFixture)
+        .target(PEOPLE)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(input, MediaType.APPLICATION_JSON_TYPE));
   }
 
   public Response putPerson(String accountFixture, PersonDto input) throws IOException {
