@@ -1,7 +1,14 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
+
+import gov.ca.cwds.cans.domain.dto.PersonDto;
 import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
+import javax.ws.rs.core.Response;
+import org.junit.Assert;
 import org.junit.Rule;
 
 /**
@@ -24,8 +31,14 @@ public abstract class AbstractFunctionalTest {
   public static final String SLASH = "/";
   static final String AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE =
       "fixtures/perry-account/single-county-authorized.json";
+  private static final String EDITABLE = "editable";
 
   @Rule
   public AbstractRestClientTestRule clientTestRule = FunctionalTestContextHolder.clientTestRule;
 
+  protected void checkMetadataEditable(Response response, boolean metadataEditable) {
+    PersonDto personDto = response.readEntity(PersonDto.class);
+    assertNotNull(personDto.getMetadata());
+    assertThat(personDto.getMetadata().get(EDITABLE), is(metadataEditable));
+  }
 }

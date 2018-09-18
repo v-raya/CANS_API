@@ -13,7 +13,7 @@
       <column name="first_name" value="Bruce"/>
       <column name="last_name" value="Wayne"/>
       <column name="dob" value="2015-11-14"/>
-      <column name="county_id" value="99"/>
+      <column name="county_id" value="21"/>
     </insert>
     <insert tableName="person">
       <column name="id" value="2"/>

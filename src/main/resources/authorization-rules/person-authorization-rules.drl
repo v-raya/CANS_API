@@ -4,9 +4,16 @@ import gov.ca.cwds.security.realm.PerryAccount
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType
 import gov.ca.cwds.cans.Constants
 
+/**
+ * Authorization Rules in this file are based on IBM Application Access Security release.2.8 document
+ * Section 2. Client Search, p. 29.
+ * Client Read/Write/Create/Delete and Assessment Read/Write/Create/Delete are secured similar to
+ * Client Abstract in 2.2 Client Search Access Matrix (p.30)
+ * The onlu difference is that users can't do anything with Clients from different counties
+*/
 global Boolean authorizationResult
 
-rule "Person is sealed"
+rule "Person is sealed, 3.3, 3.5 cells in the Matrix"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
@@ -16,7 +23,17 @@ rule "Person is sealed"
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
 
-rule "Person is sensitive"
+rule "No County sealed, 7.3, 7.5 cells in the Matrix"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person(county == null, sensitivityType == SensitivityType.SEALED )
+      PerryAccount(privileges contains Constants.Privileges.SEALED)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person is sensitive, 2.2, 2.4 cells in the Matrix"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
@@ -26,12 +43,31 @@ rule "Person is sensitive"
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
 
-rule "Person has no sensitivity type"
+rule "No County sensitive, 6.2 cells in the Matrix"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person(county == null, sensitivityType == SensitivityType.SENSITIVE )
+      PerryAccount(privileges contains Constants.Privileges.SENSITIVE_PERSONS, countyCwsCode != Constants.MagicNumbers.STATE_OF_CALIFORNIA_CODE)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person has no sensitivity type and same county, 1.1, 1.2, 1.3, 1.4, 1.5 cells in the Matrix"
   dialect "mvel"
   agenda-group "person-read-authorization-rules"
   when
       Person($countyExtId : county!.externalId, sensitivityType == null )
       PerryAccount($countyExtId == countyCwsCode)
+  then
+      kcontext.getKieRuntime().setGlobal("authorizationResult", true);
+end
+
+rule "Person has no sensitivity type and county is null"
+  dialect "mvel"
+  agenda-group "person-read-authorization-rules"
+  when
+      Person(county == null, sensitivityType == null )
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end

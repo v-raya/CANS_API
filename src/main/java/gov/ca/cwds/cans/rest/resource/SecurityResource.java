@@ -7,6 +7,8 @@ import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMI
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
+import gov.ca.cwds.cans.service.SecurityService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,8 +22,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 
@@ -30,6 +30,13 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SecurityResource {
+
+  private final SecurityService securityService;
+
+  @Inject
+  public SecurityResource(SecurityService securityService) {
+    this.securityService = securityService;
+  }
 
   @UnitOfWork(CANS)
   @GET
@@ -47,12 +54,7 @@ public class SecurityResource {
       @ApiParam(required = true, name = "permission",
           value = "The Assessment permission", example = "assessment:write:1")
       @PathParam("permission") String permission) {
-    try {
-      SecurityUtils.getSubject().checkPermission(permission);
-    } catch (Exception e) {
-      return Response.ok(Boolean.FALSE).build();
-    }
-    return Response.ok(Boolean.TRUE).build();
+    return Response.ok(securityService.checkPermission(permission)).build();
   }
 
 }
