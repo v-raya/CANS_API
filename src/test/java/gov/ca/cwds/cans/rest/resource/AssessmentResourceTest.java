@@ -33,15 +33,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -59,16 +59,24 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String FIXTURE_READ = "fixtures/assessment/assessment-read.json";
   private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
-  private final Set<Long> cleanUpAssessmentIds = new HashSet<>();
-  private final Set<Long> cleanUpPeopleIds = new HashSet<>();
+  private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
+  private PersonResourceHelper personHelper;
+
   private Long cleanUpInstrumentId;
+
+  @Before
+  public void before() {
+    personHelper = new PersonResourceHelper(clientTestRule);
+  }
 
   @After
   public void tearDown() throws IOException {
-    for (Long assessmentId : cleanUpAssessmentIds) {
+    while (!cleanUpAssessments.empty()) {
+      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(ASSESSMENTS + SLASH + assessmentId)
+          .withSecurityToken(
+              personHelper.findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+          .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
@@ -79,13 +87,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    for (Long personId : cleanUpPeopleIds) {
-      clientTestRule
-          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(PEOPLE + SLASH + personId)
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
-    }
+    personHelper.cleanUp();
   }
 
   @Test
@@ -111,8 +113,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(assessment.getCounty().getId(), is(9L));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(assessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(assessment);
   }
 
   @Test
@@ -151,9 +153,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actual, is(expected));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(actual.getId());
-    cleanUpAssessmentIds.add(actual.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(actual);
   }
 
   @Test
@@ -208,8 +209,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getSubmittedTimestamp(), is(nullValue()));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(actualAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(actualAssessment);
+
   }
 
   @Test
@@ -276,6 +278,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
           (String) property[3]
       );
       assessmentIds.add(newAssessment.getId());
+      if (newAssessment.getId() != null) {
+        cleanUpAssessments.push(newAssessment);
+      }
     }
     // when
     final Entity<SearchAssessmentRequest> searchRequest = Entity.entity(
@@ -297,9 +302,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[3].getId(), is(assessmentIds.get(3)));
 
     // clean up
-    cleanUpAssessmentIds.addAll(assessmentIds);
-    this.cleanUpPeopleIds.add(person.getId());
-    this.cleanUpPeopleIds.add(otherPerson.getId());
+    personHelper.pushToCleanUpPerson(person);
+    personHelper.pushToCleanUpPerson(otherPerson);
   }
 
   @Test
@@ -346,9 +350,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(updatedAssessment.getTheCase().getExternalId(), is("2222-222-3333-44444444"));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpPeopleIds.add(postedPerson0.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    personHelper.pushToCleanUpPerson(postedPerson0);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -378,8 +382,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getCounty().getId(), is(9L));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -406,8 +410,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(status, is(403));
 
     // clean up
-    cleanUpPeopleIds.add(personElDoradoCounty.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(personElDoradoCounty);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -436,8 +440,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(status, is(200));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -467,8 +471,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(status, is(403));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -499,8 +503,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(status, is(403));
 
     // clean up
-    cleanUpPeopleIds.add(person.getId());
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    personHelper.pushToCleanUpPerson(person);
+    cleanUpAssessments.push(postedAssessment);
   }
 
   private AssessmentDto postAssessment(

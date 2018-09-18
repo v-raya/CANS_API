@@ -17,10 +17,9 @@ public class CansStaticAuthorizer implements StaticAuthorizer {
    */
   @Override
   public void authorize(PerryAccount perryAccount, SimpleAuthorizationInfo simpleAuthInfo) {
-    if (perryAccount.getPrivileges().stream()
-        .anyMatch(CANS_ROLLOUT_PERMISSION::equals)) {
-      simpleAuthInfo.addObjectPermission(new WildcardPermission(CANS_ROLLOUT_PERMISSION));
-    }
+    perryAccount.getPrivileges().forEach(privilage ->
+      simpleAuthInfo.addObjectPermission(new WildcardPermission(privilage))
+    );
   }
 
 }

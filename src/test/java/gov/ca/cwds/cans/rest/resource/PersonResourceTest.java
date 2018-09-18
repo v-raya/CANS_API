@@ -19,7 +19,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
@@ -58,7 +58,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
       "abcdefghijklmnopqrstuvxyza";
   private static final String SIZE_VALIDATION_MESSAGE_START = "size must be between";
   private final static String EXTERNAL_ID = "6666-6666-6666-6666666";
-  private final Set<Long> cleanUpPeopleIds = new HashSet<>();
+
+  private PersonResourceHelper personHelper;
 
   @Override
   String getPostFixturePath() {
@@ -75,15 +76,14 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     return PEOPLE;
   }
 
+  @Before
+  public void before() {
+    personHelper = new PersonResourceHelper(clientTestRule);
+  }
+
   @After
   public void tearDown() throws IOException {
-    for (Long personId : cleanUpPeopleIds) {
-      clientTestRule
-          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(PEOPLE + SLASH + personId)
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
-    }
+    personHelper.cleanUp();
   }
 
   @Test
@@ -276,7 +276,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(actualPerson.getId());
+    personHelper.pushToCleanUpPerson(actualPerson);
 
     // then
     actualPerson.setId(null);
@@ -294,7 +294,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(postedPerson.getId());
+    personHelper.pushToCleanUpPerson(postedPerson);
     person.getCases().add(new CaseDto().setExternalId("2000-123-1234-12345678"));
 
     // when
@@ -305,7 +305,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(actual.getId());
+    personHelper.pushToCleanUpPerson(actual);
 
     // then
     final Set<CaseDto> caseIds =
@@ -333,7 +333,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(postedPerson.getId());
+    personHelper.pushToCleanUpPerson(postedPerson);
 
     // then
     assertThat(postedPerson.getId(), notNullValue());
@@ -354,7 +354,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(postedPerson.getId());
+    personHelper.pushToCleanUpPerson(postedPerson);
     final List<CaseDto> createdPersonCases = postedPerson.getCases();
     createdPersonCases.remove(0);
     createdPersonCases.get(0).setExternalId("2222-123-1234-12345678");
@@ -368,7 +368,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .put(Entity.entity(postedPerson, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(PersonDto.class);
-    cleanUpPeopleIds.add(actual.getId());
+    personHelper.pushToCleanUpPerson(actual);
 
     // then
     final Set<CaseDto> caseIds =
@@ -395,7 +395,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
-    cleanUpPeopleIds.add(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
+    personHelper.pushToCleanUpPerson(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
     //when
     List<PersonDto> persons = searchPersons(EXTERNAL_ID, SEALED_EL_DORADO_ACCOUNT_FIXTURE);
@@ -412,7 +412,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
-    cleanUpPeopleIds.add(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
+    personHelper.pushToCleanUpPerson(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
     //when
     List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE);
@@ -426,13 +426,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-    cleanUpPeopleIds.add(personId);
+    PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    personHelper.pushToCleanUpPerson(posted);
 
     //when
     Response response = clientTestRule
         .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + personId)
+        .target(PEOPLE + SLASH + posted.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
 
@@ -446,13 +446,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-    cleanUpPeopleIds.add(personId);
+    PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    personHelper.pushToCleanUpPerson(posted);
 
     //when
     int status = clientTestRule
         .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + personId)
+        .target(PEOPLE + SLASH + posted.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get().getStatus();
 
@@ -466,13 +466,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-    cleanUpPeopleIds.add(personId);
+    PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    personHelper.pushToCleanUpPerson(posted);
 
     //when
     int status = clientTestRule
         .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + personId)
+        .target(PEOPLE + SLASH + posted.getId())
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get().getStatus();
 
@@ -480,16 +480,16 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     assertThat(status, is(403));
   }
 
-  private long postPerson(PersonDto person, String accountFixture) throws IOException {
+  private PersonDto postPerson(PersonDto person, String accountFixture) throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class).getId();
+        .readEntity(PersonDto.class);
   }
 
-  private long postPerson(PersonDto person) throws IOException {
+  private PersonDto postPerson(PersonDto person) throws IOException {
     return postPerson(person, AUTHORIZED_ACCOUNT_FIXTURE);
   }
 

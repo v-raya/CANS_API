@@ -25,15 +25,17 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
 
   private PersonResourceHelper personHelper;
 
-  private final Stack<Long> cleanUpAssessmentIds = new Stack<>();
+  private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
 
   @After
   public void tearDown() throws IOException {
     personHelper.cleanUp();
-    while (!cleanUpAssessmentIds.empty()) {
+    while (!cleanUpAssessments.empty()) {
+      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(ASSESSMENTS + SLASH + cleanUpAssessmentIds.pop())
+          .withSecurityToken(
+              personHelper.findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+          .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
@@ -55,7 +57,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_OK));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   @Test
@@ -70,7 +72,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   @Test
@@ -84,7 +86,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   @Test
@@ -98,7 +100,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_OK));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   @Test
@@ -112,7 +114,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   @Test
@@ -126,25 +128,27 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
-    cleanUpAssessmentIds.add(postedAssessment.getId());
+    cleanUpAssessments.add(postedAssessment);
   }
 
   private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
     final PersonDto person = readObject(FIXTURE_POST_ELDORADO_PERSON, PersonDto.class);
     person.setSensitivityType(SensitivityType.SENSITIVE);
-    final PersonDto postedPerson = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    final PersonDto postedPerson = personHelper
+        .postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     assessment.setPerson(postedPerson);
     return postAssesment(assessment);
   }
 
   private AssessmentDto postAssesment(AssessmentDto assessment) throws IOException {
-    AssessmentDto postedAssessment = clientTestRule.withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+    AssessmentDto postedAssessment = clientTestRule
+        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
         .readEntity(AssessmentDto.class);
-    cleanUpAssessmentIds.push(assessment.getId());
+    cleanUpAssessments.push(assessment);
     return postedAssessment;
   }
 

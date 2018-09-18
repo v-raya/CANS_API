@@ -52,5 +52,8 @@ public final class Constants {
 
   public static class MagicNumbers {
     public static final String STATE_OF_CALIFORNIA_CODE = "1126";
+
+    private MagicNumbers() {
+    }
   }
 }
