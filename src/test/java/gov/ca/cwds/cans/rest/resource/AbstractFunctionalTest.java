@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 
 import gov.ca.cwds.cans.domain.dto.PersonDto;
@@ -33,6 +35,6 @@ public abstract class AbstractFunctionalTest {
   protected void checkMetadataEditable(Response response, boolean metadataEditable) {
     PersonDto personDto = response.readEntity(PersonDto.class);
     assertNotNull(personDto.getMetadata());
-    Assert.assertEquals(metadataEditable, personDto.getMetadata().get(EDITABLE));
+    assertThat(personDto.getMetadata().get(EDITABLE), is(metadataEditable));
   }
 }

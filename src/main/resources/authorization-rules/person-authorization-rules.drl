@@ -48,7 +48,7 @@ rule "No County sensitive, 6.2 cells in the Matrix"
   agenda-group "person-read-authorization-rules"
   when
       Person(county == null, sensitivityType == SensitivityType.SEALED )
-      PerryAccount(privileges contains Constants.Privileges.SEALED, countyCwsCode != 99)
+      PerryAccount(privileges contains Constants.Privileges.SEALED, countyCwsCode != Constants.MagicNumbers.STATE_OF_CALIFORNIA_CODE)
   then
       kcontext.getKieRuntime().setGlobal("authorizationResult", true);
 end
