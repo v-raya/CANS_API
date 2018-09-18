@@ -64,8 +64,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
           .setParameter(PARAM_USERS_COUNTY_EXTERNAL_ID, usersCountyExternalId);
     }
 
-    // TODO: DELETE MAX_RECORDS LINE
-    final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).setMaxResults(50).list();
+    final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).list();
     return ImmutableList.copyOf(results);
   }
 

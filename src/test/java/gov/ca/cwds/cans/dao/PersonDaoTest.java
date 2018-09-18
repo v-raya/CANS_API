@@ -33,15 +33,6 @@ public class PersonDaoTest {
     personDao.search(null);
   }
 
-  @Test(expected = NullOrEmptyException.class)
-  public void search_errors_withNullUsersCountyExternalId() {
-    SessionFactory sessionFactory = mock(SessionFactory.class);
-    PersonDao personDao = new PersonDao(sessionFactory);
-    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
-    searchPersonParameters.setUsersCountyExternalId(null);
-    personDao.search(searchPersonParameters);
-  }
-
   @Test
   public void search_setsJustCountyFilter_withNoRoleOrExternalIdOrAuthorization() throws Exception {
     List<Person> people = Collections.singletonList(new Person());
