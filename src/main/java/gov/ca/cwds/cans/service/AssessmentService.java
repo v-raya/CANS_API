@@ -46,7 +46,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
   }
 
   @Override
-  public Assessment update(@Authorize({"assessment:write:assessment.id", "person:write:assessment.person.id"}) Assessment assessment) {
+  public Assessment update(Assessment assessment) {
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
     return super.update(assessment);
   }

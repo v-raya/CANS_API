@@ -19,6 +19,10 @@ public class PersonReadAuthorizer extends DroolsAuthorizer<Person, Long> {
         CONFIGURATION_NAME));
   }
 
+  public PersonReadAuthorizer(DroolsConfiguration<Person> configuration) {
+    super(configuration);
+  }
+
   @Override
   protected boolean checkId(Long id) {
     Person person = personDao.find(id);

@@ -30,7 +30,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
   public void before() throws Exception {
     final Entity person = readRestObject(PERSON_FIXTURE, PersonDto.class);
     PersonDto personDto = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(SAME_COUNTY_USER)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(person)
@@ -38,7 +38,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(ASSESSMENT_FIXTURE, AssessmentDto.class);
     assessment.setPerson(personDto);
     assessmentDto = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(SAME_COUNTY_USER)
         .target(ASSESSMENTS)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))

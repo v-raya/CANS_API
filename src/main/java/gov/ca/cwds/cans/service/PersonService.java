@@ -35,10 +35,6 @@ public class PersonService extends AbstractCrudService<Person> {
     this.perryService = perryService;
   }
 
-  public Collection<Person> findAll() {
-    return dao.findAll();
-  }
-
   public Collection<Person> search(final SearchPersonParameters searchPersonParameters) {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     searchPersonParameters.setUsersCountyExternalId(perryAccount.getCountyCwsCode());

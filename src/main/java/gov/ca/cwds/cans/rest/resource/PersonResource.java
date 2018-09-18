@@ -119,23 +119,6 @@ public class PersonResource {
   }
 
   @UnitOfWork(CANS)
-  @GET
-  @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-    }
-  )
-  @ApiOperation(value = "Get all people", response = PersonDto[].class)
-  @RequiresRoles(CANS_WORKER_ROLE)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
-  @Timed
-  public Response getAll() {
-    final Collection<Person> entities = personService.findAll();
-    final Collection<PersonDto> dtos = personMapper.toDtos(entities);
-    return ResponseUtil.responseOk(dtos);
-  }
-
-  @UnitOfWork(CANS)
   @POST
   @Path(SEARCH)
   @ApiResponses(

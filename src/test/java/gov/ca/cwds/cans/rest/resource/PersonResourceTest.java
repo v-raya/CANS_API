@@ -41,9 +41,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private static final String FIXTURES_EMPTY_OBJECT = "fixtures/empty-object.json";
   private static final String FIXTURES_POST = "fixtures/person-post.json";
   private static final String FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE =
-      "fixtures/person-post-with-sensityvity-type.json";
+      "fixtures/person-post-with-sensitivity-type.json";
   private static final String FIXTURES_PUT = "fixtures/person-put.json";
-  private static final String FIXTURES_GET_ALL = "fixtures/person-get-all.json";
   private static final String FIXTURES_PERSON_SINGLE_COUNTY = "fixtures/person-single-county.json";
   private static final String FIXTURES_SEARCH_CLIENTS_REQUEST =
       "fixtures/person-search-clients-request.json";
@@ -190,29 +189,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void getAllPeople_success_whenFoundInMemoryOnly() throws IOException {
-    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
-
-    // given
-    final PersonDto[] expected = FixtureReader.readObject(FIXTURES_GET_ALL, PersonDto[].class);
-
-    // when
-    final PersonDto[] actual =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .get()
-            .readEntity(PersonDto[].class);
-
-    // then
-    final List<PersonDto> actualList = Arrays.asList(actual);
-    for (PersonDto person : expected) {
-      assertThat(actualList, hasItem(person));
-    }
-  }
-
-  @Test
   public void searchPeople_success_whenSearchingForClientsInMemoryOnly() throws IOException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
@@ -289,7 +265,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto actualPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputPerson, MediaType.APPLICATION_JSON_TYPE))
@@ -307,7 +283,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     final PersonDto postedPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
@@ -318,7 +294,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // when
     final PersonDto actual =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
@@ -346,7 +322,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
         .readObject(FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE, PersonDto.class);
     final PersonDto postedPerson =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
@@ -413,7 +389,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
-    cleanUpPeopleIds.add(postPerson(person));
+    cleanUpPeopleIds.add(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
     //when
     List<PersonDto> persons = searchPersons(EXTERNAL_ID, SEALED_EL_DORADO_ACCOUNT_FIXTURE);
@@ -430,7 +406,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
-    cleanUpPeopleIds.add(postPerson(person));
+    cleanUpPeopleIds.add(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
     //when
     List<PersonDto> persons = searchPersons(EXTERNAL_ID, AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE);
@@ -444,7 +420,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person);
+    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     cleanUpPeopleIds.add(personId);
 
     //when
@@ -463,7 +439,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person);
+    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     cleanUpPeopleIds.add(personId);
 
     //when
@@ -483,7 +459,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     //given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
-    long personId = postPerson(person);
+    long personId = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     cleanUpPeopleIds.add(personId);
 
     //when
@@ -497,14 +473,17 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     assertThat(status, is(403));
   }
 
-
-  private long postPerson(PersonDto person) throws IOException {
+  private long postPerson(PersonDto person, String accountFixture) throws IOException {
     return clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+        .withSecurityToken(accountFixture)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
         .readEntity(PersonDto.class).getId();
+  }
+
+  private long postPerson(PersonDto person) throws IOException {
+    return postPerson(person, AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   private List<PersonDto> searchPersons(String externalId, String accountFixture)
