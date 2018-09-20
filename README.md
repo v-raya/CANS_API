@@ -65,5 +65,12 @@ _Make sure you have the CANS postgres and Perry containers running or the build 
 
 `./gradlew run`
 
+## License Information
+The legal folder contains csv file listing the licenses for application dependencies.
+
+### Generate license report
+To generate license report or update existing report run:
+
+```./gradlew libLicenseReport```
 
 
