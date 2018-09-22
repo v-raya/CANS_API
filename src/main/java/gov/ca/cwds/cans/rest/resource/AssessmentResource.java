@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -41,7 +40,6 @@ import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 /**
  * @author denys.davydov
@@ -77,7 +75,6 @@ public class AssessmentResource {
     }
   )
   @ApiOperation(value = "Post new Assessment", response = AssessmentDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response post(
@@ -96,7 +93,6 @@ public class AssessmentResource {
       }
   )
   @ApiOperation(value = "Start new Assessment", response = AssessmentDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response start(
@@ -116,7 +112,6 @@ public class AssessmentResource {
       }
   )
   @ApiOperation(value = "Update existent Assessment", response = AssessmentDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response put(
@@ -136,7 +131,6 @@ public class AssessmentResource {
       }
   )
   @ApiOperation(value = "Get Assessment by id", response = AssessmentDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
@@ -157,7 +151,6 @@ public class AssessmentResource {
       value = "Search assessments by parameters, returns records created by the logged in user ONLY",
       response = AssessmentDto[].class
   )
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response search(
@@ -183,7 +176,6 @@ public class AssessmentResource {
       }
   )
   @ApiOperation(value = "Delete Assessment by id", response = AssessmentDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response delete(

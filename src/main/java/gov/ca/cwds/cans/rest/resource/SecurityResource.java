@@ -4,7 +4,6 @@ import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
@@ -23,7 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 @Api(value = SECURITY, tags = SECURITY)
 @Path(value = SECURITY)
@@ -47,7 +45,6 @@ public class SecurityResource {
       }
   )
   @ApiOperation(value = "Check permission", response = Boolean.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response checkPermission(

@@ -8,7 +8,6 @@ import org.apache.shiro.authz.permission.WildcardPermission;
 public class CansStaticAuthorizer implements StaticAuthorizer {
 
   public static final String CANS_ROLLOUT_PERMISSION = "CANS-rollout";
-  public static final String CANS_WORKER_ROLE = "CANS-worker";
 
   /**
    * Implementation of StaticAuthorizer.

@@ -9,7 +9,6 @@ import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.Constants.API.START;
-import static gov.ca.cwds.cans.rest.resource.AssessmentResourceTest.FIXTURE_START;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,26 +35,12 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURES_INSTRUMENT_POST_JSON = "fixtures/instrument-post.json";
   private static final String FIXTURES_PERSON_PUT_JSON = "fixtures/person-put.json";
   private static final String FIXTURES_PERSON_POST_JSON = "fixtures/person-post.json";
-  private static final String NOT_AUTHORIZED_WITH_CANS_ROLE = "fixtures/perry-account/not-authorized-with-cans-role.json";
-  private static final String NOT_AUTHORIZED_WITH_CANS_PRIVILEGE = "fixtures/perry-account/not-authorized-with-cans-privilege.json";
 
   private enum HttpMethod {
     POST,
     PUT,
     GET,
     DELETE
-  }
-
-  @Test
-  public void assessmentEndpoints_failed_whenUserHasJustRole()
-      throws IOException, ClassNotFoundException {
-    assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
-  }
-
-  @Test
-  public void assessmentEndpoints_failed_whenUserHasJustPrivilege()
-      throws IOException, ClassNotFoundException {
-    assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
   }
 
   @Test
@@ -69,12 +54,6 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(COUNTIES, null,
         null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
-
-    assertEndpointIsSecured(COUNTIES, null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
-
-    assertEndpointIsSecured(COUNTIES, null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_ROLE);
   }
 
   @Test
@@ -84,33 +63,9 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void i18nEndpoints_failed_whenUserHasJustRole()
-      throws IOException, ClassNotFoundException {
-    assertI18nEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
-  }
-
-  @Test
-  public void i18nEndpoints_failed_whenUserHasJustPrivilege()
-      throws IOException, ClassNotFoundException {
-    assertI18nEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
-  }
-
-  @Test
   public void instrumentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
-  }
-
-  @Test
-  public void instrumentEndpoints_failed_whenUserHasJustRole()
-      throws IOException, ClassNotFoundException {
-    assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
-  }
-
-  @Test
-  public void instrumentEndpoints_failed_whenUserHasJustPrivilege()
-      throws IOException, ClassNotFoundException {
-    assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
   }
 
   @Test
@@ -120,28 +75,10 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void peopleEndpoints_failed_whenUserHasJustRole()
-      throws IOException, ClassNotFoundException {
-    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_ROLE);
-  }
-
-  @Test
-  public void peopleEndpoints_failed_whenUserHasJustPrivilege()
-      throws IOException, ClassNotFoundException {
-    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
-  }
-
-  @Test
   public void securityEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
         null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
-
-    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_PRIVILEGE);
-
-    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_WITH_CANS_ROLE);
   }
 
   private void assertI18nEndpointsAreSecured(String securityTokenFixturePath)

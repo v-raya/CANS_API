@@ -5,7 +5,6 @@ import static gov.ca.cwds.cans.Constants.Privileges.SEALED;
 import static gov.ca.cwds.cans.Constants.Privileges.SENSITIVE_PERSONS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 import com.codahale.metrics.annotation.Timed;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
@@ -31,7 +30,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 /**
  * @author volodymyr.petrusha
@@ -51,7 +49,6 @@ public class SensitivityTypeResource {
       }
   )
   @ApiOperation(value = "Get Sensitivity Type", response = SensitivityType[].class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(

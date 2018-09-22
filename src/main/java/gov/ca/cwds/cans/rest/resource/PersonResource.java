@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -38,7 +37,6 @@ import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_WORKER_ROLE;
 
 /** @author denys.davydov */
 @Api(value = PEOPLE, tags = PEOPLE)
@@ -69,7 +67,6 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Post new Person", response = PersonDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response post(
@@ -87,7 +84,6 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Update existent Person", response = PersonDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response put(
@@ -108,7 +104,6 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Get Person by id", response = PersonDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
@@ -127,7 +122,6 @@ public class PersonResource {
       }
   )
   @ApiOperation(value = "Search people by parameters", response = PersonDto[].class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response search(
@@ -150,7 +144,6 @@ public class PersonResource {
     }
   )
   @ApiOperation(value = "Delete Person by id", response = PersonDto.class)
-  @RequiresRoles(CANS_WORKER_ROLE)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response delete(
