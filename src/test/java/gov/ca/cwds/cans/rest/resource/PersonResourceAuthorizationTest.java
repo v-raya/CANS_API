@@ -1,11 +1,10 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import gov.ca.cwds.cans.domain.dto.CountyDto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
 
 public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 

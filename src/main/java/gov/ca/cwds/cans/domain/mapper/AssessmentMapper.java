@@ -12,4 +12,4 @@ import org.mapstruct.Mapper;
     CaseMapper.class
 })
 public interface AssessmentMapper
-    extends AMapper<Assessment, AssessmentDto>, MetaDtoMapper<Assessment, AssessmentMetaDto> {}
+    extends AMapper<Assessment, AssessmentDto>, ShortDtoMapper<Assessment, AssessmentMetaDto> {}

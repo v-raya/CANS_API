@@ -7,7 +7,7 @@ import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
 
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;

@@ -1,0 +1,14 @@
+{
+  "records" : [ {
+    "id" : 3,
+    "person_role" : "CLIENT",
+    "first_name" : "Peter",
+    "middle_name" : "Batkovich",
+    "last_name" : "Parker",
+    "dob" : "2011-10-13",
+    "metadata" : {
+      "editable" : true
+    }
+  } ],
+  "total_records" : 1
+}

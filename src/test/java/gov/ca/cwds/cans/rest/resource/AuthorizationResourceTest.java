@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;

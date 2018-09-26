@@ -1,6 +1,6 @@
 package gov.ca.cwds.cans.validation;
 
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonShortDto;
 import java.time.LocalDate;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * @author dmitry.rudenko
  */
-public class ValidPersonValidator implements ConstraintValidator<ValidPerson, PersonDto> {
+public class ValidPersonValidator implements ConstraintValidator<ValidPerson, PersonShortDto> {
 
 
   @Override
@@ -17,7 +17,7 @@ public class ValidPersonValidator implements ConstraintValidator<ValidPerson, Pe
   }
 
   @Override
-  public boolean isValid(PersonDto value, ConstraintValidatorContext context) {
+  public boolean isValid(PersonShortDto value, ConstraintValidatorContext context) {
     return dobMustNotBeFutureDate(value.getDob(), context);
   }
 

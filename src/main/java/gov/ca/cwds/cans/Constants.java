@@ -8,6 +8,7 @@ public final class Constants {
   public static final String INSTRUMENT_KEY_PREFIX = "instrument.";
   public static final String SQL_TYPE = "sqlType";
   public static final String RETURNED_CLASS_NAME_PARAM = "returnedClassName";
+  public static final String EDITABLE = "editable";
 
   private Constants() {
   }

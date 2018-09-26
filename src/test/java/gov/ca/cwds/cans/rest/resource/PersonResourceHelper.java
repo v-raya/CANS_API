@@ -6,7 +6,7 @@ import static gov.ca.cwds.cans.rest.resource.AbstractFunctionalTest.AUTHORIZED_E
 import static gov.ca.cwds.cans.test.util.TestUtils.SLASH;
 
 import gov.ca.cwds.cans.domain.dto.CountyDto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 import java.io.IOException;
 import java.util.Stack;

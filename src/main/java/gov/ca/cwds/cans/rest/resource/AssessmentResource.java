@@ -8,7 +8,7 @@ import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
-import gov.ca.cwds.cans.domain.mapper.SearchAssessmentMapper;
+import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.AssessmentService;
@@ -53,13 +53,13 @@ public class AssessmentResource {
   private final AssessmentService assessmentService;
   private final AssessmentMapper assessmentMapper;
   private final ACrudResource<Assessment, AssessmentDto> crudResource;
-  private final SearchAssessmentMapper searchAssessmentMapper;
+  private final SearchAssessmentRequestMapper searchAssessmentMapper;
 
   @Inject
   public AssessmentResource(
       AssessmentService assessmentService,
       AssessmentMapper assessmentMapper,
-      SearchAssessmentMapper searchAssessmentMapper) {
+      SearchAssessmentRequestMapper searchAssessmentMapper) {
     this.assessmentService = assessmentService;
     this.assessmentMapper = assessmentMapper;
     crudResource = new ACrudResource<>(assessmentService, assessmentMapper);
@@ -162,7 +162,7 @@ public class AssessmentResource {
       @NotNull final SearchAssessmentRequest searchRequest) {
     final SearchAssessmentParameters searchAssessmentParameters = searchAssessmentMapper.fromSearchRequest(searchRequest);
     final Collection<Assessment> entities = assessmentService.search(searchAssessmentParameters);
-    final Collection<AssessmentMetaDto> dtos = assessmentMapper.toMetaDtos(entities);
+    final Collection<AssessmentMetaDto> dtos = assessmentMapper.toShortDtos(entities);
     return ResponseUtil.responseCreatedOrNot(dtos);
   }
 

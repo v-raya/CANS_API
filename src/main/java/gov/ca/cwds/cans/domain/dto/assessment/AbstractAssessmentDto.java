@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.SubmitLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;

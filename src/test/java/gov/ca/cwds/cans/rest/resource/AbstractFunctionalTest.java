@@ -4,11 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import javax.ws.rs.core.Response;
-import org.junit.Assert;
 import org.junit.Rule;
 
 /**
@@ -26,6 +25,7 @@ public abstract class AbstractFunctionalTest {
   public static final String SEALED_ACCOUNT_FIXTURE = "fixtures/perry-account/sealed-authorized.json";
   public static final String SEALED_EL_DORADO_ACCOUNT_FIXTURE = "fixtures/perry-account/el-dorado-sealed-authorized.json";
   public static final String NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE = "fixtures/perry-account/no_sealed_no_sensitive-authorized.json";
+  public static final String STATE_OF_CA_ALL_AUTHORIZED = "fixtures/perry-account/state-of-california-all-authorized.json";
   public static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   public static final String SLASH = "/";
   static final String AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE =

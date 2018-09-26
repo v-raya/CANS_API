@@ -1,28 +1,25 @@
 package gov.ca.cwds.cans.dao;
 
-import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
-
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.Constants.Privileges;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
+import gov.ca.cwds.cans.domain.search.Pagination;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
+import gov.ca.cwds.cans.domain.search.SearchPersonResult;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class PersonDao extends AbstractCrudDao<Person> {
 
   @Inject
@@ -31,46 +28,87 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
+  public Person create(@Authorize("person:create:person") Person person) {
+    return super.create(person);
+  }
+
+  @Override
   @Authorize("person:read:result")
   public Person find(Serializable primaryKey) {
     return super.find(primaryKey);
   }
 
-  @Override
-  public Person create(@Authorize("person:create:person") Person person) {
-    return super.create(person);
+  public Person findByExternalId(final String externalId) {
+    Require.requireNotNullAndNotEmpty(externalId);
+    final List<Person> people = this.grabSession()
+        .createNamedQuery(Person.NQ_FIND_BY_EXTERNAL_ID, Person.class)
+        .setParameter(Person.PARAM_EXTERNAL_ID, externalId)
+        .list();
+    return people.isEmpty() ? null : people.get(0);
   }
 
-  public Collection<Person> search(SearchPersonParameters searchPersonParameters) {
-    Require.requireNotNullAndNotEmpty(searchPersonParameters);
-    final Session session = grabSession();
-    authorize();
+  public SearchPersonResult search(final SearchPersonParameters searchParameters) {
+    Require.requireNotNullAndNotEmpty(searchParameters);
+    final Pagination pagination = searchParameters.getPagination();
+    Require.requireNotNullAndNotEmpty(pagination);
+    final Session session = prepareSession(searchParameters);
+    final List<Person> people = session
+        .createNamedQuery(Person.NQ_ALL, Person.class)
+        .setFirstResult(pagination.getPage() * pagination.getPageSize())
+        .setMaxResults(pagination.getPageSize())
+        .list();
+    final long totalRecords = (long) session
+        .createNamedQuery(Person.NQ_COUNT_ALL)
+        .getSingleResult();
+    return toSearchPersonResult(people, totalRecords);
+  }
 
-    final PersonRole personRole = searchPersonParameters.getPersonRole();
+  private SearchPersonResult toSearchPersonResult(List<Person> people, long totalRecords) {
+    return (SearchPersonResult) new SearchPersonResult()
+        .setRecords(ImmutableList.copyOf(people))
+        .setTotalRecords(totalRecords);
+  }
+
+  private Session prepareSession(SearchPersonParameters searchParameters) {
+    final Session session = grabSession();
+    authorize(session);
+    enableFilter(session, Person.FILTER_EXTERNAL_ID, Person.PARAM_EXTERNAL_ID, searchParameters.getExternalId());
+    enableFilter(session, Person.FILTER_COUNTY, Person.PARAM_USERS_COUNTY_EXTERNAL_ID, searchParameters.getUsersCountyExternalId());
+    enableLikeFilter(session, Person.FILTER_FIRST_NAME, Person.PARAM_FIRST_NAME, searchParameters.getFirstName());
+    enableLikeFilter(session, Person.FILTER_MIDDLE_NAME, Person.PARAM_MIDDLE_NAME, searchParameters.getMiddleName());
+    enableLikeFilter(session, Person.FILTER_LAST_NAME, Person.PARAM_LAST_NAME, searchParameters.getLastName());
+
+    final PersonRole personRole = searchParameters.getPersonRole();
     if (personRole != null) {
       session.enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
     }
 
-    final String externalId = searchPersonParameters.getExternalId();
-    if (StringUtils.isNotBlank(externalId)) {
-      session.enableFilter(Person.FILTER_EXTERNAL_ID)
-          .setParameter(Person.PARAM_EXTERNAL_ID, externalId);
+    final LocalDate dob = searchParameters.getDob();
+    if (dob != null) {
+      session.enableFilter(Person.FILTER_DOB)
+          .setParameter(Person.PARAM_DOB, dob);
     }
-
-    final String usersCountyExternalId = searchPersonParameters.getUsersCountyExternalId();
-    if (StringUtils.isNotBlank(usersCountyExternalId)) {
-      session.enableFilter(Person.FILTER_COUNTY)
-          .setParameter(PARAM_USERS_COUNTY_EXTERNAL_ID, usersCountyExternalId);
-    }
-
-    final List<Person> results = session.createNamedQuery(Person.NQ_ALL, Person.class).list();
-    return ImmutableList.copyOf(results);
+    return session;
   }
 
-  private void authorize() {
+  private void enableLikeFilter(final Session session, final String filter,
+      final String filterParam, final String value) {
+    if (StringUtils.isNotBlank(value)) {
+      enableFilter(session, filter, filterParam, "%" + value.toLowerCase() + "%");
+    }
+  }
+
+  private void enableFilter(final Session session, final String filter,
+      final String filterParam, final String value) {
+    if (StringUtils.isNotBlank(value)) {
+      session.enableFilter(filter).setParameter(filterParam, value);
+    }
+  }
+
+  private void authorize(final Session session) {
     if (!PrincipalUtils.getPrincipal().getPrivileges().contains(Privileges.SEALED)) {
-      grabSession().enableFilter(Person.AUTHORIZATION_FILTER);
+      session.enableFilter(Person.AUTHORIZATION_FILTER);
     }
   }
 

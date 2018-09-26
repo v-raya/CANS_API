@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import static gov.ca.cwds.cans.domain.entity.County.NQ_ALL;
 /** A County. */
 @Entity
 @Table(name = "county")
+@Cacheable
 @Data
 @Accessors(chain = true)
 @NamedQuery(

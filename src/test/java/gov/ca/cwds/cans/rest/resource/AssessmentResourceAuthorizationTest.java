@@ -5,7 +5,7 @@ import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import java.io.IOException;

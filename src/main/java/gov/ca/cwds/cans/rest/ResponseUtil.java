@@ -1,5 +1,6 @@
 package gov.ca.cwds.cans.rest;
 
+import gov.ca.cwds.cans.domain.dto.SearchResponse;
 import java.util.Collection;
 import javax.ws.rs.core.Response;
 
@@ -30,6 +31,10 @@ public final class ResponseUtil {
 
   public static Response responseOk(final Collection<?> collection) {
     return Response.status(HTTP_CODE_OK).entity(collection).build();
+  }
+
+  public static Response responseOk(final SearchResponse searchResult) {
+    return Response.status(HTTP_CODE_OK).entity(searchResult).build();
   }
 
   public static Response responseCreatedOrNot(final Object dto) {

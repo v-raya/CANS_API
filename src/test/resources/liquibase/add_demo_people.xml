@@ -27,6 +27,7 @@
       <column name="id" value="3"/>
       <column name="person_role" value="CLIENT"/>
       <column name="first_name" value="Peter"/>
+      <column name="middle_name" value="Batkovich"/>
       <column name="last_name" value="Parker"/>
       <column name="dob" value="2011-10-13"/>
       <column name="county_id" value="99"/>

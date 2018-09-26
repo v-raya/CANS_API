@@ -1,21 +1,19 @@
-package gov.ca.cwds.cans.domain.dto;
+package gov.ca.cwds.cans.domain.dto.person;
 
 import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.validation.ValidPerson;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -32,7 +30,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @ValidPerson
-public class PersonDto extends Dto {
+public class PersonShortDto extends Dto {
 
   @NotNull
   private PersonRole personRole;
@@ -63,10 +61,6 @@ public class PersonDto extends Dto {
   private Race race;
   private String countyClientNumber;
   private String clientIndexNumber;
-  @NotNull
-  private CountyDto county;
   private SensitivityType sensitivityType;
-  @Valid
-  private List<CaseDto> cases = new ArrayList<>();
   private Map<String, Object> metadata = new HashMap<>();
 }

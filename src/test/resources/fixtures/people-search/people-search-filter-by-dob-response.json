@@ -1,0 +1,13 @@
+{
+  "records" : [ {
+    "id" : 4,
+    "person_role" : "CLIENT",
+    "first_name" : "Charley",
+    "last_name" : "Parker",
+    "dob" : "2008-01-31",
+    "metadata" : {
+      "editable" : true
+    }
+  } ],
+  "total_records" : 1
+}

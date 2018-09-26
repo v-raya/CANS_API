@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import java.time.LocalDateTime;
 import javax.validation.constraints.Pattern;
 import lombok.Data;

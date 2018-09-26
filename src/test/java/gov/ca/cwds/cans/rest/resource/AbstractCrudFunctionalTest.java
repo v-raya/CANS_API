@@ -2,7 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
 import gov.ca.cwds.cans.test.util.FixtureReader;

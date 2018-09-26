@@ -1,7 +1,7 @@
 package gov.ca.cwds.cans.domain.dto.logging;
 
 import gov.ca.cwds.cans.domain.dto.Dto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import java.time.LocalDateTime;
 
 /**

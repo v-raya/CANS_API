@@ -7,8 +7,10 @@ import gov.ca.cwds.cans.domain.mapper.I18nMapper;
 import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.cans.domain.mapper.PersonMapper;
-import gov.ca.cwds.cans.domain.mapper.SearchAssessmentMapper;
-import gov.ca.cwds.cans.domain.mapper.SearchPersonMapper;
+import gov.ca.cwds.cans.domain.mapper.PersonShortMapper;
+import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
+import gov.ca.cwds.cans.domain.mapper.search.SearchPersonResponseMapper;
+import gov.ca.cwds.cans.domain.mapper.search.SearchPersonRequestMapper;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -26,9 +28,11 @@ public class MappingModule extends AbstractModule {
     bindMapperAsEagerSingleton(I18nMapper.class);
     bindMapperAsEagerSingleton(InstrumentMapper.class);
     bindMapperAsEagerSingleton(PersonMapper.class);
+    bindMapperAsEagerSingleton(PersonShortMapper.class);
 
-    bindMapperAsEagerSingleton(SearchPersonMapper.class);
-    bindMapperAsEagerSingleton(SearchAssessmentMapper.class);
+    bindMapperAsEagerSingleton(SearchAssessmentRequestMapper.class);
+    bindMapperAsEagerSingleton(SearchPersonResponseMapper.class);
+    bindMapperAsEagerSingleton(SearchPersonRequestMapper.class);
   }
 
   private void bindMapperAsEagerSingleton(Class<?> clazz) {

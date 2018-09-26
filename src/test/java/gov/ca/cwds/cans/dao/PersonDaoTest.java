@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.dao;
 
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.search.Pagination;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.util.NullOrEmptyException;
 import gov.ca.cwds.security.realm.PerryAccount;
@@ -34,7 +35,7 @@ public class PersonDaoTest {
   }
 
   @Test
-  public void search_setsJustCountyFilter_withNoRoleOrExternalIdOrAuthorization() throws Exception {
+  public void search_setsJustCountyFilter_withNoRoleOrExternalIdOrAuthorization() {
     List<Person> people = Collections.singletonList(new Person());
     SessionFactory sessionFactory = mock(SessionFactory.class);
     Session session = mock(Session.class);
@@ -46,13 +47,19 @@ public class PersonDaoTest {
     when(sessionFactory.getCurrentSession()).thenReturn(session);
     when(session.enableFilter(Person.FILTER_COUNTY)).thenReturn(countyFilter);
     when(session.createNamedQuery(Person.NQ_ALL, Person.class)).thenReturn(query);
+    when(query.setFirstResult(0)).thenReturn(query);
+    when(query.setMaxResults(10)).thenReturn(query);
     when(query.list()).thenReturn(people);
+
+    Query<Long> query2 = mock(Query.class);
+    when(session.createNamedQuery(Person.NQ_COUNT_ALL)).thenReturn(query2);
+    when(query2.getSingleResult()).thenReturn(0L);
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
     PersonDao personDao = new PersonDao(sessionFactory);
-    SearchPersonParameters searchPersonParameters = new SearchPersonParameters();
-    searchPersonParameters.setExternalId("");
-    searchPersonParameters.setUsersCountyExternalId("11");
+    SearchPersonParameters searchPersonParameters = new SearchPersonParameters()
+        .setUsersCountyExternalId("11")
+        .setPagination(new Pagination().setPage(0).setPageSize(10));
     personDao.search(searchPersonParameters);
 
     verify(session).enableFilter(Person.FILTER_COUNTY);

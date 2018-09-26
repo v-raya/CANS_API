@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
-import gov.ca.cwds.cans.domain.dto.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
