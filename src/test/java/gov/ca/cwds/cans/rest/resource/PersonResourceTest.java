@@ -13,6 +13,7 @@ import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
+import org.apache.http.HttpStatus;
 import java.util.Collection;
 import org.json.JSONException;
 import org.junit.After;
@@ -395,7 +396,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void postPerson_success_whenPersonHasNoCases() throws IOException {
     // given
-    final PersonDto inputPerson = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    final PersonDto inputPerson = personHelper.readPersonDto(FIXTURES_POST);
     inputPerson.getCases().clear();
 
     // when
@@ -416,26 +417,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void postPerson_success_whenPersonHasExistentAndNewCases() throws IOException {
     // given
-    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
-    final PersonDto postedPerson =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(PersonDto.class);
-    personHelper.pushToCleanUpPerson(postedPerson);
-    person.getCases().add(new CaseDto().setExternalId("2000-123-1234-12345678"));
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
+    personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
 
     // when
-    final PersonDto actual =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(PersonDto.class);
-    personHelper.pushToCleanUpPerson(actual);
+    person.getCases().add(new CaseDto().setExternalId("2000-123-1234-12345678"));
+    person.setExternalId(personHelper.generateRandomExternalId());
+    final PersonDto actual = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
 
     // then
     final Set<CaseDto> caseIds =
@@ -454,8 +442,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void postPerson_success_whenPersonHasSensitivityType() throws IOException {
     // given
-    final PersonDto person = FixtureReader
-        .readObject(FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST_WITH_SEALED_SENSITIVITY_TYPE);
     final PersonDto postedPerson =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -473,7 +460,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void putPerson_success_whenUpdatingCasesListWithExistingAndNewCases() throws IOException {
     // given
-    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     final List<CaseDto> cases = person.getCases();
     cases.add(new CaseDto().setExternalId("2000-123-1234-12345678"));
     cases.add(new CaseDto().setExternalId("3000-123-1234-12345678"));
@@ -554,7 +541,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void getPerson_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
     //given
-    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
@@ -574,7 +561,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   @Test
   public void getPerson_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty() throws IOException {
     //given
-    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
@@ -594,7 +581,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void getPerson_unauthorized_whenUserHasNotSealedAndClientIsSealed()
       throws IOException {
     //given
-    final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
@@ -610,17 +597,42 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     assertThat(status, is(403));
   }
 
-  private PersonDto postPerson(PersonDto person, String accountFixture) throws IOException {
+  @Test
+  public void postPerson_fail_whenPersonExistInDatabase() throws IOException {
+    // given
+    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST, false);
+    personHelper.postPerson(person, false);
+    final PersonDto personDuplicate = personHelper.readPersonDto(FIXTURES_POST, false);
+    // when
+    Response response = personHelper.postPersonAndGetResponse(personDuplicate, AUTHORIZED_ACCOUNT_FIXTURE);
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_CONFLICT));
+  }
+
+  @Test
+  public void putPerson_fail_whenPersonExternalIdExistsInDatabase() throws IOException {
+    // given
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST, true);
+    person = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, false);
+    PersonDto personDuplicate = personHelper.readPersonDto(FIXTURES_POST, false);
+    personDuplicate = personHelper.postPerson(personDuplicate, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, true);
+    // when
+    personDuplicate.setExternalId(person.getExternalId());
+    Response response = personHelper.putPerson(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, personDuplicate);
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_CONFLICT));
+  }
+
+  private Response postPersonAndGetResponse(PersonDto person, String accountFixture) throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(PEOPLE)
         .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(PersonDto.class);
+        .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE));
   }
 
-  private PersonDto postPerson(PersonDto person) throws IOException {
-    return postPerson(person, AUTHORIZED_ACCOUNT_FIXTURE);
+  private PersonDto postPerson(PersonDto person, String accountFixture) throws IOException {
+    return postPersonAndGetResponse(person, accountFixture).readEntity(PersonDto.class);
   }
 
   private Collection<PersonShortDto> searchPeople(String externalId, String accountFixture)

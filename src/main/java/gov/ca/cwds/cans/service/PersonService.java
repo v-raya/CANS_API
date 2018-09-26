@@ -41,6 +41,10 @@ public class PersonService extends AbstractCrudService<Person> {
     return ((PersonDao) dao).search(searchPersonParameters);
   }
 
+  public Person findByExternalId(final String externalId) {
+    return ((PersonDao) dao).findByExternalId(externalId);
+  }
+
   @Override
   public Person create(final Person person) {
     Require.requireNotNullAndNotEmpty(person);

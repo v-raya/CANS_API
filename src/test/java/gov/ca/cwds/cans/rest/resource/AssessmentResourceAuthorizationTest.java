@@ -132,7 +132,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
-    final PersonDto person = readObject(FIXTURE_POST_ELDORADO_PERSON, PersonDto.class);
+    final PersonDto person = personHelper.readPersonDto(FIXTURE_POST_ELDORADO_PERSON);
     person.setSensitivityType(SensitivityType.SENSITIVE);
     final PersonDto postedPerson = personHelper
         .postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);

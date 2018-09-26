@@ -93,7 +93,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void startDemoAssessment_success() throws IOException {
     // given
-    final PersonDto person = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final StartAssessmentRequest request = readObject(FIXTURE_START, StartAssessmentRequest.class);
     request.setInstrumentId(1L);
     request.setPersonId(person.getId());
@@ -129,7 +129,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .post(newInstrument)
             .readEntity(InstrumentDto.class)
             .getId();
-    final PersonDto person = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final StartAssessmentRequest startRequest =
         readObject(FIXTURE_START, StartAssessmentRequest.class);
     startRequest.setInstrumentId(cleanUpInstrumentId);
@@ -180,7 +180,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
-    final PersonDto person = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
     inputAssessment.setPerson(person);
@@ -252,8 +252,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void searchAssessments_findsFourSortedRecords() throws IOException {
     // given
     final List<Long> assessmentIds = new ArrayList<>();
-    final PersonDto person = postPerson();
-    final PersonDto otherPerson = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    final PersonDto otherPerson = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
 
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties = Arrays.asList(
@@ -310,7 +310,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void putAssessment_assessmentCaseNumberUpdated_whenPersonsCaseNumberUpdated()
       throws IOException {
     // given
-    final PersonDto person0 = readObject(FIXTURE_POST_PERSON, PersonDto.class);
+    final PersonDto person0 = personHelper.readPersonDto(FIXTURE_POST_PERSON);
     person0.getCases().get(0).setExternalId("4321-321-4321-87654321");
     final PersonDto postedPerson0 = clientTestRule
         .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -319,7 +319,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         .post(Entity.entity(person0, MediaType.APPLICATION_JSON_TYPE))
         .readEntity(PersonDto.class);
 
-    final PersonDto person = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     assessment.setTheCase(person.getCases().get(0));
@@ -358,7 +358,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void putAssessment_notUpdatingCounty_whenUpdatingAssessment() throws IOException {
     // given
-    final PersonDto person = postPerson();
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
@@ -389,7 +389,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void putAssessment_unauthorized_whenUserFromDifferentCounty() throws IOException {
     // given
-    final PersonDto personElDoradoCounty = postPerson();
+    final PersonDto personElDoradoCounty = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(personElDoradoCounty);
     final AssessmentDto postedAssessment = clientTestRule
@@ -417,9 +417,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void getAssessment_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
     // given
-    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
-    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
-    final PersonDto person = postPerson(personEntity);
+    final PersonDto personDto = personHelper.readPersonDto(FIXTURE_POST_PERSON);
+    personDto.setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = personHelper.postPerson(personDto, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
@@ -448,9 +448,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void getAssessment_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty()
       throws IOException {
     // given
-    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
-    personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
-    final PersonDto person = postPerson(personEntity);
+    final PersonDto personDto = personHelper.readPersonDto(FIXTURE_POST_PERSON);
+    personDto.setSensitivityType(SensitivityType.SEALED);
+    final PersonDto person = personHelper.postPerson(personDto, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
@@ -479,10 +479,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void getAssessment_unauthorized_whenUserHasNotSealedAndClientIsSealed()
       throws IOException {
     // given
-    final Entity<PersonDto> personEntity = readRestObject(FIXTURE_POST_PERSON,
-        PersonDto.class);
+    final Entity<PersonDto> personEntity = personHelper.readPersonEntity(FIXTURE_POST_PERSON);
     personEntity.getEntity().setSensitivityType(SensitivityType.SEALED);
-    final PersonDto person = postPerson(personEntity);
+    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment = clientTestRule
@@ -523,19 +522,5 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         .request(MediaType.APPLICATION_JSON_TYPE)
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
         .readEntity(AssessmentDto.class);
-  }
-
-  private PersonDto postPerson() throws IOException {
-    final Entity person = readRestObject(FIXTURE_POST_PERSON, PersonDto.class);
-    return postPerson(person);
-  }
-
-  private PersonDto postPerson(Entity person) throws IOException {
-    return clientTestRule
-        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(person)
-        .readEntity(PersonDto.class);
   }
 }

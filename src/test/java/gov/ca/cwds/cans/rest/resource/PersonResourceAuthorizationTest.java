@@ -61,7 +61,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 
   @Test
   public void personGet_Unauthorized_whenCountyIsNotTheSame() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SENSITIVE);
     person.setCounty(EL_DORADO_COUNTY);
     final PersonDto postedPerson = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     Response response = personHelper.getPerson(AUTHORIZED_ACCOUNT_FIXTURE, postedPerson.getId());
@@ -89,7 +89,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 
   @Test
   public void personPut_Unauthorized_whenCountyIsNotTheSame() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SENSITIVE);
     final PersonDto postedPerson = personHelper.postPerson(person);
     Response response = personHelper.putPerson(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedPerson);
     assertThat(response.getStatus(), is(HttpStatus.SC_FORBIDDEN));
@@ -97,35 +97,35 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 
   @Test
   public void personPost_Unauthorized_whenPersonIsSensitiveAndUserHasDifferentCounty() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SENSITIVE);
     final Response response = personHelper.postPersonAndGetResponse(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     assertThat(response.getStatus(), is(HttpStatus.SC_FORBIDDEN));
   }
 
   @Test
   public void personPost_Unauthorized_whenPersonIsSealedAndUserHasDifferentCounty() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SEALED, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SEALED);
     final Response response = personHelper.postPersonAndGetResponse(person, AUTHORIZED_ACCOUNT_FIXTURE);
     assertThat(response.getStatus(), is(HttpStatus.SC_FORBIDDEN));
   }
 
   @Test
   public void personPost_Authorized_whenPersonIsSealedAndUserHasSameCounty() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SEALED, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SEALED);
     final Response response = personHelper.postPersonAndGetResponse(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     assertThat(response.getStatus(), is(HttpStatus.SC_CREATED));
   }
 
   @Test
   public void personPost_Authorized_whenPersonIsSensitiveAndUserHasSameCounty() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_SENSITIVE, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_SENSITIVE);
     final Response response = personHelper.postPersonAndGetResponse(person, AUTHORIZED_ACCOUNT_FIXTURE);
     assertThat(response.getStatus(), is(HttpStatus.SC_CREATED));
   }
 
   @Test
   public void personPost_Authorized_whenPersonHasNoSensitivityType() throws IOException {
-    PersonDto person = FixtureReader.readObject(FIXTURES_POST_NON_SENSITIVE, PersonDto.class);
+    PersonDto person = personHelper.readPersonDto(FIXTURES_POST_NON_SENSITIVE);
     final Response response = personHelper.postPersonAndGetResponse(person, AUTHORIZED_ACCOUNT_FIXTURE);
     assertThat(response.getStatus(), is(HttpStatus.SC_CREATED));
   }

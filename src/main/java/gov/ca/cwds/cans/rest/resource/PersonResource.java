@@ -11,6 +11,7 @@ import gov.ca.cwds.cans.domain.mapper.search.SearchPersonRequestMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchPersonResponseMapper;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.domain.search.SearchPersonResult;
+import gov.ca.cwds.cans.exception.DuplicationException;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.PersonService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -77,6 +78,10 @@ public class PersonResource {
   @Timed
   public Response post(
       @ApiParam(name = "Person", value = "The Person object") @Valid final PersonDto dto) {
+    Person duplicatePerson = personService.findByExternalId(dto.getExternalId());
+    if (duplicatePerson != null) {
+      throwDuplicationException(duplicatePerson);
+    }
     return crudResource.post(dto);
   }
 
@@ -97,6 +102,10 @@ public class PersonResource {
           @ApiParam(required = true, name = ID, value = "The Person id", example = "50000")
           final Long id,
       @ApiParam(name = "Person", value = "The Person object") @Valid final PersonDto dto) {
+    Person duplicatePerson = personService.findByExternalId(dto.getExternalId());
+    if (duplicatePerson != null && !duplicatePerson.getId().equals(dto.getId())) {
+      throwDuplicationException(duplicatePerson);
+    }
     return crudResource.put(id, dto);
   }
 
@@ -158,4 +167,11 @@ public class PersonResource {
           final Long id) {
     return crudResource.delete(id);
   }
+
+  private void throwDuplicationException(Person person) {
+    throw new DuplicationException(
+        "This Client ID #" + person.getExternalId() + " already exists in " + person.getCounty()
+            .getName() + " County");
+  }
+
 }
