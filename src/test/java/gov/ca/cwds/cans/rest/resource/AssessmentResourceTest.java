@@ -1,15 +1,12 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.IN_PROGRESS;
 import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.SUBMITTED;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readRestObject;
-import static gov.ca.cwds.cans.util.DtoCleaner.cleanDtoIfNeed;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -23,10 +20,8 @@ import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
-import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
-import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
@@ -51,18 +46,13 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
       "fixtures/perry-account/marin-all-authorized.json";
-  private static final String FIXTURE_POST_INSTRUMENT = "fixtures/instrument-post.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_SUBMIT_INVALID = "fixtures/assessment/assessment-post-submit-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
-  private static final String FIXTURE_READ = "fixtures/assessment/assessment-read.json";
-  private static final String FIXTURE_EMPTY_OBJECT = "fixtures/empty-object.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
-
-  private Long cleanUpInstrumentId;
 
   @Before
   public void before() {
@@ -80,101 +70,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    if (cleanUpInstrumentId != null) {
-      clientTestRule
-          .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-          .target(INSTRUMENTS + SLASH + cleanUpInstrumentId)
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
-    }
     personHelper.cleanUp();
-  }
-
-  @Test
-  public void startDemoAssessment_success() throws IOException {
-    // given
-    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-    final StartAssessmentRequest request = readObject(FIXTURE_START, StartAssessmentRequest.class);
-    request.setInstrumentId(1L);
-    request.setPersonId(person.getId());
-
-    // when
-    final Response postResponse =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(ASSESSMENTS + SLASH + START)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
-    final AssessmentDto assessment = postResponse.readEntity(AssessmentDto.class);
-
-    // then
-    assertThat(postResponse.getStatus(), is(200));
-    assertThat(assessment, is(not(nullValue())));
-    assertThat(assessment.getCounty().getId(), is(9L));
-
-    // clean up
-    personHelper.pushToCleanUpPerson(person);
-    cleanUpAssessments.push(assessment);
-  }
-
-  @Test
-  public void startAssessment_success() throws IOException {
-    // given
-    final Entity newInstrument = readRestObject(FIXTURE_POST_INSTRUMENT, InstrumentDto.class);
-    cleanUpInstrumentId =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(INSTRUMENTS)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(newInstrument)
-            .readEntity(InstrumentDto.class)
-            .getId();
-    final PersonDto person = personHelper.postPerson(FIXTURE_POST_PERSON, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-    final StartAssessmentRequest startRequest =
-        readObject(FIXTURE_START, StartAssessmentRequest.class);
-    startRequest.setInstrumentId(cleanUpInstrumentId);
-    startRequest.setPersonId(person.getId());
-
-    // when
-    final AssessmentDto actual = clientTestRule
-        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-        .target(ASSESSMENTS + SLASH + START)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(startRequest, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(AssessmentDto.class);
-
-    // then
-    actual.setId(null);
-    cleanDtoIfNeed(actual);
-    final AssessmentDto expected = FixtureReader.readObject(FIXTURE_READ, AssessmentDto.class);
-    expected.setInstrumentId(cleanUpInstrumentId);
-    expected.setPerson(person);
-    expected.setCounty(person.getCounty());
-    assertThat(actual, is(expected));
-
-    // clean up
-    personHelper.pushToCleanUpPerson(person);
-    cleanUpAssessments.push(actual);
-  }
-
-  @Test
-  public void startAssessment_failed_whenInvalidInput() throws IOException {
-    // given
-    final Entity<StartAssessmentRequest> inputEntity =
-        readRestObject(FIXTURE_EMPTY_OBJECT, StartAssessmentRequest.class);
-
-    // when
-    final Response response =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-            .target(ASSESSMENTS + SLASH + START)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(inputEntity);
-
-    // then
-    assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
-    final BaseExceptionResponse responsePayload = response.readEntity(BaseExceptionResponse.class);
-    assertThat(responsePayload.getIssueDetails().size(), is(2));
   }
 
   @Test

@@ -10,7 +10,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
 
   postgres:
-    image: cwds/postgresql_data
+    image: cwds/postgresql_data:0.8.4_662-RC
     hostname: postgresql_data
     ports:
       - ${POSTGRES_PORT}:5432

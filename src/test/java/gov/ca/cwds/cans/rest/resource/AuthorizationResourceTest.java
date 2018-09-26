@@ -8,14 +8,12 @@ import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
-import static gov.ca.cwds.cans.Constants.API.START;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
-import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -24,7 +22,6 @@ import org.junit.Test;
 
 public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
-  private static final String START_ASSESSMENT_REQUEST = StartAssessmentRequest.class.getCanonicalName();
   private static final String INSTRUMENT_DTO = InstrumentDto.class.getCanonicalName();
   private static final String PERSON_DTO = PersonDto.class.getCanonicalName();
 
@@ -128,20 +125,11 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
   private void assertAssessmentEndpointsAreSecured(String securityTokenFixturePath)
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + START, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST, securityTokenFixturePath);
-
     assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
         null, HttpMethod.GET, securityTokenFixturePath);
 
     assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
         null, HttpMethod.DELETE, securityTokenFixturePath);
-
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.PUT, securityTokenFixturePath);
-
-    assertEndpointIsSecured(ASSESSMENTS, FIXTURE_START,
-        START_ASSESSMENT_REQUEST, HttpMethod.POST, securityTokenFixturePath);
   }
 
   private void assertEndpointIsSecured(String resourceUrl, String requestFixture, String requestClass,

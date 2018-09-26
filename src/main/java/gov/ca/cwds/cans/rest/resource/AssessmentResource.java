@@ -1,11 +1,16 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
-import gov.ca.cwds.cans.domain.dto.assessment.StartAssessmentRequest;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
@@ -18,8 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-
+import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -32,14 +36,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
-
-import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.API.START;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
  * @author denys.davydov
@@ -81,25 +78,6 @@ public class AssessmentResource {
       @ApiParam(name = "Assessment", value = "The Assessment object") @Valid
           final AssessmentDto dto) {
     return crudResource.post(dto);
-  }
-
-  @UnitOfWork(CANS)
-  @POST
-  @Path(START)
-  @ApiResponses(
-      value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found")
-      }
-  )
-  @ApiOperation(value = "Start new Assessment", response = AssessmentDto.class)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
-  @Timed
-  public Response start(
-      @ApiParam(name = "Assessment", value = "The Assessment object") @Valid final StartAssessmentRequest request) {
-    final Assessment assessment = assessmentService.start(request);
-    final AssessmentDto resultDto = assessmentMapper.toDto(assessment);
-    return Response.ok().entity(resultDto).build();
   }
 
   @UnitOfWork(CANS)

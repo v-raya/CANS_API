@@ -26,7 +26,6 @@ public final class Constants {
     public static final String ASSESSMENTS = "assessments";
     public static final String SECURITY = "security";
     public static final String CHECK_PERMISSION = "check_permission";
-    public static final String START = "_start";
     public static final String I18N = "i18n";
     public static final String I18N_LANG_PARAM = "lang";
     public static final String SENSITIVITY_TYPES = "sensitivity-types";
