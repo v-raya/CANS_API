@@ -6,6 +6,7 @@
     "middle_name" : "Batkovich",
     "last_name" : "Parker",
     "dob" : "2011-10-13",
+    "sensitivity_type": "SENSITIVE",
     "metadata" : {
       "editable" : true
     }

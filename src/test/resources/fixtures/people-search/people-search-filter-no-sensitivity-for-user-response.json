@@ -1,0 +1,24 @@
+{
+  "records" : [ {
+    "id" : 4,
+    "person_role" : "CLIENT",
+    "first_name" : "Charley",
+    "last_name" : "Parker",
+    "dob" : "2008-01-31",
+    "metadata" : {
+      "editable" : true
+    }
+  }, {
+    "id" : 3,
+    "person_role" : "CLIENT",
+    "first_name" : "Peter",
+    "middle_name" : "Batkovich",
+    "last_name" : "Parker",
+    "dob" : "2011-10-13",
+    "sensitivity_type" : "SENSITIVE",
+    "metadata" : {
+      "editable" : false
+    }
+  } ],
+  "total_records" : 2
+}

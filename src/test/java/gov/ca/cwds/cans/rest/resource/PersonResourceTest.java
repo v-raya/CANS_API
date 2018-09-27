@@ -196,7 +196,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void searchPeople_success_whenSearchingForClientsInMemoryOnly() throws IOException {
+  public void searchPeople_success_whenSearchingForClients_inMemoryOnly() throws IOException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
@@ -242,6 +242,29 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     assertThat(actual.size(), is(1));
     assertThat(actual.iterator().next(), is(singleCountyPerson));
+  }
+
+  @Test
+  public void searchPeople_metaDataAsExpected_whenUserHasNoSensitivePrivilege_inMemoryOnly() throws IOException, JSONException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
+    // given
+    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
+        .setPersonRole(PersonRole.CLIENT)
+        .setPagination(new PaginationDto().setPage(0).setPageSize(10));
+
+    // when
+    final Response actualResponse = clientTestRule
+        .withSecurityToken(STATE_OF_CA_NO_SENSITIVITY)
+        .target(PEOPLE + SLASH + SEARCH)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
+
+    // then
+    assertResponseByFixturePath(
+        actualResponse,
+        "fixtures/people-search/people-search-filter-no-sensitivity-for-user-response.json"
+    );
   }
 
   @Test

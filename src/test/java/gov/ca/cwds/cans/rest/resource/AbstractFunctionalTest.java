@@ -26,6 +26,7 @@ public abstract class AbstractFunctionalTest {
   public static final String SEALED_EL_DORADO_ACCOUNT_FIXTURE = "fixtures/perry-account/el-dorado-sealed-authorized.json";
   public static final String NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE = "fixtures/perry-account/no_sealed_no_sensitive-authorized.json";
   public static final String STATE_OF_CA_ALL_AUTHORIZED = "fixtures/perry-account/state-of-california-all-authorized.json";
+  public static final String STATE_OF_CA_NO_SENSITIVITY = "fixtures/perry-account/state-of-california-no-sensitivity-no-sealed.json";
   public static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   public static final String SLASH = "/";
   static final String AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE =
