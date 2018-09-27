@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.dao;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
@@ -14,7 +13,6 @@ import org.hibernate.SessionFactory;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
@@ -75,16 +73,16 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     hibernateInitializeInstrument(assessment);
   }
 
-  @Authorize({"person:write:assessment.person"})
+  @Authorize({"person:read:assessment.person"})
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
     addFilterIfNeeded(session, FILTER_CREATED_BY_ID, PARAM_CREATED_BY_ID, searchAssessmentParameters.getCreatedById());
     addFilterIfNeeded(session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
-    final List<Assessment> results = session
+    // returns List (and not ImmutableList as usual) to filter results with authorizer)
+    return session
         .createNamedQuery(Assessment.NQ_ALL, Assessment.class)
         .list();
-    return ImmutableList.copyOf(results);
   }
 
   private void addFilterIfNeeded(
