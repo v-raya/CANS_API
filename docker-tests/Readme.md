@@ -15,7 +15,7 @@ This image can be used to run a set of tests against CANS API or CANS Rails laye
 | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ |
 | **TEST_TYPE** | The type of test to be started in the container | + | smoke; functional; performance | smoke | performance |
 | **JM_TARGET**  | The target application to be tested (Api java app or Rails app) | - | api; rails | api | rails |
-| **JM_PERRY_MODE** | The mode the Perry runs on the environment the tests will be run against | - | DEV; PROD | PROD | PROD |
+| **JM_PERRY_MODE** | The mode the Perry runs on the environment the tests will be run against | - | DEV; PROD; PROD_MFA | PROD | PROD |
 | **JM_USERS_CSV_PATH** | File path to the csv file containing users | - | any file path | /opt/cans-api-perf-test/assets/users.csv | /path/to/file.csv |
 | **JM_USERS_COUNT** | How many simultaneous users will be imitated by tests | - | Any number like 10 or 2000. A bigger amount of users may lead to issues with running a test | 1 | 100 |
 | **JM_UPDATE_REQUESTS_PER_USER** | How many request will make each user | - | Any number like 10 or 2000 | 1 | 100 |
@@ -25,6 +25,8 @@ This image can be used to run a set of tests against CANS API or CANS Rails laye
 | **JM_CANS_API_PROTOCOL** | The protocol for application to be tested | + | http; https |  | https |
 | **JM_CANS_API_HOST** | The host for application to be tested | + | any host |  | cansapi.dev.cwds.io |
 | **JM_CANS_API_PORT** | The port for application to be tested | + | Any port like 80 (for http) or 443 (for https) |  | 443 |
+| **JM_WEB_DRIVER_PATH** | Path to Chrome web driver | + | Any valid file path |  | /usr/local/bin/chromedriver |
+| **JM_USER_COUNTY_CODE** | County which will be used to create child and assessments | + | Any valid county code from county table like 20, 99, etc |  | 20 |
 
 
 # Example commands to run:

@@ -67,6 +67,16 @@
             <stringProp name="Argument.value">${__P(JM_UPDATE_REQUESTS_PER_USER,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="webDriverPath" elementType="Argument">
+            <stringProp name="Argument.name">webDriverPath</stringProp>
+            <stringProp name="Argument.value">${__P(JM_WEB_DRIVER_PATH,/usr/local/bin/chromedriver)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="userCountyCode" elementType="Argument">
+            <stringProp name="Argument.name">userCountyCode</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USER_COUNTY_CODE,20)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -80,7 +90,7 @@
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${usersCount}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
         <longProp name="ThreadGroup.start_time">1525377506000</longProp>
         <longProp name="ThreadGroup.end_time">1525377506000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -93,8 +103,18 @@
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
         <hashTree>
-          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-            <collectionProp name="CookieManager.cookies"/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Global HTTP Cookie Manager" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="_ca_cans_session" elementType="Cookie" testname="_ca_cans_session">
+                <stringProp name="Cookie.value">${caCansSession}</stringProp>
+                <stringProp name="Cookie.domain">${perryHost}</stringProp>
+                <stringProp name="Cookie.path">/</stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
             <boolProp name="CookieManager.clearEachIteration">false</boolProp>
           </CookieManager>
           <hashTree/>
@@ -127,7 +147,7 @@
               <boolProp name="recycle">true</boolProp>
               <stringProp name="shareMode">shareMode.group</stringProp>
               <boolProp name="stopThread">false</boolProp>
-              <stringProp name="variableNames">username,password</stringProp>
+              <stringProp name="variableNames">username,password,mfaCode</stringProp>
             </CSVDataSet>
             <hashTree/>
             <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -143,11 +163,6 @@
             <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
               <collectionProp name="HeaderManager.headers"/>
             </HeaderManager>
-            <hashTree/>
-            <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-              <collectionProp name="CookieManager.cookies"/>
-              <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-            </CookieManager>
             <hashTree/>
             <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If testing the API app" enabled="true">
               <stringProp name="IfController.condition">&apos;${target}&apos;==&apos;api&apos;</stringProp>
@@ -261,6 +276,109 @@
                   <stringProp name="RegexExtractor.default"></stringProp>
                   <stringProp name="RegexExtractor.match_number">1</stringProp>
                 </RegexExtractor>
+                <hashTree/>
+              </hashTree>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD_MFA&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;PROD_MFA&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
+              <hashTree>
+                <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config" enabled="true">
+                  <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
+                  <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
+                  <stringProp name="WebDriverConfig.http_host"></stringProp>
+                  <intProp name="WebDriverConfig.http_port">8080</intProp>
+                  <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
+                  <stringProp name="WebDriverConfig.https_host"></stringProp>
+                  <intProp name="WebDriverConfig.https_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.ftp_host"></stringProp>
+                  <intProp name="WebDriverConfig.ftp_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.socks_host"></stringProp>
+                  <intProp name="WebDriverConfig.socks_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
+                  <boolProp name="WebDriverConfig.maximize_browser">true</boolProp>
+                  <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
+                  <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
+                  <stringProp name="ChromeDriverConfig.chromedriver_path">${webDriverPath}</stringProp>
+                  <boolProp name="ChromeDriverConfig.android_enabled">false</boolProp>
+                  <boolProp name="ChromeDriverConfig.headless_enabled">true</boolProp>
+                </com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig>
+                <hashTree/>
+                <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+                  <stringProp name="WebDriverSampler.script">var pkg = JavaImporter(org.openqa.selenium, org.openqa.selenium.support.ui)
+var wait = new pkg.WebDriverWait(WDS.browser, 5000)
+
+WDS.sampleResult.sampleStart()
+WDS.browser.get(&apos;https://&apos; + WDS.args[0] + &apos;/perry/authn/login?callback=/perry/demo-sp.html&apos;)
+var login = WDS.browser.findElement(pkg.By.id(&quot;email&quot;));
+login.click();
+login.sendKeys([WDS.args[1]]);
+var password = WDS.browser.findElement(pkg.By.id(&quot;password&quot;));
+password.click();
+password.sendKeys([WDS.args[2]]);
+var submit = WDS.browser.findElement(pkg.By.xpath(&quot;//*[@id=&apos;div-forms&apos;]/form[1]/button&quot;));
+submit.click();
+wait.until(pkg.ExpectedConditions.elementToBeClickable(pkg.By.id(&quot;code&quot;)))
+var code = WDS.browser.findElement(pkg.By.id(&quot;code&quot;));
+code.click();
+code.sendKeys([WDS.args[3]]);
+var validateButton = WDS.browser.findElement(pkg.By.id(&quot;validateButton&quot;));
+validateButton.click();
+wait.until(pkg.ExpectedConditions.elementToBeClickable(pkg.By.xpath(&quot;/html/body/h1&quot;)))
+
+var regex = /[?&amp;]([^=#]+)=([^&amp;#]*)/g,
+    url = WDS.browser.getCurrentUrl(),
+    params = {},
+    match
+var accessCode
+while(match = regex.exec(url)) {
+    accessCode = match[2]
+}
+WDS.log.info(&apos;*** Access Code &apos; + accessCode + &apos; ***&apos;);
+
+var ctx = org.apache.jmeter.threads.JMeterContextService.getContext();
+ctx.getVariables().put(&quot;accessCode&quot;, accessCode);
+
+WDS.sampleResult.sampleEnd()</stringProp>
+                  <stringProp name="WebDriverSampler.parameters">${perryHost} ${username} ${password} ${mfaCode}</stringProp>
+                  <stringProp name="WebDriverSampler.language">javascript</stringProp>
+                </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+                <hashTree/>
+                <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+                  <boolProp name="ResultCollector.error_logging">true</boolProp>
+                  <objProp>
+                    <name>saveConfig</name>
+                    <value class="SampleSaveConfiguration">
+                      <time>true</time>
+                      <latency>true</latency>
+                      <timestamp>true</timestamp>
+                      <success>true</success>
+                      <label>true</label>
+                      <code>true</code>
+                      <message>true</message>
+                      <threadName>true</threadName>
+                      <dataType>true</dataType>
+                      <encoding>false</encoding>
+                      <assertions>true</assertions>
+                      <subresults>true</subresults>
+                      <responseData>false</responseData>
+                      <samplerData>false</samplerData>
+                      <xml>false</xml>
+                      <fieldNames>true</fieldNames>
+                      <responseHeaders>false</responseHeaders>
+                      <requestHeaders>false</requestHeaders>
+                      <responseDataOnError>false</responseDataOnError>
+                      <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                      <assertionsResultsToSave>0</assertionsResultsToSave>
+                      <bytes>true</bytes>
+                      <sentBytes>true</sentBytes>
+                      <threadCounts>true</threadCounts>
+                      <idleTime>true</idleTime>
+                      <connectTime>true</connectTime>
+                    </value>
+                  </objProp>
+                  <stringProp name="filename"></stringProp>
+                </ResultCollector>
                 <hashTree/>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD&apos;" enabled="true">
@@ -434,7 +552,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                 <hashTree/>
               </hashTree>
               <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-                <boolProp name="ResultCollector.error_logging">false</boolProp>
+                <boolProp name="ResultCollector.error_logging">true</boolProp>
                 <objProp>
                   <name>saveConfig</name>
                   <value class="SampleSaveConfiguration">
@@ -475,42 +593,181 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/system-information with perry redirect" enabled="true">
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments"/>
-                </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                <stringProp name="HTTPSampler.path">${cansApiPathRoot}system-information</stringProp>
-                <stringProp name="HTTPSampler.method">GET</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
-              </HTTPSamplerProxy>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD_MFA&apos;" enabled="true">
+                <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;PROD_MFA&apos;</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+              </IfController>
               <hashTree>
-                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-                  <collectionProp name="Asserion.test_strings">
-                    <stringProp name="49586">200</stringProp>
-                  </collectionProp>
-                  <stringProp name="Assertion.custom_message"></stringProp>
-                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-                  <boolProp name="Assertion.assume_success">false</boolProp>
-                  <intProp name="Assertion.test_type">1</intProp>
-                </ResponseAssertion>
+                <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config" enabled="true">
+                  <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
+                  <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
+                  <stringProp name="WebDriverConfig.http_host"></stringProp>
+                  <intProp name="WebDriverConfig.http_port">8080</intProp>
+                  <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
+                  <stringProp name="WebDriverConfig.https_host"></stringProp>
+                  <intProp name="WebDriverConfig.https_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.ftp_host"></stringProp>
+                  <intProp name="WebDriverConfig.ftp_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.socks_host"></stringProp>
+                  <intProp name="WebDriverConfig.socks_port">8080</intProp>
+                  <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
+                  <boolProp name="WebDriverConfig.maximize_browser">true</boolProp>
+                  <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
+                  <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
+                  <stringProp name="ChromeDriverConfig.chromedriver_path">${webDriverPath}</stringProp>
+                  <boolProp name="ChromeDriverConfig.android_enabled">false</boolProp>
+                  <boolProp name="ChromeDriverConfig.headless_enabled">true</boolProp>
+                </com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig>
                 <hashTree/>
+                <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="jp@gc - WebDriver Sampler" enabled="true">
+                  <stringProp name="WebDriverSampler.script">var pkg = JavaImporter(org.openqa.selenium, org.openqa.selenium.support.ui);
+var wait = new pkg.WebDriverWait(WDS.browser, 5000);
+
+WDS.sampleResult.sampleStart();
+WDS.browser.get(&apos;https://&apos; + WDS.args[0] + &apos;/cans&apos;);
+
+/* 
+ * Web Driver Config Element has the option: &quot;Create a new browser at the start of each iteration&quot;.
+ * If the option is turned off, then after the first login a window remains open in a thread for any amount of iterations,
+ *  and there is no need to login again each iteration.
+ */
+if(WDS.browser.getTitle() != &apos;Cans&apos;) {
+	var emailField = WDS.browser.findElement(pkg.By.cssSelector(&apos;#email&apos;));
+	emailField.click();
+	emailField.sendKeys([WDS.args[1]]);
+
+	var passwordField = WDS.browser.findElement(pkg.By.cssSelector(&apos;#password&apos;));
+	passwordField.click();
+	passwordField.sendKeys([WDS.args[2]]);
+
+	WDS.log.info(&apos;*** Submitting login and password ***&apos;);
+	WDS.browser.findElement(pkg.By.cssSelector(&apos;button&apos;)).click();
+
+	wait.until(pkg.ExpectedConditions.elementToBeClickable(pkg.By.xpath(&quot;//h1[contains(text(),&apos;CANS Assessment Application&apos;)]|//*[@id=&apos;code&apos;]&quot;)));
+	var expectedTitle = &apos;Cans&apos;;
+	if (WDS.browser.getTitle() == expectedTitle) {
+		// NO MFA token today
+		WDS.log.info(&apos;*** Login success (No MFA) for user &apos; + WDS.args[1] + &apos; ***&apos;);
+	} else {
+		var codeField = WDS.browser.findElement(pkg.By.id(&apos;code&apos;));
+		codeField.click();
+		codeField.sendKeys([WDS.args[3]]);
+		WDS.log.info(&apos;*** Submitting verification code ***&apos;);
+		WDS.browser.findElement(pkg.By.id(&apos;validateButton&apos;)).click();
+	
+		wait.until(pkg.ExpectedConditions.elementToBeClickable(pkg.By.xpath(&quot;//*[@id=&apos;side-nav&apos;]/a&quot;)));
+	
+	
+		if(WDS.browser.getTitle() == expectedTitle) {
+			WDS.log.info(&apos;*** Login success for user &apos; + WDS.args[1] + &apos; ***&apos;);
+		} else {
+			WDS.log.info(&apos;*** Login failure for user &apos; + WDS.args[1] + &apos; ***&apos;);
+			WDS.sampleResult.setSuccessful(false);
+			WDS.sampleResult.setResponseMessage(&apos;Expected title to be &apos; + expectedTitle + &apos;, not &apos; + WDS.browser.getTitle());
+		}
+	}
+}
+var caCansSession = WDS.browser.manage().getCookieNamed(&apos;_ca_cans_session&apos;);
+var caCansTimeout = WDS.browser.manage().getCookieNamed(&apos;_ca_cans_timeout&apos;);
+WDS.log.info(&apos;*** _ca_cans_session is &apos; + caCansSession + &apos; ***&apos;);
+WDS.log.info(&apos;*** _ca_cans_timeout is &apos; + caCansTimeout + &apos; ***&apos;);
+if (caCansSession == null) {
+	WDS.log.info(&apos;*** _ca_cans_session is null ***&apos;);
+	WDS.sampleResult.setSuccessful(false);
+	WDS.sampleResult.setResponseMessage(&apos;Cookie expect to hav _ca_cans_session but it is null&apos;);
+} else {
+	caCansSession = caCansSession.toString().substring(17, 49);
+	WDS.log.info(&apos;*** Session ID: &apos; + caCansSession + &apos; for user &apos; + WDS.args[1] + &apos; ***&apos;);
+
+	var ctx = org.apache.jmeter.threads.JMeterContextService.getContext();
+	ctx.getVariables().put(&quot;caCansSession&quot;, caCansSession);
+}
+WDS.sampleResult.sampleEnd();</stringProp>
+                  <stringProp name="WebDriverSampler.parameters">${perryHost} ${username} ${password} ${mfaCode}</stringProp>
+                  <stringProp name="WebDriverSampler.language">javascript</stringProp>
+                </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+                <hashTree>
+                  <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                    <boolProp name="resetInterpreter">false</boolProp>
+                    <stringProp name="parameters"></stringProp>
+                    <stringProp name="filename"></stringProp>
+                    <stringProp name="script">vars.put(&quot;tokenQueryParam&quot;, &quot;&quot;);</stringProp>
+                  </BeanShellPostProcessor>
+                  <hashTree/>
+                </hashTree>
               </hashTree>
+              <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+                <boolProp name="ResultCollector.error_logging">true</boolProp>
+                <objProp>
+                  <name>saveConfig</name>
+                  <value class="SampleSaveConfiguration">
+                    <time>true</time>
+                    <latency>true</latency>
+                    <timestamp>true</timestamp>
+                    <success>true</success>
+                    <label>true</label>
+                    <code>true</code>
+                    <message>true</message>
+                    <threadName>true</threadName>
+                    <dataType>true</dataType>
+                    <encoding>false</encoding>
+                    <assertions>true</assertions>
+                    <subresults>true</subresults>
+                    <responseData>false</responseData>
+                    <samplerData>false</samplerData>
+                    <xml>false</xml>
+                    <fieldNames>true</fieldNames>
+                    <responseHeaders>false</responseHeaders>
+                    <requestHeaders>false</requestHeaders>
+                    <responseDataOnError>false</responseDataOnError>
+                    <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                    <assertionsResultsToSave>0</assertionsResultsToSave>
+                    <bytes>true</bytes>
+                    <sentBytes>true</sentBytes>
+                    <threadCounts>true</threadCounts>
+                    <idleTime>true</idleTime>
+                    <connectTime>true</connectTime>
+                  </value>
+                </objProp>
+                <stringProp name="filename"></stringProp>
+              </ResultCollector>
+              <hashTree/>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &apos;perryMode&apos; == &apos;PROD&apos;" enabled="true">
                 <stringProp name="IfController.condition">&apos;${perryMode}&apos;==&apos;PROD&apos;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/system-information with perry redirect" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments"/>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">${cansApiPathRoot}system-information</stringProp>
+                  <stringProp name="HTTPSampler.method">GET</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="49586">200</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="cognito: login" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                     <collectionProp name="Arguments.arguments">
@@ -584,6 +841,37 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/system-information with perry redirect" enabled="true">
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                    <collectionProp name="Arguments.arguments"/>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain"></stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.protocol"></stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">${cansApiPathRoot}system-information</stringProp>
+                  <stringProp name="HTTPSampler.method">GET</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="49586">200</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message"></stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Perry: /perry/login" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                     <collectionProp name="Arguments.arguments">
@@ -633,7 +921,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
               </hashTree>
             </hashTree>
             <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <boolProp name="ResultCollector.error_logging">true</boolProp>
               <objProp>
                 <name>saveConfig</name>
                 <value class="SampleSaveConfiguration">
@@ -682,7 +970,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
   &quot;dob&quot;: &quot;${__Random(2001,2017)}-${__Random(10,12)}-${__Random(10,28)}&quot;,&#xd;
   &quot;external_id&quot;: &quot;${__Random(1000,9999)}-${__Random(1000,9999)}-${__Random(1000,9999)}-7777777&quot;,&#xd;
   &quot;county&quot;: {&#xd;
-    &quot;id&quot;: 20&#xd;
+    &quot;id&quot;: ${userCountyCode}&#xd;
   },&#xd;
   &quot;cases&quot;: []&#xd;
 }</stringProp>
@@ -804,7 +1092,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
     &quot;id&quot;: ${childId}&#xd;
   },&#xd;
   &quot;county&quot;: {&#xd;
-    &quot;id&quot;: 20&#xd;
+    &quot;id&quot;: ${userCountyCode}&#xd;
   },&#xd;
   &quot;assessment_type&quot;: &quot;INITIAL&quot;,&#xd;
   &quot;status&quot;: &quot;IN_PROGRESS&quot;,&#xd;
@@ -953,7 +1241,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
   &quot;assessment_type&quot;: &quot;INITIAL&quot;,&#xd;
   &quot;status&quot;: &quot;IN_PROGRESS&quot;,&#xd;
   &quot;county&quot; : {&#xd;
-    &quot;id&quot; : 20&#xd;
+    &quot;id&quot; : ${userCountyCode}&#xd;
   },&#xd;
   &quot;person&quot;: {&#xd;
   	&quot;id&quot;: ${childId}&#xd;
@@ -1930,7 +2218,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
             </hashTree>
           </hashTree>
           <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <boolProp name="ResultCollector.error_logging">true</boolProp>
             <objProp>
               <name>saveConfig</name>
               <value class="SampleSaveConfiguration">
@@ -1968,7 +2256,7 @@ System.out.println(&quot;vars.tokenQueryParam&quot; + vars.get(&quot;tokenQueryP
         </hashTree>
       </hashTree>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
         <objProp>
           <name>saveConfig</name>
           <value class="SampleSaveConfiguration">

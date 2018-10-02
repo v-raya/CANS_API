@@ -26,8 +26,9 @@ def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
         ' -e JM_PERRY_PORT=443' +
         ' -e JM_CANS_API_PROTOCOL=https' +
         ' -e JM_CANS_API_HOST=cansapi.dev.cwds.io' +
+        ' -e JM_USER_COUNTY_CODE=20' +
+        ' -e JM_WEB_DRIVER_PATH=/usr/local/bin/chromedriver' +
         ' -e JM_CANS_API_PORT=443';
-
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
