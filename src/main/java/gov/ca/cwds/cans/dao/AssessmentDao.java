@@ -3,11 +3,11 @@ package gov.ca.cwds.cans.dao;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
+import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -24,9 +24,12 @@ import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
  */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
+  private final PersonDao personDao;
+
   @Inject
-  public AssessmentDao(@CansSessionFactory final SessionFactory sessionFactory) {
+  public AssessmentDao(@CansSessionFactory final SessionFactory sessionFactory, final PersonDao personDao) {
     super(sessionFactory);
+    this.personDao = personDao;
   }
 
   public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
@@ -41,22 +44,32 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Override
   public Assessment create(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
-    initializeRelationships(assessment);
-    assessment.setCounty(assessment.getPerson().getCounty());
+    setCountyInitially(assessment);
+    insertInstrumentById(assessment);
     return super.create(assessment);
+  }
+
+  private void setCountyInitially(final Assessment assessment) {
+    final Person inputPerson = assessment.getPerson();
+    Require.requireNotNullAndNotEmpty(inputPerson);
+    Require.requireNotNullAndNotEmpty(inputPerson.getId());
+    final Person person = personDao.find(inputPerson.getId());
+    assessment.setCounty(person.getCounty());
+  }
+
+  private void insertInstrumentById(final Assessment assessment) {
+    final Long instrumentId = assessment.getInstrumentId();
+    if (instrumentId == null || assessment.getInstrument() != null) {
+      return;
+    }
+    assessment.setInstrument(new Instrument().setId(instrumentId));
   }
 
   @Override
   public Assessment update(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
     revertCountyToInitialValue(assessment);
-    initializeRelationships(assessment);
+    insertInstrumentById(assessment);
     return super.update(assessment);
-  }
-
-  @Override
-  @Authorize({"person:read:result.person"})
-  public Assessment find(Serializable primaryKey) {
-    return super.find(primaryKey);
   }
 
   private void revertCountyToInitialValue(Assessment assessment) {
@@ -64,13 +77,10 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     assessment.setCounty(previousState.getCounty());
   }
 
-  private void initializeRelationships(Assessment assessment) {
-    hibernateInitializeIfNeeded(assessment.getCft());
-    hibernateInitializeIfNeeded(assessment.getTheCase());
-    hibernateInitializeIfNeeded(assessment.getCounty());
-    hibernateInitializeIfNeeded(assessment.getPerson());
-    hibernateInitializeIfNeeded(assessment.getInstrument());
-    hibernateInitializeInstrument(assessment);
+  @Override
+  @Authorize({"person:read:result.person"})
+  public Assessment find(Serializable primaryKey) {
+    return super.find(primaryKey);
   }
 
   @Authorize({"person:read:assessment.person"})
@@ -90,24 +100,5 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     if (parameterValue != null) {
       session.enableFilter(filterName).setParameter(filterParameter, parameterValue);
     }
-  }
-
-  private void hibernateInitializeIfNeeded(Object o) {
-    if (o != null) {
-      Hibernate.initialize(o);
-    }
-  }
-
-  private void hibernateInitializeInstrument(Assessment assessment) {
-    final Long instrumentId = assessment.getInstrumentId();
-    if (instrumentId == null || assessment.getInstrument() != null) {
-      return;
-    }
-
-    final Instrument instrument = new Instrument();
-    instrument.setId(instrumentId);
-    assessment.setInstrument(instrument);
-
-    Hibernate.initialize(instrument);
   }
 }
