@@ -73,4 +73,7 @@ To generate license report or update existing report run:
 
 ```./gradlew libLicenseReport```
 
+# Questions
+
+If you have any questions regarding the contents of this repository, please email the Office of Systems Integration at FOSS@osi.ca.gov.
 
