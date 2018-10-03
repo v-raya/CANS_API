@@ -28,13 +28,13 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
-  public Person create(@Authorize("person:create:person") Person person) {
+  public Person create(@Authorize("person:create:person") Person person) { // NOSONAR
     return super.create(person);
   }
 
   @Override
-  @Authorize("person:read:result")
-  public Person find(Serializable primaryKey) {
+  @Authorize("person:read:person")
+  public Person find(Serializable primaryKey) { // NOSONAR
     return super.find(primaryKey);
   }
 

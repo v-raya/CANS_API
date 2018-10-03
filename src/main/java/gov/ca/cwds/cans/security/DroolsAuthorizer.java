@@ -7,6 +7,7 @@ import gov.ca.cwds.security.authorizer.BaseAuthorizer;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.Arrays;
 
+@SuppressWarnings({"squid:S00119"}) // Having these 2 generic names not in line with the rule makes a code more readable
 public class DroolsAuthorizer<Type, ID> extends BaseAuthorizer<Type, ID> {
 
   @Inject
