@@ -4,9 +4,7 @@ import gov.ca.cwds.cans.dao.CrudDao;
 import gov.ca.cwds.cans.domain.entity.Persistent;
 import gov.ca.cwds.cans.util.Require;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public abstract class AbstractCrudService<T extends Persistent> {
 
   protected CrudDao dao;

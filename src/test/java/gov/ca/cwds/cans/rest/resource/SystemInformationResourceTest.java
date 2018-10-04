@@ -11,17 +11,16 @@ import gov.ca.cwds.cans.domain.dto.system.SystemInformationDto;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
-/**
- * Created by denys.davydov
- */
+/** Created by denys.davydov */
 public class SystemInformationResourceTest extends AbstractFunctionalTest {
 
   @Test
   public void getSystemInformation_success() {
-    final SystemInformationDto systemInformation = clientTestRule
-        .target(Constants.API.SYSTEM_INFORMATION)
-        .request(MediaType.APPLICATION_JSON)
-        .get(SystemInformationDto.class);
+    final SystemInformationDto systemInformation =
+        clientTestRule
+            .target(Constants.API.SYSTEM_INFORMATION)
+            .request(MediaType.APPLICATION_JSON)
+            .get(SystemInformationDto.class);
 
     assertThat(systemInformation.getApplication(), is(equalTo("CWDS CANS API")));
     assertThat(systemInformation.getVersion(), is(notNullValue()));
@@ -34,5 +33,4 @@ public class SystemInformationResourceTest extends AbstractFunctionalTest {
     assertThat(healthCheckResult, is(notNullValue()));
     assertThat(healthCheckResult.isHealthy(), is(equalTo(true)));
   }
-
 }

@@ -9,14 +9,10 @@ public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long
 
   private static final String CONFIGURATION_NAME = "authorization-rules";
   private static final String AGENDA_GROUP_NAME = "assessment-write-authorization-rules";
-  @Inject
-  private AssessmentDao assessmentDao;
+  @Inject private AssessmentDao assessmentDao;
 
   public AssessmentWriteAuthorizer() {
-    super(new DroolsConfiguration<>(
-        CONFIGURATION_NAME,
-        AGENDA_GROUP_NAME,
-        CONFIGURATION_NAME));
+    super(new DroolsConfiguration<>(CONFIGURATION_NAME, AGENDA_GROUP_NAME, CONFIGURATION_NAME));
   }
 
   @Override

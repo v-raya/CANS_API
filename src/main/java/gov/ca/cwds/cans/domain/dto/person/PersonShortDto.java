@@ -32,8 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @ValidPerson
 public class PersonShortDto extends Dto {
 
-  @NotNull
-  private PersonRole personRole;
+  @NotNull private PersonRole personRole;
 
   @NotEmpty
   @Size(min = 1, max = 20)

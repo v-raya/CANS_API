@@ -8,9 +8,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public final class VelocityHelper {
 
   private static final VelocityEngine velocityEngine;
@@ -18,8 +16,8 @@ public final class VelocityHelper {
   static {
     velocityEngine = new VelocityEngine();
     velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-    velocityEngine
-        .setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+    velocityEngine.setProperty(
+        "classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
     velocityEngine.init();
   }
 

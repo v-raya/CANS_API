@@ -1,8 +1,6 @@
 package gov.ca.cwds.cans;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public final class Constants {
 
   public static final String INSTRUMENT_KEY_PREFIX = "instrument.";
@@ -10,8 +8,7 @@ public final class Constants {
   public static final String RETURNED_CLASS_NAME_PARAM = "returnedClassName";
   public static final String EDITABLE = "editable";
 
-  private Constants() {
-  }
+  private Constants() {}
 
   public static class API {
 
@@ -30,30 +27,26 @@ public final class Constants {
     public static final String I18N_LANG_PARAM = "lang";
     public static final String SENSITIVITY_TYPES = "sensitivity-types";
 
-    private API() {
-    }
+    private API() {}
   }
 
   public static class UnitOfWork {
 
     public static final String CANS = "cans";
 
-    private UnitOfWork() {
-    }
+    private UnitOfWork() {}
   }
 
   public static class Privileges {
     public static final String SENSITIVE_PERSONS = "Sensitive Persons";
     public static final String SEALED = "Sealed";
 
-    private Privileges() {
-    }
+    private Privileges() {}
   }
 
   public static class MagicNumbers {
     public static final String STATE_OF_CALIFORNIA_CODE = "1126";
 
-    private MagicNumbers() {
-    }
+    private MagicNumbers() {}
   }
 }

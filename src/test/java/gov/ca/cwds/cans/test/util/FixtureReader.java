@@ -17,7 +17,8 @@ public final class FixtureReader {
     return OBJECT_MAPPER.readValue(inputFixture, clazz);
   }
 
-  public static <T> Entity<T> readRestObject(String fixturePath, Class<T> clazz) throws IOException {
+  public static <T> Entity<T> readRestObject(String fixturePath, Class<T> clazz)
+      throws IOException {
     final T object = readObject(fixturePath, clazz);
     return Entity.entity(object, MediaType.APPLICATION_JSON_TYPE);
   }

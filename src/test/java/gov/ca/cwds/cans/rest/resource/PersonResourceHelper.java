@@ -51,7 +51,8 @@ public class PersonResourceHelper {
     return postPerson(input, AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
-  public PersonDto postPerson(PersonDto input, String accountFixture, boolean useUniqueExternalId) throws IOException {
+  public PersonDto postPerson(PersonDto input, String accountFixture, boolean useUniqueExternalId)
+      throws IOException {
     if (useUniqueExternalId) {
       input.setExternalId(generateRandomExternalId());
     }
@@ -70,7 +71,8 @@ public class PersonResourceHelper {
     return readPersonDto(fixturePath, true);
   }
 
-  public PersonDto readPersonDto(String fixturePath, boolean useUniqueExternalId) throws IOException {
+  public PersonDto readPersonDto(String fixturePath, boolean useUniqueExternalId)
+      throws IOException {
     PersonDto personDto = readObject(fixturePath, PersonDto.class);
     if (useUniqueExternalId) {
       personDto.setExternalId(generateRandomExternalId());
@@ -79,8 +81,13 @@ public class PersonResourceHelper {
   }
 
   public String generateRandomExternalId() {
-    return getRandomNumber(random, 8999, 1000) + "-" + getRandomNumber(random, 8999, 1000) + "-"
-            + getRandomNumber(random, 8999, 1000) + "-" + getRandomNumber(random, 8999999, 1000000);
+    return getRandomNumber(random, 8999, 1000)
+        + "-"
+        + getRandomNumber(random, 8999, 1000)
+        + "-"
+        + getRandomNumber(random, 8999, 1000)
+        + "-"
+        + getRandomNumber(random, 8999999, 1000000);
   }
 
   private String getRandomNumber(Random random, int base, int bound) {

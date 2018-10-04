@@ -19,15 +19,13 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public abstract class AbstractRestClientTestRule implements TestRule {
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractRestClientTestRule.class);
 
   private static final String QUERY_PARAM_TOKEN = "token";
-  private final static String DEFAULT_IDENTITY_JSON = fixture(AUTHORIZED_ACCOUNT_FIXTURE);
+  private static final String DEFAULT_IDENTITY_JSON = fixture(AUTHORIZED_ACCOUNT_FIXTURE);
 
   ObjectMapper mapper;
   String apiUrl;
@@ -36,15 +34,15 @@ public abstract class AbstractRestClientTestRule implements TestRule {
 
   abstract String generateToken(String identity, String password) throws IOException;
 
-  public AbstractRestClientTestRule withSecurityToken(String identityJsonFilePath) throws IOException {
-    final String identity = identityJsonFilePath != null
-        ? fixture(identityJsonFilePath)
-        : DEFAULT_IDENTITY_JSON;
+  public AbstractRestClientTestRule withSecurityToken(String identityJsonFilePath)
+      throws IOException {
+    final String identity =
+        identityJsonFilePath != null ? fixture(identityJsonFilePath) : DEFAULT_IDENTITY_JSON;
     this.token = generateToken(identity, null);
     return this;
   }
 
- String initToken() {
+  String initToken() {
     try {
       return generateToken(DEFAULT_IDENTITY_JSON, null);
     } catch (Exception e) {
@@ -55,7 +53,8 @@ public abstract class AbstractRestClientTestRule implements TestRule {
 
   public WebTarget target(String pathInfo) {
     String restUrl = apiUrl + pathInfo;
-    return client.target(restUrl)
+    return client
+        .target(restUrl)
         .queryParam(QUERY_PARAM_TOKEN, token)
         .register(new LoggingFilter());
   }
@@ -69,13 +68,15 @@ public abstract class AbstractRestClientTestRule implements TestRule {
     return new Statement() {
       @Override
       public void evaluate() throws Throwable {
-        JerseyClientBuilder clientBuilder = new JerseyClientBuilder()
-            .property(ClientProperties.CONNECT_TIMEOUT, 5000)
-            .property(ClientProperties.READ_TIMEOUT, 20000)
-            .hostnameVerifier((hostName, sslSession) -> {
-              // Just ignore host verification for test purposes
-              return true;
-            });
+        JerseyClientBuilder clientBuilder =
+            new JerseyClientBuilder()
+                .property(ClientProperties.CONNECT_TIMEOUT, 5000)
+                .property(ClientProperties.READ_TIMEOUT, 20000)
+                .hostnameVerifier(
+                    (hostName, sslSession) -> {
+                      // Just ignore host verification for test purposes
+                      return true;
+                    });
 
         client = clientBuilder.build();
         client.register(new JacksonJsonProvider(mapper));

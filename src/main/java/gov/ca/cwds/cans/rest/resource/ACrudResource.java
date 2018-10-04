@@ -47,5 +47,4 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
     crudService.delete(id);
     return Response.noContent().build();
   }
-
 }

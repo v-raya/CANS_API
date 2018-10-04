@@ -6,9 +6,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import org.junit.Test;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class JsonbSupportPostgreSQL9DialectTest {
 
   @Test

@@ -6,8 +6,8 @@ import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
@@ -30,20 +30,22 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
   public void before() throws Exception {
     personHelper = new PersonResourceHelper(clientTestRule);
     Entity<PersonDto> person = personHelper.readPersonEntity(PERSON_FIXTURE);
-    PersonDto personDto = clientTestRule
-        .withSecurityToken(SAME_COUNTY_USER)
-        .target(PEOPLE)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(person)
-        .readEntity(PersonDto.class);
+    PersonDto personDto =
+        clientTestRule
+            .withSecurityToken(SAME_COUNTY_USER)
+            .target(PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(person)
+            .readEntity(PersonDto.class);
     final AssessmentDto assessment = readObject(ASSESSMENT_FIXTURE, AssessmentDto.class);
     assessment.setPerson(personDto);
-    assessmentDto = clientTestRule
-        .withSecurityToken(SAME_COUNTY_USER)
-        .target(ASSESSMENTS)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(AssessmentDto.class);
+    assessmentDto =
+        clientTestRule
+            .withSecurityToken(SAME_COUNTY_USER)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
   }
 
   @After
@@ -62,24 +64,27 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
 
   @Test
   public void testAuthorized() throws Exception {
-    final Boolean authorized = clientTestRule
-        .withSecurityToken(SAME_COUNTY_USER)
-        .target(SECURITY + "/" + CHECK_PERMISSION + "/assessment:write:" + assessmentDto.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get()
-        .readEntity(Boolean.class);
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken(SAME_COUNTY_USER)
+            .target(
+                SECURITY + "/" + CHECK_PERMISSION + "/assessment:write:" + assessmentDto.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
     Assert.assertTrue(authorized);
   }
 
   @Test
   public void testUnauthorized() throws Exception {
-    final Boolean authorized = clientTestRule
-        .withSecurityToken(DIFFERENT_COUNTY_USER)
-        .target(SECURITY + "/" + CHECK_PERMISSION + "/assessment:write:" + assessmentDto.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get()
-        .readEntity(Boolean.class);
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken(DIFFERENT_COUNTY_USER)
+            .target(
+                SECURITY + "/" + CHECK_PERMISSION + "/assessment:write:" + assessmentDto.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
     Assert.assertFalse(authorized);
   }
-
 }

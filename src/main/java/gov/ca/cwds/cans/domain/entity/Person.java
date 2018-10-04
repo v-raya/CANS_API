@@ -58,34 +58,27 @@ import org.hibernate.annotations.Type;
 @NamedQuery(name = NQ_ALL, query = "FROM Person p order by p.lastName ASC, p.firstName ASC")
 @NamedQuery(name = NQ_COUNT_ALL, query = "select count(p) FROM Person p")
 @NamedQuery(
-  name = NQ_FIND_BY_EXTERNAL_ID,
-  query = "FROM Person p WHERE p.externalId =:" + PARAM_EXTERNAL_ID
-)
+    name = NQ_FIND_BY_EXTERNAL_ID,
+    query = "FROM Person p WHERE p.externalId =:" + PARAM_EXTERNAL_ID)
 @FilterDef(
-  name = FILTER_PERSON_ROLE,
-  parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string")
-)
+    name = FILTER_PERSON_ROLE,
+    parameters = @ParamDef(name = PARAM_PERSON_ROLE, type = "string"))
 @FilterDef(
-  name = FILTER_EXTERNAL_ID,
-  parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string")
-)
+    name = FILTER_EXTERNAL_ID,
+    parameters = @ParamDef(name = PARAM_EXTERNAL_ID, type = "string"))
 @FilterDef(
-  name = FILTER_FIRST_NAME,
-  parameters = @ParamDef(name = PARAM_FIRST_NAME, type = "string")
-)
+    name = FILTER_FIRST_NAME,
+    parameters = @ParamDef(name = PARAM_FIRST_NAME, type = "string"))
 @FilterDef(
-  name = FILTER_MIDDLE_NAME,
-  parameters = @ParamDef(name = PARAM_MIDDLE_NAME, type = "string")
-)
+    name = FILTER_MIDDLE_NAME,
+    parameters = @ParamDef(name = PARAM_MIDDLE_NAME, type = "string"))
 @FilterDef(name = FILTER_LAST_NAME, parameters = @ParamDef(name = PARAM_LAST_NAME, type = "string"))
 @FilterDef(
-  name = FILTER_DOB,
-  parameters = @ParamDef(name = PARAM_DOB, type = "java.time.LocalDate")
-)
+    name = FILTER_DOB,
+    parameters = @ParamDef(name = PARAM_DOB, type = "java.time.LocalDate"))
 @FilterDef(
-  name = FILTER_COUNTY,
-  parameters = @ParamDef(name = PARAM_USERS_COUNTY_EXTERNAL_ID, type = "string")
-)
+    name = FILTER_COUNTY,
+    parameters = @ParamDef(name = PARAM_USERS_COUNTY_EXTERNAL_ID, type = "string"))
 @FilterDef(name = AUTHORIZATION_FILTER)
 @Filter(name = FILTER_PERSON_ROLE, condition = "person_role = :" + PARAM_PERSON_ROLE)
 @Filter(name = FILTER_EXTERNAL_ID, condition = "external_id = :" + PARAM_EXTERNAL_ID)
@@ -94,16 +87,14 @@ import org.hibernate.annotations.Type;
 @Filter(name = FILTER_LAST_NAME, condition = "LOWER(last_name) like :" + PARAM_LAST_NAME)
 @Filter(name = FILTER_DOB, condition = "dob = :" + PARAM_DOB)
 @Filter(
-  name = FILTER_COUNTY,
-  condition =
-      "county_id IN (SELECT county.id FROM cans.county WHERE county.external_id = :"
-          + PARAM_USERS_COUNTY_EXTERNAL_ID
-          + ")"
-)
+    name = FILTER_COUNTY,
+    condition =
+        "county_id IN (SELECT county.id FROM cans.county WHERE county.external_id = :"
+            + PARAM_USERS_COUNTY_EXTERNAL_ID
+            + ")")
 @Filter(
-  name = AUTHORIZATION_FILTER,
-  condition = "(sensitivity_type <> 'SEALED'  OR sensitivity_type IS NULL)"
-)
+    name = AUTHORIZATION_FILTER,
+    condition = "(sensitivity_type <> 'SEALED'  OR sensitivity_type IS NULL)")
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
@@ -171,18 +162,16 @@ public class Person implements Persistent<Long> {
   @Column(name = "client_index_number")
   private String clientIndexNumber;
 
-  @ManyToOne
-  private County county;
+  @ManyToOne private County county;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
-    name = "person_cases",
-    joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id")
-  )
+      name = "person_cases",
+      joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"))
   private List<Case> cases = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)

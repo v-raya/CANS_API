@@ -21,6 +21,7 @@ plugins {
     id 'net.ltgt.apt' version '0.9'
     id "com.github.hierynomus.license" version "0.14.0"
     id 'com.github.jk1.dependency-license-report' version '0.8'
+    id 'com.github.sherter.google-java-format' version '0.7.1'
 }
 
 project.logging.setLevelInternal(INFO)
@@ -43,8 +44,8 @@ project.ext {
     customVersion = System.getProperty('CustomVersion')
 
     projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
-    projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion )
-    projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion )
+    projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion)
+    projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion)
     dockerTag = projectVersion
 
     // assumed that Windows users use the Docker Toolbox
@@ -113,7 +114,7 @@ configurations.all {
 }
 
 dependencies {
-    compile (group: 'gov.ca.cwds.cals', name: 'cans-ns-data-model', version: dataModelVersion, changing: true)
+    compile group: 'gov.ca.cwds.cals', name: 'cans-ns-data-model', version: dataModelVersion, changing: true
     compile group: 'gov.ca.cwds.api', name: 'legacy-data-access', version: coreApiVersion
     compile group: 'gov.ca.cwds.api', name: 'api-core-rest', version: coreApiVersion
     compile group: 'gov.ca.cwds.api', name: 'api-security', version: apiSecurityVersion
@@ -137,7 +138,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:' + lombokVersion
 
     testCompile group: 'gov.ca.cwds.api', name: 'api-core-test-support', version: coreApiVersion
-    testCompile group: 'gov.ca.cwds.api', name:'api-security-test-support', version: apiSecurityVersion
+    testCompile group: 'gov.ca.cwds.api', name: 'api-security-test-support', version: apiSecurityVersion
     testCompile 'io.dropwizard:dropwizard-testing:' + dropwizardVersion
     testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -158,11 +159,22 @@ dependencies {
 
 mainClassName = mainClass
 
-task convertEntrypointToLF (type: Copy) {
+
+import com.github.sherter.googlejavaformatgradleplugin.GoogleJavaFormat
+task formatGoogleJava(type: GoogleJavaFormat) {
+    source 'src/main'
+    source 'src/test'
+    include '**/*.java'
+    exclude '**/*Template.java'
+}
+
+compileJava.dependsOn(formatGoogleJava)
+
+task convertEntrypointToLF(type: Copy) {
     from projectDir
     into project.buildDir
     include 'entrypoint.sh'
-    filter(FixCrLfFilter.class, eol:FixCrLfFilter.CrLf.newInstance("lf"))
+    filter(FixCrLfFilter.class, eol: FixCrLfFilter.CrLf.newInstance("lf"))
 }
 
 shadowJar {
@@ -229,7 +241,7 @@ task copyDist(type: Copy, dependsOn: shadowJar) {
 def releaseDocker = System.getProperty("ReleaseDocker")
 
 task readArguments() {
-    doLast{
+    doLast {
         println "ReleaseDocker: " + releaseDocker
         println "Build: " + buildNumber
         println "Docker Tag: " + dockerTag
@@ -237,32 +249,32 @@ task readArguments() {
 }
 
 
-task apiDocker(type: Docker,  dependsOn: [copyConfig, copyDist] ) {
+task apiDocker(type: Docker, dependsOn: [copyConfig, copyDist]) {
     dockerfile = "Dockerfile"
     project.group = projectDockerGroup
     applicationName = projectDockerAppName
     tagVersion = dockerTag
 }
 
-task createDockerImage(type:Exec, dependsOn: [convertEntrypointToLF, shadowJar]) {
-    commandLine 'docker',  'build',  '-t',  "cwds/cans-api", '.'
+task createDockerImage(type: Exec, dependsOn: [convertEntrypointToLF, shadowJar]) {
+    commandLine 'docker', 'build', '-t', "cwds/cans-api", '.'
 }
 
-task tagDockerImage(type:Exec, dependsOn: createDockerImage) {
-    commandLine 'docker',  'tag',  "cwds/cans-api",  "cwds/cans-api:$dockerTag"
+task tagDockerImage(type: Exec, dependsOn: createDockerImage) {
+    commandLine 'docker', 'tag', "cwds/cans-api", "cwds/cans-api:$dockerTag"
 }
 
-task pushDockerLatest(type:Exec, dependsOn: createDockerImage) {
-    commandLine 'docker',  'push',  "cwds/cans-api:latest"
+task pushDockerLatest(type: Exec, dependsOn: createDockerImage) {
+    commandLine 'docker', 'push', "cwds/cans-api:latest"
 }
 
-task pushDockerVersionTagged(type:Exec, dependsOn: tagDockerImage) {
-    commandLine 'docker',  'push',  "cwds/cans-api:$dockerTag"
+task pushDockerVersionTagged(type: Exec, dependsOn: tagDockerImage) {
+    commandLine 'docker', 'push', "cwds/cans-api:$dockerTag"
 }
 
-task dropDockerImage(type:Exec) {
-    commandLine 'docker',  'rmi',  "cwds/cans-api:$dockerTag"
-    commandLine 'docker',  'rmi',  "cwds/cans-api:latest"
+task dropDockerImage(type: Exec) {
+    commandLine 'docker', 'rmi', "cwds/cans-api:$dockerTag"
+    commandLine 'docker', 'rmi', "cwds/cans-api:latest"
 
 }
 
@@ -279,8 +291,8 @@ tasks.withType(JavaCompile) {
 }
 
 processResources {
-    filter(ReplaceTokens, tokens:[
-            'build.version' : projectVersion,
+    filter(ReplaceTokens, tokens: [
+            'build.version': projectVersion,
             'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
     ])
 }
@@ -306,7 +318,7 @@ licenseReport {
 }
 
 def licenceFolder = 'build/reports/dependency-license'
-task libLicenceFolders(type: Copy){
+task libLicenceFolders(type: Copy) {
     from licenceFolder
     into 'legal/licenses'
     exclude "index.html"
@@ -315,7 +327,8 @@ task libLicenceFolders(type: Copy){
 }
 
 import com.github.jk1.license.render.*
-task libLicenseReportFiles(type: Copy){
+
+task libLicenseReportFiles(type: Copy) {
     from licenceFolder
     into 'legal'
     include "index.html"
@@ -323,9 +336,9 @@ task libLicenseReportFiles(type: Copy){
     include "licenses.csv"
 }
 
-task libLicenseReport(dependsOn:[generateLicenseReport, libLicenceFolders,
-                                 libLicenseReportFiles ] ){
-    println ("\n\n License files are generated in : ${licenceFolder}")
+task libLicenseReport(dependsOn: [generateLicenseReport, libLicenceFolders,
+                                  libLicenseReportFiles]) {
+    println("\n\n License files are generated in : ${licenceFolder}")
 }
 
 import com.github.jk1.license.ModuleData
@@ -334,7 +347,7 @@ import com.github.jk1.license.LicenseReportExtension
 
 class CwdsCsvReportRenderer extends CsvReportRenderer {
     @Override
-    void render(ProjectData data){
+    void render(ProjectData data) {
         LicenseReportExtension config = data.project.licenseReport
         File output = new File(config.outputDir, filename)
         output.write('')
@@ -356,17 +369,17 @@ class CwdsCsvReportRenderer extends CsvReportRenderer {
         output << line(data)
     }
 
-    private String header(){
+    private String header() {
         return "${quote('artifact')}$separator${quote('name')}$separator${quote('version')}$separator${quote('moduleUrl')}$separator${quote('moduleLicense')}$separator${quote('moduleLicenseUrl')}$separator${quote('projectUrl')}$separator$nl"
     }
 
-    private String line(ModuleData data){
+    private String line(ModuleData data) {
         def (String moduleUrl, String moduleLicense, String moduleLicenseUrl) = LicenseDataCollector.singleModuleLicenseInfo(data)
         String artifact = "${data.group}:${data.name}:${data.version}"
         return "${quote(artifact)}$separator${quote(data.name)}$separator${quote(data.version)}$separator${quote(moduleUrl)}$separator${quote(moduleLicense)}$separator${quote(moduleLicenseUrl)}$separator${quote(projectUrl(data))}$separator$nl"
     }
 
-    private String projectUrl(ModuleData data){
+    private String projectUrl(ModuleData data) {
         Set urls = new HashSet()
         data.poms.each {
             urls << it.projectUrl

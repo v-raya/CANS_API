@@ -28,6 +28,5 @@ public class SearchPersonRequest implements SearchRequest {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate dob;
 
-  @NotNull @Valid
-  private PaginationDto pagination;
+  @NotNull @Valid private PaginationDto pagination;
 }

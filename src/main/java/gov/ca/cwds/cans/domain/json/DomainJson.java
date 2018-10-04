@@ -30,9 +30,9 @@ public class DomainJson implements Json {
   private RatingType ratingType;
   private Boolean isCaregiverDomain;
   private String caregiverIndex;
+
   @Size(max = 50)
   private String caregiverName;
+
   private List<ItemJson> items = new ArrayList<>();
-
 }
-

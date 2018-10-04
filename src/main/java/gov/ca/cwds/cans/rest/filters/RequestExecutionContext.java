@@ -48,10 +48,10 @@ public interface RequestExecutionContext {
    */
   Date getRequestStartTime();
 
-  /**
-   * Known request execution parameters
-   */
+  /** Known request execution parameters */
   enum Parameter {
-    USER_IDENTITY, REQUEST_START_TIME, SEQUENCE_EXTERNAL_TABLE
+    USER_IDENTITY,
+    REQUEST_START_TIME,
+    SEQUENCE_EXTERNAL_TABLE
   }
 }

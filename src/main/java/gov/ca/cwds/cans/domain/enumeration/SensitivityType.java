@@ -6,5 +6,6 @@ package gov.ca.cwds.cans.domain.enumeration;
  * @author volodymyr.petrusha
  */
 public enum SensitivityType {
-  SENSITIVE, SEALED
+  SENSITIVE,
+  SEALED
 }

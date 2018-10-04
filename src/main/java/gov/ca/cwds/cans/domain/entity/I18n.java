@@ -21,15 +21,14 @@ import lombok.experimental.Accessors;
 @Table(name = "i_18_n")
 @IdClass(I18n.PrimaryKey.class)
 @NamedQuery(
-  name = NQ_FIND_BY_KEY_PREFIX_AND_LANG,
-  query =
-      "select i from I18n i "
-          + " where i.k like :"
-          + NQ_PARAM_KEY_PREFIX
-          + " and i.lang = :"
-          + NQ_PARAM_LANG
-          + " order by i.k"
-)
+    name = NQ_FIND_BY_KEY_PREFIX_AND_LANG,
+    query =
+        "select i from I18n i "
+            + " where i.k like :"
+            + NQ_PARAM_KEY_PREFIX
+            + " and i.lang = :"
+            + NQ_PARAM_LANG
+            + " order by i.k")
 @Data
 @Accessors(chain = true)
 public class I18n implements Persistent<I18n.PrimaryKey> {
@@ -38,6 +37,7 @@ public class I18n implements Persistent<I18n.PrimaryKey> {
   public static final String NQ_PARAM_KEY_PREFIX = "keyPrefix";
   public static final String NQ_PARAM_LANG = "lang";
   private static final long serialVersionUID = -6123477943320746982L;
+
   @Column(name = "lang")
   @Id
   private String lang;

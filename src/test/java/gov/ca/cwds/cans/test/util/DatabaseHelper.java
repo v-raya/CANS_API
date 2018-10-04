@@ -17,9 +17,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.util.StringUtils;
 import org.hibernate.cfg.AvailableSettings;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class DatabaseHelper implements Closeable {
 
   private Database database;
@@ -40,8 +38,7 @@ public class DatabaseHelper implements Closeable {
         dataSourceFactory.getUrl(),
         dataSourceFactory.getUser(),
         dataSourceFactory.getPassword(),
-        dataSourceFactory.getProperties().get(AvailableSettings.DEFAULT_SCHEMA)
-    );
+        dataSourceFactory.getProperties().get(AvailableSettings.DEFAULT_SCHEMA));
   }
 
   public void runScript(String script) throws LiquibaseException {
@@ -54,7 +51,8 @@ public class DatabaseHelper implements Closeable {
   }
 
   public void runScripts(final String... scripts) throws LiquibaseException {
-    final ClassLoaderResourceAccessor classLoaderResourceAccessor = new ClassLoaderResourceAccessor();
+    final ClassLoaderResourceAccessor classLoaderResourceAccessor =
+        new ClassLoaderResourceAccessor();
     try {
       final Database database = getDatabase();
       for (String script : scripts) {
@@ -93,7 +91,8 @@ public class DatabaseHelper implements Closeable {
 
   public void rollbackScript(final String script) throws LiquibaseException {
     try {
-      final Liquibase liquibase = new Liquibase(script, new ClassLoaderResourceAccessor(), getDatabase());
+      final Liquibase liquibase =
+          new Liquibase(script, new ClassLoaderResourceAccessor(), getDatabase());
       liquibase.rollback(Integer.MAX_VALUE, null);
     } catch (Exception e) {
       throw new LiquibaseException(e);
@@ -101,7 +100,8 @@ public class DatabaseHelper implements Closeable {
   }
 
   public void rollbackScripts(final String... scripts) throws LiquibaseException {
-    final ClassLoaderResourceAccessor classLoaderResourceAccessor = new ClassLoaderResourceAccessor();
+    final ClassLoaderResourceAccessor classLoaderResourceAccessor =
+        new ClassLoaderResourceAccessor();
     try {
       final Database database = getDatabase();
       for (String script : scripts) {
@@ -116,8 +116,9 @@ public class DatabaseHelper implements Closeable {
   private Database getDatabase() throws SQLException, DatabaseException {
     if (database == null) {
       Connection connection = DriverManager.getConnection(url, user, password);
-      database = DatabaseFactory.getInstance()
-          .findCorrectDatabaseImplementation(new JdbcConnection(connection));
+      database =
+          DatabaseFactory.getInstance()
+              .findCorrectDatabaseImplementation(new JdbcConnection(connection));
       if (StringUtils.isNotEmpty(schema)) {
         database.setDefaultSchemaName(schema);
       }

@@ -31,9 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
-/**
- * @author volodymyr.petrusha
- */
+/** @author volodymyr.petrusha */
 @Api(value = SENSITIVITY_TYPES, tags = SENSITIVITY_TYPES)
 @Path(value = SENSITIVITY_TYPES)
 @Produces(MediaType.APPLICATION_JSON)
@@ -44,33 +42,32 @@ public class SensitivityTypeResource {
   @GET
   @ApiResponses(
       value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found")
-      }
-  )
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get Sensitivity Type", response = SensitivityType[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
-      @ApiParam(
-          name = "county",
-          value = "The county external id related to the Client"
-      )
-      @QueryParam("county")
-      String clientCountyExternalId) {
+      @ApiParam(name = "county", value = "The county external id related to the Client")
+          @QueryParam("county")
+          String clientCountyExternalId) {
     return ResponseUtil.responseOk(getAllowedSensitivityTypes(clientCountyExternalId));
   }
 
   private List<SensitivityType> getAllowedSensitivityTypes(String clientCountyExternalId) {
     PerryAccount principal = PrincipalUtils.getPrincipal();
     Set<String> privileges = principal.getPrivileges();
-    return principal.getCountyCode().equals(clientCountyExternalId) ?
-        Arrays.stream(SensitivityType.values()).filter(value -> {
-          boolean result =
-              value == SensitivityType.SENSITIVE && privileges.contains(SENSITIVE_PERSONS);
-          result |= value == SensitivityType.SEALED && privileges.contains(SEALED);
-          return result;
-        }).collect(Collectors.toList()) : Collections.emptyList();
+    return principal.getCountyCode().equals(clientCountyExternalId)
+        ? Arrays.stream(SensitivityType.values())
+            .filter(
+                value -> {
+                  boolean result =
+                      value == SensitivityType.SENSITIVE && privileges.contains(SENSITIVE_PERSONS);
+                  result |= value == SensitivityType.SEALED && privileges.contains(SEALED);
+                  return result;
+                })
+            .collect(Collectors.toList())
+        : Collections.emptyList();
   }
-
 }

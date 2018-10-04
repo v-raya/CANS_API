@@ -6,11 +6,11 @@ import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMI
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
-import gov.ca.cwds.cans.domain.entity.County;
-import gov.ca.cwds.cans.rest.ResponseUtil;
-import gov.ca.cwds.cans.domain.mapper.CountyMapper;
-import gov.ca.cwds.cans.service.CountyService;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
+import gov.ca.cwds.cans.domain.entity.County;
+import gov.ca.cwds.cans.domain.mapper.CountyMapper;
+import gov.ca.cwds.cans.rest.ResponseUtil;
+import gov.ca.cwds.cans.service.CountyService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,11 +44,10 @@ public class CountyResource {
   @UnitOfWork(CANS)
   @GET
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get all counties", response = CountyDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed

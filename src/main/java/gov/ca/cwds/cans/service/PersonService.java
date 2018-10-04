@@ -9,12 +9,11 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.domain.search.SearchPersonResult;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
-import org.apache.commons.collections4.CollectionUtils;
-
-import gov.ca.cwds.security.annotations.Authorize;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
@@ -59,10 +58,14 @@ public class PersonService extends AbstractCrudService<Person> {
     }
 
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    cases.forEach(aCase -> caseDao
-        .findByExternalIdOrCreate(aCase, currentUser)
-        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
-    );
+    cases.forEach(
+        aCase ->
+            caseDao
+                .findByExternalIdOrCreate(aCase, currentUser)
+                .forEach(
+                    pair ->
+                        assessmentDao.replaceCaseIds(
+                            person.getId(), pair.getLeft(), pair.getRight())));
   }
 
   @Override
@@ -79,9 +82,13 @@ public class PersonService extends AbstractCrudService<Person> {
     }
 
     final Person currentUser = perryService.getOrPersistAndGetCurrentUser();
-    cases.forEach(aCase -> caseDao
-        .createOrReplace(aCase, currentUser)
-        .forEach(pair -> assessmentDao.replaceCaseIds(person.getId(), pair.getLeft(), pair.getRight()))
-    );
+    cases.forEach(
+        aCase ->
+            caseDao
+                .createOrReplace(aCase, currentUser)
+                .forEach(
+                    pair ->
+                        assessmentDao.replaceCaseIds(
+                            person.getId(), pair.getLeft(), pair.getRight())));
   }
 }

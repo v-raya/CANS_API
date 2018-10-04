@@ -9,26 +9,19 @@ public class RequestExecutionContextRegistry {
 
   private static final ThreadLocal<RequestExecutionContext> pegged = new ThreadLocal<>();
 
-  private RequestExecutionContextRegistry() {
-  }
+  private RequestExecutionContextRegistry() {}
 
-  /**
-   * Register RequestExecutionContext with ThreadLocal
-   */
+  /** Register RequestExecutionContext with ThreadLocal */
   static void register(RequestExecutionContext requestExecutionContext) {
     pegged.set(requestExecutionContext);
   }
 
-  /**
-   * Remove RequestExecutionContext from ThreadLocal
-   */
+  /** Remove RequestExecutionContext from ThreadLocal */
   static void remove() {
     pegged.remove();
   }
 
-  /**
-   * Get RequestExecutionContext from ThreadLocal
-   */
+  /** Get RequestExecutionContext from ThreadLocal */
   static RequestExecutionContext get() {
     return pegged.get();
   }

@@ -11,14 +11,15 @@ public class CansStaticAuthorizer implements StaticAuthorizer {
 
   /**
    * Implementation of StaticAuthorizer.
+   *
    * @param perryAccount Perry Account
    * @param simpleAuthInfo Simple Authorization information
    */
   @Override
   public void authorize(PerryAccount perryAccount, SimpleAuthorizationInfo simpleAuthInfo) {
-    perryAccount.getPrivileges().forEach(privilage ->
-      simpleAuthInfo.addObjectPermission(new WildcardPermission(privilage))
-    );
+    perryAccount
+        .getPrivileges()
+        .forEach(
+            privilage -> simpleAuthInfo.addObjectPermission(new WildcardPermission(privilage)));
   }
-
 }

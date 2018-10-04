@@ -5,13 +5,10 @@ import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.SubmitLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public final class DtoCleaner {
 
-  private DtoCleaner() {
-  }
+  private DtoCleaner() {}
 
   public static Dto cleanDtoIfNeed(Dto inputDto) {
     if (inputDto == null) {

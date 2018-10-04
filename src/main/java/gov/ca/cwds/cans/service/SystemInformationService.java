@@ -15,9 +15,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class SystemInformationService {
 
   private static final String VERSION_PROPERTIES_FILE = "version.properties";
@@ -31,8 +29,7 @@ public class SystemInformationService {
 
   @Inject
   public SystemInformationService(
-      final CansConfiguration configuration,
-      final Environment environment) {
+      final CansConfiguration configuration, final Environment environment) {
     this.applicationName = configuration.getApplicationName();
     this.environment = environment;
     final Properties versionProperties = getVersionProperties();
@@ -69,5 +66,4 @@ public class SystemInformationService {
     healthCheckResultDto.setResult(result);
     return healthCheckResultDto;
   }
-
 }

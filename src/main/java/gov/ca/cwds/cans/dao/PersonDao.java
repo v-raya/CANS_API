@@ -40,10 +40,11 @@ public class PersonDao extends AbstractCrudDao<Person> {
 
   public Person findByExternalId(final String externalId) {
     Require.requireNotNullAndNotEmpty(externalId);
-    final List<Person> people = this.grabSession()
-        .createNamedQuery(Person.NQ_FIND_BY_EXTERNAL_ID, Person.class)
-        .setParameter(Person.PARAM_EXTERNAL_ID, externalId)
-        .list();
+    final List<Person> people =
+        this.grabSession()
+            .createNamedQuery(Person.NQ_FIND_BY_EXTERNAL_ID, Person.class)
+            .setParameter(Person.PARAM_EXTERNAL_ID, externalId)
+            .list();
     return people.isEmpty() ? null : people.get(0);
   }
 
@@ -52,57 +53,83 @@ public class PersonDao extends AbstractCrudDao<Person> {
     final Pagination pagination = searchParameters.getPagination();
     Require.requireNotNullAndNotEmpty(pagination);
     final Session session = prepareSession(searchParameters);
-    final List<Person> people = session
-        .createNamedQuery(Person.NQ_ALL, Person.class)
-        .setFirstResult(pagination.getPage() * pagination.getPageSize())
-        .setMaxResults(pagination.getPageSize())
-        .list();
-    final long totalRecords = (long) session
-        .createNamedQuery(Person.NQ_COUNT_ALL)
-        .getSingleResult();
+    final List<Person> people =
+        session
+            .createNamedQuery(Person.NQ_ALL, Person.class)
+            .setFirstResult(pagination.getPage() * pagination.getPageSize())
+            .setMaxResults(pagination.getPageSize())
+            .list();
+    final long totalRecords =
+        (long) session.createNamedQuery(Person.NQ_COUNT_ALL).getSingleResult();
     return toSearchPersonResult(people, totalRecords);
   }
 
   private SearchPersonResult toSearchPersonResult(List<Person> people, long totalRecords) {
-    return (SearchPersonResult) new SearchPersonResult()
-        .setRecords(ImmutableList.copyOf(people))
-        .setTotalRecords(totalRecords);
+    return (SearchPersonResult)
+        new SearchPersonResult()
+            .setRecords(ImmutableList.copyOf(people))
+            .setTotalRecords(totalRecords);
   }
 
   private Session prepareSession(SearchPersonParameters searchParameters) {
     final Session session = grabSession();
     authorize(session);
-    enableFilter(session, Person.FILTER_EXTERNAL_ID, Person.PARAM_EXTERNAL_ID, searchParameters.getExternalId());
-    enableFilter(session, Person.FILTER_COUNTY, Person.PARAM_USERS_COUNTY_EXTERNAL_ID, searchParameters.getUsersCountyExternalId());
-    enableLikeFilter(session, Person.FILTER_FIRST_NAME, Person.PARAM_FIRST_NAME, searchParameters.getFirstName());
-    enableLikeFilter(session, Person.FILTER_MIDDLE_NAME, Person.PARAM_MIDDLE_NAME, searchParameters.getMiddleName());
-    enableLikeFilter(session, Person.FILTER_LAST_NAME, Person.PARAM_LAST_NAME, searchParameters.getLastName());
+    enableFilters(searchParameters, session);
+    enableLikeFilters(searchParameters, session);
 
     final PersonRole personRole = searchParameters.getPersonRole();
     if (personRole != null) {
-      session.enableFilter(Person.FILTER_PERSON_ROLE)
+      session
+          .enableFilter(Person.FILTER_PERSON_ROLE)
           .setParameter(Person.PARAM_PERSON_ROLE, personRole.name());
     }
 
     final LocalDate dob = searchParameters.getDob();
     if (dob != null) {
-      session.enableFilter(Person.FILTER_DOB)
-          .setParameter(Person.PARAM_DOB, dob);
+      session.enableFilter(Person.FILTER_DOB).setParameter(Person.PARAM_DOB, dob);
     }
     return session;
   }
 
-  private void enableLikeFilter(final Session session, final String filter,
-      final String filterParam, final String value) {
+  private void enableFilters(SearchPersonParameters searchParameters, Session session) {
+    enableFilter(
+        session,
+        Person.FILTER_EXTERNAL_ID,
+        Person.PARAM_EXTERNAL_ID,
+        searchParameters.getExternalId());
+    enableFilter(
+        session,
+        Person.FILTER_COUNTY,
+        Person.PARAM_USERS_COUNTY_EXTERNAL_ID,
+        searchParameters.getUsersCountyExternalId());
+  }
+
+  private void enableFilter(
+      final Session session, final String filter, final String filterParam, final String value) {
     if (StringUtils.isNotBlank(value)) {
-      enableFilter(session, filter, filterParam, "%" + value.toLowerCase() + "%");
+      session.enableFilter(filter).setParameter(filterParam, value);
     }
   }
 
-  private void enableFilter(final Session session, final String filter,
-      final String filterParam, final String value) {
+  private void enableLikeFilters(SearchPersonParameters searchParameters, Session session) {
+    enableLikeFilter(
+        session,
+        Person.FILTER_FIRST_NAME,
+        Person.PARAM_FIRST_NAME,
+        searchParameters.getFirstName());
+    enableLikeFilter(
+        session,
+        Person.FILTER_MIDDLE_NAME,
+        Person.PARAM_MIDDLE_NAME,
+        searchParameters.getMiddleName());
+    enableLikeFilter(
+        session, Person.FILTER_LAST_NAME, Person.PARAM_LAST_NAME, searchParameters.getLastName());
+  }
+
+  private void enableLikeFilter(
+      final Session session, final String filter, final String filterParam, final String value) {
     if (StringUtils.isNotBlank(value)) {
-      session.enableFilter(filter).setParameter(filterParam, value);
+      enableFilter(session, filter, filterParam, "%" + value.toLowerCase() + "%");
     }
   }
 
@@ -111,5 +138,4 @@ public class PersonDao extends AbstractCrudDao<Person> {
       session.enableFilter(Person.AUTHORIZATION_FILTER);
     }
   }
-
 }

@@ -1,25 +1,24 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import gov.ca.cwds.cans.domain.dto.CaseDto;
-import gov.ca.cwds.cans.domain.dto.Dto;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
-import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
-import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
-import gov.ca.cwds.cans.test.util.FixtureReader;
-import org.apache.http.HttpStatus;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
+
+import gov.ca.cwds.cans.domain.dto.CaseDto;
+import gov.ca.cwds.cans.domain.dto.Dto;
+import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
+import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
+import gov.ca.cwds.cans.test.util.FixtureReader;
+import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.http.HttpStatus;
 
 /** @author denys.davydov */
 public abstract class AbstractCrudFunctionalTest<T extends Dto> extends AbstractFunctionalTest {

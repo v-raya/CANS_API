@@ -8,8 +8,12 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 public class PostgreSqlEnumType extends org.hibernate.type.EnumType {
 
   @Override
-  public void nullSafeSet(PreparedStatement statement, Object value, int index,
-      SharedSessionContractImplementor session) throws SQLException {
+  public void nullSafeSet(
+      PreparedStatement statement,
+      Object value,
+      int index,
+      SharedSessionContractImplementor session)
+      throws SQLException {
     if (value == null) {
       statement.setNull(index, Types.OTHER);
     } else {

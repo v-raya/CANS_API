@@ -6,5 +6,4 @@ import gov.ca.cwds.cans.domain.dto.SearchResponse;
 
 /** @author denys.davydov */
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class SearchPersonResponse extends SearchResponse<PersonShortDto> {
-}
+public class SearchPersonResponse extends SearchResponse<PersonShortDto> {}

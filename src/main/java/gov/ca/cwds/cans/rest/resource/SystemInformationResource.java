@@ -12,9 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 @Api(value = SYSTEM_INFORMATION)
 @Path(SYSTEM_INFORMATION)
 @Produces(MediaType.APPLICATION_JSON)

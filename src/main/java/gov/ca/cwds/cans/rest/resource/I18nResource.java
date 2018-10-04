@@ -47,30 +47,27 @@ public class I18nResource {
   @GET
   @Path("/{keyPrefix}/{" + API.I18N_LANG_PARAM + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get i18n map by key prefix and language", response = Map.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response findByKeyPrefixAndLanguage(
       @PathParam(value = "keyPrefix")
           @ApiParam(
-            required = true,
-            name = "keyPrefix",
-            value = "The prefix of the key to search i18n records by",
-            example = "instrument.1."
-          )
+              required = true,
+              name = "keyPrefix",
+              value = "The prefix of the key to search i18n records by",
+              example = "instrument.1.")
           final String keyPrefix,
       @PathParam(value = API.I18N_LANG_PARAM)
           @ApiParam(
-            required = true,
-            name = API.I18N_LANG_PARAM,
-            value = "The language of i18n",
-            example = "en"
-          )
+              required = true,
+              name = API.I18N_LANG_PARAM,
+              value = "The language of i18n",
+              example = "en")
           final String lang) {
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, lang);
     final Map<String, String> resultMap = i18nMapper.toMap(records);
@@ -81,22 +78,20 @@ public class I18nResource {
   @GET
   @Path("/{keyPrefix}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get i18n map by key prefix and default language", response = Map.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response findByKeyPrefixAndDefaultLanguage(
       @PathParam(value = "keyPrefix")
           @ApiParam(
-            required = true,
-            name = "keyPrefix",
-            value = "The prefix of the key to search i18n records by",
-            example = "instrument.1."
-          )
+              required = true,
+              name = "keyPrefix",
+              value = "The prefix of the key to search i18n records by",
+              example = "instrument.1.")
           final String keyPrefix) {
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, "en");
     final Map<String, String> resultMap = i18nMapper.toMap(records);

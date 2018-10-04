@@ -2,9 +2,7 @@ package gov.ca.cwds.cans.dao.hibernate;
 
 import java.sql.Types;
 
-/**
- * @author CWDS CALS API Team
- */
+/** @author CWDS CALS API Team */
 public enum SQLTypes {
   CLOB(Types.CLOB),
   OTHER(Types.OTHER);

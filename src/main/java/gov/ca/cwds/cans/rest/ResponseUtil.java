@@ -38,7 +38,8 @@ public final class ResponseUtil {
   }
 
   public static Response responseCreatedOrNot(final Object dto) {
-    return Response.status(dto == null ? HTTP_CODE_NOT_CREATED : HTTP_CODE_CREATED).entity(dto).build();
+    return Response.status(dto == null ? HTTP_CODE_NOT_CREATED : HTTP_CODE_CREATED)
+        .entity(dto)
+        .build();
   }
-
 }

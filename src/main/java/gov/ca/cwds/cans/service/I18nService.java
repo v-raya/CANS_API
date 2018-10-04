@@ -6,9 +6,7 @@ import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.util.Require;
 import java.util.Collection;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class I18nService {
 
   private final I18nDao i18nDao;

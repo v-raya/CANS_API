@@ -5,8 +5,7 @@ import gov.ca.cwds.cans.domain.entity.Person;
 
 public class PersonHelper {
 
-  private PersonHelper() {
-  }
+  private PersonHelper() {}
 
   public static Person getPerson(String countyExtId) {
     Person person = new Person();
@@ -15,5 +14,4 @@ public class PersonHelper {
     person.setCounty(county);
     return person;
   }
-
 }

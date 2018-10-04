@@ -28,31 +28,31 @@ public abstract class BaseUnitTest {
   @Before
   public void createTest() {
     Module module = ProviderMethodsModule.forObject(this);
-    Module testModule = Modules.override(module)
-        .with(new AbstractModule() {
+    Module testModule =
+        Modules.override(module)
+            .with(
+                new AbstractModule() {
 
-          @Override
-          protected void configure() {
-            bind(SessionFactory.class)
-                .annotatedWith(CansSessionFactory.class)
-                .toInstance(mock(SessionFactory.class));
-          }
-
-        });
+                  @Override
+                  protected void configure() {
+                    bind(SessionFactory.class)
+                        .annotatedWith(CansSessionFactory.class)
+                        .toInstance(mock(SessionFactory.class));
+                  }
+                });
     Guice.createInjector(testModule).injectMembers(this);
-
   }
 
   protected void securityContext(String fixture) throws IOException {
     PerryAccount perryAccount = objectMapper.readValue(fixture(fixture), PerryAccount.class);
     PrincipalCollection collection = new SimplePrincipalCollection(perryAccount, "test");
-    Subject subject = new DelegatingSubject(new DefaultSecurityManager()) {
-      @Override
-      public PrincipalCollection getPrincipals() {
-        return collection;
-      }
-    };
+    Subject subject =
+        new DelegatingSubject(new DefaultSecurityManager()) {
+          @Override
+          public PrincipalCollection getPrincipals() {
+            return collection;
+          }
+        };
     ThreadContext.bind(subject);
   }
-
 }

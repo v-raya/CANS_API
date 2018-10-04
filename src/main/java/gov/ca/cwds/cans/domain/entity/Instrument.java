@@ -36,19 +36,11 @@ public class Instrument implements Persistent<Long> {
   @Type(type = "AssessmentJsonType")
   private AssessmentJson prototype;
 
-  @Column(
-      name = "create_timestamp",
-      nullable = false,
-      updatable = false
-  )
+  @Column(name = "create_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
   private LocalDateTime createTimestamp;
 
-  @Column(
-      name = "update_timestamp",
-      insertable = false
-  )
+  @Column(name = "update_timestamp", insertable = false)
   @UpdateTimestamp
   private LocalDateTime updateTimestamp;
-
 }

@@ -41,17 +41,19 @@ public class SecurityResource {
   @Path("/" + CHECK_PERMISSION + "/{permission}")
   @ApiResponses(
       value = {
-          @ApiResponse(code = 200, message = "Permission check status: true/false"),
-      }
-  )
+        @ApiResponse(code = 200, message = "Permission check status: true/false"),
+      })
   @ApiOperation(value = "Check permission", response = Boolean.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response checkPermission(
-      @ApiParam(required = true, name = "permission",
-          value = "The Assessment permission", example = "assessment:write:1")
-      @PathParam("permission") String permission) {
+      @ApiParam(
+              required = true,
+              name = "permission",
+              value = "The Assessment permission",
+              example = "assessment:write:1")
+          @PathParam("permission")
+          String permission) {
     return Response.ok(securityService.checkPermission(permission)).build();
   }
-
 }

@@ -13,15 +13,15 @@ public final class AssertResponseHelper {
   private AssertResponseHelper() {}
 
   @SuppressWarnings("unchecked")
-  public static void assertEqualsResponse(String fixture, String actualString,
-      String... excludedProperties) throws IOException {
+  public static void assertEqualsResponse(
+      String fixture, String actualString, String... excludedProperties) throws IOException {
     ObjectMapper objectMapper = Jackson.newObjectMapper();
     Map<String, String> expectedMap =
         (Map<String, String>) objectMapper.readValue(fixture, Map.class);
     Map<String, String> actualMap =
         (Map<String, String>) objectMapper.readValue(actualString, Map.class);
 
-    for(String excludedProperty : excludedProperties) {
+    for (String excludedProperty : excludedProperties) {
       expectedMap.remove(excludedProperty);
       actualMap.remove(excludedProperty);
     }

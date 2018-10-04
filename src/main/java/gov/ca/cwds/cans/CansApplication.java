@@ -29,10 +29,7 @@ import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author denys.davydov
- */
-
+/** @author denys.davydov */
 public class CansApplication extends BaseApiApplication<CansConfiguration> {
 
   private static final Logger LOG = LoggerFactory.getLogger(CansApplication.class);
@@ -48,28 +45,24 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       protected void configure() {
         super.configure();
         install(new DataAccessModule(bootstrap));
-        install(new SecurityModule(BaseApiApplication::getInjector)
-            .addStaticAuthorizer(CansStaticAuthorizer.class)
-            .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class)
-            .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
-            .addAuthorizer("person:create", PersonCreateAuthorizer.class)
-            .addAuthorizer("person:read", PersonReadAuthorizer.class)
-            .addAuthorizer("person:write", PersonWriteAuthorizer.class)
-        );
+        install(
+            new SecurityModule(BaseApiApplication::getInjector)
+                .addStaticAuthorizer(CansStaticAuthorizer.class)
+                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class)
+                .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
+                .addAuthorizer("person:create", PersonCreateAuthorizer.class)
+                .addAuthorizer("person:read", PersonReadAuthorizer.class)
+                .addAuthorizer("person:write", PersonWriteAuthorizer.class));
       }
     };
   }
 
   @Override
   public void runInternal(CansConfiguration configuration, Environment environment) {
-    if (isTrue(configuration.getUpgradeCansDbOnStart())) {
-      DbUpgrader.upgradeCansDb(configuration);
-    }
-    if (isTrue(configuration.getPopulateDemoDataOnStart())) {
-      DbUpgrader.runDmlOnCansDb(configuration);
-    }
+    upgradeDbIfNeeded(configuration);
 
-    environment.getObjectMapper()
+    environment
+        .getObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
     environment
@@ -85,15 +78,27 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
     // Providing access to the guice injector from external classes such as custom validators
     InjectorHolder.INSTANCE.setInjector(injector);
 
-    environment.servlets()
-        .addFilter("RequestExecutionContextManagingFilter",
+    environment
+        .servlets()
+        .addFilter(
+            "RequestExecutionContextManagingFilter",
             injector.getInstance(RequestExecutionContextFilter.class))
         .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
-    environment.servlets()
-        .addFilter("AuditAndLoggingFilter",
-            injector.getInstance(RequestResponseLoggingFilter.class))
+    environment
+        .servlets()
+        .addFilter(
+            "AuditAndLoggingFilter", injector.getInstance(RequestResponseLoggingFilter.class))
         .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+  }
+
+  private void upgradeDbIfNeeded(CansConfiguration configuration) {
+    if (isTrue(configuration.getUpgradeCansDbOnStart())) {
+      DbUpgrader.upgradeCansDb(configuration);
+    }
+    if (isTrue(configuration.getPopulateDemoDataOnStart())) {
+      DbUpgrader.runDmlOnCansDb(configuration);
+    }
   }
 
   private void runDataSourceHealthChecks(Environment environment) {
@@ -107,5 +112,4 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       LOG.error("Fail - {}: {}", key, result.getMessage());
     }
   }
-
 }

@@ -17,9 +17,7 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implements CrudDao<T> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCrudDao.class);
@@ -86,8 +84,7 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
     final Session session = grabSession();
     T databaseObject = find(object.getId());
     if (databaseObject == null) {
-      String msg =
-          MessageFormat.format("Unable to find entity with id={0}", object.getId());
+      String msg = MessageFormat.format("Unable to find entity with id={0}", object.getId());
       throw new EntityNotFoundException(msg);
     }
     session.evict(databaseObject);
@@ -115,5 +112,4 @@ public class AbstractCrudDao<T extends Persistent> extends AbstractDAO<T> implem
   protected String constructNamedQueryName(String suffix) {
     return getEntityClass().getName() + "." + suffix;
   }
-
 }

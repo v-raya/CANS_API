@@ -6,11 +6,8 @@ import java.time.chrono.ChronoLocalDate;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-/**
- * @author dmitry.rudenko
- */
+/** @author dmitry.rudenko */
 public class ValidPersonValidator implements ConstraintValidator<ValidPerson, PersonShortDto> {
-
 
   @Override
   public void initialize(ValidPerson constraintAnnotation) {
@@ -23,7 +20,7 @@ public class ValidPersonValidator implements ConstraintValidator<ValidPerson, Pe
   }
 
   private boolean dobMustNotBeFutureDate(ChronoLocalDate dob, ConstraintValidatorContext context) {
-    if (dob!= null && (dob.compareTo(LocalDate.now()) >= 0)) {
+    if (dob != null && (dob.compareTo(LocalDate.now()) >= 0)) {
       context
           .buildConstraintViolationWithTemplate("Date of birth must not be a future date")
           .addPropertyNode("dob")

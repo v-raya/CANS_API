@@ -7,11 +7,9 @@ import gov.ca.cwds.cans.test.util.BaseUnitTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class AssessmentAuthorizerTest extends BaseUnitTest {
 
-  @Inject
-  private AssessmentReadAuthorizer assessmentWriteAuthorizer;
+  @Inject private AssessmentReadAuthorizer assessmentWriteAuthorizer;
 
   @Test
   public void testAuthorized() throws Exception {
@@ -32,5 +30,4 @@ public class AssessmentAuthorizerTest extends BaseUnitTest {
     assessment.setCounty(county);
     Assert.assertFalse(assessmentWriteAuthorizer.checkInstance(assessment));
   }
-
 }

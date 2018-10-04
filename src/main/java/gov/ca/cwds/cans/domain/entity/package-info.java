@@ -1,19 +1,16 @@
 @TypeDefs(
-  value = {
-    @TypeDef(
-      name = "AssessmentJsonType",
-      typeClass = JsonType.class,
-      parameters = {
-        @Parameter(name = SQL_TYPE, value = SQLTypes.OTHER_TYPE_NAME),
-        @Parameter(
-          name = RETURNED_CLASS_NAME_PARAM,
-          value = "gov.ca.cwds.cans.domain.json.AssessmentJson"
-        )
-      }
-    ),
-    @TypeDef(name = "PostgreSqlEnum", typeClass = PostgreSqlEnumType.class)
-  }
-)
+    value = {
+      @TypeDef(
+          name = "AssessmentJsonType",
+          typeClass = JsonType.class,
+          parameters = {
+            @Parameter(name = SQL_TYPE, value = SQLTypes.OTHER_TYPE_NAME),
+            @Parameter(
+                name = RETURNED_CLASS_NAME_PARAM,
+                value = "gov.ca.cwds.cans.domain.json.AssessmentJson")
+          }),
+      @TypeDef(name = "PostgreSqlEnum", typeClass = PostgreSqlEnumType.class)
+    })
 package gov.ca.cwds.cans.domain.entity;
 
 import static gov.ca.cwds.cans.Constants.RETURNED_CLASS_NAME_PARAM;

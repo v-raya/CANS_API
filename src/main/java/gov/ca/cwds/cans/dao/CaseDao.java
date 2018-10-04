@@ -32,15 +32,16 @@ public class CaseDao extends AbstractCrudDao<Case> {
   }
 
   /**
-   * The purpose of the method is to reuse cases records by externalId field.
-   * The method finds a case by externalId of the input case and updates the input case if found.
-   * The old case id to the new case id pair is returned then.
+   * The purpose of the method is to reuse cases records by externalId field. The method finds a
+   * case by externalId of the input case and updates the input case if found. The old case id to
+   * the new case id pair is returned then.
    *
-   * If no case found - a new record in db will be created and the input case will be updated.
+   * <p>If no case found - a new record in db will be created and the input case will be updated.
    *
    * @param aCase - the case object that will be updated by the method
    * @param currentUser - currently logged in user, used when new case record is created
-   * @return collection of pairs (old case id to new case id). Empty list if no old cases were involved
+   * @return collection of pairs (old case id to new case id). Empty list if no old cases were
+   *     involved
    */
   public Collection<Pair<Long, Long>> findByExternalIdOrCreate(
       final Case aCase, final Person currentUser) {

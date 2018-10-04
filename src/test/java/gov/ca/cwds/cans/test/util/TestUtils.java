@@ -3,9 +3,7 @@ package gov.ca.cwds.cans.test.util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class TestUtils {
 
   public static final String API_URL = "api.url";
@@ -14,8 +12,7 @@ public class TestUtils {
   public static final String SLASH = "/";
   public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-  private TestUtils() {
-  }
+  private TestUtils() {}
 
   public static String getApiUrl() {
     return getUrlFromSystemProperties(API_URL);

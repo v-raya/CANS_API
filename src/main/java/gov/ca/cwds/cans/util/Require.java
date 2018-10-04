@@ -4,15 +4,14 @@ import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * The util class is intended to validate method parameters on not being null or empty.
- * {@link NullOrEmptyException} is thrown when requirement is not met.
+ * The util class is intended to validate method parameters on not being null or empty. {@link
+ * NullOrEmptyException} is thrown when requirement is not met.
  *
  * @author CWDS TPT-3 Team
  */
 public final class Require {
 
-  private Require() {
-  }
+  private Require() {}
 
   public static void requireNotNullAndNotEmpty(final String input) {
     if (StringUtils.isEmpty(input)) {

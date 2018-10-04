@@ -9,14 +9,10 @@ public class PersonReadAuthorizer extends DroolsAuthorizer<Person, Long> {
 
   private static final String CONFIGURATION_NAME = "authorization-rules";
   private static final String AGENDA_GROUP_NAME = "person-read-authorization-rules";
-  @Inject
-  private PersonDao personDao;
+  @Inject private PersonDao personDao;
 
   public PersonReadAuthorizer() {
-    super(new DroolsConfiguration<>(
-        CONFIGURATION_NAME,
-        AGENDA_GROUP_NAME,
-        CONFIGURATION_NAME));
+    super(new DroolsConfiguration<>(CONFIGURATION_NAME, AGENDA_GROUP_NAME, CONFIGURATION_NAME));
   }
 
   public PersonReadAuthorizer(DroolsConfiguration<Person> configuration) {

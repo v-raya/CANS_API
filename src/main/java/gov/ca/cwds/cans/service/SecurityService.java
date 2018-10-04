@@ -12,5 +12,4 @@ public class SecurityService {
     }
     return Boolean.TRUE;
   }
-
 }

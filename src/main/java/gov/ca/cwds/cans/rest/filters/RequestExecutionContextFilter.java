@@ -26,12 +26,9 @@ import org.slf4j.LoggerFactory;
 @WebFilter
 public class RequestExecutionContextFilter implements Filter {
 
-  private static final Logger LOGGER =
-      LoggerFactory.getLogger(RequestExecutionContextFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RequestExecutionContextFilter.class);
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public RequestExecutionContextFilter() {
     // No-op.
   }
@@ -44,10 +41,10 @@ public class RequestExecutionContextFilter implements Filter {
       final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
       RequestExecutionContextImpl.startRequest();
       try {
-        Object requestStartTimeParameter = RequestExecutionContext.instance()
-            .get(Parameter.REQUEST_START_TIME);
-        String requestStartTime = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.SSS")
-            .format(requestStartTimeParameter);
+        Object requestStartTimeParameter =
+            RequestExecutionContext.instance().get(Parameter.REQUEST_START_TIME);
+        String requestStartTime =
+            new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.SSS").format(requestStartTimeParameter);
         LOGGER.info("started request at {}", requestStartTime);
         chain.doFilter(httpServletRequest, httpServletResponse);
       } catch (Exception e) {
@@ -57,7 +54,6 @@ public class RequestExecutionContextFilter implements Filter {
         RequestExecutionContextImpl.stopRequest();
       }
     }
-
   }
 
   @Override
@@ -69,5 +65,4 @@ public class RequestExecutionContextFilter implements Filter {
   public void destroy() {
     // No-op.
   }
-
 }

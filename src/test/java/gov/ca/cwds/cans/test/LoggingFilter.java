@@ -15,9 +15,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by denys.davydov.
- */
+/** Created by denys.davydov. */
 public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter {
 
   private final Logger LOG = LoggerFactory.getLogger(LoggingFilter.class);
@@ -27,19 +25,30 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
     ObjectMapper mapper = new ObjectMapper();
     mapper.registerModule(new JavaTimeModule());
 
-    LOG.info(System.getProperty("line.separator") + "!!! Test Request" + System
-            .getProperty("line.separator") + "!!! URL: {}" + System.getProperty("line.separator")
-            + "!!! Method: {}" + System.getProperty("line.separator") + "!!! Body: {}",
+    LOG.info(
+        System.getProperty("line.separator")
+            + "!!! Test Request"
+            + System.getProperty("line.separator")
+            + "!!! URL: {}"
+            + System.getProperty("line.separator")
+            + "!!! Method: {}"
+            + System.getProperty("line.separator")
+            + "!!! Body: {}",
         requestContext.getUri(),
         requestContext.getMethod(),
         mapper.writerWithDefaultPrettyPrinter().writeValueAsString(requestContext.getEntity()));
   }
 
   @Override
-  public void filter(ClientRequestContext clientRequestContext,
-      ClientResponseContext clientResponseContext) throws IOException {
-    LOG.info(System.getProperty("line.separator") + "!!! Test Response " + System
-            .getProperty("line.separator") + "!!! Body: {} " + System.getProperty("line.separator")
+  public void filter(
+      ClientRequestContext clientRequestContext, ClientResponseContext clientResponseContext)
+      throws IOException {
+    LOG.info(
+        System.getProperty("line.separator")
+            + "!!! Test Response "
+            + System.getProperty("line.separator")
+            + "!!! Body: {} "
+            + System.getProperty("line.separator")
             + "!!! Status: {}",
         responseToString(clientResponseContext),
         clientResponseContext.getStatus());
@@ -53,8 +62,8 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       try {
         IOUtils.copy(inputStream, baos);
-        InputStream restoredStream = new ByteArrayInputStream(
-            baos.toString().getBytes(StandardCharsets.UTF_8));
+        InputStream restoredStream =
+            new ByteArrayInputStream(baos.toString().getBytes(StandardCharsets.UTF_8));
         clientResponseContext.setEntityStream(restoredStream);
       } catch (IOException e) {
         // nothing to do

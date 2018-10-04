@@ -17,17 +17,16 @@ public class ConfigurationProvider {
   public static final CansConfiguration CONFIGURATION = parseConfiguration();
 
   private static CansConfiguration parseConfiguration() {
-    final ConfigurationFactory<CansConfiguration> configurationFactory = new YamlConfigurationFactory<>(
-        CansConfiguration.class,
-        Validators.newValidatorFactory().getValidator(),
-        Jackson.newObjectMapper(),
-        "dw"
-    );
+    final ConfigurationFactory<CansConfiguration> configurationFactory =
+        new YamlConfigurationFactory<>(
+            CansConfiguration.class,
+            Validators.newValidatorFactory().getValidator(),
+            Jackson.newObjectMapper(),
+            "dw");
     try {
-      final SubstitutingSourceProvider substitutingSourceProvider = new SubstitutingSourceProvider(
-          new FileConfigurationSourceProvider(),
-          new EnvironmentVariableSubstitutor(false)
-      );
+      final SubstitutingSourceProvider substitutingSourceProvider =
+          new SubstitutingSourceProvider(
+              new FileConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false));
       return configurationFactory.build(substitutingSourceProvider, CONFIG_FILE_PATH);
     } catch (IOException | ConfigurationException ignored) {
       ignored.printStackTrace();

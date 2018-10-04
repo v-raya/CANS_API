@@ -6,9 +6,7 @@ import gov.ca.cwds.cans.util.Require;
 import io.dropwizard.jackson.Jackson;
 import java.io.IOException;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class SmokeRestClientTestRule extends AbstractRestClientTestRule {
 
   public SmokeRestClientTestRule() {

@@ -9,6 +9,6 @@ public class InstrumentService extends AbstractCrudService<Instrument> {
 
   @Inject
   public InstrumentService(InstrumentDao instrumentDao) {
-    super(instrumentDao); //NOSONAR
+    super(instrumentDao); // NOSONAR
   }
 }

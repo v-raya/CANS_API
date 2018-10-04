@@ -16,8 +16,7 @@ import org.junit.Test;
 
 public class CansStaticAuthorizerTest {
 
-  public CansStaticAuthorizerTest() {
-  }
+  public CansStaticAuthorizerTest() {}
 
   private StaticAuthorizer cansStaticAuthorizer = new CansStaticAuthorizer();
 

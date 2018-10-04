@@ -39,12 +39,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status asc, event_date desc")
 @FilterDef(
     name = FILTER_CREATED_BY_ID,
-    parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long")
-)
-@FilterDef(
-    name = FILTER_PERSON_ID,
-    parameters = @ParamDef(name = PARAM_PERSON_ID, type = "long")
-)
+    parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long"))
+@FilterDef(name = FILTER_PERSON_ID, parameters = @ParamDef(name = PARAM_PERSON_ID, type = "long"))
 @Filter(name = FILTER_CREATED_BY_ID, condition = "created_by = :" + PARAM_CREATED_BY_ID)
 @Filter(name = FILTER_PERSON_ID, condition = "person_id = :" + PARAM_PERSON_ID)
 @Data
@@ -97,8 +93,7 @@ public class Assessment implements Persistent<Long> {
 
   @ManyToOne private Cft cft;
 
-  @ManyToOne
-  private County county;
+  @ManyToOne private County county;
 
   @ManyToOne
   @JoinColumn(name = "case_id")

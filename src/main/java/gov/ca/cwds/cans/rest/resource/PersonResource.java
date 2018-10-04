@@ -1,5 +1,11 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.Constants.API.ID;
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
@@ -20,8 +26,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -34,12 +38,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import static gov.ca.cwds.cans.Constants.API.ID;
-import static gov.ca.cwds.cans.Constants.API.PEOPLE;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
-import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /** @author denys.davydov */
 @Api(value = PEOPLE, tags = PEOPLE)
@@ -68,11 +67,10 @@ public class PersonResource {
   @UnitOfWork(CANS)
   @POST
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Post new Person", response = PersonDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -89,11 +87,10 @@ public class PersonResource {
   @PUT
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Update existent Person", response = PersonDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -113,11 +110,10 @@ public class PersonResource {
   @GET
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get Person by id", response = PersonDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -132,18 +128,19 @@ public class PersonResource {
   @POST
   @Path(SEARCH)
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+      })
   @ApiOperation(value = "Search people by parameters", response = PersonDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response search(
       @ApiParam(required = true, name = "Search Parameters", value = "Search People parameters")
-          @NotNull @Valid
+          @NotNull
+          @Valid
           final SearchPersonRequest searchRequest) {
-    final SearchPersonParameters searchParameters = searchPersonParametersMapper.fromSearchRequest(searchRequest);
+    final SearchPersonParameters searchParameters =
+        searchPersonParametersMapper.fromSearchRequest(searchRequest);
     final SearchPersonResult searchPersonResult = personService.search(searchParameters);
     final SearchPersonResponse searchPersonResponse = searchPersonMapper.toDto(searchPersonResult);
     return ResponseUtil.responseOk(searchPersonResponse);
@@ -153,11 +150,10 @@ public class PersonResource {
   @DELETE
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Delete Person by id", response = PersonDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -170,8 +166,10 @@ public class PersonResource {
 
   private void throwDuplicationException(Person person) {
     throw new DuplicationException(
-        "This Client ID #" + person.getExternalId() + " already exists in " + person.getCounty()
-            .getName() + " County");
+        "This Client ID #"
+            + person.getExternalId()
+            + " already exists in "
+            + person.getCounty().getName()
+            + " County");
   }
-
 }

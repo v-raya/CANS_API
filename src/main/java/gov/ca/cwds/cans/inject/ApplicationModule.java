@@ -13,7 +13,6 @@ import io.dropwizard.setup.Bootstrap;
  *
  * @author denys.davydov
  */
-
 public class ApplicationModule<T extends CansConfiguration> extends AbstractModule {
 
   private Bootstrap<T> bootstrap;
@@ -27,7 +26,7 @@ public class ApplicationModule<T extends CansConfiguration> extends AbstractModu
    * Configure and initialize API components, including services, rest, data access objects (DAO),
    * web service filters, and auditing.
    *
-   * {@inheritDoc}
+   * <p>{@inheritDoc}
    */
   @Override
   protected void configure() {
@@ -49,5 +48,4 @@ public class ApplicationModule<T extends CansConfiguration> extends AbstractModu
   public SecurityConfiguration provideSecurityConfiguration(T configuration) {
     return configuration.getSecurityConfiguration();
   }
-
 }

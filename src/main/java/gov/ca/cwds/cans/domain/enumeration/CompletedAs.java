@@ -1,8 +1,6 @@
 package gov.ca.cwds.cans.domain.enumeration;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public enum CompletedAs {
   COMMUNIMETRIC
 }

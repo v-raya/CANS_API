@@ -1,5 +1,3 @@
 package gov.ca.cwds.cans.security;
 
-public class PersonWriteAuthorizer extends PersonReadAuthorizer {
-
-}
+public class PersonWriteAuthorizer extends PersonReadAuthorizer {}

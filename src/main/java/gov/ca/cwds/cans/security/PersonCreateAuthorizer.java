@@ -9,9 +9,6 @@ public class PersonCreateAuthorizer extends PersonReadAuthorizer {
   private static final String AGENDA_GROUP_NAME = "person-create-authorization-rules";
 
   public PersonCreateAuthorizer() {
-    super(new DroolsConfiguration<>(
-        SESSION_NAME,
-        AGENDA_GROUP_NAME,
-        CONFIGURATION_NAME));
+    super(new DroolsConfiguration<>(SESSION_NAME, AGENDA_GROUP_NAME, CONFIGURATION_NAME));
   }
 }

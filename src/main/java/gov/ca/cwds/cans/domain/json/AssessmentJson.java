@@ -18,8 +18,6 @@ public class AssessmentJson implements Json {
 
   private Long id;
   private Boolean underSix;
-  @Valid
-  private DomainJson caregiverDomainTemplate;
-  @Valid
-  private List<DomainJson> domains = new ArrayList<>();
+  @Valid private DomainJson caregiverDomainTemplate;
+  @Valid private List<DomainJson> domains = new ArrayList<>();
 }

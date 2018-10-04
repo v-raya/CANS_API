@@ -62,11 +62,10 @@ public class InstrumentResource {
   @UnitOfWork(CANS)
   @POST
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Post new Instrument", response = InstrumentDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -80,11 +79,10 @@ public class InstrumentResource {
   @PUT
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Update existent Instrument", response = InstrumentDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -101,11 +99,10 @@ public class InstrumentResource {
   @GET
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get Instrument by id", response = InstrumentDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -120,11 +117,10 @@ public class InstrumentResource {
   @DELETE
   @Path("/{" + ID + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Delete Instrument by id", response = InstrumentDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -139,11 +135,10 @@ public class InstrumentResource {
   @GET
   @Path("/{" + ID + "}/i18n/{" + API.I18N_LANG_PARAM + "}")
   @ApiResponses(
-    value = {
-      @ApiResponse(code = 401, message = "Not Authorized"),
-      @ApiResponse(code = 404, message = "Not found")
-    }
-  )
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
   @ApiOperation(value = "Get i18n map for Instrument by language", response = Map.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
@@ -153,11 +148,10 @@ public class InstrumentResource {
           final Long id,
       @PathParam(value = API.I18N_LANG_PARAM)
           @ApiParam(
-            required = true,
-            name = API.I18N_LANG_PARAM,
-            value = "The language of i18n",
-            example = "en"
-          )
+              required = true,
+              name = API.I18N_LANG_PARAM,
+              value = "The language of i18n",
+              example = "en")
           final String lang) {
     final String keyPrefix = Constants.INSTRUMENT_KEY_PREFIX + id + ".";
     final Collection<I18n> records = i18nService.findByKeyPrefixAndLanguage(keyPrefix, lang);

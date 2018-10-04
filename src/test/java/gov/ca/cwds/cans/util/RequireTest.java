@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.Test;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class RequireTest {
 
   @Test
@@ -18,7 +16,6 @@ public class RequireTest {
   public void require_throws_whenNullObject() {
     Require.requireNotNullAndNotEmpty((Boolean) null);
   }
-
 
   @Test
   public void require_doesNotThrow_whenNonBlankString() {
@@ -34,7 +31,6 @@ public class RequireTest {
   public void require_throws_whenNullString() {
     Require.requireNotNullAndNotEmpty((String) null);
   }
-
 
   @Test
   public void require_doesNotThrow_whenNonEmptyCollection() {

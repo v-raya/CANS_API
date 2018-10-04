@@ -1,5 +1,15 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.test.util.AssertFixtureUtils.assertResponseByFixturePath;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PaginationDto;
@@ -13,36 +23,23 @@ import gov.ca.cwds.cans.test.util.FixtureReader;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
-import org.apache.http.HttpStatus;
-import java.util.Collection;
-import org.json.JSONException;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Test;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.http.HttpStatus;
+import org.json.JSONException;
+import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Test;
 
-import static gov.ca.cwds.cans.Constants.API.PEOPLE;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
-import static gov.ca.cwds.cans.test.util.AssertFixtureUtils.assertResponseByFixturePath;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
   private static final String FIXTURES_EMPTY_OBJECT = "fixtures/empty-object.json";
@@ -55,10 +52,9 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
       "fixtures/person-search-clients-request.json";
   private static final String FIXTURES_SEARCH_CLIENTS_RESPONSE =
       "fixtures/person-search-clients-response.json";
-  private static final String LONG_ALPHA_SYMBOLS_STRING =
-      "abcdefghijklmnopqrstuvxyza";
+  private static final String LONG_ALPHA_SYMBOLS_STRING = "abcdefghijklmnopqrstuvxyza";
   private static final String SIZE_VALIDATION_MESSAGE_START = "size must be between";
-  private final static String EXTERNAL_ID = "6666-6666-6666-6666666";
+  private static final String EXTERNAL_ID = "6666-6666-6666-6666666";
 
   private PersonResourceHelper personHelper;
 
@@ -118,7 +114,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     assertThat(
         actualViolatedFields,
         containsInAnyOrder("firstName", "lastName", "externalId", "county", "personRole"));
-    //dob error is not present on null dob
+    // dob error is not present on null dob
     assertThat(actualViolatedFields, not(containsInAnyOrder("dob")));
   }
 
@@ -150,8 +146,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(4));
-    assertThat(actualViolatedFields,
-        containsInAnyOrder("firstName", "middleName", "lastName", "suffix"));
+    assertThat(
+        actualViolatedFields, containsInAnyOrder("firstName", "middleName", "lastName", "suffix"));
   }
 
   @Test
@@ -187,11 +183,16 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     assertThat(actualViolatedFields.size(), is(3));
     assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "externalId", "dob"));
-    //valid error message is present for dob in future
-    assertThat(actualResponse.getIssueDetails()
+    // valid error message is present for dob in future
+    assertThat(
+        actualResponse
+            .getIssueDetails()
             .stream()
-            .anyMatch(issueDetails -> issueDetails.getUserMessage()
-                .equals("Date of birth must not be a future date")),
+            .anyMatch(
+                issueDetails ->
+                    issueDetails
+                        .getUserMessage()
+                        .equals("Date of birth must not be a future date")),
         is(true));
   }
 
@@ -245,76 +246,80 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void searchPeople_metaDataAsExpected_whenUserHasNoSensitivePrivilege_inMemoryOnly() throws IOException, JSONException {
+  public void searchPeople_metaDataAsExpected_whenUserHasNoSensitivePrivilege_inMemoryOnly()
+      throws IOException, JSONException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
-    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
-        .setPersonRole(PersonRole.CLIENT)
-        .setPagination(new PaginationDto().setPage(0).setPageSize(10));
+    final SearchPersonRequest searchPersonRequest =
+        new SearchPersonRequest()
+            .setPersonRole(PersonRole.CLIENT)
+            .setPagination(new PaginationDto().setPage(0).setPageSize(10));
 
     // when
-    final Response actualResponse = clientTestRule
-        .withSecurityToken(STATE_OF_CA_NO_SENSITIVITY)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
+    final Response actualResponse =
+        clientTestRule
+            .withSecurityToken(STATE_OF_CA_NO_SENSITIVITY)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     assertResponseByFixturePath(
         actualResponse,
-        "fixtures/people-search/people-search-filter-no-sensitivity-for-user-response.json"
-    );
+        "fixtures/people-search/people-search-filter-no-sensitivity-for-user-response.json");
   }
 
   @Test
-  public void searchPeople_success_whenFilteringByNames_inMemoryOnly() throws IOException, JSONException {
+  public void searchPeople_success_whenFilteringByNames_inMemoryOnly()
+      throws IOException, JSONException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
-    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
-        .setPersonRole(PersonRole.CLIENT)
-        .setFirstName("eter")
-        .setMiddleName("Batkovich")
-        .setLastName("arke")
-        .setPagination(new PaginationDto().setPage(0).setPageSize(10));
+    final SearchPersonRequest searchPersonRequest =
+        new SearchPersonRequest()
+            .setPersonRole(PersonRole.CLIENT)
+            .setFirstName("eter")
+            .setMiddleName("Batkovich")
+            .setLastName("arke")
+            .setPagination(new PaginationDto().setPage(0).setPageSize(10));
 
     // when
-    final Response actualResponse = clientTestRule
-        .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
+    final Response actualResponse =
+        clientTestRule
+            .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     assertResponseByFixturePath(
-        actualResponse,
-        "fixtures/people-search/people-search-filter-by-names-response.json"
-    );
+        actualResponse, "fixtures/people-search/people-search-filter-by-names-response.json");
   }
 
   @Test
-  public void searchPeople_success_whenFilteringByDob_inMemoryOnly() throws IOException, JSONException {
+  public void searchPeople_success_whenFilteringByDob_inMemoryOnly()
+      throws IOException, JSONException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
-    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
-        .setPersonRole(PersonRole.CLIENT)
-        .setDob(LocalDate.of(2008, 1, 31))
-        .setPagination(new PaginationDto().setPage(0).setPageSize(10));
+    final SearchPersonRequest searchPersonRequest =
+        new SearchPersonRequest()
+            .setPersonRole(PersonRole.CLIENT)
+            .setDob(LocalDate.of(2008, 1, 31))
+            .setPagination(new PaginationDto().setPage(0).setPageSize(10));
 
     // when
-    final Response actualResponse = clientTestRule
-        .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
+    final Response actualResponse =
+        clientTestRule
+            .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     assertResponseByFixturePath(
-        actualResponse,
-        "fixtures/people-search/people-search-filter-by-dob-response.json"
-    );
+        actualResponse, "fixtures/people-search/people-search-filter-by-dob-response.json");
   }
 
   @Test
@@ -323,23 +328,24 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
-    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
-        .setPersonRole(PersonRole.CLIENT)
-        .setFirstName("e")
-        .setPagination(new PaginationDto().setPage(1).setPageSize(1));
+    final SearchPersonRequest searchPersonRequest =
+        new SearchPersonRequest()
+            .setPersonRole(PersonRole.CLIENT)
+            .setFirstName("e")
+            .setPagination(new PaginationDto().setPage(1).setPageSize(1));
 
     // when
-    final Response actualResponse = clientTestRule
-        .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
+    final Response actualResponse =
+        clientTestRule
+            .withSecurityToken(STATE_OF_CA_ALL_AUTHORIZED)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE));
 
     // then
     assertResponseByFixturePath(
         actualResponse,
-        "fixtures/people-search/people-search-pagination-second-page-response.json"
-    );
+        "fixtures/people-search/people-search-pagination-second-page-response.json");
   }
 
   @Test
@@ -348,12 +354,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     final SearchPersonRequest searchPersonRequest = new SearchPersonRequest();
 
     // when
-    final BaseExceptionResponse actualResponse = clientTestRule
-        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(BaseExceptionResponse.class);
+    final BaseExceptionResponse actualResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(BaseExceptionResponse.class);
 
     final Set<String> actualViolatedFields =
         actualResponse
@@ -364,24 +371,23 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(1));
-    assertThat(
-        actualViolatedFields,
-        containsInAnyOrder("pagination"));
+    assertThat(actualViolatedFields, containsInAnyOrder("pagination"));
   }
 
   @Test
   public void searchPeople_validationFails_whenPaginationObjectIsInvalid() throws IOException {
     // given
-    final SearchPersonRequest searchPersonRequest = new SearchPersonRequest()
-        .setPagination(new PaginationDto().setPage(-10).setPageSize(-100));
+    final SearchPersonRequest searchPersonRequest =
+        new SearchPersonRequest().setPagination(new PaginationDto().setPage(-10).setPageSize(-100));
 
     // when
-    final BaseExceptionResponse actualResponse = clientTestRule
-        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + SEARCH)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(BaseExceptionResponse.class);
+    final BaseExceptionResponse actualResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(searchPersonRequest, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(BaseExceptionResponse.class);
 
     final Set<String> actualViolatedFields =
         actualResponse
@@ -392,9 +398,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(2));
-    assertThat(
-        actualViolatedFields,
-        containsInAnyOrder("pagination.page", "pagination.pageSize"));
+    assertThat(actualViolatedFields, containsInAnyOrder("pagination.page", "pagination.pageSize"));
   }
 
   @Test
@@ -531,13 +535,13 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void searchPersons_sealedClientIsAvailable_whenUserHasSealedPrivilege()
       throws IOException {
 
-    //given
+    // given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
     personHelper.pushToCleanUpPerson(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
-    //when
+    // when
     Collection<PersonShortDto> people = searchPeople(EXTERNAL_ID, SEALED_EL_DORADO_ACCOUNT_FIXTURE);
 
     // then
@@ -548,14 +552,15 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void searchPersons_sealedClientIsNotAvailable_whenUserHasNotSealedPrivilege()
       throws IOException {
 
-    //given
+    // given
     final PersonDto person = FixtureReader.readObject(FIXTURES_POST, PersonDto.class);
     person.setSensitivityType(SensitivityType.SEALED);
     person.setExternalId(EXTERNAL_ID);
     personHelper.pushToCleanUpPerson(postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE));
 
-    //when
-    Collection<PersonShortDto> people = searchPeople(EXTERNAL_ID, AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE);
+    // when
+    Collection<PersonShortDto> people =
+        searchPeople(EXTERNAL_ID, AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE);
 
     // then
     assertThat(people.size(), is(0));
@@ -563,18 +568,19 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
   @Test
   public void getPerson_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {
-    //given
+    // given
     final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
 
-    //when
-    Response response = clientTestRule
-        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + posted.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get();
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + posted.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
 
     // then
     assertThat(response.getStatus(), is(200));
@@ -582,39 +588,43 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void getPerson_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty() throws IOException {
-    //given
+  public void getPerson_unauthorized_whenUserHasSealedAndClientIsSealedButDifferentCounty()
+      throws IOException {
+    // given
     final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
 
-    //when
-    int status = clientTestRule
-        .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + posted.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get().getStatus();
+    // when
+    int status =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + posted.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
 
     // then
     assertThat(status, is(403));
   }
 
   @Test
-  public void getPerson_unauthorized_whenUserHasNotSealedAndClientIsSealed()
-      throws IOException {
-    //given
+  public void getPerson_unauthorized_whenUserHasNotSealedAndClientIsSealed() throws IOException {
+    // given
     final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
     person.setSensitivityType(SensitivityType.SEALED);
     PersonDto posted = postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     personHelper.pushToCleanUpPerson(posted);
 
-    //when
-    int status = clientTestRule
-        .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
-        .target(PEOPLE + SLASH + posted.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .get().getStatus();
+    // when
+    int status =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE)
+            .target(PEOPLE + SLASH + posted.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
 
     // then
     assertThat(status, is(403));
@@ -627,7 +637,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     personHelper.postPerson(person, false);
     final PersonDto personDuplicate = personHelper.readPersonDto(FIXTURES_POST, false);
     // when
-    Response response = personHelper.postPersonAndGetResponse(personDuplicate, AUTHORIZED_ACCOUNT_FIXTURE);
+    Response response =
+        personHelper.postPersonAndGetResponse(personDuplicate, AUTHORIZED_ACCOUNT_FIXTURE);
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_CONFLICT));
   }
@@ -638,15 +649,18 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     PersonDto person = personHelper.readPersonDto(FIXTURES_POST, true);
     person = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, false);
     PersonDto personDuplicate = personHelper.readPersonDto(FIXTURES_POST, false);
-    personDuplicate = personHelper.postPerson(personDuplicate, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, true);
+    personDuplicate =
+        personHelper.postPerson(personDuplicate, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, true);
     // when
     personDuplicate.setExternalId(person.getExternalId());
-    Response response = personHelper.putPerson(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, personDuplicate);
+    Response response =
+        personHelper.putPerson(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, personDuplicate);
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_CONFLICT));
   }
 
-  private Response postPersonAndGetResponse(PersonDto person, String accountFixture) throws IOException {
+  private Response postPersonAndGetResponse(PersonDto person, String accountFixture)
+      throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(PEOPLE)
@@ -661,8 +675,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   private Collection<PersonShortDto> searchPeople(String externalId, String accountFixture)
       throws IOException {
     final Entity<SearchPersonRequest> searchInput =
-        FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST,
-            SearchPersonRequest.class);
+        FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST, SearchPersonRequest.class);
     searchInput.getEntity().setExternalId(externalId);
     final SearchPersonResponse actual =
         clientTestRule

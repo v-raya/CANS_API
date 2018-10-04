@@ -23,8 +23,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @Table(name = "cases")
 @NamedQuery(
     name = NQ_FIND_BY_EXTERNAL_ID,
-    query = "from gov.ca.cwds.cans.domain.entity.Case c where c.externalId =:" + NQ_PARAM_EXTERNAL_ID
-)
+    query =
+        "from gov.ca.cwds.cans.domain.entity.Case c where c.externalId =:" + NQ_PARAM_EXTERNAL_ID)
 @Data
 @Accessors(chain = true)
 public class Case implements Persistent<Long> {
@@ -48,5 +48,4 @@ public class Case implements Persistent<Long> {
   @ManyToOne
   @JoinColumn(name = "created_by", updatable = false, nullable = false)
   private Person createdBy;
-
 }

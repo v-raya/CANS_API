@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 
 /** @author denys.davydov */
 @Mapper
-public interface SearchPersonRequestMapper extends
-    SearchRequestMapper<SearchPersonParameters, SearchPersonRequest> {}
+public interface SearchPersonRequestMapper
+    extends SearchRequestMapper<SearchPersonParameters, SearchPersonRequest> {}

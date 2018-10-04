@@ -1,11 +1,18 @@
 package gov.ca.cwds.cans.dao;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.Pagination;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.cans.util.NullOrEmptyException;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+import java.util.Collections;
+import java.util.List;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,14 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.Collections;
-import java.util.List;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(gov.ca.cwds.security.utils.PrincipalUtils.class)
@@ -57,9 +56,10 @@ public class PersonDaoTest {
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
     PersonDao personDao = new PersonDao(sessionFactory);
-    SearchPersonParameters searchPersonParameters = new SearchPersonParameters()
-        .setUsersCountyExternalId("11")
-        .setPagination(new Pagination().setPage(0).setPageSize(10));
+    SearchPersonParameters searchPersonParameters =
+        new SearchPersonParameters()
+            .setUsersCountyExternalId("11")
+            .setPagination(new Pagination().setPage(0).setPageSize(10));
     personDao.search(searchPersonParameters);
 
     verify(session).enableFilter(Person.FILTER_COUNTY);

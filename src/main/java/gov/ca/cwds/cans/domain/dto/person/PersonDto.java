@@ -22,8 +22,6 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @ValidPerson
 public class PersonDto extends PersonShortDto {
-  @NotNull
-  private CountyDto county;
-  @Valid
-  private List<CaseDto> cases = new ArrayList<>();
+  @NotNull private CountyDto county;
+  @Valid private List<CaseDto> cases = new ArrayList<>();
 }

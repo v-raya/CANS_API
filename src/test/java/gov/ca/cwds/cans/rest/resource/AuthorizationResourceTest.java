@@ -49,8 +49,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   @Test
   public void countiesEndpoint_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(COUNTIES, null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+    assertEndpointIsSecured(COUNTIES, null, null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   @Test
@@ -74,66 +73,98 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   @Test
   public void securityEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1", null,
-        null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+    assertEndpointIsSecured(
+        SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1",
+        null,
+        null,
+        HttpMethod.GET,
+        NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   private void assertI18nEndpointsAreSecured(String securityTokenFixturePath)
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        I18N + SLASH + KEY_PREFIX, null, null, HttpMethod.GET, securityTokenFixturePath);
 
-    assertEndpointIsSecured(I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        I18N + SLASH + KEY_PREFIX + SLASH + LANGUAGE,
+        null,
+        null,
+        HttpMethod.GET,
+        securityTokenFixturePath);
   }
 
   private void assertInstrumentEndpointsAreSecured(String securityTokenFixturePath)
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        INSTRUMENTS + SLASH + ID, null, null, HttpMethod.GET, securityTokenFixturePath);
 
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID + I18N + LANGUAGE, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        INSTRUMENTS + SLASH + ID + I18N + LANGUAGE,
+        null,
+        null,
+        HttpMethod.GET,
+        securityTokenFixturePath);
 
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, FIXTURES_INSTRUMENT_PUT_JSON,
-        INSTRUMENT_DTO, HttpMethod.PUT, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        INSTRUMENTS + SLASH + ID,
+        FIXTURES_INSTRUMENT_PUT_JSON,
+        INSTRUMENT_DTO,
+        HttpMethod.PUT,
+        securityTokenFixturePath);
 
-    assertEndpointIsSecured(INSTRUMENTS, FIXTURES_INSTRUMENT_POST_JSON,
-        INSTRUMENT_DTO, HttpMethod.POST, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        INSTRUMENTS,
+        FIXTURES_INSTRUMENT_POST_JSON,
+        INSTRUMENT_DTO,
+        HttpMethod.POST,
+        securityTokenFixturePath);
 
-    assertEndpointIsSecured(INSTRUMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        INSTRUMENTS + SLASH + ID, null, null, HttpMethod.DELETE, securityTokenFixturePath);
   }
 
   private void assertPeopleEndpointsAreSecured(String securityTokenFixturePath)
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        PEOPLE + SLASH + ID, null, null, HttpMethod.GET, securityTokenFixturePath);
 
-    assertEndpointIsSecured(PEOPLE + SLASH + ID, FIXTURES_PERSON_PUT_JSON,
-        PERSON_DTO, HttpMethod.PUT, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        PEOPLE + SLASH + ID,
+        FIXTURES_PERSON_PUT_JSON,
+        PERSON_DTO,
+        HttpMethod.PUT,
+        securityTokenFixturePath);
 
-    assertEndpointIsSecured(PEOPLE, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        PEOPLE, FIXTURES_PERSON_POST_JSON, PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
 
-    assertEndpointIsSecured(PEOPLE + SLASH + SEARCH, FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        PEOPLE + SLASH + SEARCH,
+        FIXTURES_PERSON_POST_JSON,
+        PERSON_DTO,
+        HttpMethod.POST,
+        securityTokenFixturePath);
 
-    assertEndpointIsSecured(PEOPLE + SLASH + ID, null,
-        null, HttpMethod.DELETE, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        PEOPLE + SLASH + ID, null, null, HttpMethod.DELETE, securityTokenFixturePath);
   }
 
   private void assertAssessmentEndpointsAreSecured(String securityTokenFixturePath)
       throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.GET, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        ASSESSMENTS + SLASH + ID, null, null, HttpMethod.GET, securityTokenFixturePath);
 
-    assertEndpointIsSecured(ASSESSMENTS + SLASH + ID, null,
-        null, HttpMethod.DELETE, securityTokenFixturePath);
+    assertEndpointIsSecured(
+        ASSESSMENTS + SLASH + ID, null, null, HttpMethod.DELETE, securityTokenFixturePath);
   }
 
-  private void assertEndpointIsSecured(String resourceUrl, String requestFixture, String requestClass,
-      HttpMethod httpMethod, String securityTokenFixturePath)
+  private void assertEndpointIsSecured(
+      String resourceUrl,
+      String requestFixture,
+      String requestClass,
+      HttpMethod httpMethod,
+      String securityTokenFixturePath)
       throws ClassNotFoundException, IOException {
     // given
     Object request = null;
@@ -181,5 +212,4 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
     // then
     assertThat(response.getStatus(), is(403));
   }
-
 }

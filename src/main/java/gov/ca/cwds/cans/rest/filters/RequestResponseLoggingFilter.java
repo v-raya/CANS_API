@@ -37,9 +37,7 @@ import org.bouncycastle.util.io.TeeOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author CWDS API Team
- */
+/** @author CWDS API Team */
 @Provider
 public class RequestResponseLoggingFilter implements Filter {
 
@@ -71,12 +69,13 @@ public class RequestResponseLoggingFilter implements Filter {
 
       HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-      loggingContext.setLogParameter(LogParameter.USER_ID,
-          RequestExecutionContext.instance().getUserId());
-      loggingContext.setLogParameter(LogParameter.REQUEST_START_TIME,
+      loggingContext.setLogParameter(
+          LogParameter.USER_ID, RequestExecutionContext.instance().getUserId());
+      loggingContext.setLogParameter(
+          LogParameter.REQUEST_START_TIME,
           DomainChef.cookStrictTimestamp(RequestExecutionContext.instance().getRequestStartTime()));
-      loggingContext.setLogParameter(LogParameter.REMOTE_ADDRESS,
-          httpServletRequest.getRemoteAddr());
+      loggingContext.setLogParameter(
+          LogParameter.REMOTE_ADDRESS, httpServletRequest.getRemoteAddr());
       loggingContext.setLogParameter(LogParameter.REQUEST_ID, Thread.currentThread().getName());
 
       RequestResponseLoggingHttpServletRequest wrappedRequest =
@@ -91,10 +90,7 @@ public class RequestResponseLoggingFilter implements Filter {
       try {
         chain.doFilter(wrappedRequest, wrappedResponse);
         String responseString = String.valueOf(wrappedResponse) + wrappedResponse.getContent();
-        auditLogger.audit(responseString
-            .replaceAll("\n", " ")
-            .replaceAll("\r", "")
-        );
+        auditLogger.audit(responseString.replaceAll("\n", " ").replaceAll("\r", ""));
       } catch (Exception e) {
         final String errorMessage = "Unable to handle request: " + uniqueId;
         LOGGER.error(errorMessage, e);
@@ -210,7 +206,8 @@ public class RequestResponseLoggingFilter implements Filter {
     @Override
     public PrintWriter getWriter() throws IOException {
       if (this.teeWriter == null) {
-        this.teeWriter = new PrintWriter(new OutputStreamWriter(getOutputStream(), StandardCharsets.UTF_8));
+        this.teeWriter =
+            new PrintWriter(new OutputStreamWriter(getOutputStream(), StandardCharsets.UTF_8));
       }
       return this.teeWriter;
     }

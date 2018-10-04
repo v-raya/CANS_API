@@ -8,10 +8,8 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
-import gov.ca.cwds.cans.test.util.FixtureReader;
 import java.io.IOException;
 import java.util.Map;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 

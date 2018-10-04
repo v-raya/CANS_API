@@ -22,9 +22,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
-/**
- * @author CWDS CALS API Team.
- */
+/** @author CWDS CALS API Team. */
 public class JsonType implements UserType, ParameterizedType {
 
   private static final ObjectMapper mapper = new ObjectMapper();
@@ -39,7 +37,7 @@ public class JsonType implements UserType, ParameterizedType {
 
   @Override
   public int[] sqlTypes() {
-    return new int[]{Types.JAVA_OBJECT};
+    return new int[] {Types.JAVA_OBJECT};
   }
 
   @Override
@@ -64,7 +62,7 @@ public class JsonType implements UserType, ParameterizedType {
   @Override
   @SuppressWarnings("fb-contrib:EXS_EXCEPTION_SOFTENING_HAS_CHECKED")
   public Object nullSafeGet(
-          ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
+      ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
       throws SQLException {
     try {
       final String cellContent = rs.getString(names[0]);
@@ -78,9 +76,7 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert String to %s: %s",
-              returnedClass().getSimpleName(),
-              ex.getMessage()
-          ),
+              returnedClass().getSimpleName(), ex.getMessage()),
           ex);
     }
   }
@@ -105,9 +101,7 @@ public class JsonType implements UserType, ParameterizedType {
       throw new ConvertingException(
           String.format(
               "Failed to convert %s to String: %s",
-              returnedClass().getSimpleName(),
-              ex.getMessage()
-          ),
+              returnedClass().getSimpleName(), ex.getMessage()),
           ex);
     }
   }

@@ -11,14 +11,10 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-/**
- * @author denys.davydov
- */
-
+/** @author denys.davydov */
 public final class AssertFixtureUtils {
 
-  private AssertFixtureUtils() {
-  }
+  private AssertFixtureUtils() {}
 
   public static void assertResponseByFixture(Response response, String fixture)
       throws IOException, JSONException {
@@ -36,12 +32,10 @@ public final class AssertFixtureUtils {
     assertResponseByFixture(response, fixture(fixturePath));
   }
 
-  public static void assertResponseByFixtureTemplate(String entity, String fixtureTemplate,
-      Map templateParams)
-      throws IOException, JSONException {
+  public static void assertResponseByFixtureTemplate(
+      String entity, String fixtureTemplate, Map templateParams) throws IOException, JSONException {
     VelocityHelper velocityHelper = new VelocityHelper();
     velocityHelper.setParameters(templateParams);
     assertResponseByFixture(entity, velocityHelper.process(fixtureTemplate));
   }
-
 }

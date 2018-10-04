@@ -32,8 +32,7 @@ public class DataAccessModule extends AbstractModule {
               County.class,
               I18n.class,
               Person.class,
-              Instrument.class
-          )
+              Instrument.class)
           .build();
 
   private final HibernateBundle<CansConfiguration> hibernateBundle =

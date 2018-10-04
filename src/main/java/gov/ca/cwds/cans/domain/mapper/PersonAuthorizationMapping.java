@@ -9,9 +9,7 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public interface PersonAuthorizationMapping {
   @AfterMapping
   default void refinePerson(Person person, @MappingTarget PersonShortDto personShort) {

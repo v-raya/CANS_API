@@ -4,9 +4,7 @@ import gov.ca.cwds.cans.CansConfiguration;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import javax.ws.rs.client.WebTarget;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class InMemoryFunctionalRestClientTestRule extends AbstractRestClientTestRule {
 
   public InMemoryFunctionalRestClientTestRule(
@@ -29,9 +27,9 @@ public class InMemoryFunctionalRestClientTestRule extends AbstractRestClientTest
 
   public WebTarget target(String pathInfo) {
     String restUrl = apiUrl + pathInfo;
-    return client.target(restUrl)
+    return client
+        .target(restUrl)
         .queryParam("pathToPrincipalFixture", token)
         .register(new LoggingFilter());
   }
-
 }

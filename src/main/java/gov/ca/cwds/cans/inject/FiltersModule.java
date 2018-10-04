@@ -9,8 +9,8 @@ import gov.ca.cwds.rest.filters.WebSecurityFilter;
 /**
  * Dependency injection (DI) for Filter classes.
  *
- * <p> Register filters her with Guice and configure them in {@link CansApplication}, method
- * registerFilters. </p>
+ * <p>Register filters her with Guice and configure them in {@link CansApplication}, method
+ * registerFilters.
  *
  * @author CWDS API Team
  */
@@ -22,5 +22,4 @@ public class FiltersModule extends AbstractModule {
     bind(RequestResponseLoggingFilter.class);
     bind(WebSecurityFilter.class);
   }
-
 }

@@ -10,9 +10,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-/**
- * @author dmitry.rudenko
- */
+/** @author dmitry.rudenko */
 @Target({TYPE, FIELD})
 @Retention(RUNTIME)
 @Constraint(validatedBy = ValidPersonValidator.class)

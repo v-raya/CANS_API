@@ -46,10 +46,8 @@ public class Cft implements Persistent<Long> {
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
-    name = "cft_persons",
-    joinColumns = @JoinColumn(name = "cfts_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "persons_id", referencedColumnName = "id")
-  )
+      name = "cft_persons",
+      joinColumns = @JoinColumn(name = "cfts_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "persons_id", referencedColumnName = "id"))
   private Set<Person> persons = new HashSet<>();
-
 }

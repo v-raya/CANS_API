@@ -17,7 +17,5 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @ValidAssessment
 public class AssessmentDto extends AbstractAssessmentDto {
-  @NotNull
-  @Valid
-  private AssessmentJson state;
+  @NotNull @Valid private AssessmentJson state;
 }

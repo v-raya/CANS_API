@@ -5,8 +5,8 @@ import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import java.io.IOException;
 import java.util.Stack;
@@ -52,8 +52,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = getAssessment(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedAssessment.getId())
-        .getStatus();
+    final int status =
+        getAssessment(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_OK));
     // clean up
@@ -66,9 +66,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = getAssessment(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE,
-        postedAssessment.getId())
-        .getStatus();
+    final int status =
+        getAssessment(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
@@ -81,8 +80,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = getAssessment(AUTHORIZED_ACCOUNT_FIXTURE, postedAssessment.getId())
-        .getStatus();
+    final int status =
+        getAssessment(AUTHORIZED_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
@@ -95,8 +94,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = putAssessment(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedAssessment)
-        .getStatus();
+    final int status =
+        putAssessment(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedAssessment).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_OK));
     // clean up
@@ -109,8 +108,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = putAssessment(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE, postedAssessment)
-        .getStatus();
+    final int status =
+        putAssessment(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE, postedAssessment).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
@@ -123,8 +122,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     // given
     final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
     // when
-    final int status = putAssessment(AUTHORIZED_ACCOUNT_FIXTURE, postedAssessment)
-        .getStatus();
+    final int status = putAssessment(AUTHORIZED_ACCOUNT_FIXTURE, postedAssessment).getStatus();
     // then
     assertThat(status, is(HttpStatus.SC_FORBIDDEN));
     // clean up
@@ -134,20 +132,21 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
     final PersonDto person = personHelper.readPersonDto(FIXTURE_POST_ELDORADO_PERSON);
     person.setSensitivityType(SensitivityType.SENSITIVE);
-    final PersonDto postedPerson = personHelper
-        .postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    final PersonDto postedPerson =
+        personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     assessment.setPerson(postedPerson);
     return postAssesment(assessment);
   }
 
   private AssessmentDto postAssesment(AssessmentDto assessment) throws IOException {
-    AssessmentDto postedAssessment = clientTestRule
-        .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-        .target(ASSESSMENTS)
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
-        .readEntity(AssessmentDto.class);
+    AssessmentDto postedAssessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
     cleanUpAssessments.push(assessment);
     return postedAssessment;
   }
@@ -168,5 +167,4 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
   }
-
 }

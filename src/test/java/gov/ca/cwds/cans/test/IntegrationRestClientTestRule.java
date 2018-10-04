@@ -13,9 +13,7 @@ import java.security.SecureRandom;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class IntegrationRestClientTestRule extends AbstractRestClientTestRule {
 
   private final PerryV2DevModeTokenProvider tokenProvider;
@@ -44,5 +42,4 @@ public class IntegrationRestClientTestRule extends AbstractRestClientTestRule {
     final JsonIdentityAuthParams authParams = new JsonIdentityAuthParams(identity);
     return tokenProvider.doGetToken(authParams);
   }
-
 }

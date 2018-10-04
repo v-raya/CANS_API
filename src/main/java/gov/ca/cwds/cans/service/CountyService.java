@@ -5,9 +5,7 @@ import gov.ca.cwds.cans.domain.entity.County;
 import java.util.Collection;
 import javax.inject.Inject;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class CountyService {
 
   private final CountyDao countyDao;
@@ -20,5 +18,4 @@ public class CountyService {
   public Collection<County> findAll() {
     return countyDao.findAll();
   }
-
 }

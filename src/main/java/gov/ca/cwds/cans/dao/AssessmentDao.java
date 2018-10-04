@@ -1,5 +1,10 @@
 package gov.ca.cwds.cans.dao;
 
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
+
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
@@ -8,26 +13,19 @@ import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
+import java.io.Serializable;
+import java.util.Collection;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.io.Serializable;
-import java.util.Collection;
-
-import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
-
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   private final PersonDao personDao;
 
   @Inject
-  public AssessmentDao(@CansSessionFactory final SessionFactory sessionFactory, final PersonDao personDao) {
+  public AssessmentDao(
+      @CansSessionFactory final SessionFactory sessionFactory, final PersonDao personDao) {
     super(sessionFactory);
     this.personDao = personDao;
   }
@@ -43,7 +41,8 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment create(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
+  public Assessment create(
+      @Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
@@ -66,7 +65,8 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment update(@Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
+  public Assessment update(
+      @Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
     revertCountyToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
@@ -87,12 +87,15 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
-    addFilterIfNeeded(session, FILTER_CREATED_BY_ID, PARAM_CREATED_BY_ID, searchAssessmentParameters.getCreatedById());
-    addFilterIfNeeded(session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
+    addFilterIfNeeded(
+        session,
+        FILTER_CREATED_BY_ID,
+        PARAM_CREATED_BY_ID,
+        searchAssessmentParameters.getCreatedById());
+    addFilterIfNeeded(
+        session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
     // returns List (and not ImmutableList as usual) to filter results with authorizer)
-    return session
-        .createNamedQuery(Assessment.NQ_ALL, Assessment.class)
-        .list();
+    return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
   }
 
   private void addFilterIfNeeded(
