@@ -14,5 +14,6 @@ public class SystemInformationDto {
   private String version;
   private String buildNumber;
   private HealthCheckResultDto cans;
+  private HealthCheckResultDto cms;
   private HealthCheckResultDto deadlocks;
 }

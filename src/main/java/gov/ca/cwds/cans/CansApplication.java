@@ -104,6 +104,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
   private void runDataSourceHealthChecks(Environment environment) {
     HealthCheckRegistry healthCheckRegistry = environment.healthChecks();
     doHealthCheck(healthCheckRegistry, Constants.UnitOfWork.CANS);
+    doHealthCheck(healthCheckRegistry, Constants.UnitOfWork.CMS);
   }
 
   private void doHealthCheck(HealthCheckRegistry healthCheckRegistry, String key) {

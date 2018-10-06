@@ -31,8 +31,8 @@ public final class Constants {
   }
 
   public static class UnitOfWork {
-
     public static final String CANS = "cans";
+    public static final String CMS = "cwscms";
 
     private UnitOfWork() {}
   }
