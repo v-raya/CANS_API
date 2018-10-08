@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.inject;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
@@ -13,6 +14,8 @@ import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.inject.CmsHibernateBundle;
+import gov.ca.cwds.inject.CmsSessionFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
@@ -35,6 +38,8 @@ public class DataAccessModule extends AbstractModule {
               Instrument.class)
           .build();
 
+  private final ImmutableList<Class<?>> cmsEntities = ImmutableList.<Class<?>>builder().build();
+
   private final HibernateBundle<CansConfiguration> hibernateBundle =
       new HibernateBundle<CansConfiguration>(entities, new SessionFactoryFactory()) {
         @Override
@@ -53,8 +58,22 @@ public class DataAccessModule extends AbstractModule {
         }
       };
 
+  private final HibernateBundle<CansConfiguration> cmsHibernateBundle =
+      new HibernateBundle<CansConfiguration>(cmsEntities, new SessionFactoryFactory()) {
+        @Override
+        public PooledDataSourceFactory getDataSourceFactory(CansConfiguration configuration) {
+          return configuration.getCmsDataSourceFactory();
+        }
+
+        @Override
+        public String name() {
+          return CMS;
+        }
+      };
+
   public DataAccessModule(Bootstrap<? extends CansConfiguration> bootstrap) {
     bootstrap.addBundle(hibernateBundle);
+    bootstrap.addBundle(cmsHibernateBundle);
   }
 
   @Override
@@ -69,13 +88,25 @@ public class DataAccessModule extends AbstractModule {
 
   @Provides
   @CansSessionFactory
-  SessionFactory cmsSessionFactory() {
+  SessionFactory cansSessionFactory() {
     return hibernateBundle.getSessionFactory();
+  }
+
+  @Provides
+  @CmsSessionFactory
+  SessionFactory cmsSessionFactory() {
+    return cmsHibernateBundle.getSessionFactory();
   }
 
   @Provides
   @CansHibernateBundle
   public HibernateBundle<CansConfiguration> getHibernateBundle() {
     return hibernateBundle;
+  }
+
+  @Provides
+  @CmsHibernateBundle
+  public HibernateBundle<CansConfiguration> getCmsHibernateBundle() {
+    return cmsHibernateBundle;
   }
 }

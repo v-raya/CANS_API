@@ -56,6 +56,7 @@ public class SystemInformationService {
 
     final Map<String, Result> healthChecks = environment.healthChecks().runHealthChecks();
     systemInformation.setCans(getHealthCheckResultDto(healthChecks.get(Constants.UnitOfWork.CANS)));
+    systemInformation.setCms(getHealthCheckResultDto(healthChecks.get(Constants.UnitOfWork.CMS)));
     systemInformation.setDeadlocks(getHealthCheckResultDto(healthChecks.get("deadlocks")));
 
     return systemInformation;
