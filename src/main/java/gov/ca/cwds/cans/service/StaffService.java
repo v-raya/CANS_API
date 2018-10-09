@@ -13,15 +13,11 @@ import java.util.stream.Collectors;
 
 public class StaffService {
 
-  private final CaseDao caseDao;
-  private final StaffClientsMapper staffClientsMapper;
+  @Inject private CaseDao caseDao;
 
-  @Inject
-  public StaffService(CaseDao caseDao, StaffClientsMapper staffClientsMapper) {
-    this.caseDao = caseDao;
-    this.staffClientsMapper = staffClientsMapper;
-  }
+  @Inject private StaffClientsMapper staffClientsMapper;
 
+  @UnitOfWork(CMS)
   public Collection<StaffClientDto> getClientsByStaffId(final String staffId) {
     return caseDao
         .findClientsByStaffIdAndActiveDate(staffId, LocalDate.now())

@@ -3,7 +3,6 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.CLIENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -11,7 +10,6 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.StaffService;
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,7 +37,6 @@ public class StaffResource {
     this.staffService = staffService;
   }
 
-  @UnitOfWork(CMS)
   @GET
   @Path("/{" + ID + "}/" + CLIENTS)
   @ApiResponses(
