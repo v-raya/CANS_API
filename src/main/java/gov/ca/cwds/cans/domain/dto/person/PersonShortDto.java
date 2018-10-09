@@ -52,6 +52,8 @@ public class PersonShortDto extends Dto {
   @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-\\d{7}$")
   private String externalId;
 
+  @NotEmpty private String identifier;
+
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate dob;
 
