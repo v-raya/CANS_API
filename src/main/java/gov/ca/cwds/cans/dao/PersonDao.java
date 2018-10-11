@@ -71,6 +71,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
             .setTotalRecords(totalRecords);
   }
 
+  //filters should go into its own class
   private Session prepareSession(SearchPersonParameters searchParameters) {
     final Session session = grabSession();
     authorize(session);

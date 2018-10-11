@@ -34,6 +34,7 @@ public class PersonService extends AbstractCrudService<Person> {
     this.perryService = perryService;
   }
 
+  //remove principal out of search.
   public SearchPersonResult search(final SearchPersonParameters searchPersonParameters) {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     searchPersonParameters.setUsersCountyExternalId(perryAccount.getCountyCwsCode());
