@@ -30,7 +30,6 @@ public class ApplicationModule<T extends CansConfiguration> extends AbstractModu
    */
   @Override
   protected void configure() {
-    install(new DataAccessModule(bootstrap));
     install(new ServicesModule());
     install(new AuditingModule());
     install(new MappingModule());
