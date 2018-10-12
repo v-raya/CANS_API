@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import gov.ca.cwds.cans.inject.ApplicationModule;
-import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
@@ -44,7 +43,6 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       @Override
       protected void configure() {
         super.configure();
-        install(new DataAccessModule(bootstrap));
         install(
             new SecurityModule(BaseApiApplication::getInjector)
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
