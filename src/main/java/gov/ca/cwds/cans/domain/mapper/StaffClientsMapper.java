@@ -15,7 +15,7 @@ public interface StaffClientsMapper {
   @Mapping(source = "lastName", target = "person.lastName")
   @Mapping(source = "nameSuffix", target = "person.suffix")
   @Mapping(source = "birthDate", target = "person.dob")
-  @Mapping(source = "identifier", target = "person.identifier")
+  @Mapping(source = "identifier", target = "person.externalId")
   @Mapping(constant = "CLIENT", target = "person.personRole")
   @Mapping(constant = "IN_PROGRESS", target = "assessmentStatus")
   @Mapping(source = "casePlanReviewDueDate", target = "casePlanReviewDueDate")
