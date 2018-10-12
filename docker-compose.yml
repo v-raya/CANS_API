@@ -9,6 +9,12 @@ services:
       DEV_MODE: ${DEV_MODE}
       LOG_LEVEL: ${LOG_LEVEL}
 
+  db2:
+    image: cwds/db2data
+    hostname: db2data
+    ports:
+      - ${DB_CMS_DB2_PORT}:${DB_CMS_DB2_PORT}
+
   postgres:
     image: cwds/postgresql_data:0.8.4_662-RC
     hostname: postgresql_data

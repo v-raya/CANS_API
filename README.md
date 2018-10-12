@@ -35,6 +35,13 @@ In order for the CANS API successfully connect to the databases the following en
 - DB_NS_CP_MAX_SIZE -- the NS connections pool maximum size (default: 8)
 
 
+### DB2 - CMS database
+- DB_CMS_JDBC_URL -- the CMS database URL in Java Database Connectivity format
+- DB_CMS_SCHEMA -- the CMS database schema the tables belong to.
+- DB_CMS_USER -- the CMS database username
+- DB_CMS_PASSWORD -- the CMS database password
+- DB_CMS_CP_MAX_SIZE -- the CMS connections pool maximum size (default: 8)
+
 #### Swagger Configuration Parameters**
 - LOGIN_URL -- Login URL
 - LOGOUT_URL -- Logout URL 
