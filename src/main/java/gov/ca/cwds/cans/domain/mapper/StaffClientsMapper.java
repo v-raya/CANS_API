@@ -10,17 +10,17 @@ import org.mapstruct.Mapping;
 @FunctionalInterface
 public interface StaffClientsMapper {
 
-  @Mapping(source = "clientFirstName", target = "person.firstName")
-  @Mapping(source = "clientMiddleName", target = "person.middleName")
-  @Mapping(source = "clientLastName", target = "person.lastName")
-  @Mapping(source = "clientNameSuffix", target = "person.suffix")
-  @Mapping(source = "clientBirthDate", target = "person.dob")
-  @Mapping(source = "clientIdentifier", target = "person.identifier")
+  @Mapping(source = "firstName", target = "person.firstName")
+  @Mapping(source = "middleName", target = "person.middleName")
+  @Mapping(source = "lastName", target = "person.lastName")
+  @Mapping(source = "nameSuffix", target = "person.suffix")
+  @Mapping(source = "birthDate", target = "person.dob")
+  @Mapping(source = "identifier", target = "person.identifier")
   @Mapping(constant = "CLIENT", target = "person.personRole")
   @Mapping(constant = "IN_PROGRESS", target = "assessmentStatus")
   @Mapping(source = "casePlanReviewDueDate", target = "casePlanReviewDueDate")
   @Mapping(
-      expression = "java(toSensitivityType(clientByStaff.getClientSensitivityType()))",
+      expression = "java(toSensitivityType(clientByStaff.getSensitivityType()))",
       target = "person.sensitivityType")
   StaffClientDto toDto(ClientByStaff entity);
 
