@@ -19,6 +19,7 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_MIDDLE_NAME;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
 
+import gov.ca.cwds.cans.domain.entity.facade.Statistics;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
@@ -95,6 +96,18 @@ import org.hibernate.annotations.Type;
 @Filter(
     name = AUTHORIZATION_FILTER,
     condition = "(sensitivity_type <> 'SEALED'  OR sensitivity_type IS NULL)")
+@NamedQuery(
+    name = Statistics.NQ_STAFF_ASSESSMENT_STATISTICS,
+    query =
+        "select "
+            + "  staff.externalId, "
+            + "  count(case when a.status = 'IN_PROGRESS' then 1 else null end), "
+            + "  count(case when a.status = 'SUBMITTED' then 1 else null end) "
+            + "from Assessment a left outer join a.createdBy staff "
+            + "where staff.externalId in (:"
+            + Statistics.NQ_PARAM_RACF_IDS
+            + ") "
+            + "group by staff.externalId")
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
