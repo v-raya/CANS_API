@@ -3,10 +3,13 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.test.util.AssertFixtureUtils.assertResponseByFixturePath;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import java.io.IOException;
 import java.util.Stack;
@@ -73,6 +76,36 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertResponseByFixturePath(
         actualResponse, "fixtures/subordinates-of-supervisor-response.json");
   }
+
+//  @Test
+//  public void getSubordinates_success_whenSubordinateExistsButNoAssessments() throws IOException {
+//    // when
+//    final StaffStatisticsDto[] actual =
+//        clientTestRule
+//            .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
+//            .target(API.STAFF + SLASH + API.SUBORDINATES)
+//            .request(MediaType.APPLICATION_JSON_TYPE)
+//            .get()
+//            .readEntity(StaffStatisticsDto[].class);
+//
+//    // then
+//    assertThat(actual.length, is(0));
+//  }
+//
+//  @Test
+//  public void getSubordinates_success_whenNoSubordinates() throws IOException {
+//    // when
+//    final StaffStatisticsDto[] actual =
+//        clientTestRule
+//            .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
+//            .target(API.STAFF + SLASH + API.SUBORDINATES)
+//            .request(MediaType.APPLICATION_JSON_TYPE)
+//            .get()
+//            .readEntity(StaffStatisticsDto[].class);
+//
+//    // then
+//    assertThat(actual.length, is(0));
+//  }
 
   private PersonDto postPerson() throws IOException {
     final CountyDto county = (CountyDto) new CountyDto().setName("Madera").setId(20L);

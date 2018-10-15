@@ -35,10 +35,7 @@ public abstract class AbstractFunctionalTest {
       "fixtures/perry-account/state-of-california-all-authorized.json";
   public static final String STATE_OF_CA_NO_SENSITIVITY =
       "fixtures/perry-account/state-of-california-no-sensitivity-no-sealed.json";
-  public static final String FIXTURE_START = "fixtures/start-assessment-post.json";
   public static final String SLASH = "/";
-  static final String AUTHORIZED_ACCOUNT_SINGLE_COUNTY_FIXTURE =
-      "fixtures/perry-account/single-county-authorized.json";
   private static final String EDITABLE = "editable";
 
   @Rule
