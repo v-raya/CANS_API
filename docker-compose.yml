@@ -21,13 +21,6 @@ services:
     ports:
       - ${POSTGRES_PORT}:5432
 
-  db2:
-    image: cwds/db2data
-    hostname: db2data
-    ports:
-      - ${DB_CMS_DB2_PORT}:${DB_CMS_DB2_PORT}
-    env_file: .env
-
   cans-api:
     image: cwds/cans-api
     hostname: cans-api
