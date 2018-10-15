@@ -67,7 +67,8 @@ public class StaffResource {
         @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(
-      value = "Get all supervisor subordinates with assessment statistics by supervisor id",
+      value =
+          "Get all subordinates with assessment statistics for a logged in user who has a supervisor priveleges",
       response = StaffStatisticsDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed

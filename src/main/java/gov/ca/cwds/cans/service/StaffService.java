@@ -59,6 +59,6 @@ public class StaffService {
 
   @UnitOfWork(CMS)
   public Collection<StaffBySupervisor> getStaffBySupervisor(final String supervisorId) {
-    return staffPersonDao.nativeFindStaffBySupervisorId(supervisorId);
+    return staffPersonDao.findStaffBySupervisorId(supervisorId);
   }
 }

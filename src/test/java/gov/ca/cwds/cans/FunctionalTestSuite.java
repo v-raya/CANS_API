@@ -11,6 +11,7 @@ import gov.ca.cwds.cans.rest.resource.PersonResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
+import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.IntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.ConfigurationProvider;
@@ -36,6 +37,7 @@ import org.junit.runners.Suite;
   PersonResourceTest.class,
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,
+  StaffResourceTest.class,
   PersonResourceAuthorizationTest.class,
   AssessmentResourceAuthorizationTest.class,
 })
