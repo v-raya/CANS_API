@@ -174,16 +174,4 @@ public class DataAccessModule extends AbstractModule {
   SessionFactory cmsSessionFactory() {
     return cmsHibernateBundle.getSessionFactory();
   }
-
-  //  @Provides
-  //  @CansHibernateBundle
-  //  public HibernateBundle<CansConfiguration> getCansHibernateBundle() {
-  //    return cansHibernateBundle;
-  //  }
-  //
-  //  @Provides
-  //  @CmsHibernateBundle
-  //  public HibernateBundle<CansConfiguration> getCmsHibernateBundle() {
-  //    return cmsHibernateBundle;
-  //  }
 }

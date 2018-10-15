@@ -21,7 +21,6 @@ public final class Constants {
     public static final String PEOPLE = "people";
     public static final String STAFF = "staff";
     public static final String SUBORDINATES = "subordinates";
-    public static final String CLIENTS = "clients";
     public static final String INSTRUMENTS = "instruments";
     public static final String ASSESSMENTS = "assessments";
     public static final String SECURITY = "security";

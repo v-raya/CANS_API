@@ -5,6 +5,4 @@ public enum AssessmentStatus {
   IN_PROGRESS,
   SUBMITTED,
   APPROVED,
-  COMPLETED,
-  REASSESSMENT_DUE
 }
