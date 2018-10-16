@@ -100,6 +100,7 @@ node('linux') {
         archiveArtifacts allowEmptyArchive: true, artifacts: 'version.txt', fingerprint: true, onlyIfSuccessful: true
         fingerprint 'version.txt'
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: 'JUnit Report', reportTitles: 'JUnit tests summary'])
+        sh "docker-compose logs cans-api"
         sh "docker-compose down || true"
         sh "docker rmi $dockerImageName || true"
         sh "docker rmi $testsDockerImageName || true"
