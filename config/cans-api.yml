@@ -90,7 +90,7 @@ cmsRsDataSourceFactory:
   properties:
     hibernate.dialect: org.hibernate.dialect.DB2Dialect
     hibernate.show_sql: false
-    hibernate.default_schema: ${DB_CMS_RS_SCHEMA:-CWSCMSRS1}
+    hibernate.default_schema: ${DB_CMS_RS_SCHEMA:-CWSRS1}
     hibernate.connection.autocommit: false
 
 upgradeCansDbOnStart: ${UPGRADE_CANS_DB_ON_START:-true}
