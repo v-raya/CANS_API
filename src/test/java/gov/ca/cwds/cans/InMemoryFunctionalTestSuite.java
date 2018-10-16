@@ -12,6 +12,7 @@ import gov.ca.cwds.cans.rest.resource.PersonResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
+import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -45,6 +46,7 @@ import org.junit.runners.Suite;
   PersonResourceTest.class,
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,
+  StaffResourceTest.class,
   PersonResourceAuthorizationTest.class,
   AssessmentResourceAuthorizationTest.class,
 })
@@ -73,6 +75,7 @@ public class InMemoryFunctionalTestSuite {
         new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
     DbUpgrader.runDmlOnCansDb(configuration);
+    initCmsDb();
   }
 
   private static void initCansDb() throws LiquibaseException {
@@ -84,8 +87,21 @@ public class InMemoryFunctionalTestSuite {
     }
   }
 
+  private static void initCmsDb() throws LiquibaseException {
+    try (final DatabaseHelper databaseHelper = createCmsDbHelper()) {
+      databaseHelper.runScript("liquibase/cwscms_database_master.xml");
+    } catch (IOException e) {
+      throw new LiquibaseException(e);
+    }
+  }
+
   private static DatabaseHelper createCansDbHelper() {
     return new DatabaseHelper(
         FunctionalTestContextHolder.cansConfiguration.getCansDataSourceFactory());
+  }
+
+  private static DatabaseHelper createCmsDbHelper() {
+    return new DatabaseHelper(
+        FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
   }
 }
