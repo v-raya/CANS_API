@@ -16,8 +16,6 @@ import org.junit.Test;
 public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
 
   private static final String FIXTURES_POST_SENSITIVE = "fixtures/person-post-sensitive.json";
-  private static final String FIXTURES_POST_NON_SENSITIVE_NO_COUNTY =
-      "fixtures/person-post-no-county-not-sensitive.json";
   private static final String FIXTURES_POST_SEALED =
       "fixtures/person-post-with-sensitivity-type.json";
   private static final String FIXTURES_POST_NON_SENSITIVE = "fixtures/person-post.json";

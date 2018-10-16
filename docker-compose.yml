@@ -28,6 +28,7 @@ services:
     depends_on:
       - postgres
       - perry
+      - db2
     ports:
       - ${CANS_API_PORT}:8080
     environment:
@@ -54,6 +55,7 @@ services:
     entrypoint: sleep infinity
     depends_on:
       - postgres
+      - db2
       - perry
       - cans-api
     environment:
