@@ -15,7 +15,42 @@ import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.inject.CmsHibernateBundle;
+import gov.ca.cwds.data.legacy.cms.entity.BackgroundCheck;
+import gov.ca.cwds.data.legacy.cms.entity.CaseAssignment;
+import gov.ca.cwds.data.legacy.cms.entity.CaseLoad;
+import gov.ca.cwds.data.legacy.cms.entity.CaseLoadWeighting;
+import gov.ca.cwds.data.legacy.cms.entity.ChildClient;
+import gov.ca.cwds.data.legacy.cms.entity.Client;
+import gov.ca.cwds.data.legacy.cms.entity.ClientOtherEthnicity;
+import gov.ca.cwds.data.legacy.cms.entity.CountyLicenseCase;
+import gov.ca.cwds.data.legacy.cms.entity.LicensingIssue;
+import gov.ca.cwds.data.legacy.cms.entity.LicensingVisit;
+import gov.ca.cwds.data.legacy.cms.entity.LongText;
+import gov.ca.cwds.data.legacy.cms.entity.OtherAdultsInPlacementHome;
+import gov.ca.cwds.data.legacy.cms.entity.OtherChildrenInPlacementHome;
+import gov.ca.cwds.data.legacy.cms.entity.OtherPeopleScpRelationship;
+import gov.ca.cwds.data.legacy.cms.entity.OutOfHomePlacement;
+import gov.ca.cwds.data.legacy.cms.entity.OutOfStateCheck;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementEpisode;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementFacilityTypeHistory;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementHome;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementHomeNotes;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementHomeProfile;
+import gov.ca.cwds.data.legacy.cms.entity.Referral;
+import gov.ca.cwds.data.legacy.cms.entity.ReferralAssignment;
+import gov.ca.cwds.data.legacy.cms.entity.StaffPerson;
+import gov.ca.cwds.data.legacy.cms.entity.StaffPersonCaseLoad;
+import gov.ca.cwds.data.legacy.cms.entity.SubstituteCareProvider;
+import gov.ca.cwds.data.legacy.cms.entity.facade.CaseByStaff;
+import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.ActiveServiceComponentType;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.ApprovalStatusType;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.CaseClosureReasonType;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.Country;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.NameType;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.SecondaryAssignmentRoleType;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.SystemCode;
+import gov.ca.cwds.data.legacy.cms.entity.syscodes.VisitType;
 import gov.ca.cwds.inject.CmsSessionFactory;
 import gov.ca.cwds.inject.CwsRsHibernateBundle;
 import gov.ca.cwds.inject.CwsRsSessionFactory;
@@ -41,11 +76,53 @@ public class DataAccessModule extends AbstractModule {
               Instrument.class)
           .build();
 
-  private final ImmutableList<Class<?>> cmsEntities = ImmutableList.<Class<?>>builder().build();
+  private final ImmutableList<Class<?>> cmsEntities =
+      ImmutableList.<Class<?>>builder()
+          .add(
+              ActiveServiceComponentType.class,
+              ApprovalStatusType.class,
+              BackgroundCheck.class,
+              CaseByStaff.class,
+              gov.ca.cwds.data.legacy.cms.entity.Case.class,
+              CaseAssignment.class,
+              CaseClosureReasonType.class,
+              CaseLoad.class,
+              CaseLoadWeighting.class,
+              ChildClient.class,
+              Client.class,
+              ClientOtherEthnicity.class,
+              gov.ca.cwds.data.legacy.cms.entity.syscodes.County.class,
+              County.class,
+              CountyLicenseCase.class,
+              Country.class,
+              LongText.class,
+              LicensingVisit.class,
+              NameType.class,
+              OutOfHomePlacement.class,
+              OutOfStateCheck.class,
+              OtherChildrenInPlacementHome.class,
+              OtherAdultsInPlacementHome.class,
+              OtherPeopleScpRelationship.class,
+              PlacementEpisode.class,
+              PlacementHome.class,
+              PlacementHomeProfile.class,
+              PlacementHomeNotes.class,
+              PlacementFacilityTypeHistory.class,
+              ReferralAssignment.class,
+              Referral.class,
+              StaffPerson.class,
+              SecondaryAssignmentRoleType.class,
+              StaffPersonCaseLoad.class,
+              SubstituteCareProvider.class,
+              VisitType.class,
+              LicensingIssue.class,
+              ClientByStaff.class,
+              SystemCode.class)
+          .build();
 
   private final ImmutableList<Class<?>> cmsRsEntities = ImmutableList.<Class<?>>builder().build();
 
-  private final HibernateBundle<CansConfiguration> hibernateBundle =
+  private final HibernateBundle<CansConfiguration> cansHibernateBundle =
       new HibernateBundle<CansConfiguration>(entities, new SessionFactoryFactory()) {
         @Override
         public PooledDataSourceFactory getDataSourceFactory(CansConfiguration configuration) {
@@ -90,7 +167,7 @@ public class DataAccessModule extends AbstractModule {
       };
 
   public DataAccessModule(Bootstrap<? extends CansConfiguration> bootstrap) {
-    bootstrap.addBundle(hibernateBundle);
+    bootstrap.addBundle(cansHibernateBundle);
     bootstrap.addBundle(cmsHibernateBundle);
     bootstrap.addBundle(cmsRsHibernateBundle);
   }
@@ -102,43 +179,18 @@ public class DataAccessModule extends AbstractModule {
 
   @Provides
   UnitOfWorkAwareProxyFactory provideUnitOfWorkAwareProxyFactory() {
-    return new UnitOfWorkAwareProxyFactory(
-        getHibernateBundle(), getCmsHibernateBundle(), getCmsRsHibernateBundle());
+    return new UnitOfWorkAwareProxyFactory(cansHibernateBundle, cmsHibernateBundle, cmsRsHibernateBundle);
   }
 
   @Provides
   @CansSessionFactory
   SessionFactory cansSessionFactory() {
-    return hibernateBundle.getSessionFactory();
+    return cansHibernateBundle.getSessionFactory();
   }
 
   @Provides
   @CmsSessionFactory
   SessionFactory cmsSessionFactory() {
     return cmsHibernateBundle.getSessionFactory();
-  }
-
-  @Provides
-  @CwsRsSessionFactory
-  SessionFactory cmsRsSessionFactory() {
-    return cmsRsHibernateBundle.getSessionFactory();
-  }
-
-  @Provides
-  @CansHibernateBundle
-  public HibernateBundle<CansConfiguration> getHibernateBundle() {
-    return hibernateBundle;
-  }
-
-  @Provides
-  @CmsHibernateBundle
-  public HibernateBundle<CansConfiguration> getCmsHibernateBundle() {
-    return cmsHibernateBundle;
-  }
-
-  @Provides
-  @CwsRsHibernateBundle
-  public HibernateBundle<CansConfiguration> getCmsRsHibernateBundle() {
-    return cmsRsHibernateBundle;
   }
 }

@@ -56,10 +56,9 @@ cmsDataSourceFactory:
   maxSize: ${DB_CMS_CP_MAX_SIZE:-8}
   minIdleTime: 1 minute
   properties:
-    hibernate.dialect: org.hibernate.dialect.H2Dialect
-    hibernate.default_schema: cwscms
-    hibernate.id.new_generator_mappings: false
-    hibernate.show_sql: false
+      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate.default_schema: cwscms
+      hibernate.show_sql: true
 
 cmsRsDataSourceFactory:
   driverClass: org.h2.Driver
