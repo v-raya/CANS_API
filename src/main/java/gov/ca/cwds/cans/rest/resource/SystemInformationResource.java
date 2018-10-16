@@ -32,18 +32,14 @@ public class SystemInformationResource extends AbstractSystemInformationResource
   private static final String BUILD_NUMBER = "build.number";
   private static final String BUILD_VERSION = "build.version";
 
-  private final String applicationName;
-  private final String version;
-  private final String buildNumber;
-
   @Inject
   public SystemInformationResource(
       final CansConfiguration configuration, final Environment environment) {
     super(environment.healthChecks());
-    this.applicationName = configuration.getApplicationName();
+    super.applicationName = configuration.getApplicationName();
     final Properties versionProperties = getVersionProperties();
-    this.version = versionProperties.getProperty(BUILD_VERSION);
-    this.buildNumber = versionProperties.getProperty(BUILD_NUMBER);
+    super.version = versionProperties.getProperty(BUILD_VERSION);
+    super.buildNumber = versionProperties.getProperty(BUILD_NUMBER);
   }
 
   @SuppressFBWarnings({"EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS"})
@@ -55,15 +51,6 @@ public class SystemInformationResource extends AbstractSystemInformationResource
       throw new ApiException("Can't read version.properties", e);
     }
     return versionProperties;
-  }
-
-  @Override
-  protected SystemInformationDto prepareSystemInformation() {
-    SystemInformationDto systemInformationDto = super.prepareSystemInformation();
-    systemInformationDto.setApplicationName(applicationName);
-    systemInformationDto.setVersion(version);
-    systemInformationDto.setBuildNumber(buildNumber);
-    return systemInformationDto;
   }
 
   /**
