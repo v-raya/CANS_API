@@ -44,7 +44,7 @@ public class StaffResource {
       })
   @ApiOperation(
       value =
-          "Get all subordinates with assessment statistics for a logged in user who has a supervisor priveleges",
+          "Get all subordinates with assessment statistics for a logged in user who has a supervisor privileges",
       response = StaffStatisticsDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
