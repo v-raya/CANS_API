@@ -101,6 +101,7 @@ node('linux') {
         fingerprint 'version.txt'
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: 'JUnit Report', reportTitles: 'JUnit tests summary'])
         sh "docker-compose logs cans-api"
+        sh "docker-compose logs perry"
         sh "docker-compose down || true"
         sh "docker rmi $dockerImageName || true"
         sh "docker rmi $testsDockerImageName || true"

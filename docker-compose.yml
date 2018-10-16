@@ -8,7 +8,6 @@ services:
     environment:
       DEV_MODE: ${DEV_MODE}
       LOG_LEVEL: ${LOG_LEVEL}
-      WHITE_LIST: ${WHITE_LIST}
 
   db2:
     image: cwds/db2data
