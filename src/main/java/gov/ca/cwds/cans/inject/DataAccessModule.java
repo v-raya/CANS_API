@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.inject;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
@@ -16,6 +17,8 @@ import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.inject.CmsHibernateBundle;
 import gov.ca.cwds.inject.CmsSessionFactory;
+import gov.ca.cwds.inject.CwsRsHibernateBundle;
+import gov.ca.cwds.inject.CwsRsSessionFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
@@ -39,6 +42,8 @@ public class DataAccessModule extends AbstractModule {
           .build();
 
   private final ImmutableList<Class<?>> cmsEntities = ImmutableList.<Class<?>>builder().build();
+
+  private final ImmutableList<Class<?>> cmsRsEntities = ImmutableList.<Class<?>>builder().build();
 
   private final HibernateBundle<CansConfiguration> hibernateBundle =
       new HibernateBundle<CansConfiguration>(entities, new SessionFactoryFactory()) {
@@ -71,9 +76,23 @@ public class DataAccessModule extends AbstractModule {
         }
       };
 
+  private final HibernateBundle<CansConfiguration> cmsRsHibernateBundle =
+      new HibernateBundle<CansConfiguration>(cmsRsEntities, new SessionFactoryFactory()) {
+        @Override
+        public PooledDataSourceFactory getDataSourceFactory(CansConfiguration configuration) {
+          return configuration.getCmsRsDataSourceFactory();
+        }
+
+        @Override
+        public String name() {
+          return CMS_RS;
+        }
+      };
+
   public DataAccessModule(Bootstrap<? extends CansConfiguration> bootstrap) {
     bootstrap.addBundle(hibernateBundle);
     bootstrap.addBundle(cmsHibernateBundle);
+    bootstrap.addBundle(cmsRsHibernateBundle);
   }
 
   @Override
@@ -83,7 +102,8 @@ public class DataAccessModule extends AbstractModule {
 
   @Provides
   UnitOfWorkAwareProxyFactory provideUnitOfWorkAwareProxyFactory() {
-    return new UnitOfWorkAwareProxyFactory(getHibernateBundle());
+    return new UnitOfWorkAwareProxyFactory(
+        getHibernateBundle(), getCmsHibernateBundle(), getCmsRsHibernateBundle());
   }
 
   @Provides
@@ -99,6 +119,12 @@ public class DataAccessModule extends AbstractModule {
   }
 
   @Provides
+  @CwsRsSessionFactory
+  SessionFactory cmsRsSessionFactory() {
+    return cmsRsHibernateBundle.getSessionFactory();
+  }
+
+  @Provides
   @CansHibernateBundle
   public HibernateBundle<CansConfiguration> getHibernateBundle() {
     return hibernateBundle;
@@ -108,5 +134,11 @@ public class DataAccessModule extends AbstractModule {
   @CmsHibernateBundle
   public HibernateBundle<CansConfiguration> getCmsHibernateBundle() {
     return cmsHibernateBundle;
+  }
+
+  @Provides
+  @CwsRsHibernateBundle
+  public HibernateBundle<CansConfiguration> getCmsRsHibernateBundle() {
+    return cmsRsHibernateBundle;
   }
 }
