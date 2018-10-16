@@ -52,8 +52,6 @@ import gov.ca.cwds.data.legacy.cms.entity.syscodes.SecondaryAssignmentRoleType;
 import gov.ca.cwds.data.legacy.cms.entity.syscodes.SystemCode;
 import gov.ca.cwds.data.legacy.cms.entity.syscodes.VisitType;
 import gov.ca.cwds.inject.CmsSessionFactory;
-import gov.ca.cwds.inject.CwsRsHibernateBundle;
-import gov.ca.cwds.inject.CwsRsSessionFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
@@ -179,7 +177,8 @@ public class DataAccessModule extends AbstractModule {
 
   @Provides
   UnitOfWorkAwareProxyFactory provideUnitOfWorkAwareProxyFactory() {
-    return new UnitOfWorkAwareProxyFactory(cansHibernateBundle, cmsHibernateBundle, cmsRsHibernateBundle);
+    return new UnitOfWorkAwareProxyFactory(
+        cansHibernateBundle, cmsHibernateBundle, cmsRsHibernateBundle);
   }
 
   @Provides
