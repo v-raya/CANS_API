@@ -25,6 +25,8 @@ import org.junit.Test;
 public class StaffResourceTest extends AbstractFunctionalTest {
 
   private static final String SUBORDINATE_MADERA = "fixtures/perry-account/subordinate-madera.json";
+  private static final String SUPERVISOR_NO_SUBORDINATES =
+      "fixtures/perry-account/supervisor-with-no-subordinates.json";
   private static final String FIXTURES_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_SUBMITTED_ASSESSMENT =
@@ -77,35 +79,36 @@ public class StaffResourceTest extends AbstractFunctionalTest {
         actualResponse, "fixtures/subordinates-of-supervisor-response.json");
   }
 
-//  @Test
-//  public void getSubordinates_success_whenSubordinateExistsButNoAssessments() throws IOException {
-//    // when
-//    final StaffStatisticsDto[] actual =
-//        clientTestRule
-//            .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
-//            .target(API.STAFF + SLASH + API.SUBORDINATES)
-//            .request(MediaType.APPLICATION_JSON_TYPE)
-//            .get()
-//            .readEntity(StaffStatisticsDto[].class);
-//
-//    // then
-//    assertThat(actual.length, is(0));
-//  }
-//
-//  @Test
-//  public void getSubordinates_success_whenNoSubordinates() throws IOException {
-//    // when
-//    final StaffStatisticsDto[] actual =
-//        clientTestRule
-//            .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
-//            .target(API.STAFF + SLASH + API.SUBORDINATES)
-//            .request(MediaType.APPLICATION_JSON_TYPE)
-//            .get()
-//            .readEntity(StaffStatisticsDto[].class);
-//
-//    // then
-//    assertThat(actual.length, is(0));
-//  }
+  @Test
+  public void getSubordinates_success_whenSubordinateExistsButNoAssessments()
+      throws IOException, JSONException {
+    // when
+    final Response actualResponse =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + API.SUBORDINATES)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertResponseByFixturePath(
+        actualResponse, "fixtures/subordinates-of-supervisor-response-2.json");
+  }
+
+  @Test
+  public void getSubordinates_empty_whenNoSubordinates() throws IOException {
+    // when
+    final StaffStatisticsDto[] actual =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + API.SUBORDINATES)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(StaffStatisticsDto[].class);
+
+    // then
+    assertThat(actual.length, is(0));
+  }
 
   private PersonDto postPerson() throws IOException {
     final CountyDto county = (CountyDto) new CountyDto().setName("Madera").setId(20L);
