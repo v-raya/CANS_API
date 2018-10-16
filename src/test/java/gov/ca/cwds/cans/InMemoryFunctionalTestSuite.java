@@ -36,21 +36,20 @@ import org.junit.runners.Suite;
  *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses(
-    value = {
-      AuthorizationResourceTest.class,
-      SystemInformationResourceTest.class,
-      AssessmentResourceTest.class,
-      CountyResourceTest.class,
-      I18nResourceTest.class,
-      InstrumentResourceTest.class,
-      PersonResourceTest.class,
-      SecurityResourceTest.class,
-      SensitivityTypeResourceTest.class,
-      StaffResourceTest.class,
-      PersonResourceAuthorizationTest.class,
-      AssessmentResourceAuthorizationTest.class,
-    })
+@Suite.SuiteClasses({
+  AuthorizationResourceTest.class,
+  SystemInformationResourceTest.class,
+  AssessmentResourceTest.class,
+  CountyResourceTest.class,
+  I18nResourceTest.class,
+  InstrumentResourceTest.class,
+  PersonResourceTest.class,
+  SecurityResourceTest.class,
+  SensitivityTypeResourceTest.class,
+  StaffResourceTest.class,
+  PersonResourceAuthorizationTest.class,
+  AssessmentResourceAuthorizationTest.class,
+})
 public class InMemoryFunctionalTestSuite {
 
   @ClassRule
