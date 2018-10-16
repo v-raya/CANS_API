@@ -99,10 +99,10 @@ import org.hibernate.annotations.Type;
 @NamedQuery(
     name = Statistics.NQ_STAFF_ASSESSMENT_STATISTICS,
     query =
-        "select "
+        "select NEW gov.ca.cwds.cans.domain.entity.facade.Statistics("
             + "  staff.externalId, "
             + "  count(case when a.status = 'IN_PROGRESS' then 1 else null end), "
-            + "  count(case when a.status = 'SUBMITTED' then 1 else null end) "
+            + "  count(case when a.status = 'SUBMITTED' then 1 else null end)) "
             + "from Assessment a left outer join a.createdBy staff "
             + "where staff.externalId in (:"
             + Statistics.NQ_PARAM_RACF_IDS

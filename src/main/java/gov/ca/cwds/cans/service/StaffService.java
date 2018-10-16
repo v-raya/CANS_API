@@ -33,7 +33,7 @@ public class StaffService {
     }
     final Map<String, Statistics> statisticsMap =
         statisticsService.getStaffStatistics(staffRacfIds);
-    final Collection<StaffStatisticsDto> results = new ArrayList<>();
+    final Collection<StaffStatisticsDto> results = new ArrayList<>(staffRacfIds.size());
     for (StaffBySupervisor staff : staffList) {
       final Statistics statistics = statisticsMap.get(staff.getRacfId());
       final StaffStatisticsDto statisticsDto = staffStatisticMapper.toDto(staff, statistics);
