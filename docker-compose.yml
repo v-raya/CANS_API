@@ -53,6 +53,10 @@ services:
       DB_CMS_SCHEMA: ${DB_CMS_SCHEMA}
       DB_CMS_USER: ${DB_CMS_USER}
       DB_CMS_PASSWORD: ${DB_CMS_PASSWORD}
+      DB_CMS_RS_JDBC_URL: ${DB_CMS_RS_JDBC_URL}
+      DB_CMS_RS_SCHEMA: ${DB_CMS_RS_SCHEMA}
+      DB_CMS_RS_USER: ${DB_CMS_RS_USER}
+      DB_CMS_RS_PASSWORD: ${DB_CMS_RS_PASSWORD}
 
   cans-api-test:
     image: cwds/cans-api-test

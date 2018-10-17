@@ -75,6 +75,24 @@ cmsDataSourceFactory:
     hibernate.default_schema: ${DB_CMS_SCHEMA:-CWSINT}
     hibernate.connection.autocommit: false
 
+cmsRsDataSourceFactory:
+  autoCommitByDefault: false
+  driverClass: com.ibm.db2.jcc.DB2Driver
+  user: ${DB_CMS_RS_USER:-db2inst1}
+  password: ${DB_CMS_RS_PASSWORD:-db2inst1}
+  url: ${DB_CMS_RS_JDBC_URL:-jdbc:db2://localhost:50000/DB0TDEV}
+  validationQuery: "/* MyService Health Check */ SELECT 1 FROM sysibm.sysdummy1 for read only WITH UR"
+  logValidationErrors: true
+  initialSize: 0
+  minSize: 0
+  maxSize: ${DB_CMS_RS_CP_MAX_SIZE:-8}
+  minIdleTime: 1 minute
+  properties:
+    hibernate.dialect: org.hibernate.dialect.DB2Dialect
+    hibernate.show_sql: false
+    hibernate.default_schema: ${DB_CMS_RS_SCHEMA:-CWSRS1}
+    hibernate.connection.autocommit: false
+
 upgradeCansDbOnStart: ${UPGRADE_CANS_DB_ON_START:-true}
 populateDemoDataOnStart: ${POPULATE_DEMO_DATA_ON_START:-true}
 

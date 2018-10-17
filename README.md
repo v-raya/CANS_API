@@ -42,6 +42,12 @@ In order for the CANS API successfully connect to the databases the following en
 - DB_CMS_PASSWORD -- the CMS database password
 - DB_CMS_CP_MAX_SIZE -- the CMS connections pool maximum size (default: 8)
 
+- DB_CMS_RS_USER - the CMS RS database username
+- DB_CMS_RS_PASSWORD - the CMS RS database password
+- DB_CMS_RS_JDBC_URL - JDBC URL for CWS RS database
+- DB_CMS_RS_SCHEMA - schema name for CWS RS
+- DB_CMS_RS_CP_MAX_SIZE - the CMS connections pool maximum size (default: 8)
+
 #### Swagger Configuration Parameters**
 - LOGIN_URL -- Login URL
 - LOGOUT_URL -- Logout URL 

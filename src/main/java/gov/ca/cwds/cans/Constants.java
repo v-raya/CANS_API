@@ -35,6 +35,7 @@ public final class Constants {
   public static class UnitOfWork {
     public static final String CANS = "cans";
     public static final String CMS = "cwscms";
+    public static final String CMS_RS = "cwscmsrs";
 
     private UnitOfWork() {}
   }

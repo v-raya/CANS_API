@@ -60,6 +60,23 @@ cmsDataSourceFactory:
       hibernate.default_schema: cwscms
       hibernate.show_sql: true
 
+cmsRsDataSourceFactory:
+  driverClass: org.h2.Driver
+  user: sa
+  password:
+  url: jdbc:h2:mem:cwscmsrs;INIT=create schema if not exists cwscmsrs\;set schema cwscmsrs
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  logValidationErrors: true
+  initialSize: ${DB_CMS_RS_CP_INITIAL_SIZE:-2}
+  minSize: ${DB_CMS_RS_CP_MIN_SIZE:-2}
+  maxSize: ${DB_CMS_RS_CP_MAX_SIZE:-8}
+  minIdleTime: 1 minute
+  properties:
+    hibernate.dialect: org.hibernate.dialect.H2Dialect
+    hibernate.default_schema: cwscmsrs
+    hibernate.id.new_generator_mappings: false
+    hibernate.show_sql: false
+
 upgradeCansDbOnStart: false
 
 webSecurity:
