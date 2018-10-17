@@ -82,7 +82,7 @@ node('linux') {
         stage('Run docker-compose environment') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
                 sh "docker-compose up -d"
-                sh "sleep 120"
+                sh "sleep 30"
             }
         }
         stage('Run Functional Tests') {
@@ -100,8 +100,6 @@ node('linux') {
         archiveArtifacts allowEmptyArchive: true, artifacts: 'version.txt', fingerprint: true, onlyIfSuccessful: true
         fingerprint 'version.txt'
         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: 'JUnit Report', reportTitles: 'JUnit tests summary'])
-        sh "docker-compose logs cans-api"
-        sh "docker-compose logs perry"
         sh "docker-compose down || true"
         sh "docker rmi $dockerImageName || true"
         sh "docker rmi $testsDockerImageName || true"
