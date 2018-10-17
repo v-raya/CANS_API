@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.rest.resource.AbstractFunctionalTest.AUTHORIZED_ACCOUNT_FIXTURE;
 import static gov.ca.cwds.cans.rest.resource.AbstractFunctionalTest.AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE;
+import static gov.ca.cwds.cans.rest.resource.AbstractFunctionalTest.SUPERVISOR_MADERA_ALL_AUTHORIZED;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static gov.ca.cwds.cans.test.util.TestUtils.SLASH;
 
@@ -139,6 +140,8 @@ public class PersonResourceHelper {
         return AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE;
       case "Marin":
         return AUTHORIZED_ACCOUNT_FIXTURE;
+      case "Madera":
+        return SUPERVISOR_MADERA_ALL_AUTHORIZED;
       default:
         throw new IllegalArgumentException(
             "There is no account fixture for county: " + county.getName());
