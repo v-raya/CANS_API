@@ -1,7 +1,6 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-import static gov.ca.cwds.cans.test.util.AssertFixtureUtils.assertResponseByFixturePath;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,8 +14,6 @@ import java.io.IOException;
 import java.util.Stack;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import org.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +51,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void getSubordinates_success_whenRecordsExist() throws IOException, JSONException {
+  public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
     final PersonDto person = postPerson();
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
@@ -67,32 +64,39 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     postAssessment(submittedAssessment);
 
     // when
-    final Response actualResponse =
+    final StaffStatisticsDto[] actual =
         clientTestRule
             .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + API.SUBORDINATES)
             .request(MediaType.APPLICATION_JSON_TYPE)
-            .get();
+            .get()
+            .readEntity(StaffStatisticsDto[].class);
 
     // then
-    assertResponseByFixturePath(
-        actualResponse, "fixtures/subordinates-of-supervisor-response.json");
+    assertThat(actual.length, is(1));
+    final StaffStatisticsDto actualStatistics = actual[0];
+    assertThat(actualStatistics.getStaffPerson().getIdentifier(), is("aad"));
+    assertThat(actualStatistics.getInProgressCount(), is(2L));
+    assertThat(actualStatistics.getSubmittedCount(), is(1L));
   }
 
   @Test
-  public void getSubordinates_success_whenSubordinateExistsButNoAssessments()
-      throws IOException, JSONException {
+  public void getSubordinates_success_whenSubordinateExistsButNoAssessments() throws IOException {
     // when
-    final Response actualResponse =
+    final StaffStatisticsDto[] actual =
         clientTestRule
             .withSecurityToken(SUPERVISOR_MADERA_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + API.SUBORDINATES)
             .request(MediaType.APPLICATION_JSON_TYPE)
-            .get();
+            .get()
+            .readEntity(StaffStatisticsDto[].class);
 
     // then
-    assertResponseByFixturePath(
-        actualResponse, "fixtures/subordinates-of-supervisor-response-2.json");
+    assertThat(actual.length, is(1));
+    final StaffStatisticsDto actualStatistics = actual[0];
+    assertThat(actualStatistics.getStaffPerson().getIdentifier(), is("aad"));
+    assertThat(actualStatistics.getInProgressCount(), is(0L));
+    assertThat(actualStatistics.getSubmittedCount(), is(0L));
   }
 
   @Test
