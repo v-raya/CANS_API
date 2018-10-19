@@ -6,8 +6,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import gov.ca.cwds.cans.Constants;
-import gov.ca.cwds.cans.domain.dto.system.HealthCheckResultDto;
-import gov.ca.cwds.cans.domain.dto.system.SystemInformationDto;
+import gov.ca.cwds.dto.app.HealthCheckResultDto;
+import gov.ca.cwds.dto.app.SystemInformationDto;
+import java.util.SortedMap;
 import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
@@ -22,11 +23,14 @@ public class SystemInformationResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON)
             .get(SystemInformationDto.class);
 
-    assertThat(systemInformation.getApplication(), is(equalTo("CWDS CANS API")));
+    assertThat(systemInformation.getApplicationName(), is(equalTo("CWDS CANS API")));
     assertThat(systemInformation.getVersion(), is(notNullValue()));
 
-    assertHealthCheck(systemInformation.getDeadlocks());
-    assertHealthCheck(systemInformation.getCans());
+    SortedMap<String, HealthCheckResultDto> healthCheckResults =
+        systemInformation.getHealthCheckResults();
+    assertHealthCheck(healthCheckResults.get("deadlocks"));
+    assertHealthCheck(healthCheckResults.get(Constants.UnitOfWork.CANS));
+    assertHealthCheck(healthCheckResults.get(Constants.UnitOfWork.CMS));
   }
 
   private void assertHealthCheck(final HealthCheckResultDto healthCheckResult) {

@@ -42,6 +42,12 @@ In order for the CANS API successfully connect to the databases the following en
 - DB_CMS_PASSWORD -- the CMS database password
 - DB_CMS_CP_MAX_SIZE -- the CMS connections pool maximum size (default: 8)
 
+- DB_CMS_RS_USER - the CMS RS database username
+- DB_CMS_RS_PASSWORD - the CMS RS database password
+- DB_CMS_RS_JDBC_URL - JDBC URL for CWS RS database
+- DB_CMS_RS_SCHEMA - schema name for CWS RS
+- DB_CMS_RS_CP_MAX_SIZE - the CMS connections pool maximum size (default: 8)
+
 #### Swagger Configuration Parameters**
 - LOGIN_URL -- Login URL
 - LOGOUT_URL -- Logout URL 
@@ -58,19 +64,28 @@ Further configuration options are available in the file config/cans-api.yml.
 
 ## Testing
 
-### Functional testing
+### Unit Tests
+To run all unit tests, run `./gradlew test`. If the build is successful, all tests passed. If a test fails, you will see more output. If no files have changed, the test run may be very fast.
+
+### Functional Tests
 To run Functional tests set "api.url" and "perry.url" properties to point to environment host. Use gradle FunctionalTest task. In this case token will be generated for default test user, so it's possible to test environment with Perry running in dev mode.
 
-### Smoke Testing
+Functional and Smoke tests both require the cans-api to be running locally (including any dependencies). See 'Running the Application' below.
+
+### Smoke Tests
 Smoke test suite is part of Functional tests. Set "api.url", use gradle smokeTestSuite task. Smoke test endpoint is not protected by Perry.
+
+Functional and Smoke tests both require the cans-api to be running locally (including any dependencies). See 'Running the Application' below.
 
 ## Development
 
 ### Running the Application
 
-_Make sure you have the CANS postgres and Perry containers running or the build will fail_
+_Make sure you have the CANS Postgres, DB2, and Perry containers running or the build will fail. `docker-compose up perry postgres db2`_
 
 `./gradlew run`
+
+Note: This will attempt to download artifacts, which may require you to be connected to OpenVPN.
 
 ## License Information
 The legal folder contains csv file listing the licenses for application dependencies.

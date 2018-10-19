@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.inject;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
@@ -117,6 +118,8 @@ public class DataAccessModule extends AbstractModule {
               SystemCode.class)
           .build();
 
+  private final ImmutableList<Class<?>> cmsRsEntities = ImmutableList.<Class<?>>builder().build();
+
   private final HibernateBundle<CansConfiguration> cansHibernateBundle =
       new HibernateBundle<CansConfiguration>(entities, new SessionFactoryFactory()) {
         @Override
@@ -148,9 +151,23 @@ public class DataAccessModule extends AbstractModule {
         }
       };
 
+  private final HibernateBundle<CansConfiguration> cmsRsHibernateBundle =
+      new HibernateBundle<CansConfiguration>(cmsRsEntities, new SessionFactoryFactory()) {
+        @Override
+        public PooledDataSourceFactory getDataSourceFactory(CansConfiguration configuration) {
+          return configuration.getCmsRsDataSourceFactory();
+        }
+
+        @Override
+        public String name() {
+          return CMS_RS;
+        }
+      };
+
   public DataAccessModule(Bootstrap<? extends CansConfiguration> bootstrap) {
     bootstrap.addBundle(cansHibernateBundle);
     bootstrap.addBundle(cmsHibernateBundle);
+    bootstrap.addBundle(cmsRsHibernateBundle);
   }
 
   @Override
@@ -160,7 +177,8 @@ public class DataAccessModule extends AbstractModule {
 
   @Provides
   UnitOfWorkAwareProxyFactory provideUnitOfWorkAwareProxyFactory() {
-    return new UnitOfWorkAwareProxyFactory(cansHibernateBundle, cmsHibernateBundle);
+    return new UnitOfWorkAwareProxyFactory(
+        cansHibernateBundle, cmsHibernateBundle, cmsRsHibernateBundle);
   }
 
   @Provides
@@ -174,16 +192,4 @@ public class DataAccessModule extends AbstractModule {
   SessionFactory cmsSessionFactory() {
     return cmsHibernateBundle.getSessionFactory();
   }
-
-  //  @Provides
-  //  @CansHibernateBundle
-  //  public HibernateBundle<CansConfiguration> getCansHibernateBundle() {
-  //    return cansHibernateBundle;
-  //  }
-  //
-  //  @Provides
-  //  @CmsHibernateBundle
-  //  public HibernateBundle<CansConfiguration> getCmsHibernateBundle() {
-  //    return cmsHibernateBundle;
-  //  }
 }

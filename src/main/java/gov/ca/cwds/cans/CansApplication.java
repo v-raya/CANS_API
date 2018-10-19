@@ -7,6 +7,7 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import gov.ca.cwds.cans.Constants.UnitOfWork;
 import gov.ca.cwds.cans.inject.ApplicationModule;
 import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
@@ -103,8 +104,9 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
 
   private void runDataSourceHealthChecks(Environment environment) {
     HealthCheckRegistry healthCheckRegistry = environment.healthChecks();
-    doHealthCheck(healthCheckRegistry, Constants.UnitOfWork.CANS);
-    doHealthCheck(healthCheckRegistry, Constants.UnitOfWork.CMS);
+    doHealthCheck(healthCheckRegistry, UnitOfWork.CANS);
+    doHealthCheck(healthCheckRegistry, UnitOfWork.CMS);
+    doHealthCheck(healthCheckRegistry, UnitOfWork.CMS_RS);
   }
 
   private void doHealthCheck(HealthCheckRegistry healthCheckRegistry, String key) {

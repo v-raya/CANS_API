@@ -4,7 +4,5 @@ package gov.ca.cwds.cans.domain.enumeration;
 public enum AssessmentStatus {
   IN_PROGRESS,
   SUBMITTED,
-  APPROVED,
-  COMPLETED,
-  REASSESSMENT_DUE
+  APPROVED
 }

@@ -12,6 +12,7 @@ public class CansConfiguration extends MinimalApiConfiguration {
 
   @JsonProperty private DataSourceFactory cansDataSourceFactory;
   @JsonProperty private DataSourceFactory cmsDataSourceFactory;
+  @JsonProperty private DataSourceFactory cmsRsDataSourceFactory;
 
   private Boolean upgradeCansDbOnStart;
   private Boolean populateDemoDataOnStart;

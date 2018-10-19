@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.inject;
+package gov.ca.cwds.cans.inject.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
