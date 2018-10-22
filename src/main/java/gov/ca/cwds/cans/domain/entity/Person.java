@@ -11,8 +11,10 @@ import static gov.ca.cwds.cans.domain.entity.Person.FILTER_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_ALL;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_COUNT_ALL;
 import static gov.ca.cwds.cans.domain.entity.Person.NQ_FIND_BY_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.NQ_FIND_STATUSES_BY_EXTERNAL_IDS;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_DOB;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_ID;
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_IDS;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_FIRST_NAME;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_LAST_NAME;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_MIDDLE_NAME;
@@ -108,12 +110,31 @@ import org.hibernate.annotations.Type;
             + Statistics.NQ_PARAM_RACF_IDS
             + ") "
             + "group by staff.externalId")
+@NamedQuery(name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
+    query =
+        "SELECT new gov.ca.cwds.cans.domain.dto.person.PersonStatusDto("
+        + "  b.person_id,"
+        + "  b.external_id,"
+        + "  a.status) "
+        + " FROM assessment a INNER JOIN ("
+        + "  SELECT"
+        + "    max(a.event_date),"
+        + "    a.person_id,"
+        + "    p.external_id"
+        + "  FROM assessment a"
+        + "    INNER JOIN person p ON a.person_id = p.id"
+        + "  WHERE p.external_id IN (:"+ PARAM_EXTERNAL_IDS+ ")"
+        + "  GROUP BY a.person_id, p.external_id) AS b"
+        + " ON a.person_id = b.person_id"
+)
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
   public static final String NQ_COUNT_ALL = "gov.ca.cwds.cans.domain.entity.Person.countAll";
   public static final String NQ_FIND_BY_EXTERNAL_ID =
       "gov.ca.cwds.cans.domain.entity.Person.findByExternalId";
+  public static final String NQ_FIND_STATUSES_BY_EXTERNAL_IDS =
+      "gov.ca.cwds.cans.domain.entity.Person.findStatusesByExternalIds";
   public static final String FILTER_PERSON_ROLE = "personRoleFilter";
   public static final String FILTER_EXTERNAL_ID = "externalIdFilter";
   public static final String FILTER_FIRST_NAME = "firstNameFilter";
@@ -123,6 +144,7 @@ public class Person implements Persistent<Long> {
   public static final String FILTER_COUNTY = "countyFilter";
   public static final String PARAM_PERSON_ROLE = "personRole";
   public static final String PARAM_EXTERNAL_ID = "externalId";
+  public static final String PARAM_EXTERNAL_IDS = "externalIds";
   public static final String PARAM_FIRST_NAME = "firstName";
   public static final String PARAM_MIDDLE_NAME = "middleName";
   public static final String PARAM_LAST_NAME = "lastName";

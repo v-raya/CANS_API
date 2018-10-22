@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
+import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
@@ -13,6 +14,7 @@ import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 
 /** @author denys.davydov */
@@ -49,6 +51,10 @@ public class PersonService extends AbstractCrudService<Person> {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForCreate(person);
     return super.create(person);
+  }
+
+  public List<PersonStatusDto> findStatusesByExternalIds(Set<String> externalIds) {
+    return ((PersonDao)dao).findStatusesByExternalIds(externalIds);
   }
 
   private void initializeCasesForCreate(final Person person) {
