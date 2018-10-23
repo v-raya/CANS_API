@@ -206,8 +206,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualResults.length, is(4));
-    System.out.println("!!! assessmentIds" + assessmentIds);
-    System.out.println("!!! actualResults" + actualResults);
     assertThat(actualResults[0].getId(), is(assessmentIds.get(1)));
     assertThat(actualResults[1].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[2].getId(), is(assessmentIds.get(4)));
