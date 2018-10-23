@@ -26,8 +26,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
   private static final String FIXTURES_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
-  private static final String FIXTURE_POST_SUBMITTED_ASSESSMENT =
-      "fixtures/assessment/assessment-post-submit-success.json";
+  private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
+      "fixtures/assessment/assessment-post-complete-success.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -58,10 +58,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assessment.setPerson(person);
     postAssessment(assessment);
     postAssessment(assessment);
-    final AssessmentDto submittedAssessment =
-        readObject(FIXTURE_POST_SUBMITTED_ASSESSMENT, AssessmentDto.class);
-    submittedAssessment.setPerson(person);
-    postAssessment(submittedAssessment);
+    final AssessmentDto completedAssessment =
+        readObject(FIXTURE_POST_COMPLETED_ASSESSMENT, AssessmentDto.class);
+    completedAssessment.setPerson(person);
+    postAssessment(completedAssessment);
 
     // when
     final StaffStatisticsDto[] actual =
@@ -77,7 +77,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final StaffStatisticsDto actualStatistics = actual[0];
     assertThat(actualStatistics.getStaffPerson().getIdentifier(), is("aad"));
     assertThat(actualStatistics.getInProgressCount(), is(2L));
-    assertThat(actualStatistics.getSubmittedCount(), is(1L));
+    assertThat(actualStatistics.getCompletedCount(), is(1L));
   }
 
   @Test
@@ -96,7 +96,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final StaffStatisticsDto actualStatistics = actual[0];
     assertThat(actualStatistics.getStaffPerson().getIdentifier(), is("aad"));
     assertThat(actualStatistics.getInProgressCount(), is(0L));
-    assertThat(actualStatistics.getSubmittedCount(), is(0L));
+    assertThat(actualStatistics.getCompletedCount(), is(0L));
   }
 
   @Test

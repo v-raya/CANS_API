@@ -16,5 +16,5 @@ import lombok.experimental.Accessors;
 public class StaffStatisticsDto extends Dto {
   private StaffPersonDto staffPerson;
   private Long inProgressCount;
-  private Long submittedCount;
+  private Long completedCount;
 }
