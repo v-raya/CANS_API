@@ -93,7 +93,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final Object[] result = new Object[4];
     result[0] = statistics.getStaffPerson().getIdentifier();
     result[1] = statistics.getInProgressCount();
-    result[2] = statistics.getSubmittedCount();
+    result[2] = statistics.getCompletedCount();
     result[3] = statistics.getClientsCount();
     return result;
   }
