@@ -12,24 +12,22 @@ import java.util.Collection;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 /** @author CWDS TPT-2 Team */
-@Mapper
-
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ChildMapper {
 
   @Mapping(target = "firstName", source = "commonFirstName")
   @Mapping(target = "lastName", source = "commonLastName")
   @Mapping(target = "middleName", source = "commonMiddleName")
   @Mapping(target = "dob", source = "birthDate")
-  @Mapping(target = "estimatedDob", ignore = true)
-  @Mapping(target = "gender", ignore = true)
   ChildDto toDto(Client client);
 
-  public default ChildDto toChildDto(
+  default ChildDto toChildDto(
       Client client, Collection<CountyDto> counties, Collection<CaseDto> clientCases) {
     ChildDto childDto = toDto(client);
-    if(DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
+    if (DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
       childDto.setEstimatedDob(Boolean.TRUE);
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
@@ -39,8 +37,7 @@ public interface ChildMapper {
     return childDto;
   }
 
-
-  public default CaseDto toCaseDto(Case cmsCase) {
+  default CaseDto toCaseDto(Case cmsCase) {
     CaseDto caseDto = new CaseDto();
     caseDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(cmsCase.getIdentifier()));
     return caseDto;

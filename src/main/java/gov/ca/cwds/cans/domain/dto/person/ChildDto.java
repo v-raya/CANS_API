@@ -21,8 +21,7 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @ValidPerson
 public class ChildDto extends PersonDto {
-  @Valid
-  private List<CountyDto> counties = new ArrayList<>();
+  @Valid private List<CountyDto> counties = new ArrayList<>();
 
   @Override
   public PersonRole getPersonRole() {
@@ -31,6 +30,7 @@ public class ChildDto extends PersonDto {
 
   /**
    * Sets nothing because the PersonRole is determined already.
+   *
    * @deprecated
    * @param personRole
    * @return self

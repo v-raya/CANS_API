@@ -10,9 +10,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class ChildrenResourceTest extends AbstractFunctionalTest {
 
   private static final String CHILD_CMS_ID = "AbA4BJy0Aq";

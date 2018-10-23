@@ -23,26 +23,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class ChildrenService {
 
+  @Inject private ChildClientDao childClientDao;
+  @Inject private ChildMapper childMapper;
+  @Inject private ClientCountyDeterminationService countyDeterminationService;
 
-  @Inject
-  private ChildClientDao childClientDao;
-  @Inject
-  private ChildMapper childMapper;
-  @Inject
-  private ClientCountyDeterminationService countyDeterminationService;
+  @Inject private CountyService countyService;
+  @Inject private CountyMapper countyMapper;
 
-  @Inject
-  private CountyService countyService;
-  @Inject
-  private CountyMapper countyMapper;
-
-  @Inject
-  private CaseDao cmsCaseDao;
+  @Inject private CaseDao cmsCaseDao;
 
   private static Map<String, CountyDto> countiesCache = new HashMap<>();
 
@@ -58,9 +49,10 @@ public class ChildrenService {
   private List<CountyDto> getCountyDtos(String clientId) {
     Collection<Short> countyIds = determineClientCounties(clientId);
 
-    return countyIds.stream().map(countyExternalId ->
-        findCountyDto(String.valueOf(countyExternalId))
-    ).collect(Collectors.toList());
+    return countyIds
+        .stream()
+        .map(countyExternalId -> findCountyDto(String.valueOf(countyExternalId)))
+        .collect(Collectors.toList());
   }
 
   @UnitOfWork(CMS)
@@ -93,5 +85,4 @@ public class ChildrenService {
     }
     return countiesCache.get(externalId);
   }
-
 }
