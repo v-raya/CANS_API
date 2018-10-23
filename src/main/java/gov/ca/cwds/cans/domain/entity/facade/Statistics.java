@@ -17,5 +17,5 @@ public class Statistics {
 
   private String externalId;
   private long inProgressCount;
-  private long submittedCount;
+  private long completedCount;
 }

@@ -3,8 +3,8 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
+import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.COMPLETED;
 import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.IN_PROGRESS;
-import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.SUBMITTED;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -44,8 +44,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/perry-account/marin-all-authorized.json";
   private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
-  private static final String FIXTURE_POST_SUBMIT_INVALID =
-      "fixtures/assessment/assessment-post-submit-fail.json";
+  private static final String FIXTURE_POST_COMPLETE_INVALID =
+      "fixtures/assessment/assessment-post-complete-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
@@ -95,8 +95,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         actualAssessment.getCreatedTimestamp(), is(not(inputAssessment.getCreatedTimestamp())));
     assertThat(actualAssessment.getUpdatedBy(), is(nullValue()));
     assertThat(actualAssessment.getUpdatedTimestamp(), is(nullValue()));
-    assertThat(actualAssessment.getSubmittedBy(), is(nullValue()));
-    assertThat(actualAssessment.getSubmittedTimestamp(), is(nullValue()));
+    assertThat(actualAssessment.getCompletedBy(), is(nullValue()));
+    assertThat(actualAssessment.getCompletedTimestamp(), is(nullValue()));
 
     // clean up
     personHelper.pushToCleanUpPerson(person);
@@ -107,7 +107,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void postAssessment_failed_whenSubmittingInvalid() throws IOException {
     // given
     final AssessmentDto inputAssessment =
-        readObject(FIXTURE_POST_SUBMIT_INVALID, AssessmentDto.class);
+        readObject(FIXTURE_POST_COMPLETE_INVALID, AssessmentDto.class);
 
     // when
     final Response postResponse =
@@ -168,14 +168,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
               AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person, SUBMITTED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person, SUBMITTED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             // out of search results because of the other created by user
             new Object[] {
-              person, SUBMITTED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             });
 
     for (Object[] property : properties) {
@@ -206,6 +206,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualResults.length, is(4));
+    System.out.println("!!! assessmentIds" + assessmentIds);
+    System.out.println("!!! actualResults" + actualResults);
     assertThat(actualResults[0].getId(), is(assessmentIds.get(1)));
     assertThat(actualResults[1].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[2].getId(), is(assessmentIds.get(4)));

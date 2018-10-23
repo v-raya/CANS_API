@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
+import gov.ca.cwds.cans.domain.dto.logging.CompleteLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
-import gov.ca.cwds.cans.domain.dto.logging.SubmitLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
@@ -28,7 +28,7 @@ import lombok.experimental.Accessors;
 public abstract class AbstractAssessmentDto extends Dto
     implements CreationLoggable<AbstractAssessmentDto>,
         UpdateLoggable<AbstractAssessmentDto>,
-        SubmitLoggable<AbstractAssessmentDto> {
+        CompleteLoggable<AbstractAssessmentDto> {
   private Long instrumentId;
   @NotNull private PersonDto person;
   private CountyDto county;
@@ -53,7 +53,7 @@ public abstract class AbstractAssessmentDto extends Dto
   private PersonDto updatedBy;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_ISO8601_FORMAT)
-  private LocalDateTime submittedTimestamp;
+  private LocalDateTime completedTimestamp;
 
-  private PersonDto submittedBy;
+  private PersonDto completedBy;
 }

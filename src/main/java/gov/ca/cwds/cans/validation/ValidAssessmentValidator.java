@@ -37,7 +37,7 @@ public class ValidAssessmentValidator
       return true;
     }
 
-    if (assessment.getStatus() != AssessmentStatus.SUBMITTED) {
+    if (assessment.getStatus() != AssessmentStatus.COMPLETED) {
       return true;
     }
 
