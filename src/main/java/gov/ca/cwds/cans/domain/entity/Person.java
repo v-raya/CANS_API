@@ -113,8 +113,10 @@ import org.hibernate.annotations.Type;
 @NamedQuery(name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
     query =
         "SELECT new gov.ca.cwds.cans.domain.dto.person.PersonStatusDto("
-        + "  b.person_id,"
         + "  b.external_id,"
+        + "  a.event_date,"
+        + "  a.updated_timestamp,"
+        + "  a.submitted_timestamp,"
         + "  a.status) "
         + " FROM assessment a INNER JOIN ("
         + "  SELECT"
