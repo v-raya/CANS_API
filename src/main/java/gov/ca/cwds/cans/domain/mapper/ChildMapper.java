@@ -22,9 +22,10 @@ public interface ChildMapper {
   @Mapping(target = "lastName", source = "commonLastName")
   @Mapping(target = "middleName", source = "commonMiddleName")
   @Mapping(target = "dob", source = "birthDate")
+  @Mapping(target = "gender", ignore = true)
   ChildDto toDto(Client client);
 
-  default ChildDto toChildDto(
+  public default ChildDto toChildDto(
       Client client, Collection<CountyDto> counties, Collection<CaseDto> clientCases) {
     ChildDto childDto = toDto(client);
     if (DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
