@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class StaffStatisticsDto extends Dto {
   private StaffPersonDto staffPerson;
-  private Long inProgressCount;
-  private Long completedCount;
+  private int inProgressCount;
+  private int completedCount;
+  private int clientsCount;
 }
