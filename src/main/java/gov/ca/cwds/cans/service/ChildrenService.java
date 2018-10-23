@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.inject.Inject;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ChildDto;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /** @author CWDS TPT-2 Team */
+@SuppressFBWarnings("PMB_POSSIBLE_MEMORY_BLOAT")
 public class ChildrenService {
 
   @Inject private ChildClientDao childClientDao;
