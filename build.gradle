@@ -116,6 +116,8 @@ configurations.all {
 dependencies {
     compile group: 'gov.ca.cwds.cals', name: 'cans-ns-data-model', version: dataModelVersion, changing: true
     compile group: 'gov.ca.cwds.api', name: 'legacy-data-access', version: coreApiVersion
+    compile group: 'gov.ca.cwds.api', name: 'api-core-cms', version: coreApiVersion
+    compile group: 'gov.ca.cwds.api', name: 'api-core-abac', version: coreApiVersion
     compile group: 'gov.ca.cwds.api', name: 'api-core-rest', version: coreApiVersion
     compile group: 'gov.ca.cwds.api', name: 'api-security', version: apiSecurityVersion
     compile group: 'gov.ca.cwds.api', name: 'drools-engine', version: coreApiVersion

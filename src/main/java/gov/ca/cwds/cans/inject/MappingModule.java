@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.inject;
 import com.google.inject.AbstractModule;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.CaseMapper;
+import gov.ca.cwds.cans.domain.mapper.ChildMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.cans.domain.mapper.I18nMapper;
 import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
@@ -29,6 +30,7 @@ public class MappingModule extends AbstractModule {
     bindMapperAsEagerSingleton(InstrumentMapper.class);
     bindMapperAsEagerSingleton(PersonMapper.class);
     bindMapperAsEagerSingleton(PersonShortMapper.class);
+    bindMapperAsEagerSingleton(ChildMapper.class);
     bindMapperAsEagerSingleton(StaffStatisticMapper.class);
 
     bindMapperAsEagerSingleton(SearchAssessmentRequestMapper.class);
