@@ -4,24 +4,37 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
+import gov.ca.cwds.cans.domain.dto.person.PersonByStaff;
+import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
 import gov.ca.cwds.cans.domain.entity.facade.Statistics;
 import gov.ca.cwds.cans.domain.mapper.StaffStatisticMapper;
+import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
 import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
+import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import io.dropwizard.hibernate.UnitOfWork;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class StaffService {
 
-  @Inject private StatisticsService statisticsService;
-  @Inject private StaffPersonDao staffPersonDao;
-  @Inject private StaffStatisticMapper staffStatisticMapper;
+  @Inject
+  private StatisticsService statisticsService;
+  @Inject
+  private StaffPersonDao staffPersonDao;
+  @Inject
+  private PersonService personService;
+  @Inject
+  private StaffStatisticMapper staffStatisticMapper;
+  @Inject
+  private CaseDao caseDao;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final Collection<StaffBySupervisor> staffList =
@@ -45,5 +58,25 @@ public class StaffService {
   @UnitOfWork(CMS)
   public Collection<StaffBySupervisor> getStaffBySupervisor(final String supervisorId) {
     return staffPersonDao.findStaffBySupervisorId(supervisorId);
+  }
+
+  //TODO: activeDate? , case dao?
+  public Collection<PersonByStaff> findPersonsByStaffIdAndActiveDate(String staffId,
+      LocalDate activeDate) {
+    Collection<ClientByStaff> clientByStaffs = findClientsByStaffIdAndActiveDate(staffId,
+        activeDate);
+    Map<String, PersonByStaff> personByStaffMap = clientByStaffs.stream()
+        .collect(Collectors.toMap(ClientByStaff::getIdentifier, PersonByStaff::new));
+    List<PersonStatusDto> statuses = personService
+        .findStatusesByExternalIds(personByStaffMap.keySet());
+    statuses.forEach(status -> {
+      personByStaffMap.get(status.getExternalId()).setPersonStatus(status);
+    });
+    return personByStaffMap.values();
+  }
+
+  Collection<ClientByStaff> findClientsByStaffIdAndActiveDate(String staffId,
+      LocalDate activeDate) {
+    return caseDao.findClientsByStaffIdAndActiveDate(staffId, activeDate);
   }
 }
