@@ -35,7 +35,7 @@ public class ChildrenService {
 
   @Inject private CaseDao cmsCaseDao;
 
-  private static Map<String, CountyDto> countiesCache = new HashMap<>();
+  private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
 
   public ChildDto findByExternalId(String id) {
     return Optional.ofNullable(findClient(id)).map(this::composeChildDto).orElse(null);
