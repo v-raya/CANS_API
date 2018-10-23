@@ -1,13 +1,13 @@
 {
-  "user": "CWDS1",
-  "staffId": "aab",
+  "user": "WORKERE",
+  "staffId": "0I3",
   "roles": [
     "Supervisor",
     "CANS-worker"
   ],
-  "county_code": "20",
-  "county_name": "Madera",
-  "county_cws_code": "1087",
+  "county_code": "40",
+  "county_name": "San Luis Obispo",
+  "county_cws_code": "1107",
   "privileges": [
     "Sensitive Persons",
     "Sealed",

@@ -36,7 +36,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 /** An Assessment. */
 @Entity
 @Table(name = "assessment")
-@NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status asc, event_date desc")
+@NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
 @FilterDef(
     name = FILTER_CREATED_BY_ID,
     parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long"))
@@ -115,10 +115,10 @@ public class Assessment implements Persistent<Long> {
   @JoinColumn(name = "updated_by")
   private Person updatedBy;
 
-  @Column(name = "submitted_timestamp")
-  private LocalDateTime submittedTimestamp;
+  @Column(name = "completed_timestamp")
+  private LocalDateTime completedTimestamp;
 
   @ManyToOne
-  @JoinColumn(name = "submitted_by")
-  private Person submittedBy;
+  @JoinColumn(name = "completed_by")
+  private Person completedBy;
 }
