@@ -27,7 +27,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURES_POST_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
-      "fixtures/assessment/assessment-post-submit-success.json";
+      "fixtures/assessment/assessment-post-complete-success.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
