@@ -20,23 +20,26 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class PersonService extends AbstractCrudService<Person> {
 
-  private final CaseDao caseDao;
-  private final AssessmentDao assessmentDao;
-  private final PerryService perryService;
+  private CaseDao caseDao;
+  private AssessmentDao assessmentDao;
+  private PerryService perryService;
 
-  @Inject
-  public PersonService(
-      final PersonDao dao,
-      final CaseDao caseDao,
-      final AssessmentDao assessmentDao,
-      final PerryService perryService) {
-    super(dao); // NOSONAR
+  public PersonService(PersonDao dao, CaseDao caseDao, AssessmentDao assessmentDao,
+      PerryService perryService) {
+    super(dao);
     this.caseDao = caseDao;
     this.assessmentDao = assessmentDao;
     this.perryService = perryService;
+  }
+
+  @Inject
+  public void setDao(final PersonDao dao) {
+    this.dao = dao;
   }
 
   public SearchPersonResult search(final SearchPersonParameters searchPersonParameters) {
@@ -58,7 +61,7 @@ public class PersonService extends AbstractCrudService<Person> {
 
   @UnitOfWork(CANS)
   public List<PersonStatusDto> findStatusesByExternalIds(Set<String> externalIds) {
-    return ((PersonDao)dao).findStatusesByExternalIds(externalIds);
+    return ((PersonDao) dao).findStatusesByExternalIds(externalIds);
   }
 
   private void initializeCasesForCreate(final Person person) {

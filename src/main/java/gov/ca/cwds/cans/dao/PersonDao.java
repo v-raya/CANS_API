@@ -17,6 +17,7 @@ import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
@@ -53,9 +54,12 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   public List<PersonStatusDto> findStatusesByExternalIds(Set<String> externalIds) {
+    if (externalIds.isEmpty()) {
+      return Collections.emptyList();
+    }
     return this.grabSession()
         .createNamedQuery(Person.NQ_FIND_STATUSES_BY_EXTERNAL_IDS, PersonStatusDto.class)
-        .setParameter(PARAM_EXTERNAL_IDS, externalIds)
+        .setParameterList(PARAM_EXTERNAL_IDS, externalIds)
         .list();
   }
 

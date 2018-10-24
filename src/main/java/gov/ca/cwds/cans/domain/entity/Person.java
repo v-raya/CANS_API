@@ -21,17 +21,22 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_MIDDLE_NAME;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_PERSON_ROLE;
 import static gov.ca.cwds.cans.domain.entity.Person.PARAM_USERS_COUNTY_EXTERNAL_ID;
 
+import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
 import gov.ca.cwds.cans.domain.entity.facade.Statistics;
+import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.Gender;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.enumeration.Race;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -44,11 +49,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Type;
@@ -110,25 +117,41 @@ import org.hibernate.annotations.Type;
             + Statistics.NQ_PARAM_RACF_IDS
             + ") "
             + "group by staff.externalId")
-@NamedQuery(name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
+@SqlResultSetMapping(
+    name = "PersonStatusDtoResult",
+    classes = {
+      @ConstructorResult(
+          targetClass = PersonStatusDto.class,
+          columns = {
+            @ColumnResult(name = "external_id", type = String.class),
+            @ColumnResult(name = "event_date", type = LocalDate.class),
+            @ColumnResult(name = "updated_timestamp", type = LocalDateTime.class),
+            @ColumnResult(name = "submitted_timestamp", type = LocalDateTime.class),
+            @ColumnResult(name = "status", type = AssessmentStatus.class)
+          })
+    })
+@NamedNativeQuery(
+    name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
     query =
-        "SELECT new gov.ca.cwds.cans.domain.dto.person.PersonStatusDto("
-        + "  b.external_id,"
-        + "  a.event_date,"
-        + "  a.updated_timestamp,"
-        + "  a.submitted_timestamp,"
-        + "  a.status) "
-        + " FROM assessment a INNER JOIN ("
-        + "  SELECT"
-        + "    max(a.event_date),"
-        + "    a.person_id,"
-        + "    p.external_id"
-        + "  FROM assessment a"
-        + "    INNER JOIN person p ON a.person_id = p.id"
-        + "  WHERE p.external_id IN (:"+ PARAM_EXTERNAL_IDS+ ")"
-        + "  GROUP BY a.person_id, p.external_id) AS b"
-        + " ON a.person_id = b.person_id"
-)
+        "SELECT "
+            + "  b.external_id,"
+            + "  a.event_date,"
+            + "  a.updated_timestamp,"
+            + "  a.submitted_timestamp,"
+            + "  a.status "
+            + " FROM {h-schema}assessment a INNER JOIN ("
+            + "  SELECT"
+            + "    max(a.event_date),"
+            + "    a.person_id,"
+            + "    p.external_id"
+            + "  FROM {h-schema}assessment a"
+            + "    INNER JOIN {h-schema}person p ON a.person_id = p.id"
+            + "  WHERE p.external_id IN :"
+            + PARAM_EXTERNAL_IDS
+            + ""
+            + "  GROUP BY a.person_id, p.external_id) AS b"
+            + " ON a.person_id = b.person_id",
+    resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Person.findAll";
