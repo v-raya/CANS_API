@@ -48,6 +48,9 @@ public class PersonShortDto extends Dto {
   @Size(max = 4)
   private String suffix;
 
+  @Size(max = 10)
+  private String identifier;
+
   @NotEmpty
   @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-\\d{7}$")
   private String externalId;

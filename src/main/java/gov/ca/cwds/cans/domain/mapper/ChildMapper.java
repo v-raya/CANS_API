@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableList;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ChildDto;
+import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.DateOfBirthStatus;
+import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ChildMapper {
 
+  @Mapping(target = "identifier", source = "identifier")
   @Mapping(target = "firstName", source = "commonFirstName")
   @Mapping(target = "lastName", source = "commonLastName")
   @Mapping(target = "middleName", source = "commonMiddleName")
@@ -35,7 +38,19 @@ public interface ChildMapper {
     childDto.setCounty(counties.iterator().next());
     childDto.setCounties(ImmutableList.copyOf(counties));
     childDto.setCases(ImmutableList.copyOf(clientCases));
+    childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
+  }
+
+  default SensitivityType toSensitivityType(Sensitivity sensitivity) {
+    switch (sensitivity) {
+      case SENSITIVE:
+        return SensitivityType.SENSITIVE;
+      case SEALED:
+        return SensitivityType.SEALED;
+      default:
+        return null;
+    }
   }
 
   default CaseDto toCaseDto(Case cmsCase) {
