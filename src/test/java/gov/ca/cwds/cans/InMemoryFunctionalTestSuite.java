@@ -5,7 +5,7 @@ import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 import gov.ca.cwds.cans.rest.resource.AssessmentResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.AssessmentResourceTest;
 import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
-import gov.ca.cwds.cans.rest.resource.ChildrenResourceTest;
+import gov.ca.cwds.cans.rest.resource.ClientsResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
@@ -50,7 +50,7 @@ import org.junit.runners.Suite;
   StaffResourceTest.class,
   PersonResourceAuthorizationTest.class,
   AssessmentResourceAuthorizationTest.class,
-  ChildrenResourceTest.class,
+  ClientsResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 

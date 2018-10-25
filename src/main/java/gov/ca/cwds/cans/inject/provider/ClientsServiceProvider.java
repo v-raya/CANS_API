@@ -2,19 +2,19 @@ package gov.ca.cwds.cans.inject.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import gov.ca.cwds.cans.service.ChildrenService;
+import gov.ca.cwds.cans.service.ClientsService;
 import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 
 /** @author TPT-2 Team */
-public class ChildrenServiceProvider extends AbstractInjectProvider<ChildrenService> {
+public class ClientsServiceProvider extends AbstractInjectProvider<ClientsService> {
   @Inject
-  public ChildrenServiceProvider(
+  public ClientsServiceProvider(
       Injector injector, UnitOfWorkAwareProxyFactory unitOfWorkAwareProxyFactory) {
     super(injector, unitOfWorkAwareProxyFactory);
   }
 
   @Override
-  public Class<ChildrenService> getServiceClass() {
-    return ChildrenService.class;
+  public Class<ClientsService> getServiceClass() {
+    return ClientsService.class;
   }
 }

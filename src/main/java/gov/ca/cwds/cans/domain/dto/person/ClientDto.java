@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @ValidPerson
-public class ChildDto extends PersonDto {
+public class ClientDto extends PersonDto {
   @Valid private List<CountyDto> counties = new ArrayList<>();
 
   @Override

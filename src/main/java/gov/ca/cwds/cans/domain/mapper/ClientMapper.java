@@ -3,7 +3,7 @@ package gov.ca.cwds.cans.domain.mapper;
 import com.google.common.collect.ImmutableList;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
-import gov.ca.cwds.cans.domain.dto.person.ChildDto;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
@@ -18,7 +18,7 @@ import org.mapstruct.ReportingPolicy;
 
 /** @author CWDS TPT-2 Team */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ChildMapper {
+public interface ClientMapper {
 
   @Mapping(target = "identifier", source = "identifier")
   @Mapping(target = "firstName", source = "commonFirstName")
@@ -26,11 +26,11 @@ public interface ChildMapper {
   @Mapping(target = "middleName", source = "commonMiddleName")
   @Mapping(target = "dob", source = "birthDate")
   @Mapping(target = "gender", ignore = true)
-  ChildDto toDto(Client client);
+  ClientDto toDto(Client client);
 
-  public default ChildDto toChildDto(
+  public default ClientDto toClientDto(
       Client client, Collection<CountyDto> counties, Collection<CaseDto> clientCases) {
-    ChildDto childDto = toDto(client);
+    ClientDto childDto = toDto(client);
     if (DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
       childDto.setEstimatedDob(Boolean.TRUE);
     }

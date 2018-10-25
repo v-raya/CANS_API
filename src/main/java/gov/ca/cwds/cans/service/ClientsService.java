@@ -8,11 +8,11 @@ import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
-import gov.ca.cwds.cans.domain.dto.person.ChildDto;
-import gov.ca.cwds.cans.domain.mapper.ChildMapper;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
+import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
-import gov.ca.cwds.data.legacy.cms.dao.ChildClientDao;
+import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 
 /** @author CWDS TPT-2 Team */
 @SuppressFBWarnings("PMB_POSSIBLE_MEMORY_BLOAT")
-public class ChildrenService {
+public class ClientsService {
 
-  @Inject private ChildClientDao childClientDao;
-  @Inject private ChildMapper childMapper;
+  @Inject private ClientDao clientDao;
+  @Inject private ClientMapper clientMapper;
   @Inject private ClientCountyDeterminationService countyDeterminationService;
 
   @Inject private CountyService countyService;
@@ -39,13 +39,13 @@ public class ChildrenService {
 
   private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
 
-  public ChildDto findByExternalId(String id) {
-    return Optional.ofNullable(findClient(id)).map(this::composeChildDto).orElse(null);
+  public ClientDto findByExternalId(String id) {
+    return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
   }
 
-  private ChildDto composeChildDto(Client client) {
+  private ClientDto composeClientDto(Client client) {
     String clientId = client.getIdentifier();
-    return childMapper.toChildDto(client, getCountyDtos(clientId), findClientCases(clientId));
+    return clientMapper.toClientDto(client, getCountyDtos(clientId), findClientCases(clientId));
   }
 
   private List<CountyDto> getCountyDtos(String clientId) {
@@ -60,17 +60,13 @@ public class ChildrenService {
   @UnitOfWork(CMS)
   protected List<CaseDto> findClientCases(String clientId) {
     return Optional.ofNullable(cmsCaseDao.findActiveByClient(clientId))
-        .map(cmsCases -> childMapper.toCaseDtoList(cmsCases))
+        .map(cmsCases -> clientMapper.toCaseDtoList(cmsCases))
         .orElse(Collections.emptyList());
   }
 
   @UnitOfWork(CMS)
   protected Client findClient(String id) {
-    Client client = childClientDao.find(id);
-    if (client != null && !client.getChildClientIndicator()) {
-      throw new IllegalArgumentException("The client with ID: " + id + " is not a childClient");
-    }
-    return client;
+    return clientDao.find(id);
   }
 
   @UnitOfWork(CMS_RS)
