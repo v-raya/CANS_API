@@ -1,0 +1,15 @@
+{
+  "user": "WORKERL",
+  "staffId": "0Ht",
+  "roles": [
+    "CANS-worker"
+  ],
+  "county_code": "40",
+  "county_name": "San Luis Obispo",
+  "county_cws_code": "1107",
+  "privileges": [
+    "Sensitive Persons",
+    "Sealed",
+    "CANS-rollout"
+  ]
+}

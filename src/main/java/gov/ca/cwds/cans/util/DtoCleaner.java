@@ -1,8 +1,8 @@
 package gov.ca.cwds.cans.util;
 
 import gov.ca.cwds.cans.domain.dto.Dto;
+import gov.ca.cwds.cans.domain.dto.logging.CompleteLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
-import gov.ca.cwds.cans.domain.dto.logging.SubmitLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
 
 /** @author denys.davydov */
@@ -27,10 +27,10 @@ public final class DtoCleaner {
       updateLoggable.setUpdatedTimestamp(null);
     }
 
-    if (inputDto instanceof SubmitLoggable) {
-      final SubmitLoggable submitLoggable = (SubmitLoggable) inputDto;
-      submitLoggable.setSubmittedBy(null);
-      submitLoggable.setSubmittedTimestamp(null);
+    if (inputDto instanceof CompleteLoggable) {
+      final CompleteLoggable completeLoggable = (CompleteLoggable) inputDto;
+      completeLoggable.setCompletedBy(null);
+      completeLoggable.setCompletedTimestamp(null);
     }
 
     return inputDto;

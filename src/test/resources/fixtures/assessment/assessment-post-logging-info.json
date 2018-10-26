@@ -15,8 +15,8 @@
     "last_name": "FamilyName",
     "external_id": "theId"
   },
-  "submitted_timestamp": "2000-01-23T12:34:56.100Z",
-  "submitted_by": {
+  "completed_timestamp": "2000-01-23T12:34:56.100Z",
+  "completed_by": {
     "id": 62506,
     "person_role": "USER",
     "first_name": "Name",
