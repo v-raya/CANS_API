@@ -1,6 +1,6 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.PARAM_STAFF_ID;
+import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
@@ -60,7 +60,7 @@ public class StaffResource {
   }
 
   @GET
-  @Path("{" + PARAM_STAFF_ID + "}/" + PEOPLE)
+  @Path("{" + ID + "}/" + PEOPLE)
   @ApiResponses(
       value = {
         @ApiResponse(code = 401, message = "Not Authorized"),
@@ -73,7 +73,7 @@ public class StaffResource {
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffIdAndActiveDate(
       @ApiParam(required = true, name = "Staff id", value = "0x5", example = "0x5")
-          @PathParam(PARAM_STAFF_ID)
+          @PathParam(ID)
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
