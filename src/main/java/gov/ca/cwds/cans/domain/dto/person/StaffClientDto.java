@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StaffClientDto extends PersonShortDto {
 
-  public StaffClientDto(Long id, String externalId, String  status, LocalDate eventDate) {
+  public StaffClientDto(Long id, String externalId, String status, LocalDate eventDate) {
     this.setId(id);
     this.setExternalId(externalId);
-    if(eventDate != null) {
+    if (eventDate != null) {
       this.reminderDate = eventDate.plusMonths(6);
     }
     this.status = ClientAssessmentStatus.valueOf(status);
@@ -29,5 +29,4 @@ public class StaffClientDto extends PersonShortDto {
   private LocalDate reminderDate;
 
   private ClientAssessmentStatus status;
-
 }

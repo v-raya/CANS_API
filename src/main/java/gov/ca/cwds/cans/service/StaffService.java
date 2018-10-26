@@ -26,18 +26,12 @@ import java.util.stream.Collectors;
 
 public class StaffService {
 
-  @Inject
-  private StatisticsService statisticsService;
-  @Inject
-  private StaffPersonDao staffPersonDao;
-  @Inject
-  private PersonService personService;
-  @Inject
-  private StaffStatisticMapper staffStatisticMapper;
-  @Inject
-  private CaseDao caseDao;
-  @Inject
-  private StaffClientMapper staffClientMapper;
+  @Inject private StatisticsService statisticsService;
+  @Inject private StaffPersonDao staffPersonDao;
+  @Inject private PersonService personService;
+  @Inject private StaffStatisticMapper staffStatisticMapper;
+  @Inject private CaseDao caseDao;
+  @Inject private StaffClientMapper staffClientMapper;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final String currentStaffId = PrincipalUtils.getPrincipal().getStaffId();

@@ -58,9 +58,7 @@ import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Type;
 
-/**
- * A Person.
- */
+/** A Person. */
 @Entity
 @Table(name = "person")
 @Data
@@ -120,14 +118,14 @@ import org.hibernate.annotations.Type;
 @SqlResultSetMapping(
     name = "PersonStatusDtoResult",
     classes = {
-        @ConstructorResult(
-            targetClass = StaffClientDto.class,
-            columns = {
-                @ColumnResult(name = "person_id", type = Long.class),
-                @ColumnResult(name = "external_id", type = String.class),
-                @ColumnResult(name = "status", type = String.class),
-                @ColumnResult(name = "event_date", type = LocalDate.class),
-            })
+      @ConstructorResult(
+          targetClass = StaffClientDto.class,
+          columns = {
+            @ColumnResult(name = "person_id", type = Long.class),
+            @ColumnResult(name = "external_id", type = String.class),
+            @ColumnResult(name = "status", type = String.class),
+            @ColumnResult(name = "event_date", type = LocalDate.class),
+          })
     })
 @NamedNativeQuery(
     name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
@@ -137,10 +135,10 @@ import org.hibernate.annotations.Type;
             + "  b.external_id,"
             + "  b.event_date,"
             + "  CASE"
-            + "    WHEN status IS NULL THEN 'NO_PRIOR_CANS'"
-            + "    WHEN status = 'SUBMITTED' THEN 'COMPLETED'"
-            + "    ELSE status"
-            + "  END "
+            + "    WHEN a.status IS NULL THEN 'NO_PRIOR_CANS'"
+            + "    WHEN a.status = 'SUBMITTED' THEN 'COMPLETED'"
+            + "    ELSE a.status"
+            + "  END as status"
             + " FROM {h-schema}assessment a RIGHT JOIN ("
             + "  SELECT"
             + "    max(a.event_date) as event_date,"
@@ -223,8 +221,7 @@ public class Person implements Persistent<Long> {
   @Column(name = "client_index_number")
   private String clientIndexNumber;
 
-  @ManyToOne
-  private County county;
+  @ManyToOne private County county;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();

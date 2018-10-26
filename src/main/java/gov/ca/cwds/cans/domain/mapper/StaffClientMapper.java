@@ -14,5 +14,6 @@ public interface StaffClientMapper {
   @Mapping(source = "nameSuffix", target = "suffix")
   @Mapping(source = "birthDate", target = "dob")
   @Mapping(source = "identifier", target = "externalId")
+  @Mapping(target = "sensitivityType", ignore = true)
   void map(ClientByStaff source, @MappingTarget StaffClientDto target);
 }

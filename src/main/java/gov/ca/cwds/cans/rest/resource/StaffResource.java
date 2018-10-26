@@ -4,7 +4,6 @@ import static gov.ca.cwds.cans.Constants.API.PARAM_STAFF_ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
-import static gov.ca.cwds.cans.Constants.Roles.SUPERVISOR;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -27,7 +26,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 @Api(value = STAFF, tags = STAFF)
 @Path(value = STAFF)
@@ -72,7 +70,7 @@ public class StaffResource {
       value = "Get all all clients from assigned cases",
       response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
-  //@RequiresRoles(SUPERVISOR)
+  // @RequiresRoles(SUPERVISOR)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffIdAndActiveDate(
       @ApiParam(required = true, name = "Staff id", value = "0x5", example = "0x5")

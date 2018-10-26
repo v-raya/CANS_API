@@ -2,7 +2,6 @@ package gov.ca.cwds.cans.service;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
-import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
@@ -33,11 +32,6 @@ public class PersonService extends AbstractCrudService<Person> {
     this.caseDao = caseDao;
     this.assessmentDao = assessmentDao;
     this.perryService = perryService;
-  }
-
-  @Inject
-  public void setDao(final PersonDao dao) {
-    this.dao = dao;
   }
 
   public SearchPersonResult search(final SearchPersonParameters searchPersonParameters) {
