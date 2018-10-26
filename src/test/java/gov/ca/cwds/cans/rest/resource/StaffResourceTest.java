@@ -14,6 +14,7 @@ import gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
