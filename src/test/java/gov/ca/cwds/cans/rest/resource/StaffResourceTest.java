@@ -11,6 +11,7 @@ import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
+import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,7 +58,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void getSubordinates_success_whenRecordsExist() throws IOException {
+  public void getSubordinates_success_whenRecordsExist_inMemoryOnly() throws IOException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
     // given
     final PersonDto person = postPerson();
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
