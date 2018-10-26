@@ -1,13 +1,12 @@
 package gov.ca.cwds.cans.service;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
-import static gov.ca.cwds.cans.domain.dto.person.PersonByStaff.REMINDER_DATE_PERIOD_MONTHS;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonByStaff;
-import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.facade.Statistics;
+import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffStatisticMapper;
 import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
 import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
@@ -36,6 +35,8 @@ public class StaffService {
   private StaffStatisticMapper staffStatisticMapper;
   @Inject
   private CaseDao caseDao;
+  @Inject
+  private StaffClientMapper staffClientMapper;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final Collection<StaffBySupervisor> staffList =
@@ -61,33 +62,25 @@ public class StaffService {
     return staffPersonDao.findStaffBySupervisorId(supervisorId);
   }
 
-  public Collection<PersonByStaff> findPersonsByStaffI(String staffId) {
-    Collection<ClientByStaff> clientByStaffs =
-        findClientsByStaffIdAndActiveDate(staffId, LocalDate.now());
+  public Collection<StaffClientDto> findAssignedPersonsForStaffId(String staffId) {
+    Collection<ClientByStaff> clientByStaffs = findClientsByStaffId(staffId);
     if (clientByStaffs.isEmpty()) {
       return Collections.emptyList();
     }
-    Map<String, PersonByStaff> personByStaffMap =
+    Map<String, ClientByStaff> clientsByStaffMap =
         clientByStaffs
             .stream()
-            .collect(Collectors.toMap(ClientByStaff::getIdentifier, PersonByStaff::new));
-    List<PersonStatusDto> statuses =
-        personService.findStatusesByExternalIds(personByStaffMap.keySet());
-    statuses.forEach(
-        status -> {
-          PersonByStaff personByStaff = personByStaffMap.get(status.getExternalId());
-          personByStaff.setPersonStatus(status);
-          if (status.getEventDate() != null) {
-            personByStaff.setReminderDate(
-                status.getEventDate().plusMonths(REMINDER_DATE_PERIOD_MONTHS));
-          }
-        });
-    return personByStaffMap.values();
+            .collect(Collectors.toMap(ClientByStaff::getIdentifier, item -> item));
+    List<StaffClientDto> statuses =
+        personService.findStatusesByExternalIds(clientsByStaffMap.keySet());
+    return statuses
+        .stream()
+        .peek(item -> staffClientMapper.map(clientsByStaffMap.get(item.getExternalId()), item))
+        .collect(Collectors.toList());
   }
 
   @UnitOfWork(CMS)
-  Collection<ClientByStaff> findClientsByStaffIdAndActiveDate(
-      String staffId, LocalDate activeDate) {
-    return caseDao.findClientsByStaffIdAndActiveDate(staffId, activeDate);
+  Collection<ClientByStaff> findClientsByStaffId(String staffId) {
+    return caseDao.findClientsByStaffIdAndActiveDate(staffId, LocalDate.now());
   }
 }

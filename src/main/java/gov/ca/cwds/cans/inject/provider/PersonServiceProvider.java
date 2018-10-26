@@ -10,7 +10,10 @@ import gov.ca.cwds.cans.service.PersonService;
 public class PersonServiceProvider extends TransactionalServiceProvider<PersonService> {
 
   @Inject
-  public PersonServiceProvider(PersonDao personDao, CaseDao caseDao, AssessmentDao assessmentDao,
+  public PersonServiceProvider(
+      PersonDao personDao,
+      CaseDao caseDao,
+      AssessmentDao assessmentDao,
       PerryService perryService) {
     super(personDao, caseDao, assessmentDao, perryService);
   }

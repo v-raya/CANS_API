@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
-import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
@@ -20,17 +20,15 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
 
   private CaseDao caseDao;
   private AssessmentDao assessmentDao;
   private PerryService perryService;
 
-  public PersonService(PersonDao dao, CaseDao caseDao, AssessmentDao assessmentDao,
-      PerryService perryService) {
+  public PersonService(
+      PersonDao dao, CaseDao caseDao, AssessmentDao assessmentDao, PerryService perryService) {
     super(dao);
     this.caseDao = caseDao;
     this.assessmentDao = assessmentDao;
@@ -60,7 +58,7 @@ public class PersonService extends AbstractCrudService<Person> {
   }
 
   @UnitOfWork(CANS)
-  public List<PersonStatusDto> findStatusesByExternalIds(Set<String> externalIds) {
+  public List<StaffClientDto> findStatusesByExternalIds(Set<String> externalIds) {
     return ((PersonDao) dao).findStatusesByExternalIds(externalIds);
   }
 

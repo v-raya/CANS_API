@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import java.io.IOException;
 import java.util.Stack;
 import javax.ws.rs.client.Entity;
@@ -110,8 +111,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .get()
             .readEntity(StaffStatisticsDto[].class);
 
-    // then
-    assertThat(actual.length, is(0));
+      // then
+      assertThat(actual.length, is(0));
+    }
+
+  @Test
+  public void findAssignedPersonsForStaffId_validStatuses_whenCalled() throws IOException {
+    final String staffId = "0Ki";
+    final StaffClientDto[] actual =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + staffId + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(StaffClientDto[].class);
+    System.out.println(actual);
   }
 
   private PersonDto postPerson() throws IOException {

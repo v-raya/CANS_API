@@ -8,10 +8,8 @@ import java.lang.reflect.ParameterizedType;
 
 public abstract class TransactionalServiceProvider<T> implements Provider<T> {
 
-  @Inject
-  private UnitOfWorkAwareProxyFactory unitOfWorkAwareProxyFactory;
-  @Inject
-  private Injector injector;
+  @Inject private UnitOfWorkAwareProxyFactory unitOfWorkAwareProxyFactory;
+  @Inject private Injector injector;
   private Class[] parameterTypes;
   private Object[] arguments;
 
@@ -29,7 +27,7 @@ public abstract class TransactionalServiceProvider<T> implements Provider<T> {
 
   @SuppressWarnings("unchecked")
   private Class<T> serviceClass() {
-    return (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-        .getActualTypeArguments()[0];
+    return (Class<T>)
+        ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
   }
 }

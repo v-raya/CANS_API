@@ -5,7 +5,7 @@ import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_IDS;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.Constants.Privileges;
-import gov.ca.cwds.cans.domain.dto.person.PersonStatusDto;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.search.Pagination;
@@ -53,12 +53,12 @@ public class PersonDao extends AbstractCrudDao<Person> {
     return people.isEmpty() ? null : people.get(0);
   }
 
-  public List<PersonStatusDto> findStatusesByExternalIds(Set<String> externalIds) {
+  public List<StaffClientDto> findStatusesByExternalIds(Set<String> externalIds) {
     if (externalIds.isEmpty()) {
       return Collections.emptyList();
     }
     return this.grabSession()
-        .createNamedQuery(Person.NQ_FIND_STATUSES_BY_EXTERNAL_IDS, PersonStatusDto.class)
+        .createNamedQuery(Person.NQ_FIND_STATUSES_BY_EXTERNAL_IDS, StaffClientDto.class)
         .setParameterList(PARAM_EXTERNAL_IDS, externalIds)
         .list();
   }

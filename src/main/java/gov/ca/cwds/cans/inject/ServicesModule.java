@@ -16,9 +16,7 @@ import gov.ca.cwds.cans.service.StatisticsService;
  */
 public class ServicesModule extends AbstractModule {
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public ServicesModule() {
     // Do nothing - Default constructor
   }

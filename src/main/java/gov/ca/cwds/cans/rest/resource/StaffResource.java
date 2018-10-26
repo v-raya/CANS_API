@@ -4,12 +4,13 @@ import static gov.ca.cwds.cans.Constants.API.PARAM_STAFF_ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
+import static gov.ca.cwds.cans.Constants.Roles.SUPERVISOR;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonByStaff;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.StaffService;
 import io.swagger.annotations.Api;
@@ -26,6 +27,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 
 @Api(value = STAFF, tags = STAFF)
 @Path(value = STAFF)
@@ -44,8 +46,8 @@ public class StaffResource {
   @Path(SUBORDINATES)
   @ApiResponses(
       value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(
       value =
@@ -63,16 +65,19 @@ public class StaffResource {
   @Path("{" + PARAM_STAFF_ID + "}/" + PEOPLE)
   @ApiResponses(
       value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
       })
-  @ApiOperation(value = "Get all all clients from assigned cases", response = PersonByStaff[].class)
+  @ApiOperation(
+      value = "Get all all clients from assigned cases",
+      response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  //@RequiresRoles(SUPERVISOR)
   @Timed
-  public Collection<PersonByStaff> findPersonsByStaffIdAndActiveDate(
+  public Collection<StaffClientDto> findPersonsByStaffIdAndActiveDate(
       @ApiParam(required = true, name = "Staff id", value = "0x5", example = "0x5")
-      @PathParam(PARAM_STAFF_ID)
+          @PathParam(PARAM_STAFF_ID)
           String staffId) {
-    return staffService.findPersonsByStaffI(staffId);
+    return staffService.findAssignedPersonsForStaffId(staffId);
   }
 }

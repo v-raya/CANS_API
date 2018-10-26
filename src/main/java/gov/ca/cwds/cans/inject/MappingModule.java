@@ -8,6 +8,7 @@ import gov.ca.cwds.cans.domain.mapper.I18nMapper;
 import gov.ca.cwds.cans.domain.mapper.InstrumentMapper;
 import gov.ca.cwds.cans.domain.mapper.PersonMapper;
 import gov.ca.cwds.cans.domain.mapper.PersonShortMapper;
+import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffStatisticMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchPersonRequestMapper;
@@ -19,6 +20,10 @@ import org.mapstruct.factory.Mappers;
  * @author denys.davydov
  */
 public class MappingModule extends AbstractModule {
+
+  private static Class getMapperImpl(Class<?> mapperClass) {
+    return Mappers.getMapper(mapperClass).getClass();
+  }
 
   @Override
   protected void configure() {
@@ -33,13 +38,10 @@ public class MappingModule extends AbstractModule {
 
     bindMapperAsEagerSingleton(SearchAssessmentRequestMapper.class);
     bindMapperAsEagerSingleton(SearchPersonRequestMapper.class);
+    bindMapperAsEagerSingleton(StaffClientMapper.class);
   }
 
   private void bindMapperAsEagerSingleton(Class<?> clazz) {
     bind(clazz).to(getMapperImpl(clazz)).asEagerSingleton();
-  }
-
-  private static Class getMapperImpl(Class<?> mapperClass) {
-    return Mappers.getMapper(mapperClass).getClass();
   }
 }
