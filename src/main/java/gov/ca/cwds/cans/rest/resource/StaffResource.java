@@ -70,7 +70,6 @@ public class StaffResource {
       value = "Get all all clients from assigned cases",
       response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
-  // @RequiresRoles(SUPERVISOR)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffIdAndActiveDate(
       @ApiParam(required = true, name = "Staff id", value = "0x5", example = "0x5")
