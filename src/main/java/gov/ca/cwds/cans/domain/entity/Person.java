@@ -136,7 +136,6 @@ import org.hibernate.annotations.Type;
             + "  b.event_date,"
             + "  CASE"
             + "    WHEN a.status IS NULL THEN 'NO_PRIOR_CANS'"
-            + "    WHEN a.status = 'SUBMITTED' THEN 'COMPLETED'"
             + "    ELSE a.status"
             + "  END as status"
             + " FROM {h-schema}assessment a RIGHT JOIN ("
