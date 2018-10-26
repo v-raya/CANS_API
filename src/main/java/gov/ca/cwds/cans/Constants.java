@@ -40,6 +40,11 @@ public final class Constants {
     private UnitOfWork() {}
   }
 
+  public static class Roles {
+    public static final String SUPERVISOR = "Supervisor";
+    public static final String SOCIAL_WORKER = "SocialWorker";
+  }
+
   public static class Privileges {
     public static final String SENSITIVE_PERSONS = "Sensitive Persons";
     public static final String SEALED = "Sealed";
