@@ -24,6 +24,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,7 +66,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void getSubordinates_success_whenRecordsExist() throws IOException {
+  public void getSubordinates_success_whenRecordsExist_inMemoryOnly() throws IOException {
+    Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
     // given
     final PersonDto person = postPerson();
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
