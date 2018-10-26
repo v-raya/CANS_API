@@ -182,7 +182,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "externalId", "dob"));
+    assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "dob"));
     // valid error message is present for dob in future
     assertThat(
         actualResponse
