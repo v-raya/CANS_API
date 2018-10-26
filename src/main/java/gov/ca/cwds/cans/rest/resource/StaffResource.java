@@ -67,7 +67,7 @@ public class StaffResource {
         @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(
-      value = "Get all all clients from assigned cases",
+      value = "Get all clients from assigned cases",
       response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed

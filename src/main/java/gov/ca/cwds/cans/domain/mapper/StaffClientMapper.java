@@ -8,9 +8,6 @@ import org.mapstruct.MappingTarget;
 
 @Mapper
 public interface StaffClientMapper {
-  @Mapping(source = "firstName", target = "firstName")
-  @Mapping(source = "middleName", target = "middleName")
-  @Mapping(source = "lastName", target = "lastName")
   @Mapping(source = "nameSuffix", target = "suffix")
   @Mapping(source = "birthDate", target = "dob")
   @Mapping(source = "identifier", target = "externalId")

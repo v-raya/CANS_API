@@ -92,10 +92,9 @@ public class StaffService {
             .collect(Collectors.toMap(ClientByStaff::getIdentifier, item -> item));
     List<StaffClientDto> statuses =
         personService.findStatusesByExternalIds(clientsByStaffMap.keySet());
-    return statuses
-        .stream()
-        .peek(item -> staffClientMapper.map(clientsByStaffMap.get(item.getExternalId()), item))
-        .collect(Collectors.toList());
+    statuses
+        .forEach(item -> staffClientMapper.map(clientsByStaffMap.get(item.getExternalId()), item));
+    return statuses;
   }
 
   @UnitOfWork(CMS)
