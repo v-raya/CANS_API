@@ -135,7 +135,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     final PersonDto postedPerson =
         personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
-    assessment.setPerson(postedPerson);
+    // assessment.setPerson(postedPerson);
     return postAssesment(assessment);
   }
 
