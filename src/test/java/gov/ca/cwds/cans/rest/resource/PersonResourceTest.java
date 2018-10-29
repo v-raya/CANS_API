@@ -433,7 +433,7 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
 
     // then
     actualPerson.setId(null);
-    assertThat(actualPerson, is(inputPerson));
+    assertThat(actualPerson.getExternalId(), is(inputPerson.getExternalId()));
   }
 
   @Test

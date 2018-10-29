@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.dao;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
@@ -12,18 +13,17 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
-import gov.ca.cwds.security.annotations.Authorize;
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 /** @author denys.davydov */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Inject
-  public AssessmentDao(
-      @CansSessionFactory final SessionFactory sessionFactory) {
+  public AssessmentDao(@CansSessionFactory final SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 
@@ -93,7 +93,18 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     addFilterIfNeeded(
         session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
     // returns List (and not ImmutableList as usual) to filter results with authorizer)
-    return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
+
+    Query<Assessment> assessmentQuery =
+        Optional.ofNullable(searchAssessmentParameters.getClientIdentifier())
+            .map(
+                clientIdentifier -> {
+                  Query<Assessment> query =
+                      session.createNamedQuery(Assessment.NQ_ALL_FOR_CLIENT, Assessment.class);
+                  query.setParameter(PARAM_CLIENT_IDENTIFIER, clientIdentifier);
+                  return query;
+                })
+            .orElse(session.createNamedQuery(Assessment.NQ_ALL, Assessment.class));
+    return assessmentQuery.list();
   }
 
   private void addFilterIfNeeded(
