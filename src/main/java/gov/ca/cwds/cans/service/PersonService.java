@@ -1,9 +1,11 @@
 package gov.ca.cwds.cans.service;
 
-import com.google.inject.Inject;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Case;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
@@ -12,23 +14,21 @@ import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+import io.dropwizard.hibernate.UnitOfWork;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
 
-  private final CaseDao caseDao;
-  private final AssessmentDao assessmentDao;
-  private final PerryService perryService;
+  private CaseDao caseDao;
+  private AssessmentDao assessmentDao;
+  private PerryService perryService;
 
-  @Inject
   public PersonService(
-      final PersonDao dao,
-      final CaseDao caseDao,
-      final AssessmentDao assessmentDao,
-      final PerryService perryService) {
-    super(dao); // NOSONAR
+      PersonDao dao, CaseDao caseDao, AssessmentDao assessmentDao, PerryService perryService) {
+    super(dao);
     this.caseDao = caseDao;
     this.assessmentDao = assessmentDao;
     this.perryService = perryService;
@@ -49,6 +49,11 @@ public class PersonService extends AbstractCrudService<Person> {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForCreate(person);
     return super.create(person);
+  }
+
+  @UnitOfWork(CANS)
+  public List<StaffClientDto> findStatusesByExternalIds(Set<String> externalIds) {
+    return ((PersonDao) dao).findStatusesByExternalIds(externalIds);
   }
 
   private void initializeCasesForCreate(final Person person) {

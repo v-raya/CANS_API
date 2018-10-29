@@ -76,6 +76,7 @@ public class InMemoryFunctionalTestSuite {
     initCansDb();
     DbUpgrader.runDmlOnCansDb(configuration);
     initCmsDb();
+    initCmsRsDb();
   }
 
   private static void initCansDb() throws LiquibaseException {
@@ -95,6 +96,14 @@ public class InMemoryFunctionalTestSuite {
     }
   }
 
+  private static void initCmsRsDb() throws LiquibaseException {
+    try (final DatabaseHelper databaseHelper = createCmsRsDbHelper()) {
+      databaseHelper.runScript("liquibase/cwscmsrs_database_master.xml");
+    } catch (IOException e) {
+      throw new LiquibaseException(e);
+    }
+  }
+
   private static DatabaseHelper createCansDbHelper() {
     return new DatabaseHelper(
         FunctionalTestContextHolder.cansConfiguration.getCansDataSourceFactory());
@@ -103,5 +112,10 @@ public class InMemoryFunctionalTestSuite {
   private static DatabaseHelper createCmsDbHelper() {
     return new DatabaseHelper(
         FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
+  }
+
+  private static DatabaseHelper createCmsRsDbHelper() {
+    return new DatabaseHelper(
+        FunctionalTestContextHolder.cansConfiguration.getCmsRsDataSourceFactory());
   }
 }
