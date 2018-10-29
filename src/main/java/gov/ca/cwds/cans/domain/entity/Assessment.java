@@ -35,9 +35,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
-/**
- * An Assessment.
- */
+/** An Assessment. */
 @Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Table(name = "assessment")
@@ -58,6 +56,7 @@ public class Assessment implements Persistent<Long> {
   public static final String FILTER_PERSON_ID = "personIdFilter";
   public static final String PARAM_PERSON_ID = "personId";
   private static final long serialVersionUID = 4921833959434495906L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
@@ -91,17 +90,13 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;
 
-  @ManyToOne
-  private Instrument instrument;
+  @ManyToOne private Instrument instrument;
 
-  @ManyToOne
-  private Person person;
+  @ManyToOne private Person person;
 
-  @ManyToOne
-  private Cft cft;
+  @ManyToOne private Cft cft;
 
-  @ManyToOne
-  private County county;
+  @ManyToOne private County county;
 
   @ManyToOne
   @JoinColumn(name = "case_id")

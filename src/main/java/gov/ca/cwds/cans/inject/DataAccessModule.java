@@ -60,9 +60,7 @@ import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 import io.dropwizard.setup.Bootstrap;
 import org.hibernate.SessionFactory;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class DataAccessModule extends AbstractModule {
 
   private final ImmutableList<Class<?>> entities =
