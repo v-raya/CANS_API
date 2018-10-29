@@ -274,7 +274,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     cleanUpAssessments.push(postedAssessment);
   }
 
-  /* Authorization must be reworked
+  /* Authorization will be reworked
 
   @Test
   public void getAssessment_authorized_whenUserHasSealedAndClientIsSealed() throws IOException {

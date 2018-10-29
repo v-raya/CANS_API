@@ -6,8 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
-import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import java.io.IOException;
 import java.util.Stack;
 import javax.ws.rs.client.Entity;
@@ -22,7 +21,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
 
   private static final String FIXTURE_POST_ELDORADO_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
-
+  private static final String SENSITIVE_CLIENT_IDENTIFIER = "AbA4BJy0Aq";
   private PersonResourceHelper personHelper;
 
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
@@ -130,12 +129,10 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
-    final PersonDto person = personHelper.readPersonDto(FIXTURE_POST_ELDORADO_PERSON);
-    person.setSensitivityType(SensitivityType.SENSITIVE);
-    final PersonDto postedPerson =
-        personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
+    final ClientDto client = readObject(FIXTURE_POST_ELDORADO_PERSON, ClientDto.class);
+    client.setIdentifier(SENSITIVE_CLIENT_IDENTIFIER);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
-    // assessment.setPerson(postedPerson);
+    assessment.setPerson(client);
     return postAssesment(assessment);
   }
 

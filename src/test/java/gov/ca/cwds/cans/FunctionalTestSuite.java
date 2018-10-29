@@ -38,7 +38,7 @@ import org.junit.runners.Suite;
   SensitivityTypeResourceTest.class,
   StaffResourceTest.class,
   PersonResourceAuthorizationTest.class,
-  // AssessmentResourceAuthorizationTest.class, //Authorization must be reworked in future tasks
+  // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
 })
 public class FunctionalTestSuite {
 

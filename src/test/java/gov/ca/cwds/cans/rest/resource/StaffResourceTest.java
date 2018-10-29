@@ -117,14 +117,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actual.length, is(0));
   }
 
-  /*
-  private PersonDto postPerson() throws IOException {
-    final CountyDto county = (CountyDto) new CountyDto().setName("San Luis Obispo").setId(40L);
-    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST_PERSON).setCounty(county);
-    return personHelper.postPerson(person, SUBORDINATE_MADERA);
-  }
-  */
-
   private void postAssessment(AssessmentDto assessment) throws IOException {
     AssessmentDto postedAssessment =
         clientTestRule
