@@ -83,6 +83,9 @@ public class StaffService {
   }
 
   public Collection<StaffClientDto> findAssignedPersonsForStaffId(String staffId) {
+    if(staffId.length() > 3) {
+      return Collections.emptyList();
+    }
     Collection<ClientByStaff> clientByStaffs = findClientsByStaffId(staffId);
     if (clientByStaffs.isEmpty()) {
       return Collections.emptyList();
