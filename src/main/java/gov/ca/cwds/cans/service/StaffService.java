@@ -14,6 +14,7 @@ import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientCountByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
+import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.ws.rs.core.Response.Status;
 
 public class StaffService {
 
@@ -84,7 +86,7 @@ public class StaffService {
 
   public Collection<StaffClientDto> findAssignedPersonsForStaffId(String staffId) {
     if (staffId.length() > 3) {
-      return Collections.emptyList();
+      throw new ExpectedException("Staff id must consist of 3 symbols", Status.BAD_REQUEST);
     }
     Collection<ClientByStaff> clientByStaffs = findClientsByStaffId(staffId);
     if (clientByStaffs.isEmpty()) {
