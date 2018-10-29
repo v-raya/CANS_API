@@ -32,10 +32,11 @@ project.ext {
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     projectMajorVersion = '0.10.1'
-    dataModelVersion = '0.10.1_682-RC'
+    dataModelVersion = '0.10.1_689-RC'
     coreApiVersion = '1.9.4_869-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
     dropwizardVersion = '1.1.0'
+    hibernateVersion = '5.2.16.Final'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
 
@@ -122,7 +123,8 @@ dependencies {
 
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
     compile group: 'io.dropwizard', name: 'dropwizard-hibernate', version: dropwizardVersion
-    compile group: 'org.hibernate', name: 'hibernate-ehcache', version: '5.2.16.Final'
+    compile group: 'org.hibernate', name: 'hibernate-ehcache', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-envers', version: hibernateVersion
     compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
 

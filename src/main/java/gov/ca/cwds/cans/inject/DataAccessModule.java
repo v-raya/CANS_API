@@ -15,6 +15,7 @@ import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import gov.ca.cwds.data.legacy.cms.entity.BackgroundCheck;
 import gov.ca.cwds.data.legacy.cms.entity.CaseAssignment;
 import gov.ca.cwds.data.legacy.cms.entity.CaseLoad;
@@ -59,12 +60,15 @@ import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 import io.dropwizard.setup.Bootstrap;
 import org.hibernate.SessionFactory;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class DataAccessModule extends AbstractModule {
 
   private final ImmutableList<Class<?>> entities =
       ImmutableList.<Class<?>>builder()
           .add(
+              NsRevisionEntity.class,
               Assessment.class,
               Case.class,
               Cft.class,
