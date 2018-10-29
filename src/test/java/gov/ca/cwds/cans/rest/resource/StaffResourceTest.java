@@ -12,7 +12,6 @@ import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
-import gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;

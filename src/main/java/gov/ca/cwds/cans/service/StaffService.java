@@ -83,7 +83,7 @@ public class StaffService {
   }
 
   public Collection<StaffClientDto> findAssignedPersonsForStaffId(String staffId) {
-    if(staffId.length() > 3) {
+    if (staffId.length() > 3) {
       return Collections.emptyList();
     }
     Collection<ClientByStaff> clientByStaffs = findClientsByStaffId(staffId);
@@ -99,6 +99,11 @@ public class StaffService {
         personService.findStatusesByExternalIds(clientsByStaffMap.keySet());
     Map<String, StaffClientDto> statusesMap =
         statuses.stream().collect(Collectors.toMap(StaffClientDto::getExternalId, item -> item));
+    return merge(clientByStaffs, statusesMap);
+  }
+
+  private List<StaffClientDto> merge(
+      Collection<ClientByStaff> clientByStaffs, Map<String, StaffClientDto> statusesMap) {
     List<StaffClientDto> out = new ArrayList<>();
 
     clientByStaffs.forEach(
