@@ -4,6 +4,7 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
+import gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.facade.Statistics;
 import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
@@ -90,11 +91,24 @@ public class StaffService {
         clientByStaffs
             .stream()
             .collect(Collectors.toMap(ClientByStaff::getIdentifier, item -> item));
+
     List<StaffClientDto> statuses =
         personService.findStatusesByExternalIds(clientsByStaffMap.keySet());
-    statuses
-        .forEach(item -> staffClientMapper.map(clientsByStaffMap.get(item.getExternalId()), item));
-    return statuses;
+    Map<String, StaffClientDto> statusesMap =
+        statuses.stream().collect(Collectors.toMap(StaffClientDto::getExternalId, item -> item));
+    List<StaffClientDto> out = new ArrayList<>();
+
+    clientByStaffs.forEach(
+        item -> {
+          StaffClientDto staffClientDto = statusesMap.get(item.getIdentifier());
+          if (staffClientDto == null) {
+            staffClientDto = new StaffClientDto();
+            staffClientDto.setStatus(ClientAssessmentStatus.NO_PRIOR_CANS);
+          }
+          staffClientMapper.map(item, staffClientDto);
+          out.add(staffClientDto);
+        });
+    return out;
   }
 
   @UnitOfWork(CMS)

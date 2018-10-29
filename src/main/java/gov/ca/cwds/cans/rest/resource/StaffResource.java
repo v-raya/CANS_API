@@ -66,14 +66,11 @@ public class StaffResource {
         @ApiResponse(code = 401, message = "Not Authorized"),
         @ApiResponse(code = 404, message = "Not found")
       })
-  @ApiOperation(
-      value = "Get all clients from assigned cases",
-      response = StaffClientDto[].class)
+  @ApiOperation(value = "Get all clients from assigned cases", response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(
-      @ApiParam(required = true, name = ID, value = "Staff id", example = "0x5")
-          @PathParam(ID)
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0x5") @PathParam(ID)
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
