@@ -43,6 +43,7 @@ cansDataSourceFactory:
       hibernate.default_schema: cans
       hibernate.id.new_generator_mappings: false
       hibernate.show_sql: true
+      org.hibernate.envers.store_data_at_delete: true
 
 cmsDataSourceFactory:
   driverClass: org.h2.Driver
