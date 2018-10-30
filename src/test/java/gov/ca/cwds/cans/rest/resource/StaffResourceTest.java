@@ -1,6 +1,8 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus.COMPLETED;
+import static gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -164,18 +166,28 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       throws IOException {
 
     PersonDto personDto = postPerson(TEST_EXTERNAL_ID);
-    final StaffClientDto[] actual =
+    final StaffClientDto[] response =
         clientTestRule
             .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(StaffClientDto[].class);
-    Assert.assertTrue(actual.length == 1);
-    StaffClientDto staffClientDto = actual[0];
+    List<StaffClientDto> dtoList = Arrays.asList(response);
+    Assert.assertTrue(
+        dtoList
+            .stream()
+            .allMatch(
+                item -> item.getStatus().equals(NO_PRIOR_CANS) && item.getReminderDate() == null));
+    List<StaffClientDto> subList =
+        dtoList
+            .stream()
+            .filter(item -> item.getExternalId().equals(TEST_EXTERNAL_ID))
+            .collect(Collectors.toList());
+
+    Assert.assertEquals(1, subList.size());
+    StaffClientDto staffClientDto = subList.get(0);
     validateCommonFields(staffClientDto, personDto);
-    Assert.assertTrue(staffClientDto.getStatus().equals(ClientAssessmentStatus.NO_PRIOR_CANS));
-    Assert.assertNull(staffClientDto.getReminderDate());
   }
 
   @Test
@@ -191,17 +203,22 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assessment.setEventDate(LocalDate.now().minusMonths(6));
     assessment.setStatus(AssessmentStatus.COMPLETED);
     postAssessment(assessment);
-    final StaffClientDto[] actual =
+    final StaffClientDto[] response =
         clientTestRule
             .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(StaffClientDto[].class);
-    Assert.assertTrue(actual.length == 1);
-    StaffClientDto staffClientDto = actual[0];
+    List<StaffClientDto> dtoList = Arrays.asList(response);
+    List<StaffClientDto> completed =
+        dtoList
+            .stream()
+            .filter(item -> item.getStatus().equals(COMPLETED))
+            .collect(Collectors.toList());
+    Assert.assertEquals(1, completed.size());
+    StaffClientDto staffClientDto = completed.get(0);
     validateCommonFields(staffClientDto, person);
-    Assert.assertEquals(staffClientDto.getStatus(), ClientAssessmentStatus.COMPLETED);
     Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now());
   }
 
