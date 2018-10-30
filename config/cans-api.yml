@@ -56,6 +56,7 @@ cansDataSourceFactory:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
       hibernate.cache.use_query_cache: true
+      org.hibernate.envers.store_data_at_delete: true
 
 cmsDataSourceFactory:
   autoCommitByDefault: false
