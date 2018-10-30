@@ -7,6 +7,7 @@ import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
@@ -34,8 +35,10 @@ import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
 
 /** An Assessment. */
+@Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Table(name = "assessment")
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
@@ -55,8 +58,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Accessors(chain = true)
 public class Assessment implements Persistent<Long> {
 
-  private static final long serialVersionUID = 4921833959434495906L;
-
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Assessment.findAll";
   public static final String NQ_ALL_FOR_CLIENT =
       "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClient";
@@ -65,6 +66,8 @@ public class Assessment implements Persistent<Long> {
   public static final String FILTER_PERSON_ID = "personIdFilter";
   public static final String PARAM_PERSON_ID = "personId";
   public static final String PARAM_CLIENT_IDENTIFIER = "clientIdentifier";
+  private static final long serialVersionUID = 4921833959434495906L;
+
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
