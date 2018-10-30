@@ -70,7 +70,7 @@ public class StaffResource {
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(
-      @ApiParam(required = true, name = ID, value = "Staff id", example = "0x5") @PathParam(ID)
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5") @PathParam(ID)
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
