@@ -1,8 +1,8 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-import static gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus.COMPLETED;
-import static gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus.NO_PRIOR_CANS;
+import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.COMPLETED;
+import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,11 +14,12 @@ import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
-import gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;

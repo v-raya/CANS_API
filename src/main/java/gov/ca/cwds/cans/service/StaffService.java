@@ -4,7 +4,6 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
-import gov.ca.cwds.cans.domain.dto.person.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
@@ -13,8 +12,8 @@ import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
 import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
-import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
+import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
@@ -61,20 +60,19 @@ public class StaffService {
             .stream()
             .collect(Collectors.toMap(id -> id, CmsKeyIdGenerator::getUIIdentifierFromKey));
 
-    final List<StaffClientDto> clientsStatuses =
-        personService.findStatusesByExternalIds(new HashSet<>(base62toBase10ClientIdsMap.values()));
     final Map<String, ClientAssessmentStatus> clientStatusMap =
-        clientsStatuses
-            .stream()
-            .collect(
-                Collectors.toMap(
-                    StaffClientDto::getExternalId,
-                    StaffClientDto::getStatus,
-                    (oldValue, value) -> value));
-    //    final Map<String, ClientAssessmentStatus> clientStatusMap =
-    //        statisticsService.fetchClientsStatuses(base62toBase10ClientIdsMap.values());
+        fetchClientToStatusMap(base62toBase10ClientIdsMap);
 
     // group clients with statuses by staff
+    return mergeResults(
+        staffByIdMap, clientIdsByStaffIds, base62toBase10ClientIdsMap, clientStatusMap);
+  }
+
+  private Collection<StaffStatisticsDto> mergeResults(
+      Map<String, StaffBySupervisor> staffByIdMap,
+      Map<String, Set<String>> clientIdsByStaffIds,
+      Map<String, String> base62toBase10ClientIdsMap,
+      Map<String, ClientAssessmentStatus> clientStatusMap) {
     final Collection<StaffStatisticsDto> results = new ArrayList<>();
     clientIdsByStaffIds.forEach(
         (staffId, clients) -> {
@@ -91,6 +89,19 @@ public class StaffService {
           results.add(staffStatistics);
         });
     return results;
+  }
+
+  private Map<String, ClientAssessmentStatus> fetchClientToStatusMap(
+      Map<String, String> base62toBase10ClientIdsMap) {
+    final List<StaffClientDto> clientsStatuses =
+        personService.findStatusesByExternalIds(new HashSet<>(base62toBase10ClientIdsMap.values()));
+    return clientsStatuses
+        .stream()
+        .collect(
+            Collectors.toMap(
+                StaffClientDto::getExternalId,
+                StaffClientDto::getStatus,
+                (oldValue, value) -> value));
   }
 
   private void incrementStatisticByStatus(

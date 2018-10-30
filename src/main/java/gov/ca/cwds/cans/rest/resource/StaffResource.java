@@ -66,9 +66,7 @@ public class StaffResource {
         @ApiResponse(code = 401, message = "Not Authorized"),
         @ApiResponse(code = 404, message = "Not found")
       })
-  @ApiOperation(
-      value = "Get all clients from assigned cases",
-      response = StaffClientDto[].class)
+  @ApiOperation(value = "Get all clients from assigned cases", response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(
