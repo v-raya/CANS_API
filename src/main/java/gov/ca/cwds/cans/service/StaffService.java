@@ -59,11 +59,8 @@ public class StaffService {
             .collect(Collectors.toSet())
             .stream()
             .collect(Collectors.toMap(id -> id, CmsKeyIdGenerator::getUIIdentifierFromKey));
-
     final Map<String, ClientAssessmentStatus> clientStatusMap =
         fetchClientToStatusMap(base62toBase10ClientIdsMap);
-
-    // group clients with statuses by staff
     return mergeResults(
         staffByIdMap, clientIdsByStaffIds, base62toBase10ClientIdsMap, clientStatusMap);
   }
