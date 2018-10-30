@@ -6,7 +6,6 @@ import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
-import gov.ca.cwds.cans.rest.resource.PersonResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
@@ -37,7 +36,7 @@ import org.junit.runners.Suite;
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,
   StaffResourceTest.class,
-  PersonResourceAuthorizationTest.class,
+  // PersonResourceAuthorizationTest.class, //Authorization will be reworked
   // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
 })
 public class FunctionalTestSuite {
