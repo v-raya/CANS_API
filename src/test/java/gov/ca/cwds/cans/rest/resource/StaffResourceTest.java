@@ -29,9 +29,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class StaffResourceTest extends AbstractFunctionalTest {
 
   private static final String SUBORDINATE_MADERA =
@@ -113,7 +111,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
   private Object[] toObjectArray(
       String id, int inProgressCount, int submittedCount, int clientsCount) {
-    return new Object[]{id, inProgressCount, submittedCount, clientsCount};
+    return new Object[] {id, inProgressCount, submittedCount, clientsCount};
   }
 
   @Test
@@ -178,10 +176,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto, PersonDto person) {
-    Assert.assertEquals(staffClientDto.getFirstName(),"child");
-    Assert.assertEquals(staffClientDto.getLastName(),"Hoofe");
+    Assert.assertEquals(staffClientDto.getFirstName(), "child");
+    Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
     Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
-    Assert.assertEquals(staffClientDto.getId(),person.getId());
+    Assert.assertEquals(staffClientDto.getId(), person.getId());
     Assert.assertEquals(staffClientDto.getExternalId(), TEST_EXTERNAL_ID);
   }
 
