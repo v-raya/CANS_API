@@ -68,7 +68,6 @@ public class Assessment implements Persistent<Long> {
   public static final String PARAM_CLIENT_IDENTIFIER = "clientIdentifier";
   private static final long serialVersionUID = 4921833959434495906L;
 
-
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
   @SequenceGenerator(name = "sequenceGenerator")
