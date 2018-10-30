@@ -1,8 +1,11 @@
 package gov.ca.cwds.cans.dao;
 
+import static gov.ca.cwds.cans.domain.entity.Person.PARAM_EXTERNAL_IDS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.Constants.Privileges;
+import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.PersonRole;
 import gov.ca.cwds.cans.domain.search.Pagination;
@@ -14,7 +17,9 @@ import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,6 +51,16 @@ public class PersonDao extends AbstractCrudDao<Person> {
             .setParameter(Person.PARAM_EXTERNAL_ID, externalId)
             .list();
     return people.isEmpty() ? null : people.get(0);
+  }
+
+  public List<StaffClientDto> findStatusesByExternalIds(Set<String> externalIds) {
+    if (externalIds.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return this.grabSession()
+        .createNamedQuery(Person.NQ_FIND_STATUSES_BY_EXTERNAL_IDS, StaffClientDto.class)
+        .setParameterList(PARAM_EXTERNAL_IDS, externalIds)
+        .list();
   }
 
   public SearchPersonResult search(final SearchPersonParameters searchParameters) {

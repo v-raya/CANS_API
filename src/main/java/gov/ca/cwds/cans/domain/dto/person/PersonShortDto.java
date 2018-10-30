@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,9 +50,7 @@ public class PersonShortDto extends Dto {
   @Size(max = 10)
   private String identifier;
 
-  @NotEmpty
-  @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-\\d{7}$")
-  private String externalId;
+  @NotEmpty private String externalId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate dob;
