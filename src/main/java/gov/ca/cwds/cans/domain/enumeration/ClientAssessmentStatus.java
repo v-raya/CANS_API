@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.domain.dto.person;
+package gov.ca.cwds.cans.domain.enumeration;
 
 public enum ClientAssessmentStatus {
   IN_PROGRESS,

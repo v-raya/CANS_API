@@ -1,6 +1,7 @@
 {
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
+  "event_date": "2018-10-24",
   "completed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
   "has_caregiver": true,
