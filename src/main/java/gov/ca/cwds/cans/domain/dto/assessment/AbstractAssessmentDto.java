@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.dto.logging.CompleteLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
@@ -30,7 +31,7 @@ public abstract class AbstractAssessmentDto extends Dto
         UpdateLoggable<AbstractAssessmentDto>,
         CompleteLoggable<AbstractAssessmentDto> {
   private Long instrumentId;
-  @NotNull private PersonDto person;
+  @NotNull private ClientDto person;
   private CountyDto county;
   private CaseDto theCase;
   private AssessmentType assessmentType;

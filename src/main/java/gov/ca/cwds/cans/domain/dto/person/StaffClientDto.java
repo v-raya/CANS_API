@@ -5,6 +5,7 @@ import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus;
 import java.time.LocalDate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

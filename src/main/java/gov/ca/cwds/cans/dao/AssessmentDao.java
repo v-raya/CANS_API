@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.dao;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
@@ -12,22 +13,18 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
-import gov.ca.cwds.security.annotations.Authorize;
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 /** @author denys.davydov */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
-  private final PersonDao personDao;
-
   @Inject
-  public AssessmentDao(
-      @CansSessionFactory final SessionFactory sessionFactory, final PersonDao personDao) {
+  public AssessmentDao(@CansSessionFactory final SessionFactory sessionFactory) {
     super(sessionFactory);
-    this.personDao = personDao;
   }
 
   public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
@@ -42,7 +39,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Override
   public Assessment create(
-      @Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
+      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
@@ -52,8 +49,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     final Person inputPerson = assessment.getPerson();
     Require.requireNotNullAndNotEmpty(inputPerson);
     Require.requireNotNullAndNotEmpty(inputPerson.getId());
-    final Person person = personDao.find(inputPerson.getId());
-    assessment.setCounty(person.getCounty());
+    assessment.setCounty(inputPerson.getCounty());
   }
 
   private void insertInstrumentById(final Assessment assessment) {
@@ -66,7 +62,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Override
   public Assessment update(
-      @Authorize({"person:write:assessment.person.id"}) Assessment assessment) {
+      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
     revertCountyToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
@@ -77,13 +73,15 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     assessment.setCounty(previousState.getCounty());
   }
 
+  /* Authorization going to be reworked
   @Override
   @Authorize({"person:read:result.person"})
   public Assessment find(Serializable primaryKey) {
     return super.find(primaryKey);
   }
+  */
 
-  @Authorize({"person:read:assessment.person"})
+  /*@Authorize({"person:read:assessment.person"})*/
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
@@ -95,7 +93,18 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     addFilterIfNeeded(
         session, FILTER_PERSON_ID, PARAM_PERSON_ID, searchAssessmentParameters.getPersonId());
     // returns List (and not ImmutableList as usual) to filter results with authorizer)
-    return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
+
+    Query<Assessment> assessmentQuery =
+        Optional.ofNullable(searchAssessmentParameters.getClientIdentifier())
+            .map(
+                clientIdentifier -> {
+                  Query<Assessment> query =
+                      session.createNamedQuery(Assessment.NQ_ALL_FOR_CLIENT, Assessment.class);
+                  query.setParameter(PARAM_CLIENT_IDENTIFIER, clientIdentifier);
+                  return query;
+                })
+            .orElse(session.createNamedQuery(Assessment.NQ_ALL, Assessment.class));
+    return assessmentQuery.list();
   }
 
   @Authorize({"person:read:assessment.person"})

@@ -50,6 +50,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
     checkMetadataEditable(response, true);
   }
 
+  /* Authorization going to be changed
   @Test
   public void personGet_Unauthorized_whenNoSensitivePrivilege() throws IOException {
     final PersonDto person =
@@ -67,7 +68,7 @@ public class PersonResourceAuthorizationTest extends AbstractFunctionalTest {
         personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
     Response response = personHelper.getPerson(AUTHORIZED_ACCOUNT_FIXTURE, postedPerson.getId());
     assertThat(response.getStatus(), is(HttpStatus.SC_FORBIDDEN));
-  }
+  }*/
 
   @Test
   public void personPut_Success_whenHasSensitivePrivilege() throws IOException {

@@ -91,8 +91,8 @@ public class StaffResource {
   @ApiOperation(value = "Get all clients from assigned cases", response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
-  public Collection<StaffClientDto> findPersonsByStaffIdAndActiveDate(
-      @ApiParam(required = true, name = "Staff id", value = "0x5", example = "0x5") @PathParam(ID)
+  public Collection<StaffClientDto> findPersonsByStaffId(
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5") @PathParam(ID)
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }

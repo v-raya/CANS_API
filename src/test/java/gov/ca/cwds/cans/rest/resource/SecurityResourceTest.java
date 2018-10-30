@@ -7,7 +7,7 @@ import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
@@ -24,19 +24,10 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
   private static final String DIFFERENT_COUNTY_USER = AUTHORIZED_ACCOUNT_FIXTURE;
 
   private AssessmentDto assessmentDto;
-  private PersonResourceHelper personHelper;
 
   @Before
   public void before() throws Exception {
-    personHelper = new PersonResourceHelper(clientTestRule);
-    Entity<PersonDto> person = personHelper.readPersonEntity(PERSON_FIXTURE);
-    PersonDto personDto =
-        clientTestRule
-            .withSecurityToken(SAME_COUNTY_USER)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(person)
-            .readEntity(PersonDto.class);
+    ClientDto personDto = readObject(PERSON_FIXTURE, ClientDto.class);
     final AssessmentDto assessment = readObject(ASSESSMENT_FIXTURE, AssessmentDto.class);
     assessment.setPerson(personDto);
     assessmentDto =
