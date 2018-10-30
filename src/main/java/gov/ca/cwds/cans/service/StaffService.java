@@ -12,7 +12,6 @@ import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
 import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
-import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -20,7 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,34 +39,25 @@ public class StaffService {
     if (staffList.isEmpty()) {
       return Collections.emptyList();
     }
-
-    // fetch all clients ids from legacy
     final Map<String, StaffBySupervisor> staffByIdMap =
         staffList
             .stream()
             .collect(Collectors.toMap(StaffBySupervisor::getIdentifier, staff -> staff));
     final Map<String, Set<String>> clientIdsByStaffIds =
         fetchClientIdsByStaffIds(staffByIdMap.keySet());
-
-    // fetch all clients statuses by their ids from postgres
-    final Map<String, String> base62toBase10ClientIdsMap =
+    final Set<String> clientIds =
         clientIdsByStaffIds
             .values()
             .stream()
             .flatMap(Collection::stream)
-            .collect(Collectors.toSet())
-            .stream()
-            .collect(Collectors.toMap(id -> id, CmsKeyIdGenerator::getUIIdentifierFromKey));
-    final Map<String, ClientAssessmentStatus> clientStatusMap =
-        fetchClientToStatusMap(base62toBase10ClientIdsMap);
-    return mergeResults(
-        staffByIdMap, clientIdsByStaffIds, base62toBase10ClientIdsMap, clientStatusMap);
+            .collect(Collectors.toSet());
+    final Map<String, ClientAssessmentStatus> clientStatusMap = fetchClientToStatusMap(clientIds);
+    return mergeResults(staffByIdMap, clientIdsByStaffIds, clientStatusMap);
   }
 
   private Collection<StaffStatisticsDto> mergeResults(
       Map<String, StaffBySupervisor> staffByIdMap,
       Map<String, Set<String>> clientIdsByStaffIds,
-      Map<String, String> base62toBase10ClientIdsMap,
       Map<String, ClientAssessmentStatus> clientStatusMap) {
     final Collection<StaffStatisticsDto> results = new ArrayList<>();
     clientIdsByStaffIds.forEach(
@@ -80,18 +69,15 @@ public class StaffService {
                   .setClientsCount(clients.size());
           clients.forEach(
               clientId -> {
-                final String base62ClientId = base62toBase10ClientIdsMap.get(clientId);
-                incrementStatisticByStatus(staffStatistics, clientStatusMap.get(base62ClientId));
+                incrementStatisticByStatus(staffStatistics, clientStatusMap.get(clientId));
               });
           results.add(staffStatistics);
         });
     return results;
   }
 
-  private Map<String, ClientAssessmentStatus> fetchClientToStatusMap(
-      Map<String, String> base62toBase10ClientIdsMap) {
-    final List<StaffClientDto> clientsStatuses =
-        personService.findStatusesByExternalIds(new HashSet<>(base62toBase10ClientIdsMap.values()));
+  private Map<String, ClientAssessmentStatus> fetchClientToStatusMap(final Set<String> clientIds) {
+    final List<StaffClientDto> clientsStatuses = personService.findStatusesByExternalIds(clientIds);
     return clientsStatuses
         .stream()
         .collect(

@@ -39,8 +39,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
       "fixtures/assessment/assessment-post-complete-success.json";
-  private static final String BASE10_ID_0 = "1465-4794-4022-7001119"; // -> "PndSNox0I3"
-  private static final String BASE10_ID_1 = "0150-1373-1721-9001119"; // -> "2dsesiZ0I3"
+  private static final String PERSON_ID_0 = "PndSNox0I3";
+  private static final String PERSON_ID_0_BASE10 = "1465-4794-4022-7001119";
+  private static final String PERSON_ID_1 = "2dsesiZ0I3";
+  private static final String PERSON_ID_1_BASE10 = "0150-1373-1721-9001119";
   private static final String SAN_LUIS_OBISPO_NAME = "San Luis Obispo";
   private static final long SAN_LUIS_OBISPO_ID = 40L;
 
@@ -72,11 +74,12 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
     final AssessmentDto person0Assessment =
-        postPersonWithAssessment(BASE10_ID_0, FIXTURE_POST_ASSESSMENT);
+        postAssessmentWithPerson(PERSON_ID_0, PERSON_ID_0_BASE10, FIXTURE_POST_ASSESSMENT);
     postAssessment(person0Assessment); // the same date assessment
 
     final AssessmentDto person1Assessment =
-        postPersonWithAssessment(BASE10_ID_1, FIXTURE_POST_COMPLETED_ASSESSMENT);
+        postAssessmentWithPerson(
+            PERSON_ID_1, PERSON_ID_1_BASE10, FIXTURE_POST_COMPLETED_ASSESSMENT);
     person1Assessment.setEventDate(person1Assessment.getEventDate().plusDays(10));
     postAssessment(person1Assessment);
 
@@ -116,11 +119,13 @@ public class StaffResourceTest extends AbstractFunctionalTest {
         is(stat.getNoPriorCansCount() + stat.getInProgressCount() + stat.getCompletedCount()));
   }
 
-  private AssessmentDto postPersonWithAssessment(
-      final String personExternalId, final String assessmentFixture) throws IOException {
-    final PersonDto person = postPerson(personExternalId);
+  private AssessmentDto postAssessmentWithPerson(
+      final String personIdentifier, final String personExternalId, final String assessmentFixture)
+      throws IOException {
     final AssessmentDto assessment = readObject(assessmentFixture, AssessmentDto.class);
-    assessment.setPerson(person);
+    final ClientDto client =
+        (ClientDto) new ClientDto().setIdentifier(personIdentifier).setExternalId(personExternalId);
+    assessment.setPerson(client);
     postAssessment(assessment);
     return assessment;
   }
