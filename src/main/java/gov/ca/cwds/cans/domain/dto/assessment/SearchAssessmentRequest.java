@@ -12,4 +12,5 @@ import lombok.experimental.Accessors;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SearchAssessmentRequest implements SearchRequest {
   private Long personId;
+  private String clientIdentifier;
 }

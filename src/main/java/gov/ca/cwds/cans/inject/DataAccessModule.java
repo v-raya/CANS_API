@@ -53,6 +53,7 @@ import gov.ca.cwds.data.legacy.cms.entity.syscodes.SecondaryAssignmentRoleType;
 import gov.ca.cwds.data.legacy.cms.entity.syscodes.SystemCode;
 import gov.ca.cwds.data.legacy.cms.entity.syscodes.VisitType;
 import gov.ca.cwds.inject.CmsSessionFactory;
+import gov.ca.cwds.inject.CwsRsSessionFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
@@ -193,5 +194,11 @@ public class DataAccessModule extends AbstractModule {
   @CmsSessionFactory
   SessionFactory cmsSessionFactory() {
     return cmsHibernateBundle.getSessionFactory();
+  }
+
+  @Provides
+  @CwsRsSessionFactory
+  SessionFactory cmsRsSessionFactory() {
+    return cmsRsHibernateBundle.getSessionFactory();
   }
 }

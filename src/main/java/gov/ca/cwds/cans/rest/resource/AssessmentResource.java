@@ -89,7 +89,7 @@ public class AssessmentResource {
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response put(
-      @PathParam("id")
+      @PathParam(ID)
           @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
           final Long id,
       @ApiParam(name = "Assessment", value = "The Assessment object") @Valid
@@ -109,7 +109,7 @@ public class AssessmentResource {
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
-      @PathParam("id")
+      @PathParam(ID)
           @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
           final Long id) {
     return crudResource.get(id);
@@ -154,7 +154,7 @@ public class AssessmentResource {
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response delete(
-      @PathParam("id")
+      @PathParam(ID)
           @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
           final Long id) {
     return crudResource.delete(id);

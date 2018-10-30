@@ -4,7 +4,7 @@ services:
     image: cwds/perry:4.0.0_946-RC
     hostname: perry
     ports:
-      - ${PERRY_PORT}:8080
+    - ${PERRY_PORT}:8080
     environment:
       DEV_MODE: ${DEV_MODE}
       LOG_LEVEL: ${LOG_LEVEL}
@@ -13,29 +13,29 @@ services:
     image: cwds/db2data
     hostname: db2data
     ports:
-      - ${DB_CMS_DB2_PORT}:50000
+    - ${DB_CMS_DB2_PORT}:50000
 
   postgres:
     image: cwds/postgresql_data:0.8.4_662-RC
     hostname: postgresql_data
     ports:
-      - ${POSTGRES_PORT}:5432
+    - ${POSTGRES_PORT}:5432
 
   cans-api:
     image: cwds/cans-api
     hostname: cans-api
     deploy:
-     restart_policy:
-       condition: on-failure
-       delay: 15s
-       max_attempts: 5
-       window: 120s
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 120s
     depends_on:
-      - postgres
-      - perry
-      - db2
+    - postgres
+    - perry
+    - db2
     ports:
-      - ${CANS_API_PORT}:8080
+    - ${CANS_API_PORT}:8080
     environment:
       LOGIN_URL: ${LOGIN_URL}
       LOGOUT_URL: ${LOGOUT_URL}
@@ -63,10 +63,10 @@ services:
     hostname: cans-api-test
     entrypoint: sleep infinity
     depends_on:
-      - postgres
-      - db2
-      - perry
-      - cans-api
+    - postgres
+    - db2
+    - perry
+    - cans-api
     environment:
       TEST_TYPE: ""
       CANS_API_URL: ${CANS_API_URL}
