@@ -3,6 +3,8 @@ package gov.ca.cwds.cans.domain.entity;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL;
+import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -40,6 +42,12 @@ import org.hibernate.envers.Audited;
 @Entity
 @Table(name = "assessment")
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
+@NamedQuery(
+    name = NQ_ALL_FOR_CLIENT,
+    query =
+        "FROM Assessment a WHERE person.externalId = :"
+            + PARAM_CLIENT_IDENTIFIER
+            + "  ORDER by status desc, event_date desc")
 @FilterDef(
     name = FILTER_CREATED_BY_ID,
     parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long"))
@@ -51,10 +59,13 @@ import org.hibernate.envers.Audited;
 public class Assessment implements Persistent<Long> {
 
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Assessment.findAll";
+  public static final String NQ_ALL_FOR_CLIENT =
+      "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClient";
   public static final String FILTER_CREATED_BY_ID = "createdByFilter";
   public static final String PARAM_CREATED_BY_ID = "createdBy";
   public static final String FILTER_PERSON_ID = "personIdFilter";
   public static final String PARAM_PERSON_ID = "personId";
+  public static final String PARAM_CLIENT_IDENTIFIER = "clientIdentifier";
   private static final long serialVersionUID = 4921833959434495906L;
 
   @Id

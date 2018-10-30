@@ -47,6 +47,9 @@ public class PersonShortDto extends Dto {
   @Size(max = 4)
   private String suffix;
 
+  @Size(max = 10)
+  private String identifier;
+
   @NotEmpty private String externalId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)

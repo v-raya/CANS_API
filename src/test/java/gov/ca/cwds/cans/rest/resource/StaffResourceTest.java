@@ -12,6 +12,7 @@ import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
@@ -70,7 +71,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
 
     // given
-    final PersonDto person = postPerson();
+    final ClientDto person = readObject(FIXTURES_POST_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     assessment.setPerson(person);
     postAssessment(assessment);
@@ -165,7 +166,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     PersonDto person = postPerson(TEST_EXTERNAL_ID);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
-    assessment.setPerson(person);
+    ClientDto clientDto = new ClientDto();
+    clientDto.setIdentifier(TEST_EXTERNAL_ID);
+    assessment.setPerson(clientDto);
     assessment.setEventDate(LocalDate.now().minusYears(1));
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     postAssessment(assessment);
@@ -208,6 +211,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final PersonDto person = personHelper.readPersonDto(FIXTURES_POST_PERSON).setCounty(county);
     if (externalId != null) {
       person.setExternalId(externalId);
+      person.setIdentifier(externalId);
     }
     return personHelper.postPerson(person, SUBORDINATE_MADERA);
   }
