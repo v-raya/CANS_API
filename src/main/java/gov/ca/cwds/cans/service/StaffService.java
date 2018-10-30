@@ -167,6 +167,6 @@ public class StaffService {
 
   @UnitOfWork(CMS)
   public Map<String, Set<String>> fetchClientIdsByStaffIds(final Collection<String> staffIds) {
-    return staffPersonDao.findClientIdsByStaffIds(staffIds);
+    return staffPersonDao.findClientIdsByStaffIds(staffIds, LocalDate.now());
   }
 }
