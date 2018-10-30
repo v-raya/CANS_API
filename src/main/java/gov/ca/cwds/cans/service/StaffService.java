@@ -42,7 +42,9 @@ public class StaffService {
     final Map<String, StaffBySupervisor> staffByIdMap =
         staffList
             .stream()
-            .collect(Collectors.toMap(StaffBySupervisor::getIdentifier, staff -> staff));
+            .collect(
+                Collectors.toMap(
+                    StaffBySupervisor::getIdentifier, staff -> staff, (oldValue, value) -> value));
     final Map<String, Set<String>> clientIdsByStaffIds =
         fetchClientIdsByStaffIds(staffByIdMap.keySet());
     final Set<String> clientIds =
