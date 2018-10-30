@@ -107,7 +107,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  @Authorize({"person:read:assessment.person"})
+  // @Authorize({"person:read:assessment.person"})
   public Collection<Assessment> getAllAssessments(
       SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
