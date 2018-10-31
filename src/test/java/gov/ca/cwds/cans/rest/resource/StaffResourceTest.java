@@ -12,7 +12,6 @@ import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
-import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
@@ -316,16 +315,12 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       }
     }
     // when
-    final Entity<SearchAssessmentRequest> searchRequest =
-        Entity.entity(
-            new SearchAssessmentRequest().setClientIdentifier(person.getIdentifier()),
-            MediaType.APPLICATION_JSON_TYPE);
     final AssessmentMetaDto[] actualResults =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
             .target(STAFF + SLASH + ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(searchRequest)
+            .get()
             .readEntity(AssessmentMetaDto[].class);
 
     // then
