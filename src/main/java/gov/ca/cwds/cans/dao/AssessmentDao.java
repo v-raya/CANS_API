@@ -108,15 +108,9 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   // @Authorize({"person:read:assessment.person"})
-  public Collection<Assessment> getAllAssessments(
-      SearchAssessmentParameters searchAssessmentParameters) {
-    Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
+  public Collection<Assessment> getAllAssessments() {
     final Session session = grabSession();
-    addFilterIfNeeded(
-        session,
-        FILTER_CREATED_BY_ID,
-        PARAM_CREATED_BY_ID,
-        searchAssessmentParameters.getCreatedById());
+    addFilterIfNeeded(session, FILTER_CREATED_BY_ID, PARAM_CREATED_BY_ID, null);
     // returns List (and not ImmutableList as usual) to filter results with authorizer)
     return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
   }

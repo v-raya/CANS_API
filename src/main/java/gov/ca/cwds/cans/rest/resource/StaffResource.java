@@ -12,13 +12,11 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
-import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
-import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.AssessmentService;
 import gov.ca.cwds.cans.service.StaffService;
@@ -29,10 +27,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.Collection;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -98,7 +94,7 @@ public class StaffResource {
   }
 
   @UnitOfWork(CANS)
-  @POST
+  @GET
   @Path(ASSESSMENTS)
   @ApiResponses(
       value = {
@@ -110,18 +106,9 @@ public class StaffResource {
       response = AssessmentDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
-  public Response search(
-      @ApiParam(
-              required = true,
-              name = "Search Parameters",
-              value = "Search assessments parameters")
-          @NotNull
-          final SearchAssessmentRequest searchRequest) {
-    final SearchAssessmentParameters searchAssessmentParameters =
-        searchAssessmentMapper.fromSearchRequest(searchRequest);
-    final Collection<Assessment> entities =
-        assessmentService.getAllAssessments(searchAssessmentParameters);
+  public Response getall() {
+    final Collection<Assessment> entities = assessmentService.getAllAssessments();
     final Collection<AssessmentMetaDto> dtos = assessmentMapper.toShortDtos(entities);
-    return ResponseUtil.responseCreatedOrNot(dtos);
+    return ResponseUtil.responseOk(dtos);
   }
 }

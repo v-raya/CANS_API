@@ -49,8 +49,7 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     return ((AssessmentDao) dao).search(searchAssessmentParameters);
   }
 
-  public Collection<Assessment> getAllAssessments(
-      SearchAssessmentParameters searchAssessmentParameters) {
-    return ((AssessmentDao) dao).getAllAssessments(searchAssessmentParameters);
+  public Collection<Assessment> getAllAssessments() {
+    return ((AssessmentDao) dao).getAllAssessments();
   }
 }
