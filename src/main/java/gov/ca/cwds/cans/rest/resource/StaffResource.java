@@ -5,22 +5,15 @@ import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
-import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
-import gov.ca.cwds.cans.domain.entity.Assessment;
-import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
-import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
 import gov.ca.cwds.cans.rest.ResponseUtil;
-import gov.ca.cwds.cans.service.AssessmentService;
 import gov.ca.cwds.cans.service.StaffService;
-import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -42,20 +35,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Consumes(MediaType.APPLICATION_JSON)
 public class StaffResource {
   private final StaffService staffService;
-  private final AssessmentService assessmentService;
-  private final AssessmentMapper assessmentMapper;
-  private final SearchAssessmentRequestMapper searchAssessmentMapper;
 
   @Inject
-  public StaffResource(
-      StaffService staffService,
-      AssessmentService assessmentService,
-      AssessmentMapper assessmentMapper,
-      SearchAssessmentRequestMapper searchAssessmentMapper) {
+  public StaffResource(StaffService staffService) {
     this.staffService = staffService;
-    this.assessmentService = assessmentService;
-    this.assessmentMapper = assessmentMapper;
-    this.searchAssessmentMapper = searchAssessmentMapper;
   }
 
   @GET
@@ -93,7 +76,6 @@ public class StaffResource {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
 
-  @UnitOfWork(CANS)
   @GET
   @Path(ASSESSMENTS)
   @ApiResponses(
@@ -106,9 +88,7 @@ public class StaffResource {
       response = AssessmentDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
-  public Response getall() {
-    final Collection<Assessment> entities = assessmentService.getAllAssessments();
-    final Collection<AssessmentMetaDto> dtos = assessmentMapper.toShortDtos(entities);
-    return ResponseUtil.responseOk(dtos);
+  public Response getStaffAssessments() {
+    return ResponseUtil.responseOk(staffService.findAssessmentsByCurrentUser());
   }
 }
