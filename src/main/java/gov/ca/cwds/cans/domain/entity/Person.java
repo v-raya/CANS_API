@@ -131,24 +131,29 @@ import org.hibernate.annotations.Type;
     name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
     query =
         "SELECT "
-            + "  b.person_id,"
-            + "  b.external_id,"
-            + "  b.event_date,"
-            + "  CASE"
-            + "    WHEN a.status IS NULL THEN 'NO_PRIOR_CANS'"
-            + "    ELSE a.status"
-            + "  END as status"
-            + " FROM {h-schema}assessment a RIGHT JOIN ("
-            + "  SELECT"
-            + "    max(a.event_date) as event_date,"
-            + "    p.id as person_id,"
-            + "    p.external_id"
-            + "  FROM {h-schema}assessment a"
-            + "    RIGHT JOIN {h-schema}person p ON a.person_id = p.id"
-            + "  WHERE p.external_id IN :"
-            + PARAM_EXTERNAL_IDS
-            + "  GROUP BY p.id, p.external_id) AS b"
-            + " ON (a.person_id = b.person_id AND a.event_date = b.event_date)",
+        + "  b.person_id,"
+        + "  b.external_id,"
+        + "  b.event_date,"
+        + "  a.status "
+        + " FROM {h-schema}assessment a INNER JOIN ("
+        + "  SELECT"
+        + "    MAX("
+        + "   	CASE "
+        + "        WHEN a.updated_timestamp IS NULL THEN a.created_timestamp "
+		    + "		     ELSE a.updated_timestamp "
+        + "       END "
+        + "    ) as updated_timestamp,"
+        + "    a.event_date as event_date,"
+        + "    p.id as person_id,"
+        + "    p.external_id"
+        + "  FROM {h-schema}assessment a"
+        + "    INNER JOIN {h-schema}person p ON a.person_id = p.id"
+        + "  WHERE p.external_id IN :" + PARAM_EXTERNAL_IDS
+        + "  GROUP BY p.id, p.external_id, a.event_date) AS b"
+        + " ON (a.person_id = b.person_id "
+        + "  AND (a.updated_timestamp = b.updated_timestamp "
+        + "   OR a.created_timestamp = b.updated_timestamp)"
+        + " )",
     resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
 
