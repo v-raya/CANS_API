@@ -194,7 +194,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     Assert.assertEquals(1, subList.size());
     StaffClientDto staffClientDto = subList.get(0);
-    validateCommonFields(staffClientDto, personDto);
+    validateCommonFields(staffClientDto);
   }
 
   @Test
@@ -227,15 +227,14 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .collect(Collectors.toList());
     Assert.assertEquals(1, completed.size());
     StaffClientDto staffClientDto = completed.get(0);
-    validateCommonFields(staffClientDto, person);
+    validateCommonFields(staffClientDto);
     Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
   }
 
-  private void validateCommonFields(StaffClientDto staffClientDto, PersonDto person) {
+  private void validateCommonFields(StaffClientDto staffClientDto) {
     Assert.assertEquals(staffClientDto.getFirstName(), "child");
     Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
     Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
-    Assert.assertEquals(staffClientDto.getId(), person.getId());
     Assert.assertEquals(staffClientDto.getExternalId(), TEST_EXTERNAL_ID);
   }
 }
