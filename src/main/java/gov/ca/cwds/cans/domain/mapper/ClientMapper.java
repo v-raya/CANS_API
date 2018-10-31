@@ -24,9 +24,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClientMapper {
 
@@ -34,6 +32,7 @@ public interface ClientMapper {
   @Mapping(target = "firstName", source = "commonFirstName")
   @Mapping(target = "lastName", source = "commonLastName")
   @Mapping(target = "middleName", source = "commonMiddleName")
+  @Mapping(target = "suffix", source = "suffixTitleDescription")
   @Mapping(target = "dob", source = "birthDate")
   @Mapping(target = "gender", ignore = true)
   ClientDto toDto(Client client);
@@ -46,19 +45,23 @@ public interface ClientMapper {
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
 
-    Optional.ofNullable(counties).ifPresent(countyDtos -> {
-      List<CountyDto> filtered = countyDtos.stream().filter(Objects::nonNull)
-          .collect(Collectors.toList());
-      Iterator<CountyDto> iterator = filtered.iterator();
-      childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
-      childDto.setCounties(ImmutableList.copyOf(filtered));
-    });
+    Optional.ofNullable(counties)
+        .ifPresent(
+            countyDtos -> {
+              List<CountyDto> filtered =
+                  countyDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
+              Iterator<CountyDto> iterator = filtered.iterator();
+              childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
+              childDto.setCounties(ImmutableList.copyOf(filtered));
+            });
 
-    Optional.ofNullable(clientCases).ifPresent(caseDtos -> {
-      List<CaseDto> filtered = caseDtos.stream().filter(Objects::nonNull)
-          .collect(Collectors.toList());
-      childDto.setCases(ImmutableList.copyOf(filtered));
-    });
+    Optional.ofNullable(clientCases)
+        .ifPresent(
+            caseDtos -> {
+              List<CaseDto> filtered =
+                  caseDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
+              childDto.setCases(ImmutableList.copyOf(filtered));
+            });
 
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
