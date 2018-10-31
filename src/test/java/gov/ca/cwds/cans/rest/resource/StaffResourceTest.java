@@ -228,7 +228,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(1, completed.size());
     StaffClientDto staffClientDto = completed.get(0);
     validateCommonFields(staffClientDto, person);
-    Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now());
+    Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto, PersonDto person) {
