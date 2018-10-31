@@ -1,11 +1,15 @@
 package gov.ca.cwds.cans.service;
 
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
+import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus;
+import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffPersonMapper;
 import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
@@ -32,6 +36,8 @@ public class StaffService {
   @Inject private CaseDao caseDao;
   @Inject private StaffClientMapper staffClientMapper;
   @Inject private StaffPersonMapper staffPersonMapper;
+  @Inject private AssessmentService assessmentService;
+  @Inject private AssessmentMapper assessmentMapper;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final String currentStaffId = PrincipalUtils.getPrincipal().getStaffId();
@@ -157,5 +163,11 @@ public class StaffService {
   @UnitOfWork(CMS)
   public Map<String, Set<String>> fetchClientIdsByStaffIds(final Collection<String> staffIds) {
     return staffPersonDao.findClientIdsByStaffIds(staffIds, LocalDate.now());
+  }
+
+  @UnitOfWork(CANS)
+  public Collection<AssessmentMetaDto> findAssessmentsByCurrentUser() {
+    final Collection<Assessment> entities = assessmentService.getAssessmentsByCurrentUser();
+    return assessmentMapper.toShortDtos(entities);
   }
 }

@@ -1,11 +1,13 @@
 package gov.ca.cwds.cans.domain.entity;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_UPDATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_UPDATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
@@ -51,8 +53,19 @@ import org.hibernate.envers.Audited;
 @FilterDef(
     name = FILTER_CREATED_BY_ID,
     parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long"))
+@FilterDef(
+    name = FILTER_CREATED_UPDATED_BY_ID,
+    parameters = @ParamDef(name = PARAM_CREATED_UPDATED_BY_ID, type = "long"))
 @FilterDef(name = FILTER_PERSON_ID, parameters = @ParamDef(name = PARAM_PERSON_ID, type = "long"))
 @Filter(name = FILTER_CREATED_BY_ID, condition = "created_by = :" + PARAM_CREATED_BY_ID)
+@Filter(
+    name = FILTER_CREATED_UPDATED_BY_ID,
+    condition =
+        "( created_by = :"
+            + PARAM_CREATED_UPDATED_BY_ID
+            + " OR updated_by =:"
+            + PARAM_CREATED_UPDATED_BY_ID
+            + " )")
 @Filter(name = FILTER_PERSON_ID, condition = "person_id = :" + PARAM_PERSON_ID)
 @Data
 @Accessors(chain = true)
@@ -63,6 +76,8 @@ public class Assessment implements Persistent<Long> {
       "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClient";
   public static final String FILTER_CREATED_BY_ID = "createdByFilter";
   public static final String PARAM_CREATED_BY_ID = "createdBy";
+  public static final String FILTER_CREATED_UPDATED_BY_ID = "createdByUpdatedByFilter";
+  public static final String PARAM_CREATED_UPDATED_BY_ID = "createdByUpdatedBy";
   public static final String FILTER_PERSON_ID = "personIdFilter";
   public static final String PARAM_PERSON_ID = "personId";
   public static final String PARAM_CLIENT_IDENTIFIER = "clientIdentifier";

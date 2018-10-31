@@ -1,5 +1,6 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
@@ -8,6 +9,7 @@ import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMI
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
@@ -32,7 +34,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StaffResource {
-
   private final StaffService staffService;
 
   @Inject
@@ -73,5 +74,21 @@ public class StaffResource {
       @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5") @PathParam(ID)
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
+  }
+
+  @GET
+  @Path(ASSESSMENTS)
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
+  @ApiOperation(
+      value = "Get all assessments, returns records created by the logged in user ONLY",
+      response = AssessmentDto[].class)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @Timed
+  public Response getStaffAssessments() {
+    return ResponseUtil.responseOk(staffService.findAssessmentsByCurrentUser());
   }
 }
