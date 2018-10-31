@@ -130,7 +130,7 @@ import org.hibernate.annotations.Type;
 @NamedNativeQuery(
     name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
     query =
-        "SELECT "
+        "SELECT DISTINCT"
             + "  b.person_id,"
             + "  b.external_id,"
             + "  b.event_date,"
@@ -152,8 +152,8 @@ import org.hibernate.annotations.Type;
             + PARAM_EXTERNAL_IDS
             + "  GROUP BY p.id, p.external_id, a.event_date) AS b"
             + " ON (a.person_id = b.person_id "
-            + "  AND (a.updated_timestamp = b.updated_timestamp "
-            + "   OR a.created_timestamp = b.updated_timestamp)"
+            + "  AND ((a.updated_timestamp IS NULL AND a.created_timestamp = b.updated_timestamp) "
+            + "   OR a.updated_timestamp = b.updated_timestamp)"
             + " )",
     resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
