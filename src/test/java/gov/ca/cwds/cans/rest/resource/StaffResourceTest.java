@@ -235,6 +235,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(staffClientDto.getFirstName(), "child");
     Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
     Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
-    Assert.assertEquals(staffClientDto.getExternalId(), TEST_EXTERNAL_ID);
+    Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
   }
 }
