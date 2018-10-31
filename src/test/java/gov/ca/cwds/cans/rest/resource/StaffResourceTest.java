@@ -138,7 +138,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             personHelper
                 .readPersonDto(FIXTURES_POST_PERSON)
                 .setCounty(county)
-                .setExternalId(externalId);
+                .setExternalId(externalId)
+                .setIdentifier(externalId);
     return personHelper.postPerson(person, SUBORDINATE_MADERA);
   }
 
@@ -172,7 +173,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void findAssignedPersonsForStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans()
       throws IOException {
 
-    PersonDto personDto = postPerson(TEST_EXTERNAL_ID);
+    postPerson(TEST_EXTERNAL_ID);
     final StaffClientDto[] response =
         clientTestRule
             .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
