@@ -206,10 +206,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
     assessment.setPerson(clientDto);
-    assessment.setEventDate(LocalDate.now().minusYears(1));
+    assessment.setEventDate(LocalDate.now());
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     postAssessment(assessment);
-    assessment.setEventDate(LocalDate.now().minusMonths(6));
+    assessment.setEventDate(LocalDate.now());
     assessment.setStatus(AssessmentStatus.COMPLETED);
     postAssessment(assessment);
     final StaffClientDto[] response =
