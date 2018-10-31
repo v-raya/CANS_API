@@ -215,7 +215,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     Assert.assertEquals(1, subList.size());
     StaffClientDto staffClientDto = subList.get(0);
-    validateCommonFields(staffClientDto, personDto);
+    validateCommonFields(staffClientDto);
   }
 
   @Test
@@ -227,10 +227,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
     assessment.setPerson(clientDto);
-    assessment.setEventDate(LocalDate.now().minusYears(1));
+    assessment.setEventDate(LocalDate.now());
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     postAssessment(assessment);
-    assessment.setEventDate(LocalDate.now().minusMonths(6));
+    assessment.setEventDate(LocalDate.now());
     assessment.setStatus(AssessmentStatus.COMPLETED);
     postAssessment(assessment);
     final StaffClientDto[] response =
@@ -248,8 +248,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .collect(Collectors.toList());
     Assert.assertEquals(1, completed.size());
     StaffClientDto staffClientDto = completed.get(0);
-    validateCommonFields(staffClientDto, person);
-    Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now());
+    validateCommonFields(staffClientDto);
+    Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
   }
 
   @Test
@@ -263,42 +263,42 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-              person,
-              AssessmentStatus.IN_PROGRESS,
-              LocalDate.of(2010, 1, 1),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2010, 1, 1),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person,
-              AssessmentStatus.IN_PROGRESS,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
             new Object[] {
-              otherPerson,
-              AssessmentStatus.IN_PROGRESS,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                otherPerson,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person,
-              AssessmentStatus.COMPLETED,
-              LocalDate.of(2010, 1, 1),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person,
+                AssessmentStatus.COMPLETED,
+                LocalDate.of(2010, 1, 1),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person,
-              AssessmentStatus.COMPLETED,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person,
+                AssessmentStatus.COMPLETED,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             }*/
-            );
+        );
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
@@ -332,11 +332,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[4].getId(), is(assessmentIds.get(3)));
   }
 
-  private void validateCommonFields(StaffClientDto staffClientDto, PersonDto person) {
+  private void validateCommonFields(StaffClientDto staffClientDto) {
     Assert.assertEquals(staffClientDto.getFirstName(), "child");
     Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
     Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
-    Assert.assertEquals(staffClientDto.getId(), person.getId());
     Assert.assertEquals(staffClientDto.getExternalId(), TEST_EXTERNAL_ID);
   }
 }
