@@ -223,7 +223,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void findAssignedPersonsForStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
 
-    PersonDto person = postPerson(TEST_EXTERNAL_ID);
+    postPerson(TEST_EXTERNAL_ID);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
@@ -264,42 +264,42 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-                person,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2010, 1, 1),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2010, 1, 1),
+              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2015, 10, 10),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2015, 10, 10),
+              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
             new Object[] {
-                otherPerson,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2015, 10, 10),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              otherPerson,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2015, 10, 10),
+              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person,
-                AssessmentStatus.COMPLETED,
-                LocalDate.of(2010, 1, 1),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person,
+              AssessmentStatus.COMPLETED,
+              LocalDate.of(2010, 1, 1),
+              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person,
-                AssessmentStatus.COMPLETED,
-                LocalDate.of(2015, 10, 10),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person,
+              AssessmentStatus.COMPLETED,
+              LocalDate.of(2015, 10, 10),
+              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             }*/
-        );
+            );
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
