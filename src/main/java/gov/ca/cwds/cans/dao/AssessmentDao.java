@@ -1,9 +1,11 @@
 package gov.ca.cwds.cans.dao;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_UPDATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_UPDATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
 import com.google.inject.Inject;
@@ -105,6 +107,14 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
                 })
             .orElse(session.createNamedQuery(Assessment.NQ_ALL, Assessment.class));
     return assessmentQuery.list();
+  }
+
+  // @Authorize({"person:read:assessment.person"})
+  public Collection<Assessment> getAssessmentsByUserId(Long userId) {
+    final Session session = grabSession();
+    addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);
+    // returns List (and not ImmutableList as usual) to filter results with authorizer)
+    return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
   }
 
   private void addFilterIfNeeded(

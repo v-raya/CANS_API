@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.COMPLETED;
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
@@ -10,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
@@ -17,6 +19,7 @@ import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -153,6 +156,24 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     cleanUpAssessments.push(postedAssessment);
   }
 
+  private AssessmentDto postAssessmentForGetAll(
+      AssessmentDto assessment,
+      ClientDto person,
+      AssessmentStatus status,
+      LocalDate eventDate,
+      String perryUserFixture)
+      throws IOException {
+    assessment.setPerson(person);
+    assessment.setStatus(status);
+    assessment.setEventDate(eventDate);
+    return clientTestRule
+        .withSecurityToken(perryUserFixture)
+        .target(ASSESSMENTS)
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+        .readEntity(AssessmentDto.class);
+  }
+
   @Test
   public void getSubordinates_empty_whenNoSubordinates() throws IOException {
     // when
@@ -229,6 +250,86 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     StaffClientDto staffClientDto = completed.get(0);
     validateCommonFields(staffClientDto);
     Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
+  }
+
+  @Test
+  public void getAllAssessments_findsFiveRecords() throws IOException {
+    // given
+    final List<Long> assessmentIds = new ArrayList<>();
+    final ClientDto person = readObject(FIXTURES_POST_PERSON, ClientDto.class);
+    final ClientDto otherPerson = readObject(FIXTURES_POST_PERSON, ClientDto.class);
+    otherPerson.setIdentifier("aaaaaaaaaa");
+    final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
+    final List<Object[]> properties =
+        Arrays.asList(
+            new Object[] {
+                person,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2010, 1, 1),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            },
+            new Object[] {
+                person,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            },
+            // out of search results because of the other person
+            new Object[] {
+                otherPerson,
+                AssessmentStatus.IN_PROGRESS,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            },
+            new Object[] {
+                person,
+                AssessmentStatus.COMPLETED,
+                LocalDate.of(2010, 1, 1),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            },
+            new Object[] {
+                person,
+                AssessmentStatus.COMPLETED,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            }
+            /*, Authorization going to be reworked
+            // out of search results because of the other created by user
+            new Object[] {
+              person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
+            }*/
+        );
+
+    for (Object[] property : properties) {
+      final AssessmentDto newAssessment =
+          postAssessmentForGetAll(
+              assessment,
+              (ClientDto) property[0],
+              (AssessmentStatus) property[1],
+              (LocalDate) property[2],
+              (String) property[3]);
+      assessmentIds.add(newAssessment.getId());
+      if (newAssessment.getId() != null) {
+        cleanUpAssessments.push(newAssessment);
+        personHelper.pushToCleanUpPerson(newAssessment.getPerson());
+      }
+    }
+    // when
+    final AssessmentMetaDto[] actualResults =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .target(STAFF + SLASH + ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(AssessmentMetaDto[].class);
+
+    // then
+    assertThat(actualResults.length, is(5));
+    assertThat(actualResults[0].getId(), is(assessmentIds.get(1)));
+    assertThat(actualResults[1].getId(), is(assessmentIds.get(2)));
+    assertThat(actualResults[2].getId(), is(assessmentIds.get(0)));
+    assertThat(actualResults[3].getId(), is(assessmentIds.get(4)));
+    assertThat(actualResults[4].getId(), is(assessmentIds.get(3)));
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
