@@ -190,7 +190,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     List<StaffClientDto> subList =
         dtoList
             .stream()
-            .filter(item -> item.getExternalId().equals(TEST_EXTERNAL_ID))
+            .filter(item -> item.getIdentifier().equals(TEST_EXTERNAL_ID))
             .collect(Collectors.toList());
 
     Assert.assertEquals(1, subList.size());
