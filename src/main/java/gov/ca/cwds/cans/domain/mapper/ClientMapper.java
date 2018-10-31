@@ -13,7 +13,11 @@ import gov.ca.cwds.data.legacy.cms.entity.enums.DateOfBirthStatus;
 import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,6 +32,7 @@ public interface ClientMapper {
   @Mapping(target = "firstName", source = "commonFirstName")
   @Mapping(target = "lastName", source = "commonLastName")
   @Mapping(target = "middleName", source = "commonMiddleName")
+  @Mapping(target = "suffix", source = "suffixTitleDescription")
   @Mapping(target = "dob", source = "birthDate")
   @Mapping(target = "gender", ignore = true)
   ClientDto toDto(Client client);
@@ -39,9 +44,25 @@ public interface ClientMapper {
       childDto.setEstimatedDob(Boolean.TRUE);
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
-    childDto.setCounty(counties.iterator().next());
-    childDto.setCounties(ImmutableList.copyOf(counties));
-    childDto.setCases(ImmutableList.copyOf(clientCases));
+
+    Optional.ofNullable(counties)
+        .ifPresent(
+            countyDtos -> {
+              List<CountyDto> filtered =
+                  countyDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
+              Iterator<CountyDto> iterator = filtered.iterator();
+              childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
+              childDto.setCounties(ImmutableList.copyOf(filtered));
+            });
+
+    Optional.ofNullable(clientCases)
+        .ifPresent(
+            caseDtos -> {
+              List<CaseDto> filtered =
+                  caseDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
+              childDto.setCases(ImmutableList.copyOf(filtered));
+            });
+
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
   }
