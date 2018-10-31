@@ -146,6 +146,7 @@ public class StaffService {
           StaffClientDto staffClientDto = statusesMap.get(item.getIdentifier());
           if (staffClientDto == null) {
             staffClientDto = new StaffClientDto();
+            staffClientDto.setIdentifier(item.getIdentifier());
             staffClientDto.setStatus(ClientAssessmentStatus.NO_PRIOR_CANS);
           }
           staffClientMapper.map(item, staffClientDto);

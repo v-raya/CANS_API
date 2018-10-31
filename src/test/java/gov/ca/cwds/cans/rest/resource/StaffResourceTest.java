@@ -141,7 +141,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             personHelper
                 .readPersonDto(FIXTURES_POST_PERSON)
                 .setCounty(county)
-                .setExternalId(externalId);
+                .setExternalId(externalId)
+                .setIdentifier(externalId);
     return personHelper.postPerson(person, SUBORDINATE_MADERA);
   }
 
@@ -193,7 +194,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void findAssignedPersonsForStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans()
       throws IOException {
 
-    PersonDto personDto = postPerson(TEST_EXTERNAL_ID);
+    postPerson(TEST_EXTERNAL_ID);
     final StaffClientDto[] response =
         clientTestRule
             .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
@@ -210,7 +211,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     List<StaffClientDto> subList =
         dtoList
             .stream()
-            .filter(item -> item.getExternalId().equals(TEST_EXTERNAL_ID))
+            .filter(item -> item.getIdentifier().equals(TEST_EXTERNAL_ID))
             .collect(Collectors.toList());
 
     Assert.assertEquals(1, subList.size());
@@ -336,6 +337,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(staffClientDto.getFirstName(), "child");
     Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
     Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
-    Assert.assertEquals(staffClientDto.getExternalId(), TEST_EXTERNAL_ID);
+    Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
   }
 }
