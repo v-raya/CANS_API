@@ -139,7 +139,7 @@ import org.hibernate.annotations.Type;
     + "  SELECT "
     + "    MAX(a.event_date) as event_date, "
     + "    p.id as person_id, "
-    + "    p.external_id "
+    + "    p.external_id as external_id"
     + "  FROM {h-schema}assessment a "
     + "    INNER JOIN {h-schema}person p ON a.person_id = p.id "
     + "  WHERE p.external_id IN :"
