@@ -133,7 +133,7 @@ public class StaffService {
     List<StaffClientDto> statuses =
         personService.findStatusesByExternalIds(clientsByStaffMap.keySet());
     Map<String, StaffClientDto> statusesMap =
-        statuses.stream().collect(Collectors.toMap(StaffClientDto::getExternalId, item -> item));
+        statuses.stream().collect(Collectors.toMap(StaffClientDto::getIdentifier, item -> item));
     return merge(clientByStaffs, statusesMap);
   }
 
