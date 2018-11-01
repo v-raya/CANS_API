@@ -2,7 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
-import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.COMPLETED;
+import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.IN_PROGRESS;
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
@@ -223,7 +223,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void findAssignedPersonsForStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
 
-    postPerson(TEST_EXTERNAL_ID);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
@@ -245,7 +244,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     List<StaffClientDto> completed =
         dtoList
             .stream()
-            .filter(item -> item.getStatus().equals(COMPLETED))
+            .filter(item -> item.getStatus().equals(IN_PROGRESS))
             .collect(Collectors.toList());
     Assert.assertEquals(1, completed.size());
     StaffClientDto staffClientDto = completed.get(0);
