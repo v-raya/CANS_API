@@ -144,7 +144,7 @@ import org.hibernate.annotations.Type;
     + "    INNER JOIN {h-schema}person p ON a.person_id = p.id "
     + "  WHERE p.external_id IN :"
     + PARAM_EXTERNAL_IDS
-    + "  GROUP BY p.id, p.external_id, a.event_date) AS b "
+    + "  GROUP BY p.id, p.external_id) AS b "
     + " ON (a.person_id = b.person_id AND a.event_date = b.event_date) "
     + " GROUP BY b.external_id, b.person_id, b.event_date",
     resultSetMapping = "PersonStatusDtoResult")
