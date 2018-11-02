@@ -6,6 +6,7 @@ import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.IN_PROG
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
@@ -42,10 +43,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
       "fixtures/assessment/assessment-post-complete-success.json";
-  private static final String PERSON_ID_0 = "PndSNox0I3";
-  private static final String PERSON_ID_0_BASE10 = "1465-4794-4022-7001119";
-  private static final String PERSON_ID_1 = "2dsesiZ0I3";
-  private static final String PERSON_ID_1_BASE10 = "0150-1373-1721-9001119";
+  private static final String ASSIGNED_STAFF_ID = "0ME";
+  private static final String PERSON_ID_0 = "AfhccGA0Co";
+  private static final String PERSON_ID_1 = "Ar9aZQx0En";
   private static final String SAN_LUIS_OBISPO_NAME = "San Luis Obispo";
   private static final long SAN_LUIS_OBISPO_ID = 40L;
 
@@ -76,15 +76,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   @Test
   public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
-    final AssessmentDto person0Assessment =
-        postAssessmentWithPerson(PERSON_ID_0, PERSON_ID_0_BASE10, FIXTURE_POST_ASSESSMENT);
-    postAssessment(person0Assessment); // the same date assessment
-
-    final AssessmentDto person1Assessment =
-        postAssessmentWithPerson(
-            PERSON_ID_1, PERSON_ID_1_BASE10, FIXTURE_POST_COMPLETED_ASSESSMENT);
-    person1Assessment.setEventDate(person1Assessment.getEventDate().plusDays(10));
-    postAssessment(person1Assessment);
+    postTestAssessmentsForAssignedStaffId();
 
     // when
     final StaffStatisticsDto[] actualDtos =
@@ -101,6 +93,17 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     final StaffStatisticsDto staffTwo = findStatisticsByStaffId(actualDtos, "0I2");
     assertStatistics(staffTwo, 0, 0);
+  }
+
+  private void postTestAssessmentsForAssignedStaffId() throws IOException {
+    final AssessmentDto person0Assessment =
+        postAssessmentWithPerson(PERSON_ID_0, FIXTURE_POST_ASSESSMENT);
+    postAssessment(person0Assessment); // the same date assessment
+
+    final AssessmentDto person1Assessment =
+        postAssessmentWithPerson(PERSON_ID_1, FIXTURE_POST_COMPLETED_ASSESSMENT);
+    person1Assessment.setEventDate(person1Assessment.getEventDate().plusDays(10));
+    postAssessment(person1Assessment);
   }
 
   private StaffStatisticsDto findStatisticsByStaffId(
@@ -123,11 +126,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private AssessmentDto postAssessmentWithPerson(
-      final String personIdentifier, final String personExternalId, final String assessmentFixture)
-      throws IOException {
+      final String personIdentifier, final String assessmentFixture) throws IOException {
     final AssessmentDto assessment = readObject(assessmentFixture, AssessmentDto.class);
-    final ClientDto client =
-        (ClientDto) new ClientDto().setIdentifier(personIdentifier).setExternalId(personExternalId);
+    final ClientDto client = (ClientDto) new ClientDto().setIdentifier(personIdentifier);
     assessment.setPerson(client);
     postAssessment(assessment);
     return assessment;
@@ -188,6 +189,57 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actual.length, is(0));
+  }
+
+  @Test
+  public void getStaffPersonWithStatistics_404_whenNoStaffPersonFound() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + "UnknownId")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(404));
+  }
+
+  @Test
+  public void getStaffPersonWithStatistics_success_whenEmptyStatistics() throws IOException {
+    // when
+    final StaffStatisticsDto actual =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + ASSIGNED_STAFF_ID)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(StaffStatisticsDto.class);
+
+    // then
+    assertThat(actual.getStaffPerson().getIdentifier(), is(ASSIGNED_STAFF_ID));
+    assertStatistics(actual, 0, 0);
+  }
+
+  @Test
+  public void getStaffPersonWithStatistics_success_whenStatisticsExists() throws IOException {
+    // given
+    postTestAssessmentsForAssignedStaffId();
+
+    // when
+    final StaffStatisticsDto actual =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + ASSIGNED_STAFF_ID)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(StaffStatisticsDto.class);
+
+    // then
+    assertThat(actual.getStaffPerson().getIdentifier(), is(ASSIGNED_STAFF_ID));
+    assertThat(actual.getStaffPerson().getCounty().getName(), is(notNullValue()));
+    assertStatistics(actual, 1, 1);
   }
 
   @Test

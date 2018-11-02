@@ -61,6 +61,25 @@ public class StaffResource {
   }
 
   @GET
+  @Path("{" + ID + "}")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
+  @ApiOperation(
+      value = "Get staff person with assessment statistics",
+      response = StaffStatisticsDto.class)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @Timed
+  public Response getStaffPersonWithStatistics(
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5") @PathParam(ID)
+          String staffId) {
+    final StaffStatisticsDto result = staffService.getStaffPersonWithStatistics(staffId);
+    return ResponseUtil.responseOrNotFound(result);
+  }
+
+  @GET
   @Path("{" + ID + "}/" + PEOPLE)
   @ApiResponses(
       value = {

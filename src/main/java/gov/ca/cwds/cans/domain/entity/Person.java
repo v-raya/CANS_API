@@ -130,23 +130,23 @@ import org.hibernate.annotations.Type;
 @NamedNativeQuery(
     name = NQ_FIND_STATUSES_BY_EXTERNAL_IDS,
     query =
-     "SELECT "
-    + "  b.person_id, "
-    + "  b.external_id, "
-    + "  b.event_date, "
-    + "  MAX(a.status) status "
-    + " FROM {h-schema}assessment a INNER JOIN ( "
-    + "  SELECT "
-    + "    MAX(a.event_date) as event_date, "
-    + "    p.id as person_id, "
-    + "    p.external_id as external_id"
-    + "  FROM {h-schema}assessment a "
-    + "    INNER JOIN {h-schema}person p ON a.person_id = p.id "
-    + "  WHERE p.external_id IN :"
-    + PARAM_EXTERNAL_IDS
-    + "  GROUP BY p.id, p.external_id) AS b "
-    + " ON (a.person_id = b.person_id AND a.event_date = b.event_date) "
-    + " GROUP BY b.external_id, b.person_id, b.event_date",
+        "SELECT "
+            + "  b.person_id, "
+            + "  b.external_id, "
+            + "  b.event_date, "
+            + "  MAX(a.status) status "
+            + " FROM {h-schema}assessment a INNER JOIN ( "
+            + "  SELECT "
+            + "    MAX(a.event_date) as event_date, "
+            + "    p.id as person_id, "
+            + "    p.external_id as external_id"
+            + "  FROM {h-schema}assessment a "
+            + "    INNER JOIN {h-schema}person p ON a.person_id = p.id "
+            + "  WHERE p.external_id IN :"
+            + PARAM_EXTERNAL_IDS
+            + "  GROUP BY p.id, p.external_id) AS b "
+            + " ON (a.person_id = b.person_id AND a.event_date = b.event_date) "
+            + " GROUP BY b.external_id, b.person_id, b.event_date",
     resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
 
