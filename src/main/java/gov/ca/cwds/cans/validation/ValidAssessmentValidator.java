@@ -22,9 +22,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class ValidAssessmentValidator
     implements ConstraintValidator<ValidAssessment, AssessmentDto>, PersistentAware<Assessment> {
 
@@ -35,9 +33,9 @@ public class ValidAssessmentValidator
 
   @Override
   @SuppressWarnings({
-      "fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER",
-      "findbugs:NS_DANGEROUS_NON_SHORT_CIRCUIT",
-      "squid:S2178"
+    "fb-contrib:SEO_SUBOPTIMAL_EXPRESSION_ORDER",
+    "findbugs:NS_DANGEROUS_NON_SHORT_CIRCUIT",
+    "squid:S2178"
   })
   // Justification: No short circle applicable because we need all the violations, not the first one
   // only
@@ -164,28 +162,34 @@ public class ValidAssessmentValidator
     Long assessmentId = dto.getId();
     boolean valid = true;
     if (assessmentId != null) {
-      valid = Optional.ofNullable(getPersisted(assessmentId)).map(persisted -> {
-        if (AssessmentStatus.COMPLETED == persisted.getStatus()
-            && !StringUtils.equals(persisted.getConductedBy(), dto.getConductedBy())) {
-          context
-              .buildConstraintViolationWithTemplate(
-                  "The 'conductedBy' field can not be changed if an assessment is completed")
-              .addPropertyNode("conductedBy")
-              .addConstraintViolation()
-              .disableDefaultConstraintViolation();
-          return false;
-        }
-        return true;
-      }).orElseThrow(
-          () -> new IllegalArgumentException("Can't find assessment by Id: " + assessmentId));
+      valid =
+          Optional.ofNullable(getPersisted(assessmentId))
+              .map(
+                  persisted -> {
+                    if (AssessmentStatus.COMPLETED == persisted.getStatus()
+                        && !StringUtils.equals(persisted.getConductedBy(), dto.getConductedBy())) {
+                      context
+                          .buildConstraintViolationWithTemplate(
+                              "The 'conductedBy' field can not be changed if an assessment is completed")
+                          .addPropertyNode("conductedBy")
+                          .addConstraintViolation()
+                          .disableDefaultConstraintViolation();
+                      return false;
+                    }
+                    return true;
+                  })
+              .orElseThrow(
+                  () ->
+                      new IllegalArgumentException("Can't find assessment by Id: " + assessmentId));
     }
     return valid;
   }
 
   protected Assessment getPersisted(Long id) {
-    SessionFactory sessionFactory = InjectorHolder.INSTANCE.getInjector().getInstance(
-        Key.get(SessionFactory.class, CansSessionFactory.class));
+    SessionFactory sessionFactory =
+        InjectorHolder.INSTANCE
+            .getInjector()
+            .getInstance(Key.get(SessionFactory.class, CansSessionFactory.class));
     return getPersisted(sessionFactory, Assessment.class, id);
   }
-
 }

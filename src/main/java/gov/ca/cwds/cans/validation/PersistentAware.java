@@ -5,9 +5,7 @@ import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public interface PersistentAware<T extends Persistent> {
   default T getPersisted(SessionFactory sessionFactory, Class<T> clazz, Serializable primaryKey) {
     Session session = sessionFactory.openSession();
