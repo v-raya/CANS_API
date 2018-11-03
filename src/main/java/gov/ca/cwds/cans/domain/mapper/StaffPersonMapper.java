@@ -14,6 +14,9 @@ public interface StaffPersonMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(source = "entity.phoneNo", target = "phoneNumber")
+  @Mapping(
+      expression = "java(entity.getTelExtNo() == 0 ? null : entity.getTelExtNo().toString())",
+      target = "phoneExtCode")
   @Mapping(source = "entity.emailAddr", target = "email")
   @Mapping(source = "countyEntity", target = "county")
   StaffPersonDto toStaffPersonDto(StaffPerson entity, County countyEntity);
