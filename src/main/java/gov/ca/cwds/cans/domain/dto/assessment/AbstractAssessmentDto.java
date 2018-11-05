@@ -35,6 +35,7 @@ public abstract class AbstractAssessmentDto extends Dto
   private CountyDto county;
   private CaseDto theCase;
   private AssessmentType assessmentType;
+  private String conductedBy;
   private AssessmentStatus status;
   private CompletedAs completedAs;
   private Boolean canReleaseConfidentialInfo;

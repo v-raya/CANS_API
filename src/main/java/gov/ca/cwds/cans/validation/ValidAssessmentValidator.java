@@ -3,21 +3,28 @@ package gov.ca.cwds.cans.validation;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import com.google.inject.Key;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
 import gov.ca.cwds.cans.domain.json.DomainJson;
 import gov.ca.cwds.cans.domain.json.ItemJson;
+import gov.ca.cwds.cans.inject.CansSessionFactory;
+import gov.ca.cwds.cans.inject.InjectorHolder;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.SessionFactory;
 
 /** @author denys.davydov */
 public class ValidAssessmentValidator
-    implements ConstraintValidator<ValidAssessment, AssessmentDto> {
+    implements ConstraintValidator<ValidAssessment, AssessmentDto>, PersistentAware<Assessment> {
 
   @Override
   public void initialize(ValidAssessment constraintAnnotation) {
@@ -47,7 +54,8 @@ public class ValidAssessmentValidator
         & isCanReleaseConfidentialInfoValid(assessment, context)
         & hasCaregiver(assessment, context)
         & isUnderSixValid(assessment, context)
-        & areItemsValid(assessment, context);
+        & areItemsValid(assessment, context)
+        & isConductedByValid(assessment, context);
   }
 
   private boolean isEventDateValid(
@@ -148,5 +156,40 @@ public class ValidAssessmentValidator
           .disableDefaultConstraintViolation();
     }
     return value != null;
+  }
+
+  private boolean isConductedByValid(AssessmentDto dto, ConstraintValidatorContext context) {
+    Long assessmentId = dto.getId();
+    boolean valid = true;
+    if (assessmentId != null) {
+      valid =
+          Optional.ofNullable(getPersisted(assessmentId))
+              .map(
+                  persisted -> {
+                    if (AssessmentStatus.COMPLETED == persisted.getStatus()
+                        && !StringUtils.equals(persisted.getConductedBy(), dto.getConductedBy())) {
+                      context
+                          .buildConstraintViolationWithTemplate(
+                              "The 'conductedBy' field can not be changed if an assessment is completed")
+                          .addPropertyNode("conductedBy")
+                          .addConstraintViolation()
+                          .disableDefaultConstraintViolation();
+                      return Boolean.FALSE;
+                    }
+                    return Boolean.TRUE;
+                  })
+              .orElseThrow(
+                  () ->
+                      new IllegalArgumentException("Can't find assessment by Id: " + assessmentId));
+    }
+    return valid;
+  }
+
+  protected Assessment getPersisted(Long id) {
+    SessionFactory sessionFactory =
+        InjectorHolder.INSTANCE
+            .getInjector()
+            .getInstance(Key.get(SessionFactory.class, CansSessionFactory.class));
+    return getPersisted(sessionFactory, Assessment.class, id);
   }
 }
