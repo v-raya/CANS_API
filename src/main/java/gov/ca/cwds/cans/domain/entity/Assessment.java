@@ -150,4 +150,7 @@ public class Assessment implements Persistent<Long> {
   @ManyToOne
   @JoinColumn(name = "completed_by")
   private Person completedBy;
+
+  @Column(name = "conducted_by")
+  private String conductedBy;
 }
