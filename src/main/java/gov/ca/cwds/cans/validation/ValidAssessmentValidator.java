@@ -174,9 +174,9 @@ public class ValidAssessmentValidator
                           .addPropertyNode("conductedBy")
                           .addConstraintViolation()
                           .disableDefaultConstraintViolation();
-                      return false;
+                      return Boolean.FALSE;
                     }
-                    return true;
+                    return Boolean.TRUE;
                   })
               .orElseThrow(
                   () ->
