@@ -16,5 +16,7 @@ public class StaffPersonDto extends Dto {
   private String firstName;
   private String lastName;
   private String phoneNumber;
+  private String phoneExtCode;
   private String email;
+  private CountyDto county;
 }
