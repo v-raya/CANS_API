@@ -227,6 +227,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     postedAssessment.setCounty((CountyDto) new CountyDto().setId(1L));
     postedAssessment.getCounty().setName("Sacramento");
+    postedAssessment.setConductedBy("John Smith");
     final AssessmentDto actualAssessment =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -237,6 +238,41 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualAssessment.getCounty().getId(), is(9L));
+    assertThat(actualAssessment.getConductedBy(), is("John Smith"));
+    // clean up
+    personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
+    cleanUpAssessments.push(postedAssessment);
+  }
+
+  @Test
+  public void putAssessment_validationError_whenUpdatingConductedByOnCompleted()
+      throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    assessment.setPerson(person);
+    assessment.setConductedBy("John Smith");
+    assessment.setStatus(AssessmentStatus.COMPLETED);
+    final AssessmentDto postedAssessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
+
+    // when
+
+    postedAssessment.setConductedBy("Other Person");
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE));
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
 
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
