@@ -1,0 +1,61 @@
+{
+  "assessment_type": "INITIAL",
+  "status": "IN_PROGRESS",
+  "completed_as": "COMMUNIMETRIC",
+  "event_date": "2018-10-10",
+  "can_release_confidential_info": false,
+  "has_caregiver": true,
+  "state": {
+    "caregiver_domain_template": {
+      "code": "life_functioning",
+      "is_caregiver_domain":true,
+      "caregiver_index": "a",
+      "under_six": true,
+      "above_six": true,
+      "items": [
+        {
+          "code": "lf10family",
+          "required": true,
+          "confidential": false,
+          "confidential_by_default": true,
+          "rating_type": "REGULAR",
+          "rating": -1
+        },
+        {
+          "code": "lf11living",
+          "required": true,
+          "confidential": false,
+          "rating_type": "REGULAR",
+          "rating": -1
+        }
+      ]
+    },
+    "domains": [
+      {
+        "code": "life_functioning",
+        "is_caregiver_domain": true,
+        "caregiver_name": "Tony Giving Care",
+        "under_six": true,
+        "above_six": true,
+        "items": [
+          {
+            "code": "lf10family",
+            "required": true,
+            "confidential": false,
+            "confidential_by_default": true,
+            "rating_type": "REGULAR",
+            "rating": 1
+          },
+          {
+            "code": "lf11living",
+            "required": true,
+            "confidential": false,
+            "rating_type": "REGULAR",
+            "rating": 1
+          }
+        ]
+      }
+    ],
+    "under_six": null
+  }
+}
