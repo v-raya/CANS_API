@@ -107,6 +107,9 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "completed_as")
   private CompletedAs completedAs;
 
+  @Column(name = "case_or_referral_id")
+  private String caseOrReferralId;
+
   @Column(name = "can_release_confidential_info")
   private Boolean canReleaseConfidentialInfo;
 
@@ -120,13 +123,7 @@ public class Assessment implements Persistent<Long> {
 
   @ManyToOne private Person person;
 
-  @ManyToOne private Cft cft;
-
   @ManyToOne private County county;
-
-  @ManyToOne
-  @JoinColumn(name = "case_id")
-  private Case theCase;
 
   @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp

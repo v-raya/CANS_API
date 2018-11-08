@@ -4,7 +4,6 @@ import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
 import static gov.ca.cwds.rest.api.domain.DomainObject.TIMESTAMP_ISO8601_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.dto.logging.CompleteLoggable;
@@ -18,6 +17,7 @@ import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -33,13 +33,15 @@ public abstract class AbstractAssessmentDto extends Dto
   private Long instrumentId;
   @NotNull private ClientDto person;
   private CountyDto county;
-  private CaseDto theCase;
   private AssessmentType assessmentType;
   private String conductedBy;
   private AssessmentStatus status;
   private CompletedAs completedAs;
   private Boolean canReleaseConfidentialInfo;
   private Boolean hasCaregiver;
+
+  @Size(min = 10, max = 10)
+  private String caseOrReferralId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate eventDate;

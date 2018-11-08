@@ -45,6 +45,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-complete-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
+  private static final String CASE_OR_REFERRAL_ID = "abcdefg000";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -124,13 +125,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .stream()
             .map(IssueDetails::getProperty)
             .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(9));
+    assertThat(itemCodes.size(), is(10));
     assertThat(
         itemCodes,
         containsInAnyOrder(
             "item.code3",
             "can_release_confidential_info",
             "assessment_type",
+            "caseOrReferralId",
             "has_caregiver",
             "event_date",
             "completed_as",
@@ -211,11 +213,12 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void putAssessment_notUpdatingCounty_whenUpdatingAssessment() throws IOException {
+  public void putAssessment_notUpdatingCountyAndCaseId_whenUpdatingAssessment() throws IOException {
     // given
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
+    assessment.setCaseOrReferralId(CASE_OR_REFERRAL_ID);
     final AssessmentDto postedAssessment =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -225,8 +228,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .readEntity(AssessmentDto.class);
 
     // when
-    postedAssessment.setCounty((CountyDto) new CountyDto().setId(1L));
-    postedAssessment.getCounty().setName("Sacramento");
+    postedAssessment.setCounty((CountyDto) new CountyDto().setName("Sacramento").setId(1L));
+    assessment.setCaseOrReferralId("otherId000");
     postedAssessment.setConductedBy("John Smith");
     final AssessmentDto actualAssessment =
         clientTestRule
@@ -238,6 +241,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualAssessment.getCounty().getId(), is(9L));
+    assertThat(actualAssessment.getCaseOrReferralId(), is(CASE_OR_REFERRAL_ID));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
