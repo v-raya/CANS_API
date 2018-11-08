@@ -207,6 +207,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void getStaffPersonWithStatistics_422_whenInvalidStaffId() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + "InvalidStaffId")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(422));
+  }
+
+  @Test
   public void getStaffPersonWithStatistics_success_whenEmptyStatistics() throws IOException {
     // when
     final StaffStatisticsDto actual =
@@ -240,6 +255,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actual.getStaffPerson().getIdentifier(), is(ASSIGNED_STAFF_ID));
     assertThat(actual.getStaffPerson().getCounty().getName(), is(notNullValue()));
     assertStatistics(actual, 1, 1);
+  }
+
+  @Test
+  public void findAssignedPersonsForStaffId_422_whenInvalidStaffId() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + "InvalidStaffId" + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(422));
   }
 
   @Test
