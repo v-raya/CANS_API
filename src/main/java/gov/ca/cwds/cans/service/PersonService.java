@@ -34,17 +34,19 @@ public class PersonService extends AbstractCrudService<Person> {
     this.perryService = perryService;
   }
 
+  // TODO @Authorize filter
   public SearchPersonResult search(final SearchPersonParameters searchPersonParameters) {
     final PerryAccount perryAccount = PrincipalUtils.getPrincipal();
     searchPersonParameters.setUsersCountyExternalId(perryAccount.getCountyCwsCode());
     return ((PersonDao) dao).search(searchPersonParameters);
   }
 
-  public Person findByExternalId(final String externalId) {
+  public Person findByExternalId(@Authorize("client:write:externalId") final String externalId) {
     return ((PersonDao) dao).findByExternalId(externalId);
   }
 
   @Override
+  @Authorize("client:write:person.externalId")
   public Person create(final Person person) {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForCreate(person);
@@ -52,6 +54,7 @@ public class PersonService extends AbstractCrudService<Person> {
   }
 
   @UnitOfWork(CANS)
+  // TODO: @Authorize filter
   public List<StaffClientDto> findStatusesByExternalIds(Set<String> externalIds) {
     return ((PersonDao) dao).findStatusesByExternalIds(externalIds);
   }
@@ -74,7 +77,8 @@ public class PersonService extends AbstractCrudService<Person> {
   }
 
   @Override
-  public Person update(@Authorize("person:write:person.id") final Person person) {
+  @Authorize("client:write:person.externalId")
+  public Person update(final Person person) {
     Require.requireNotNullAndNotEmpty(person);
     initializeCasesForUpdate(person);
     return super.update(person);

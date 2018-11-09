@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.shiro.SecurityUtils;
 
 /** @author CWDS TPT-2 Team */
 @SuppressFBWarnings("PMB_POSSIBLE_MEMORY_BLOAT")
@@ -40,6 +41,7 @@ public class ClientsService {
   private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
 
   public ClientDto findByExternalId(String id) {
+    SecurityUtils.getSubject().checkPermission("client:read:" + id);
     return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
   }
 
