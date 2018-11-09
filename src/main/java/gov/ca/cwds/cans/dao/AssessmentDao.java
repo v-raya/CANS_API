@@ -41,50 +41,20 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment create(
-      @Authorize({"client:write:assessment.person.externalId"}) Assessment assessment) {
+  public Assessment create(@Authorize("assessment:write:assessment") Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
   }
 
-  private void setCountyInitially(final Assessment assessment) {
-    final Person inputPerson = assessment.getPerson();
-    Require.requireNotNullAndNotEmpty(inputPerson);
-    Require.requireNotNullAndNotEmpty(inputPerson.getId());
-    assessment.setCounty(inputPerson.getCounty());
-  }
-
-  private void insertInstrumentById(final Assessment assessment) {
-    final Long instrumentId = assessment.getInstrumentId();
-    if (instrumentId == null || assessment.getInstrument() != null) {
-      return;
-    }
-    assessment.setInstrument(new Instrument().setId(instrumentId));
-  }
-
   @Override
-  public Assessment update(
-      @Authorize({"client:write:assessment.person.externalId"}) Assessment assessment) {
+  public Assessment update(@Authorize("assessment:write:assessment.id") Assessment assessment) {
     revertCountyToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
   }
 
-  private void revertCountyToInitialValue(Assessment assessment) {
-    final Assessment previousState = super.find(assessment.getId());
-    assessment.setCounty(previousState.getCounty());
-  }
-
-  /* Authorization going to be reworked
-  @Override
-  @Authorize({"person:read:result.person"})
-  public Assessment find(Serializable primaryKey) {
-    return super.find(primaryKey);
-  }
-  */
-
-  //TODO @Authorize({"client:read:assessment.person.externalId"})
+  @Authorize("assessment:read:assessment")
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
@@ -110,11 +80,10 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  //TODO @Authorize({"client:write:assessment.person.externalId"})
+  @Authorize("assessment:read:assessment")
   public Collection<Assessment> getAssessmentsByUserId(Long userId) {
     final Session session = grabSession();
     addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);
-    // returns List (and not ImmutableList as usual) to filter results with authorizer)
     return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
   }
 
@@ -123,5 +92,25 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     if (parameterValue != null) {
       session.enableFilter(filterName).setParameter(filterParameter, parameterValue);
     }
+  }
+
+  private void setCountyInitially(final Assessment assessment) {
+    final Person inputPerson = assessment.getPerson();
+    Require.requireNotNullAndNotEmpty(inputPerson);
+    Require.requireNotNullAndNotEmpty(inputPerson.getId());
+    assessment.setCounty(inputPerson.getCounty());
+  }
+
+  private void insertInstrumentById(final Assessment assessment) {
+    final Long instrumentId = assessment.getInstrumentId();
+    if (instrumentId == null || assessment.getInstrument() != null) {
+      return;
+    }
+    assessment.setInstrument(new Instrument().setId(instrumentId));
+  }
+
+  private void revertCountyToInitialValue(Assessment assessment) {
+    final Assessment previousState = super.find(assessment.getId());
+    assessment.setCounty(previousState.getCounty());
   }
 }

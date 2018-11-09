@@ -14,8 +14,8 @@ import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
+import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
-import gov.ca.cwds.cans.security.ClientWriteAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
@@ -47,7 +47,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
             new SecurityModule(BaseApiApplication::getInjector)
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
-                .addAuthorizer("client:write", ClientWriteAuthorizer.class));
+                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class));
       }
     };
   }

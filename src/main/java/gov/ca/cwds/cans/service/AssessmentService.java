@@ -45,7 +45,6 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     return super.update(assessment);
   }
 
-  // TODO @Authorize filter
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     return ((AssessmentDao) dao).search(searchAssessmentParameters);
   }
