@@ -38,7 +38,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
-  @Authorize("client:read:primaryKey")
+  @Authorize("client:read:person.externalId")
   public Person find(Serializable primaryKey) { // NOSONAR
     return super.find(primaryKey);
   }
