@@ -45,7 +45,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-complete-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
-  private static final String CASE_OR_REFERRAL_ID = "abcdefg000";
+  private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
+  private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -71,7 +72,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
-
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
@@ -218,7 +218,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
-    assessment.setCaseOrReferralId(CASE_OR_REFERRAL_ID);
+    assessment.setCaseOrReferralId(CASE_OR_REFERRAL_CMS_ID);
     final AssessmentDto postedAssessment =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -241,7 +241,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualAssessment.getCounty().getId(), is(9L));
-    assertThat(actualAssessment.getCaseOrReferralId(), is(CASE_OR_REFERRAL_ID));
+    assertThat(actualAssessment.getCaseOrReferralId(), is(CASE_OR_REFERRAL_CMS_ID));
+    assertThat(actualAssessment.getCaseOrReferralUIId(), is(CASE_OR_REFERRAL_CMS_BASE10_KEY));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());

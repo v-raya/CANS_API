@@ -43,6 +43,8 @@ public abstract class AbstractAssessmentDto extends Dto
   @Size(min = 10, max = 10)
   private String caseOrReferralId;
 
+  private String caseOrReferralUIId;
+
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate eventDate;
 
