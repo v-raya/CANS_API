@@ -23,16 +23,21 @@ import org.hibernate.envers.RevisionType;
 public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
 
   private String userId;
+  private Long entityId;
+
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_ISO8601_FORMAT)
   private LocalDateTime changedAt;
+
   private RevisionType changeType;
   private List<Change> changes;
 
-  // Restrict default constructor
-  private AbstractChangeLogDto() {}
+  public AbstractChangeLogDto() {
+    // default constructor
+  }
 
   AbstractChangeLogDto(ChangeLogDtoParameters<E> params) {
     setId(params.getRevisionEntity().getId());
+    entityId = (Long) params.getCurrent().getId();
     userId = params.getRevisionEntity().getUserId();
     changedAt = params.getRevisionEntity().getRevisionDate();
     changeType = params.getRevisionType();

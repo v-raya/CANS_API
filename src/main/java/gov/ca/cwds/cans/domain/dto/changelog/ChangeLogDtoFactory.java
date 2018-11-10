@@ -11,9 +11,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ChangeLogDtoFactory {
 
-  //Restrict instantiating
-  private ChangeLogDtoFactory() {
-  }
+  // Restrict instantiating
+  private ChangeLogDtoFactory() {}
 
   public static <E extends Persistent, D extends AbstractChangeLogDto> D newInstance(
       Class<D> dtoClass, ChangeLogDtoParameters<E> dtoParams) {
@@ -26,8 +25,10 @@ public class ChangeLogDtoFactory {
 
     try {
       return dtcoConstructor.newInstance(dtoParams);
-    } catch (InstantiationException | IllegalAccessException
-        | IllegalArgumentException | InvocationTargetException e) {
+    } catch (InstantiationException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException e) {
       throw new IllegalArgumentException("Error creating ChangeLogDto Instance.", e);
     }
   }
@@ -35,15 +36,17 @@ public class ChangeLogDtoFactory {
   private static <D extends AbstractChangeLogDto> Constructor<D> getChangeLogDtoClassConstructor(
       final Class<D> dtoClass) {
 
-    Class[] constructorArgs = new Class[1];            //Our changeLogDto constructors MUST have 1 arguments
-    constructorArgs[0] = ChangeLogDtoParameters.class; //First argument is of *object* type ChangeLogDtoParameters
+    Class[] constructorArgs = new Class[1]; // Our changeLogDto constructors MUST have 1 arguments
+    constructorArgs[0] =
+        ChangeLogDtoParameters.class; // First argument is of *object* type ChangeLogDtoParameters
 
     try {
       return dtoClass.getDeclaredConstructor(constructorArgs);
     } catch (NoSuchMethodException e) {
-      throw new IllegalArgumentException("The provided dtoClass:" + dtoClass.getName()
-          + " doesn't have required 1 argument constructor");
+      throw new IllegalArgumentException(
+          "The provided dtoClass:"
+              + dtoClass.getName()
+              + " doesn't have required 1 argument constructor");
     }
   }
-
 }

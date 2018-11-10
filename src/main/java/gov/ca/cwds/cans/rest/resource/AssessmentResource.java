@@ -153,20 +153,20 @@ public class AssessmentResource {
   @Path("/{" + ID + "}/" + CHANGELOG)
   @ApiResponses(
       value = {
-          @ApiResponse(code = 401, message = "Not Authorized"),
-          @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(value = "Get Assessment Change Log by id", response = AssessmentChangeLogDto.class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response getChangeLog(
       @PathParam(ID)
-      @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000") final Long id) {
-    Collection<AssessmentChangeLogDto> dtos = changeLogService
-        .getChageLog4EntityById(Assessment.class, id, AssessmentChangeLogDto.class);
+          @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
+          final Long id) {
+    Collection<AssessmentChangeLogDto> dtos =
+        changeLogService.getChageLog4EntityById(Assessment.class, id, AssessmentChangeLogDto.class);
     return ResponseUtil.responseOk(dtos);
   }
-
 
   @UnitOfWork(CANS)
   @DELETE

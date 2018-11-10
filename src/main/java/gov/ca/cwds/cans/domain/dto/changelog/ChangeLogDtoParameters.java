@@ -12,7 +12,6 @@ import org.hibernate.envers.RevisionType;
  *
  * @author CWDS API Team
  */
-
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode
@@ -22,5 +21,4 @@ public class ChangeLogDtoParameters<E extends Persistent> {
   private RevisionType revisionType = null;
   private E current = null;
   private E previous = null;
-
 }

@@ -37,28 +37,30 @@ public class ChangeLogService {
   @SuppressWarnings({"unchecked", "fb-contrib:CLI_CONSTANT_LIST_INDEX"})
   public <E extends Persistent, D extends AbstractChangeLogDto> List<D> getChageLog4EntityById(
       final Class<E> entityClass, final Long id, final Class<D> dtoClass) {
-
     AuditReader auditReader = getAuditReader();
     if (!auditReader.isEntityNameAudited(entityClass.getName())) {
       return Collections.emptyList();
     }
-
-    List<Object[]> revisions = auditReader.createQuery()
-        .forRevisionsOfEntity(entityClass, false, false)
-        .addOrder(AuditEntity.revisionNumber().asc()).add(AuditEntity.id().eq(id)).getResultList();
-
+    List<Object[]> revisions =
+        auditReader
+            .createQuery()
+            .forRevisionsOfEntity(entityClass, false, false)
+            .addOrder(AuditEntity.revisionNumber().asc())
+            .add(AuditEntity.id().eq(id))
+            .getResultList();
     List<D> changeLog = new ArrayList<>();
     D changeLogDto;
     E prevEntity = null;
     ChangeLogDtoParameters<E> dtoParams;
-
     for (Object[] revision : revisions) {
-      dtoParams = new ChangeLogDtoParameters<E>().setPrevious(prevEntity)
-          .setCurrent((E) revision[0]).setRevisionEntity((NsRevisionEntity) revision[1])
-          .setRevisionType((RevisionType) revision[2]);
+      dtoParams =
+          new ChangeLogDtoParameters<E>()
+              .setPrevious(prevEntity)
+              .setCurrent((E) revision[0])
+              .setRevisionEntity((NsRevisionEntity) revision[1])
+              .setRevisionType((RevisionType) revision[2]);
 
       changeLogDto = ChangeLogDtoFactory.newInstance(dtoClass, dtoParams);
-
       if (changeLogDto != null) {
         changeLog.add(changeLogDto);
         prevEntity = (E) revision[0];

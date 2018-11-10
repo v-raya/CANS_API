@@ -23,9 +23,12 @@ import org.hibernate.envers.RevisionType;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
 
-  @JsonIgnore
-  AssessmentStatus assessmentStatus;
+  @JsonIgnore AssessmentStatus assessmentStatus;
   AssessmentChangeType assessmentChangeType;
+
+  public AssessmentChangeLogDto() {
+    // default constructor
+  }
 
   AssessmentChangeLogDto(ChangeLogDtoParameters<Assessment> dtoParams) {
     super(dtoParams);
@@ -35,7 +38,7 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
 
   @Override
   void populateChanges(Assessment current, Assessment previous) {
-    //Do the Diff and populate changes
+    // Do the Diff and populate changes
     setChanges(Collections.emptyList());
   }
 
@@ -45,13 +48,13 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
       ret = null;
     }
     // Supports soft/hard delete
-    else if (AssessmentStatus.DELETED.equals(assessmentStatus) || RevisionType.DEL
-        .equals(revisionType)) {
+    else if (AssessmentStatus.DELETED.equals(assessmentStatus)
+        || RevisionType.DEL.equals(revisionType)) {
       ret = AssessmentChangeType.DELETED;
     } else if (AssessmentStatus.COMPLETED.equals(assessmentStatus)) {
       ret = AssessmentChangeType.COMPLETED;
-    } else if (AssessmentStatus.IN_PROGRESS.equals(assessmentStatus) && RevisionType.ADD
-        .equals(revisionType)) {
+    } else if (AssessmentStatus.IN_PROGRESS.equals(assessmentStatus)
+        && RevisionType.ADD.equals(revisionType)) {
       ret = AssessmentChangeType.CREATED;
     } else {
       ret = AssessmentChangeType.SAVED;
