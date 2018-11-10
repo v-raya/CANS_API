@@ -4,16 +4,20 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
+import gov.ca.cwds.cans.dao.CountyDao;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffClientMapper;
 import gov.ca.cwds.cans.domain.mapper.StaffPersonMapper;
+import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
 import gov.ca.cwds.data.legacy.cms.dao.StaffPersonDao;
+import gov.ca.cwds.data.legacy.cms.entity.StaffPerson;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
 import gov.ca.cwds.rest.exception.ExpectedException;
@@ -38,6 +42,7 @@ public class StaffService {
   @Inject private StaffPersonMapper staffPersonMapper;
   @Inject private AssessmentService assessmentService;
   @Inject private AssessmentMapper assessmentMapper;
+  @Inject private CountyDao countyDao;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final String currentStaffId = PrincipalUtils.getPrincipal().getStaffId();
@@ -108,6 +113,9 @@ public class StaffService {
       case COMPLETED:
         staffStatistics.incrementCompletedCount();
         break;
+      case NO_PRIOR_CANS:
+        staffStatistics.incrementNoPriorCansCount();
+        break;
       default:
     }
   }
@@ -168,5 +176,38 @@ public class StaffService {
   public Collection<AssessmentMetaDto> findAssessmentsByCurrentUser() {
     final Collection<Assessment> entities = assessmentService.getAssessmentsByCurrentUser();
     return assessmentMapper.toShortDtos(entities);
+  }
+
+  // Add authorization here (CANS-537)
+  public StaffStatisticsDto getStaffPersonWithStatistics(final String staffId) {
+    Require.requireNotNullAndNotEmpty(staffId);
+    final StaffPerson entity = fetchLegacyStaffPerson(staffId);
+    if (entity == null) {
+      return null;
+    }
+    final County county = fetchCountyById(Long.valueOf(entity.getCntySpfcd(), 10));
+    final Collection<StaffClientDto> assignedPeople = findAssignedPersonsForStaffId(staffId);
+    return toStaffStatisticsDto(entity, county, assignedPeople);
+  }
+
+  private StaffStatisticsDto toStaffStatisticsDto(
+      StaffPerson entity, County county, Collection<StaffClientDto> assignedPeople) {
+    final StaffStatisticsDto result =
+        new StaffStatisticsDto()
+            .setStaffPerson(staffPersonMapper.toStaffPersonDto(entity, county))
+            .setClientsCount(assignedPeople.size());
+    assignedPeople.forEach(
+        staffClient -> incrementStatisticByStatus(result, staffClient.getStatus()));
+    return result;
+  }
+
+  @UnitOfWork(CMS)
+  public StaffPerson fetchLegacyStaffPerson(final String staffId) {
+    return staffPersonDao.find(staffId);
+  }
+
+  @UnitOfWork(CANS)
+  public County fetchCountyById(final Long id) {
+    return countyDao.find(id);
   }
 }

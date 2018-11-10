@@ -14,12 +14,14 @@ import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.StaffService;
+import gov.ca.cwds.cans.validation.ValidStaffId;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.Collection;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -61,17 +63,44 @@ public class StaffResource {
   }
 
   @GET
+  @Path("{" + ID + "}")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found"),
+        @ApiResponse(code = 422, message = "Unprocessable Entity")
+      })
+  @ApiOperation(
+      value = "Get staff person with assessment statistics",
+      response = StaffStatisticsDto.class)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @Timed
+  public Response getStaffPersonWithStatistics(
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5")
+          @PathParam(ID)
+          @ValidStaffId
+          @NotNull
+          String staffId) {
+    final StaffStatisticsDto result = staffService.getStaffPersonWithStatistics(staffId);
+    return ResponseUtil.responseOrNotFound(result);
+  }
+
+  @GET
   @Path("{" + ID + "}/" + PEOPLE)
   @ApiResponses(
       value = {
         @ApiResponse(code = 401, message = "Not Authorized"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(code = 404, message = "Not found"),
+        @ApiResponse(code = 422, message = "Unprocessable Entity")
       })
   @ApiOperation(value = "Get all clients from assigned cases", response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(
-      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5") @PathParam(ID)
+      @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5")
+          @PathParam(ID)
+          @ValidStaffId
+          @NotNull
           String staffId) {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
