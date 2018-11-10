@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.service;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.changelog.AbstractChangeLogDto;
 import gov.ca.cwds.cans.domain.dto.changelog.ChangeLogDtoFactory;
+import gov.ca.cwds.cans.domain.dto.changelog.ChangeLogDtoParameters;
 import gov.ca.cwds.cans.domain.entity.Persistent;
 import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
@@ -33,7 +34,7 @@ public class ChangeLogService {
     return AuditReaderFactory.get(sessionFactory.getCurrentSession());
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked","fb-contrib:CLI_CONSTANT_LIST_INDEX"})
   public <E extends Persistent, D extends AbstractChangeLogDto> List<D> getChageLog4EntityById(
       final Class<E> entityClass, final Long id, final Class<D> dtoClass) {
 
@@ -50,12 +51,16 @@ public class ChangeLogService {
     List<D> changeLog = new ArrayList<>();
     D changeLogDto;
     E prevEntity = null;
+    ChangeLogDtoParameters<E> dtoParams;
 
     for (Object[] revision : revisions) {
+      dtoParams = new ChangeLogDtoParameters<E>()
+          .setPrevious(prevEntity)
+          .setCurrent((E) revision[0])
+          .setRevisionEntity((NsRevisionEntity) revision[1])
+          .setRevisionType((RevisionType) revision[2]);
 
-      changeLogDto = ChangeLogDtoFactory
-          .newInstance(dtoClass, (NsRevisionEntity) revision[1], (RevisionType) revision[2],
-              (E) revision[0], prevEntity);
+      changeLogDto = ChangeLogDtoFactory.newInstance(dtoClass, dtoParams);
 
       if (changeLogDto != null) {
         changeLog.add(changeLogDto);

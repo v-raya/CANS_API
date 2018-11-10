@@ -5,7 +5,6 @@ import static gov.ca.cwds.rest.api.domain.DomainObject.TIMESTAMP_ISO8601_FORMAT;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.entity.Persistent;
-import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
@@ -29,16 +28,15 @@ public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
   private RevisionType changeType;
   private List<Change> changes;
 
-  private AbstractChangeLogDto() {
-  }
+  // Restrict default constructor
+  private AbstractChangeLogDto() {}
 
-  AbstractChangeLogDto(NsRevisionEntity revisionEntity, RevisionType revisionType, E current,
-      E previous) {
-    setId(revisionEntity.getId());
-    userId = revisionEntity.getUserId();
-    changedAt = revisionEntity.getRevisionDate();
-    changeType = revisionType;
-    populateChanges(current, previous);
+  AbstractChangeLogDto(ChangeLogDtoParameters<E> params) {
+    setId(params.getRevisionEntity().getId());
+    userId = params.getRevisionEntity().getUserId();
+    changedAt = params.getRevisionEntity().getRevisionDate();
+    changeType = params.getRevisionType();
+    populateChanges(params.getCurrent(), params.getPrevious());
   }
 
   abstract void populateChanges(E current, E previous);

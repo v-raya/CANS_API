@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.entity.Assessment;
-import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentChangeType;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import java.util.Collections;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,16 +27,16 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
   AssessmentStatus assessmentStatus;
   AssessmentChangeType assessmentChangeType;
 
-  AssessmentChangeLogDto(NsRevisionEntity revisionEntity, RevisionType revisionType,
-      Assessment current, Assessment previous) {
-    super(revisionEntity, revisionType, current, previous);
-    assessmentStatus = current.getStatus();
-    assessmentChangeType = fromRevisionTypeAndStatus(revisionType);
+  AssessmentChangeLogDto(ChangeLogDtoParameters<Assessment> dtoParams) {
+    super(dtoParams);
+    assessmentStatus = dtoParams.getCurrent().getStatus();
+    assessmentChangeType = fromRevisionTypeAndStatus(dtoParams.getRevisionType());
   }
 
   @Override
   void populateChanges(Assessment current, Assessment previous) {
     //Do the Diff and populate changes
+    setChanges(Collections.emptyList());
   }
 
   private AssessmentChangeType fromRevisionTypeAndStatus(final RevisionType revisionType) {
