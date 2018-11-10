@@ -34,7 +34,7 @@ public class ChangeLogService {
     return AuditReaderFactory.get(sessionFactory.getCurrentSession());
   }
 
-  @SuppressWarnings({"unchecked","fb-contrib:CLI_CONSTANT_LIST_INDEX"})
+  @SuppressWarnings({"unchecked", "fb-contrib:CLI_CONSTANT_LIST_INDEX"})
   public <E extends Persistent, D extends AbstractChangeLogDto> List<D> getChageLog4EntityById(
       final Class<E> entityClass, final Long id, final Class<D> dtoClass) {
 
@@ -45,8 +45,7 @@ public class ChangeLogService {
 
     List<Object[]> revisions = auditReader.createQuery()
         .forRevisionsOfEntity(entityClass, false, false)
-        .addOrder(AuditEntity.revisionNumber().asc())
-        .add(AuditEntity.id().eq(id)).getResultList();
+        .addOrder(AuditEntity.revisionNumber().asc()).add(AuditEntity.id().eq(id)).getResultList();
 
     List<D> changeLog = new ArrayList<>();
     D changeLogDto;
@@ -54,10 +53,8 @@ public class ChangeLogService {
     ChangeLogDtoParameters<E> dtoParams;
 
     for (Object[] revision : revisions) {
-      dtoParams = new ChangeLogDtoParameters<E>()
-          .setPrevious(prevEntity)
-          .setCurrent((E) revision[0])
-          .setRevisionEntity((NsRevisionEntity) revision[1])
+      dtoParams = new ChangeLogDtoParameters<E>().setPrevious(prevEntity)
+          .setCurrent((E) revision[0]).setRevisionEntity((NsRevisionEntity) revision[1])
           .setRevisionType((RevisionType) revision[2]);
 
       changeLogDto = ChangeLogDtoFactory.newInstance(dtoClass, dtoParams);
@@ -67,9 +64,7 @@ public class ChangeLogService {
         prevEntity = (E) revision[0];
       }
     }
-
     Collections.reverse(changeLog.subList(0, changeLog.size()));
-
     return changeLog;
   }
 }

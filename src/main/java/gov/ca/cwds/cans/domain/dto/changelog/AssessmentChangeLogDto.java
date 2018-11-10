@@ -40,20 +40,22 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
   }
 
   private AssessmentChangeType fromRevisionTypeAndStatus(final RevisionType revisionType) {
+    AssessmentChangeType ret;
     if (revisionType == null || assessmentStatus == null) {
-      return null;
+      ret = null;
     }
     // Supports soft/hard delete
     else if (AssessmentStatus.DELETED.equals(assessmentStatus) || RevisionType.DEL
         .equals(revisionType)) {
-      return AssessmentChangeType.DELETED;
+      ret = AssessmentChangeType.DELETED;
     } else if (AssessmentStatus.COMPLETED.equals(assessmentStatus)) {
-      return AssessmentChangeType.COMPLETED;
+      ret = AssessmentChangeType.COMPLETED;
     } else if (AssessmentStatus.IN_PROGRESS.equals(assessmentStatus) && RevisionType.ADD
         .equals(revisionType)) {
-      return AssessmentChangeType.CREATED;
+      ret = AssessmentChangeType.CREATED;
     } else {
-      return AssessmentChangeType.SAVED;
+      ret = AssessmentChangeType.SAVED;
     }
+    return ret;
   }
 }
