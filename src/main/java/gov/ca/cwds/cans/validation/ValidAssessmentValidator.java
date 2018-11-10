@@ -45,7 +45,7 @@ public class ValidAssessmentValidator
     }
 
     if (assessment.getStatus() != AssessmentStatus.COMPLETED) {
-      return true;
+      return isValidInProgress(assessment, context);
     }
 
     return isEventDateValid(assessment, context)
@@ -56,6 +56,11 @@ public class ValidAssessmentValidator
         & isUnderSixValid(assessment, context)
         & areItemsValid(assessment, context)
         & isConductedByValid(assessment, context);
+  }
+
+  private boolean isValidInProgress(
+      final AssessmentDto assessment, final ConstraintValidatorContext context) {
+    return isUnderSixValid(assessment, context);
   }
 
   private boolean isEventDateValid(
@@ -95,7 +100,7 @@ public class ValidAssessmentValidator
   private boolean isUnderSixValid(
       final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
-        assessment.getState().getUnderSix(), "Age Group", "state.is_under_six", context);
+        assessment.getState().getUnderSix(), "Age Group", "state.under_six", context);
   }
 
   private boolean areItemsValid(

@@ -43,6 +43,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETE_INVALID =
       "fixtures/assessment/assessment-post-complete-fail.json";
+  private static final String FIXTURE_POST_NO_AGE_INVALID =
+      "fixtures/assessment/assessment-post-no-age-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
@@ -136,9 +138,39 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             "has_caregiver",
             "event_date",
             "completed_as",
-            "state.is_under_six",
+            "state.under_six",
             "state.domains.caregiverName",
             "person"));
+  }
+
+  @Test
+  public void postAssessment_failed_whenSubmittingInProgressWithNoAge() throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final AssessmentDto inputAssessment =
+        readObject(FIXTURE_POST_NO_AGE_INVALID, AssessmentDto.class);
+    inputAssessment.setPerson(person);
+
+    // when
+    final Response postResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE));
+
+    // then
+    assertThat(postResponse.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
+    final BaseExceptionResponse exceptionResponse =
+        postResponse.readEntity(BaseExceptionResponse.class);
+    final List<String> itemCodes =
+        exceptionResponse
+            .getIssueDetails()
+            .stream()
+            .map(IssueDetails::getProperty)
+            .collect(Collectors.toList());
+    assertThat(itemCodes.size(), is(1));
+    assertThat(itemCodes, containsInAnyOrder("state.under_six"));
   }
 
   @Test
