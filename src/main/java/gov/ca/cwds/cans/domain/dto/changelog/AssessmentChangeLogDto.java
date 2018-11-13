@@ -48,14 +48,17 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
         AssessmentStatus.DELETED.equals(assessmentStatus)
             || RevisionType.DEL.equals(getChangeType());
 
-    boolean isCompleted = AssessmentStatus.COMPLETED.equals(assessmentStatus);
+    boolean isCompleted =
+        AssessmentStatus.COMPLETED.equals(assessmentStatus);
 
     boolean isCreated =
         AssessmentStatus.IN_PROGRESS.equals(assessmentStatus)
             && RevisionType.ADD.equals(getChangeType());
+    return getAssessmentChangeType(isDeleted, isCompleted, isCreated);
+  }
 
+  private AssessmentChangeType getAssessmentChangeType(boolean isDeleted, boolean isCompleted, boolean isCreated) {
     AssessmentChangeType ret;
-
     if (isDeleted) {
       ret = AssessmentChangeType.DELETED;
     } else if (isCompleted) {
