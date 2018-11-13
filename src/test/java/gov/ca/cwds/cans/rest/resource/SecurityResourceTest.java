@@ -23,7 +23,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
         clientTestRule
             .withSecurityToken(AUTHORIZED_USER)
             .target(
-                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getExternalId())
+                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(Boolean.class);
@@ -37,7 +37,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
         clientTestRule
             .withSecurityToken(UNAUTHORIZED_USER)
             .target(
-                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getExternalId())
+                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(Boolean.class);

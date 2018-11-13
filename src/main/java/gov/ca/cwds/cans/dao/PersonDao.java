@@ -33,7 +33,7 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
-  public Person create(@Authorize("client:write:person.externalId") Person person) { // NOSONAR
+  public Person create(Person person) { // NOSONAR
     return super.create(person);
   }
 

@@ -37,14 +37,14 @@ import org.junit.Test;
 /** @author denys.davydov */
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
-  private static final String AUTHORIZED_MARLIN_ACCOUNT_FIXTURE =
-      "fixtures/perry-account/marin-all-authorized.json";
-  private static final String FIXTURE_POST_PERSON = "fixtures/person-post.json";
+  private static final String FIXTURE_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
   private static final String FIXTURE_POST = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETE_INVALID =
       "fixtures/assessment/assessment-post-complete-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
+  private static final String AUTHORIZED_USER =
+      "fixtures/perry-account/0ki-el-dorado-all.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -59,19 +59,18 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
           .withSecurityToken(
-              personHelper.findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+              AUTHORIZED_USER)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    personHelper.cleanUp();
   }
 
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
 
-    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
     inputAssessment.setPerson(person);
@@ -143,8 +142,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void searchAssessments_findsFourSortedRecords() throws IOException {
     // given
     final List<Long> assessmentIds = new ArrayList<>();
-    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
-    final ClientDto otherPerson = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final ClientDto otherPerson = readObject(FIXTURE_PERSON, ClientDto.class);
     otherPerson.setIdentifier("aaaaaaaaaa");
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties =
@@ -213,7 +212,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void putAssessment_notUpdatingCounty_whenUpdatingAssessment() throws IOException {
     // given
-    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     final AssessmentDto postedAssessment =
@@ -248,7 +247,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   public void putAssessment_validationError_whenUpdatingConductedByOnCompleted()
       throws IOException {
     // given
-    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
     assessment.setConductedBy("John Smith");
@@ -273,37 +272,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
-
-    // clean up
-    personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
-    cleanUpAssessments.push(postedAssessment);
-  }
-
-  @Test
-  public void putAssessment_unauthorized_whenUserFromDifferentCounty() throws IOException {
-    // given
-    final ClientDto personElDoradoCounty = readObject(FIXTURE_POST_PERSON, ClientDto.class);
-    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
-    assessment.setPerson(personElDoradoCounty);
-    final AssessmentDto postedAssessment =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(ASSESSMENTS)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(AssessmentDto.class);
-
-    // when
-    final int status =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_MARLIN_ACCOUNT_FIXTURE)
-            .target(ASSESSMENTS + SLASH + postedAssessment.getId())
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE))
-            .getStatus();
-
-    // then
-    assertThat(status, is(403));
 
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
