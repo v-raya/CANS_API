@@ -37,17 +37,7 @@ public class ChangeLogService {
   @SuppressWarnings({"unchecked", "fb-contrib:CLI_CONSTANT_LIST_INDEX"})
   public <E extends Persistent, D extends AbstractChangeLogDto> List<D> getChageLog4EntityById(
       final Class<E> entityClass, final Long id, final Class<D> dtoClass) {
-    AuditReader auditReader = getAuditReader();
-    if (!auditReader.isEntityNameAudited(entityClass.getName())) {
-      return Collections.emptyList();
-    }
-    List<Object[]> revisions =
-        auditReader
-            .createQuery()
-            .forRevisionsOfEntity(entityClass, false, false)
-            .addOrder(AuditEntity.revisionNumber().asc())
-            .add(AuditEntity.id().eq(id))
-            .getResultList();
+    List<Object[]> revisions = queryAudit4changeLog(entityClass, id);
     List<D> changeLog = new ArrayList<>();
     D changeLogDto;
     E prevEntity = null;
@@ -59,7 +49,6 @@ public class ChangeLogService {
               .setCurrent((E) revision[0])
               .setRevisionEntity((NsRevisionEntity) revision[1])
               .setRevisionType((RevisionType) revision[2]);
-
       changeLogDto = ChangeLogDtoFactory.newInstance(dtoClass, dtoParams);
       if (changeLogDto != null) {
         changeLog.add(changeLogDto);
@@ -68,5 +57,19 @@ public class ChangeLogService {
     }
     Collections.reverse(changeLog.subList(0, changeLog.size()));
     return changeLog;
+  }
+
+  private <E extends Persistent> List<Object[]> queryAudit4changeLog(
+      final Class<E> entityClass, Long id) {
+    AuditReader auditReader = getAuditReader();
+    if (!auditReader.isEntityNameAudited(entityClass.getName())) {
+      return Collections.emptyList();
+    }
+    return auditReader
+        .createQuery()
+        .forRevisionsOfEntity(entityClass, false, false)
+        .addOrder(AuditEntity.revisionNumber().asc())
+        .add(AuditEntity.id().eq(id))
+        .getResultList();
   }
 }
