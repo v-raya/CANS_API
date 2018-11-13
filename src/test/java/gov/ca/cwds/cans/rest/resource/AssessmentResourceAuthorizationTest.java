@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import java.io.IOException;
@@ -23,25 +24,18 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String SENSITIVE_CLIENT_IDENTIFIER = "AbA4BJy0Aq";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-  private PersonResourceHelper personHelper;
 
   @After
   public void tearDown() throws IOException {
-    personHelper.cleanUp();
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
           .withSecurityToken(
-              personHelper.findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+              findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-  }
-
-  @Before
-  public void before() {
-    personHelper = new PersonResourceHelper(clientTestRule);
   }
 
   @Test
@@ -162,5 +156,22 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         .target(ASSESSMENTS + SLASH + id)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
+  }
+
+  private String findUserAccountForDelete(CountyDto county) {
+    if (county == null) {
+      return AUTHORIZED_ACCOUNT_FIXTURE;
+    }
+    switch (county.getName()) {
+      case "El Dorado":
+        return AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE;
+      case "Marin":
+        return AUTHORIZED_ACCOUNT_FIXTURE;
+      case "San Luis Obispo":
+        return SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
+      default:
+        throw new IllegalArgumentException(
+            "There is no account fixture for county: " + county.getName());
+    }
   }
 }

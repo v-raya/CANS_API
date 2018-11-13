@@ -48,12 +48,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String AUTHORIZED_USER =
       "fixtures/perry-account/0ki-napa-all.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-  private PersonResourceHelper personHelper;
-
-  @Before
-  public void before() {
-    personHelper = new PersonResourceHelper(clientTestRule);
-  }
 
   @After
   public void tearDown() throws IOException {
@@ -97,7 +91,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getCompletedTimestamp(), is(nullValue()));
 
     // clean up
-    personHelper.pushToCleanUpPerson(actualAssessment.getPerson());
     cleanUpAssessments.push(actualAssessment);
   }
 
@@ -188,7 +181,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       assessmentIds.add(newAssessment.getId());
       if (newAssessment.getId() != null) {
         cleanUpAssessments.push(newAssessment);
-        personHelper.pushToCleanUpPerson(newAssessment.getPerson());
       }
     }
     // when
@@ -242,7 +234,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getCounty().getId(), is(28L));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
     // clean up
-    personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
     cleanUpAssessments.push(postedAssessment);
   }
 
@@ -277,7 +268,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
 
     // clean up
-    personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
     cleanUpAssessments.push(postedAssessment);
   }
 
