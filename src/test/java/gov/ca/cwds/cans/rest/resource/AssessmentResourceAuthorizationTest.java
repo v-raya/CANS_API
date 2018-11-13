@@ -22,9 +22,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   private static final String FIXTURE_POST_ELDORADO_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String SENSITIVE_CLIENT_IDENTIFIER = "AbA4BJy0Aq";
-  private PersonResourceHelper personHelper;
-
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
+  private PersonResourceHelper personHelper;
 
   @After
   public void tearDown() throws IOException {

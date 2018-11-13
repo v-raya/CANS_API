@@ -33,13 +33,6 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURES_PERSON_PUT_JSON = "fixtures/person-put.json";
   private static final String FIXTURES_PERSON_POST_JSON = "fixtures/person-post.json";
 
-  private enum HttpMethod {
-    POST,
-    PUT,
-    GET,
-    DELETE
-  }
-
   @Test
   public void assessmentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
@@ -62,12 +55,6 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   public void instrumentEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
-  }
-
-  @Test
-  public void peopleEndpoints_failed_whenUnauthorizedUser()
-      throws IOException, ClassNotFoundException {
-    assertPeopleEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   @Test
@@ -211,5 +198,12 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(response.getStatus(), is(403));
+  }
+
+  private enum HttpMethod {
+    POST,
+    PUT,
+    GET,
+    DELETE
   }
 }

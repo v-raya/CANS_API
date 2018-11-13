@@ -8,7 +8,6 @@ import gov.ca.cwds.cans.rest.resource.ClientsResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
-import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
@@ -42,11 +41,9 @@ import org.junit.runners.Suite;
   CountyResourceTest.class,
   I18nResourceTest.class,
   InstrumentResourceTest.class,
-  PersonResourceTest.class,
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,
   StaffResourceTest.class,
-  // PersonResourceAuthorizationTest.class, //Authorization will be reworked
   // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
   ClientsResourceTest.class,
 })
