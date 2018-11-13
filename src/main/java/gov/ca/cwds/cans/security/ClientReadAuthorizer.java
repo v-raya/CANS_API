@@ -14,7 +14,8 @@ import java.util.Set;
 
 public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
-  @Inject private ClientDao clientDao;
+  @Inject
+  private ClientDao clientDao;
 
   @Inject
   public ClientReadAuthorizer(
@@ -24,7 +25,11 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
   }
 
   protected boolean checkId(String clientId) {
-    return super.checkId(clientId) || checkIdByAssignment(clientId);
+    return checkClientAbstractAccess(clientId) || checkIdByAssignment(clientId);
+  }
+
+  boolean checkClientAbstractAccess(String clientId) {
+    return super.checkId(clientId);
   }
 
   protected boolean checkInstance(Client client) {
@@ -57,7 +62,7 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
     return checkByAssignmentAccessType(accessType);
   }
 
-  private AccessType getAccessType(String clientId) {
+  AccessType getAccessType(String clientId) {
     return clientDao.getAccessTypeByAssignment(clientId, staffId());
   }
 

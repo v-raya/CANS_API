@@ -34,7 +34,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class AssessmentResourceTest extends AbstractFunctionalTest {
 
   private static final String FIXTURE_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
@@ -44,7 +46,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
   private static final String AUTHORIZED_USER =
-      "fixtures/perry-account/0ki-el-dorado-all.json";
+      "fixtures/perry-account/0ki-napa-all.json";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -148,31 +150,32 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties =
         Arrays.asList(
-            new Object[] {
-              person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            new Object[]{
+                person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
-            new Object[] {
-              person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            new Object[]{
+                person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
-            new Object[] {
-              otherPerson,
-              IN_PROGRESS,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            new Object[]{
+                otherPerson,
+                IN_PROGRESS,
+                LocalDate.of(2015, 10, 10),
+                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
-            new Object[] {
-              person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            new Object[]{
+                person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             },
-            new Object[] {
-              person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+            new Object[]{
+                person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             }*/
-            );
+        );
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
@@ -236,7 +239,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .readEntity(AssessmentDto.class);
 
     // then
-    assertThat(actualAssessment.getCounty().getId(), is(9L));
+    assertThat(actualAssessment.getCounty().getId(), is(28L));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());

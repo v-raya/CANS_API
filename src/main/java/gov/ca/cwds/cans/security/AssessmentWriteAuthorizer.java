@@ -3,17 +3,16 @@ package gov.ca.cwds.cans.security;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
 import gov.ca.cwds.security.authorizer.BaseAuthorizer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> {
 
-  @Inject private ClientReadAuthorizer clientReadAuthorizer;
+  @Inject
+  private ClientReadAuthorizer clientReadAuthorizer;
 
-  @Inject private AssessmentDao assessmentDao;
+  @Inject
+  private AssessmentDao assessmentDao;
 
   protected boolean checkId(Long id) {
     Assessment assessment = assessmentDao.find(id);
@@ -21,23 +20,15 @@ public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> 
   }
 
   protected boolean checkInstance(Assessment assessment) {
-    return clientReadAuthorizer.checkId(assessment.getPerson().getExternalId());
-  }
-
-  @Override
-  protected Collection<Assessment> filterInstances(Collection<Assessment> instances) {
-    Map<String, Assessment> clientIdToAssessment =
-        instances.stream().collect(Collectors.toMap(a -> a.getPerson().getExternalId(), a -> a));
-    Collection<String> filteredIds = clientReadAuthorizer.filterIds(clientIdToAssessment.keySet());
-    Collection<Assessment> out = new ArrayList<>();
-    filteredIds.forEach(
-        id -> {
-          out.add(clientIdToAssessment.get(id));
-        });
-    return out;
+    String clientId = assessment.getPerson().getExternalId();
+    return clientReadAuthorizer.checkClientAbstractAccess(clientId) || checkByAssignment(clientId);
   }
 
   protected Long stringToId(String id) {
     return Long.valueOf(id);
+  }
+
+  private boolean checkByAssignment(String clientId) {
+    return clientReadAuthorizer.getAccessType(clientId).equals(AccessType.RW);
   }
 }

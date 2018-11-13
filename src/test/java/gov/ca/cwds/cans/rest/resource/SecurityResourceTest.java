@@ -13,7 +13,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
 
   private static final String PERSON_FIXTURE = "fixtures/client-of-0Ki-rw-assignment.json";
   private static final String AUTHORIZED_USER =
-      "fixtures/perry-account/0ki-el-dorado-all.json";
+      "fixtures/perry-account/0ki-napa-all.json";
   private static final String UNAUTHORIZED_USER = "fixtures/perry-account/marlin-unauthorized.json";
 
   @Test

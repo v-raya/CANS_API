@@ -1,5 +1,11 @@
 {
   "person_role": "CLIENT",
   "external_id": "0602-0480-3081-8000672",
-  "identifier": "AdQGgX00Ki"
+  "identifier": "AdQGgX00Ki",
+  "county": {
+    "id": 28,
+    "name": "Napa",
+    "external_id": "1095",
+    "export_id": "28"
+  }
 }

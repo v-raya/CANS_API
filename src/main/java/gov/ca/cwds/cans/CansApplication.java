@@ -14,6 +14,7 @@ import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
+import gov.ca.cwds.cans.security.AssessmentReadAuthorizer;
 import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgrader;
@@ -27,7 +28,9 @@ import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class CansApplication extends BaseApiApplication<CansConfiguration> {
 
   private static final Logger LOG = LoggerFactory.getLogger(CansApplication.class);
@@ -47,6 +50,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
             new SecurityModule(BaseApiApplication::getInjector)
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
+                .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
                 .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class));
       }
     };
