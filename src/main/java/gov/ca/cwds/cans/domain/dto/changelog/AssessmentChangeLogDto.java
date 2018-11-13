@@ -33,7 +33,7 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
   AssessmentChangeLogDto(ChangeLogDtoParameters<Assessment> dtoParams) {
     super(dtoParams);
     assessmentStatus = dtoParams.getCurrent().getStatus();
-    assessmentChangeType = fromRevisionTypeAndStatus(dtoParams.getRevisionType());
+    assessmentChangeType = fromRevisionTypeAndStatus();
   }
 
   @Override
@@ -42,27 +42,27 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
     setChanges(Collections.emptyList());
   }
 
-  private AssessmentChangeType fromRevisionTypeAndStatus(final RevisionType revisionType) {
-    if (revisionType == null || assessmentStatus == null) {
+  private AssessmentChangeType fromRevisionTypeAndStatus() {
+    if (getChangeType() == null || assessmentStatus == null) {
       return null;
     }
     // Supports soft/hard delete
-    if (AssessmentStatus.DELETED.equals(assessmentStatus)
-        || RevisionType.DEL.equals(revisionType)) {
-
+    if (AssessmentStatus.DELETED.equals(assessmentStatus)) {
       return AssessmentChangeType.DELETED;
     }
-
+    if (RevisionType.DEL.equals(getChangeType())) {
+      return AssessmentChangeType.DELETED;
+    }
     if (AssessmentStatus.COMPLETED.equals(assessmentStatus)) {
       return AssessmentChangeType.COMPLETED;
     }
 
-    if (AssessmentStatus.IN_PROGRESS.equals(assessmentStatus)
-        && RevisionType.ADD.equals(revisionType)) {
-
-      return AssessmentChangeType.CREATED;
+    if (AssessmentStatus.IN_PROGRESS.equals(assessmentStatus)) {
+      if (RevisionType.ADD.equals(getChangeType())) {
+        return AssessmentChangeType.CREATED;
+      } else {
+        return AssessmentChangeType.SAVED;
+      }
     }
-
-    return AssessmentChangeType.SAVED;
   }
 }
