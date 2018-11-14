@@ -5,12 +5,10 @@
     "Supervisor",
     "CANS-worker"
   ],
-  "county_code": "28",
-  "county_name": "Napa",
-  "county_cws_code": "1095",
+  "county_code": "21",
+  "county_name": "Marin",
+  "county_cws_code": "1088",
   "privileges": [
-    "Sensitive Persons",
-    "Sealed",
     "CWS CANS System",
     "CANS-rollout"
   ]
