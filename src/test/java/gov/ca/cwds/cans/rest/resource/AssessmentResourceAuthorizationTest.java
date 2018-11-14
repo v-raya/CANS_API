@@ -51,11 +51,11 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
 
   }
 
-  //@Test
+  @Test
   public void getAssessment_success_whenUserHasReadOnlyAssignment() throws Exception {
-    AssessmentDto assessment = createAssessmentDto(FIXTURE_POST_ASSESSMENT);
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
     assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/client-of-0Ki-rw-assignment.json").readEntity(AssessmentDto.class);
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json",
         HttpStatus.SC_OK);
 
