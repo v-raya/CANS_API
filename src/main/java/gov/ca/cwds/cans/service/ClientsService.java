@@ -16,13 +16,12 @@ import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.dao.ReferralDao;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
-import gov.ca.cwds.data.legacy.cms.entity.Referral;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,11 +62,10 @@ public class ClientsService {
       enhanceWithCaseOrReferralId(
           clientDto, clientCases.get(0).getIdentifier(), ServiceSource.CASE);
     } else {
-      final List<Referral> referrals = findClientReferrals(clientId);
-      final Optional<Referral> latestReferral =
-          referrals.stream().max(Comparator.comparing(Referral::getReceivedDate));
-      latestReferral.ifPresent(
-          ref -> enhanceWithCaseOrReferralId(clientDto, ref.getId(), ServiceSource.REFERRAL));
+      final List<String> referralIds = findClientReferrals(clientId);
+      if (!referralIds.isEmpty()) {
+        enhanceWithCaseOrReferralId(clientDto, referralIds.get(0), ServiceSource.REFERRAL);
+      }
     }
   }
 
@@ -93,8 +91,8 @@ public class ClientsService {
   }
 
   @UnitOfWork(CMS)
-  protected List<Referral> findClientReferrals(String clientId) {
-    return cmsReferralDao.getActiveReferralsByClientId(clientId);
+  protected List<String> findClientReferrals(String clientId) {
+    return cmsReferralDao.findReferralIdsByClientIdAndActiveDate(clientId, LocalDate.now());
   }
 
   @UnitOfWork(CMS)
