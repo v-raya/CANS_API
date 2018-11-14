@@ -1,8 +1,9 @@
 package gov.ca.cwds.cans.domain.entity.envers;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,18 +47,7 @@ public class NsRevisionEntity implements Serializable {
   private String userId;
 
   @Transient
-  public Date getRevisionDate() {
-    return new Date(timestamp);
-  }
-
-  @Override
-  public String toString() {
-    return "NsRevisionEntity(id = "
-        + id
-        + ", revisionDate = "
-        + DateFormat.getDateTimeInstance().format(getRevisionDate())
-        + ", userId = "
-        + userId
-        + ")";
+  public LocalDateTime getRevisionDate() {
+    return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
   }
 }

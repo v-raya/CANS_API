@@ -113,7 +113,7 @@ public class StaffResource {
         @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(
-      value = "Get all assessments, returns records created by the logged in user ONLY",
+      value = "Get assessment records created/updated by the logged in user ONLY",
       response = AssessmentDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed

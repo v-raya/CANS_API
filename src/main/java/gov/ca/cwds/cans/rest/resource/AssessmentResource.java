@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
+import static gov.ca.cwds.cans.Constants.API.CHANGELOG;
 import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
@@ -11,12 +12,14 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
+import gov.ca.cwds.cans.domain.dto.changelog.AssessmentChangeLogDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.AssessmentService;
+import gov.ca.cwds.cans.service.ChangeLogService;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,16 +52,19 @@ public class AssessmentResource {
   private final AssessmentMapper assessmentMapper;
   private final ACrudResource<Assessment, AssessmentDto> crudResource;
   private final SearchAssessmentRequestMapper searchAssessmentMapper;
+  private final ChangeLogService changeLogService;
 
   @Inject
   public AssessmentResource(
       AssessmentService assessmentService,
       AssessmentMapper assessmentMapper,
-      SearchAssessmentRequestMapper searchAssessmentMapper) {
+      SearchAssessmentRequestMapper searchAssessmentMapper,
+      ChangeLogService changeLogService) {
     this.assessmentService = assessmentService;
     this.assessmentMapper = assessmentMapper;
     crudResource = new ACrudResource<>(assessmentService, assessmentMapper);
     this.searchAssessmentMapper = searchAssessmentMapper;
+    this.changeLogService = changeLogService;
   }
 
   @UnitOfWork(CANS)
@@ -140,6 +146,26 @@ public class AssessmentResource {
     final Collection<Assessment> entities = assessmentService.search(searchAssessmentParameters);
     final Collection<AssessmentMetaDto> dtos = assessmentMapper.toShortDtos(entities);
     return ResponseUtil.responseCreatedOrNot(dtos);
+  }
+
+  @UnitOfWork(CANS)
+  @GET
+  @Path("/{" + ID + "}/" + CHANGELOG)
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 404, message = "Not found")
+      })
+  @ApiOperation(value = "Get Assessment Change Log by id", response = AssessmentChangeLogDto.class)
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @Timed
+  public Response getChangeLog(
+      @PathParam(ID)
+          @ApiParam(required = true, name = "id", value = "The Assessment id", example = "50000")
+          final Long id) {
+    Collection<AssessmentChangeLogDto> dtos =
+        changeLogService.getChageLog4EntityById(Assessment.class, id, AssessmentChangeLogDto.class);
+    return ResponseUtil.responseOk(dtos);
   }
 
   @UnitOfWork(CANS)
