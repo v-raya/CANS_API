@@ -252,6 +252,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
+    assessment.setServiceSource(ServiceSource.CASE);
     assessment.setServiceSourceId(CASE_OR_REFERRAL_CMS_ID);
     final AssessmentDto postedAssessment =
         clientTestRule
@@ -264,7 +265,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     postedAssessment.setCounty((CountyDto) new CountyDto().setName("Sacramento").setId(1L));
     assessment.setServiceSourceId("otherId000");
-    assessment.setServiceSource(ServiceSource.CASE);
     postedAssessment.setConductedBy("John Smith");
     final AssessmentDto actualAssessment =
         clientTestRule
