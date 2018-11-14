@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
+import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import java.io.IOException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -30,8 +31,9 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
     Assert.assertEquals(CLIENT_CMS_BASE10_KEY, clientDto.getExternalId());
-    Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, clientDto.getCaseOrReferralId());
-    Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, clientDto.getCaseOrReferralUIId());
+    Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, clientDto.getServiceSourceId());
+    Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, clientDto.getServiceSourceUiId());
+    Assert.assertEquals(ServiceSource.CASE, clientDto.getServiceSource());
   }
 
   @Test

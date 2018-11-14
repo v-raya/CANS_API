@@ -15,9 +15,9 @@ public interface AssessmentMapper
 
   @AfterMapping
   default void afterMapping(@MappingTarget AssessmentDto dto) {
-    final String caseOrReferralId = dto.getCaseOrReferralId();
-    if (caseOrReferralId != null) {
-      dto.setCaseOrReferralUIId(CmsKeyIdGenerator.getUIIdentifierFromKey(caseOrReferralId));
+    final String serviceSourceId = dto.getServiceSourceId();
+    if (serviceSourceId != null) {
+      dto.setServiceSourceUiId(CmsKeyIdGenerator.getUIIdentifierFromKey(serviceSourceId));
     }
   }
 }

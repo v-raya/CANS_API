@@ -63,7 +63,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   private void revertCountyAndCaseIdToInitialValue(Assessment assessment) {
     final Assessment previousState = super.find(assessment.getId());
     assessment.setCounty(previousState.getCounty());
-    assessment.setCaseOrReferralId(previousState.getCaseOrReferralId());
+    assessment.setServiceSourceId(previousState.getServiceSourceId());
   }
 
   /* Authorization going to be reworked

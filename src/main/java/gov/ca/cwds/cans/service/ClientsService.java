@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
+import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.data.legacy.cms.dao.CaseDao;
@@ -59,18 +60,22 @@ public class ClientsService {
     final String clientId = clientDto.getIdentifier();
     final List<Case> clientCases = findClientCases(clientId);
     if (!clientCases.isEmpty()) {
-      enhanceWithCaseOrReferralId(clientDto, clientCases.get(0).getIdentifier());
+      enhanceWithCaseOrReferralId(
+          clientDto, clientCases.get(0).getIdentifier(), ServiceSource.CASE);
     } else {
       final List<Referral> referrals = findClientReferrals(clientId);
       final Optional<Referral> latestReferral =
           referrals.stream().max(Comparator.comparing(Referral::getReceivedDate));
-      latestReferral.ifPresent(ref -> enhanceWithCaseOrReferralId(clientDto, ref.getId()));
+      latestReferral.ifPresent(
+          ref -> enhanceWithCaseOrReferralId(clientDto, ref.getId(), ServiceSource.REFERRAL));
     }
   }
 
-  private void enhanceWithCaseOrReferralId(ClientDto clientDto, String caseOrReferralId) {
-    clientDto.setCaseOrReferralId(caseOrReferralId);
-    clientDto.setCaseOrReferralUIId(CmsKeyIdGenerator.getUIIdentifierFromKey(caseOrReferralId));
+  private void enhanceWithCaseOrReferralId(
+      ClientDto clientDto, String caseOrReferralId, ServiceSource serviceSource) {
+    clientDto.setServiceSourceId(caseOrReferralId);
+    clientDto.setServiceSourceUiId(CmsKeyIdGenerator.getUIIdentifierFromKey(caseOrReferralId));
+    clientDto.setServiceSource(serviceSource);
   }
 
   private List<CountyDto> getCountyDtos(String clientId) {

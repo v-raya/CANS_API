@@ -14,6 +14,7 @@ import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
+import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
@@ -41,9 +42,11 @@ public abstract class AbstractAssessmentDto extends Dto
   private Boolean hasCaregiver;
 
   @Size(min = 10, max = 10)
-  private String caseOrReferralId;
+  private String serviceSourceId;
 
-  private String caseOrReferralUIId;
+  private String serviceSourceUiId;
+
+  private ServiceSource serviceSource;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
   private LocalDate eventDate;
