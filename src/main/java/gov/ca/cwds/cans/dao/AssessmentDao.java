@@ -16,13 +16,16 @@ import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-/** @author denys.davydov */
+/**
+ * @author denys.davydov
+ */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Inject
@@ -45,6 +48,16 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
+  }
+
+  @Authorize("assessment:read:assessment")
+  public Assessment find(Serializable id) {
+    return super.find(id);
+  }
+
+
+  public Assessment delete(@Authorize("assessment:write:id") Serializable id) {
+    return super.delete(id);
   }
 
   @Override

@@ -2,8 +2,6 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
@@ -20,9 +18,7 @@ import org.junit.Test;
 
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
 
-  private static final String FIXTURE_POST_ELDORADO_PERSON = "fixtures/person-post.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
-  private static final String SENSITIVE_CLIENT_IDENTIFIER = "AbA4BJy0Aq";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
 
   @After
@@ -31,7 +27,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
           .withSecurityToken(
-              findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+              "fixtures/perry-account/0ki-napa-all.json")
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
@@ -58,7 +54,68 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json",
         HttpStatus.SC_OK);
+  }
 
+  @Test
+  public void postAssessment_success_noAssignmentSealedSameCounty() throws Exception {
+    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sealed.json",
+        "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_CREATED);
+  }
+
+  @Test
+  public void postAssessment_success_noAssignmentSensitiveSameCounty() throws Exception {
+    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sensitive.json",
+        "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_CREATED);
+  }
+
+  @Test
+  public void getAssessment_success_noAssignmentSealedSameCounty() throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sealed.json");
+    assessment = postAssessmentAndGetResponse(assessment,
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/account-napa-all.json",
+        HttpStatus.SC_OK);
+  }
+
+  @Test
+  public void getAssessment_success_noAssignmentSensitiveSameCounty() throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
+    assessment = postAssessmentAndGetResponse(assessment,
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/account-napa-all.json",
+        HttpStatus.SC_OK);
+  }
+
+  @Test
+  public void postAssessment_failed_noAssignmentSealedDiffCounty() throws Exception {
+    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sealed.json",
+        "fixtures/perry-account/el-dorado-all-authorized.json", HttpStatus.SC_FORBIDDEN);
+  }
+
+  @Test
+  public void postAssessment_failed_noAssignmentSensitiveDiffCounty() throws Exception {
+    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sensitive.json",
+        "fixtures/perry-account/el-dorado-all-authorized.json", HttpStatus.SC_FORBIDDEN);
+  }
+
+  @Test
+  public void getAssessment_failed_noAssignmentSealedDiffCounty() throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sealed.json");
+    assessment = postAssessmentAndGetResponse(assessment,
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(assessment.getId(),
+        "fixtures/perry-account/el-dorado-all-authorized.json",
+        HttpStatus.SC_FORBIDDEN);
+  }
+
+  @Test
+  public void getAssessment_failed_noAssignmentSensitiveDiffCounty() throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
+    assessment = postAssessmentAndGetResponse(assessment,
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(assessment.getId(),
+        "fixtures/perry-account/el-dorado-all-authorized.json",
+        HttpStatus.SC_FORBIDDEN);
   }
 
   private void getAssessmentAndCheckStatus(Long id, String userFixture, int expectedStatus)
@@ -72,92 +129,6 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     final ClientDto person = readObject(personFixture, ClientDto.class);
     assessment.setPerson(person);
     return assessment;
-  }
-
-  public void getAssessmentForSensitivePerson_success_whenUserHasSensitivePrivilege()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status =
-        getAssessment(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_OK));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-  public void getAssessmentForSensitivePerson_unauthorize_whenUserDoesntHaveSensitivePrivilege()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status =
-        getAssessment(NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_FORBIDDEN));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-  public void getAssessmentForSensitivePerson_unauthorize_whenUserNotTheSameCounty()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status =
-        getAssessment(AUTHORIZED_ACCOUNT_FIXTURE, postedAssessment.getId()).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_FORBIDDEN));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-  public void putAssessmentForSensitivePerson_success_whenUserHasSensitivePrivilege()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status =
-        putAssessment(postedAssessment, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_OK));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-  public void putAssessmentForSensitivePerson_unauthorize_whenUserDoesntHaveSensitivePrivilege()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status =
-        putAssessment(postedAssessment, NO_SEALED_NO_SENSITIVE_ACCOUNT_FIXTURE).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_FORBIDDEN));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-  public void putAssessmentForSensitivePerson_unauthorize_whenUserNotTheSameCounty()
-      throws IOException {
-    // given
-    final AssessmentDto postedAssessment = postAssessmentForSensitivePerson();
-    // when
-    final int status = putAssessment(postedAssessment, AUTHORIZED_ACCOUNT_FIXTURE).getStatus();
-    // then
-    assertThat(status, is(HttpStatus.SC_FORBIDDEN));
-    // clean up
-    cleanUpAssessments.add(postedAssessment);
-  }
-
-
-  private AssessmentDto postAssessmentForSensitivePerson() throws IOException {
-    final ClientDto client = readObject(FIXTURE_POST_ELDORADO_PERSON, ClientDto.class);
-    client.setIdentifier(SENSITIVE_CLIENT_IDENTIFIER);
-    final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
-    assessment.setPerson(client);
-    return postAssessment(assessment, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
   }
 
   private void postAssessmentAndCheckStatus(String personFixture, String userFixture,
@@ -177,14 +148,6 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     Assert.assertEquals(expectedStatus, actualStatus);
   }
 
-  private AssessmentDto postAssessment(AssessmentDto assessment, String userFixture)
-      throws IOException {
-    AssessmentDto postedAssessment = postAssessmentAndGetResponse(assessment, userFixture)
-        .readEntity(AssessmentDto.class);
-    cleanUpAssessments.push(assessment);
-    return postedAssessment;
-  }
-
   private Response postAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
       throws IOException {
     return clientTestRule
@@ -194,39 +157,11 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
   }
 
-  private Response putAssessment(AssessmentDto assessment, String accountFixture)
-      throws IOException {
-    return clientTestRule
-        .withSecurityToken(accountFixture)
-        .target(ASSESSMENTS + SLASH + assessment.getId())
-        .request(MediaType.APPLICATION_JSON_TYPE)
-        .put(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
-  }
-
   private Response getAssessment(String accountFixture, Long id) throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(ASSESSMENTS + SLASH + id)
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
-  }
-
-  private String findUserAccountForDelete(CountyDto county) {
-    if (county == null) {
-      return AUTHORIZED_ACCOUNT_FIXTURE;
-    }
-    switch (county.getName()) {
-      case "El Dorado":
-        return AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE;
-      case "Marin":
-        return AUTHORIZED_ACCOUNT_FIXTURE;
-      case "San Luis Obispo":
-        return SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
-      case "Napa":
-        return AUTHORIZED_NAPA_ACCOUNT_FIXTURE;
-      default:
-        throw new IllegalArgumentException(
-            "There is no account fixture for county: " + county.getName());
-    }
   }
 }
