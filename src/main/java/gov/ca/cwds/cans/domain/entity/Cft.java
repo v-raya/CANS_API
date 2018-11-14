@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
@@ -40,9 +39,6 @@ public class Cft implements Persistent<Long> {
 
   @Column(name = "event_date")
   private LocalDate eventDate;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "cft")
-  private Set<Assessment> assessments = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(

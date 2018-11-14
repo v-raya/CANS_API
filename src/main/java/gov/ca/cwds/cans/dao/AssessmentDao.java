@@ -29,16 +29,6 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     super(sessionFactory);
   }
 
-  public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
-    grabSession()
-        .createQuery(
-            "update Assessment set case_id = :newCaseId where person_id = :personId and case_id = :oldCaseId")
-        .setParameter("personId", personId)
-        .setParameter("oldCaseId", oldCaseId)
-        .setParameter("newCaseId", newCaseId)
-        .executeUpdate();
-  }
-
   @Override
   public Assessment create(
       /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
@@ -65,14 +55,15 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   @Override
   public Assessment update(
       /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
-    revertCountyToInitialValue(assessment);
+    revertCountyAndCaseIdToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
   }
 
-  private void revertCountyToInitialValue(Assessment assessment) {
+  private void revertCountyAndCaseIdToInitialValue(Assessment assessment) {
     final Assessment previousState = super.find(assessment.getId());
     assessment.setCounty(previousState.getCounty());
+    assessment.setServiceSourceId(previousState.getServiceSourceId());
   }
 
   /* Authorization going to be reworked

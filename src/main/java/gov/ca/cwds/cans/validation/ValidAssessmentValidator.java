@@ -55,7 +55,8 @@ public class ValidAssessmentValidator
         & hasCaregiver(assessment, context)
         & isUnderSixValid(assessment, context)
         & areItemsValid(assessment, context)
-        & isConductedByValid(assessment, context);
+        & isConductedByValid(assessment, context)
+        & areCaseNumberAndServiceSourceValid(assessment, context);
   }
 
   private boolean isValidInProgress(
@@ -86,6 +87,22 @@ public class ValidAssessmentValidator
         "Authorization for release of information on file",
         "can_release_confidential_info",
         context);
+  }
+
+  private boolean areCaseNumberAndServiceSourceValid(
+      final AssessmentDto assessment, final ConstraintValidatorContext context) {
+    if ((assessment.getServiceSourceId() != null && assessment.getServiceSource() == null)
+        || (assessment.getServiceSourceId() == null && assessment.getServiceSource() != null)) {
+      context
+          .buildConstraintViolationWithTemplate(
+              "service_source is required when service_source_id is present and "
+                  + "service_source is forbidden when service_source_id is not present")
+          .addPropertyNode("service_source")
+          .addConstraintViolation()
+          .disableDefaultConstraintViolation();
+      return false;
+    }
+    return true;
   }
 
   private boolean hasCaregiver(

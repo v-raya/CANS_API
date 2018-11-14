@@ -37,8 +37,7 @@ public interface ClientMapper {
   @Mapping(target = "gender", ignore = true)
   ClientDto toDto(Client client);
 
-  public default ClientDto toClientDto(
-      Client client, Collection<CountyDto> counties, Collection<CaseDto> clientCases) {
+  default ClientDto toClientDto(Client client, Collection<CountyDto> counties) {
     ClientDto childDto = toDto(client);
     if (DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
       childDto.setEstimatedDob(Boolean.TRUE);
@@ -53,14 +52,6 @@ public interface ClientMapper {
               Iterator<CountyDto> iterator = filtered.iterator();
               childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
               childDto.setCounties(ImmutableList.copyOf(filtered));
-            });
-
-    Optional.ofNullable(clientCases)
-        .ifPresent(
-            caseDtos -> {
-              List<CaseDto> filtered =
-                  caseDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
-              childDto.setCases(ImmutableList.copyOf(filtered));
             });
 
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));

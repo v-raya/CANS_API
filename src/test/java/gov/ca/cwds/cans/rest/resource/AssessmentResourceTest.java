@@ -20,6 +20,7 @@ import gov.ca.cwds.cans.domain.dto.changelog.AssessmentChangeLogDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentChangeType;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import gov.ca.cwds.rest.exception.BaseExceptionResponse;
 import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
@@ -50,6 +51,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-no-age-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
+  private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
+  private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private PersonResourceHelper personHelper;
 
@@ -75,7 +78,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
-
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
@@ -129,13 +131,15 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .stream()
             .map(IssueDetails::getProperty)
             .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(9));
+    assertThat(itemCodes.size(), is(11));
     assertThat(
         itemCodes,
         containsInAnyOrder(
             "item.code3",
             "can_release_confidential_info",
             "assessment_type",
+            "serviceSourceId",
+            "service_source",
             "has_caregiver",
             "event_date",
             "completed_as",
@@ -315,11 +319,13 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void putAssessment_notUpdatingCounty_whenUpdatingAssessment() throws IOException {
+  public void putAssessment_notUpdatingCountyAndCaseId_whenUpdatingAssessment() throws IOException {
     // given
     final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     assessment.setPerson(person);
+    assessment.setServiceSource(ServiceSource.CASE);
+    assessment.setServiceSourceId(CASE_OR_REFERRAL_CMS_ID);
     final AssessmentDto postedAssessment =
         clientTestRule
             .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
@@ -329,8 +335,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .readEntity(AssessmentDto.class);
 
     // when
-    postedAssessment.setCounty((CountyDto) new CountyDto().setId(1L));
-    postedAssessment.getCounty().setName("Sacramento");
+    postedAssessment.setCounty((CountyDto) new CountyDto().setName("Sacramento").setId(1L));
+    assessment.setServiceSourceId("otherId000");
     postedAssessment.setConductedBy("John Smith");
     final AssessmentDto actualAssessment =
         clientTestRule
@@ -342,6 +348,9 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualAssessment.getCounty().getId(), is(9L));
+    assertThat(actualAssessment.getServiceSource(), is(ServiceSource.CASE));
+    assertThat(actualAssessment.getServiceSourceId(), is(CASE_OR_REFERRAL_CMS_ID));
+    assertThat(actualAssessment.getServiceSourceUiId(), is(CASE_OR_REFERRAL_CMS_BASE10_KEY));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
     // clean up
     personHelper.pushToCleanUpPerson(postedAssessment.getPerson());
