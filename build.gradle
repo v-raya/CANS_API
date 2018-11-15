@@ -18,7 +18,7 @@ buildscript {
 
 plugins {
     id "org.sonarqube" version "2.5"
-    id 'net.ltgt.apt' version '0.9'
+    id 'net.ltgt.apt' version '0.19'
     id "com.github.hierynomus.license" version "0.14.0"
     id 'com.github.jk1.dependency-license-report' version '0.8'
     id 'com.github.sherter.google-java-format' version '0.7.1'
@@ -77,6 +77,8 @@ apply plugin: 'application'
 apply plugin: 'docker'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
+apply plugin: 'net.ltgt.apt-idea'
+apply plugin: 'net.ltgt.apt-eclipse'
 
 sonarqube {
     properties {
@@ -158,19 +160,24 @@ dependencies {
         exclude group: 'junit', module: 'junit'
     }
 
-    apt 'org.mapstruct:mapstruct-processor:' + mapstructVersion
-    apt 'org.projectlombok:lombok:' + lombokVersion
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
 
 mainClassName = mainClass
 
-
-import com.github.sherter.googlejavaformatgradleplugin.GoogleJavaFormat
-task formatGoogleJava(type: GoogleJavaFormat) {
+googleJavaFormat {
     source 'src/main'
     source 'src/test'
     include '**/*.java'
     exclude '**/*Template.java'
+    exclude '**/generated/**'
+}
+
+import com.github.sherter.googlejavaformatgradleplugin.GoogleJavaFormat
+task formatGoogleJava(type: GoogleJavaFormat) {
 }
 
 compileJava.dependsOn(formatGoogleJava)
@@ -287,12 +294,6 @@ task publishDocker(dependsOn: [pushDockerVersionTagged, pushDockerLatest]) {
     doLast {
         println 'Published'
     }
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs = [
-            '-Amapstruct.suppressGeneratorTimestamp=true'
-    ]
 }
 
 processResources {
