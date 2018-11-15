@@ -31,7 +31,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -144,24 +143,24 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[]{
-                person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[]{
                 person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
             new Object[]{
                 otherPerson,
                 IN_PROGRESS,
                 LocalDate.of(2015, 10, 10),
-                AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[]{
-                person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[]{
-                person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+                person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
@@ -190,7 +189,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             MediaType.APPLICATION_JSON_TYPE);
     final AssessmentMetaDto[] actualResults =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + SEARCH)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(searchRequest)

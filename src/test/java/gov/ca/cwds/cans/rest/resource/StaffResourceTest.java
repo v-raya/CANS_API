@@ -345,7 +345,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentMetaDto[] actualResults =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(STAFF + SLASH + ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()

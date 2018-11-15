@@ -11,6 +11,8 @@ import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
@@ -62,11 +64,30 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
         clientDao.filterClientIdsByAssignment(ids, staffId());
     if (filteredByAssignments.size() != ids.size()) {
       Set<String> result = new HashSet<>(filteredByAssignments);
-      result.addAll(super.filterIds(ids));
+      result.addAll(filterSealedSensitive(ids));
       return result;
     } else {
       return ids;
     }
+  }
+
+  private Collection<String> filterSealedSensitive(Collection<String> ids) {
+    Collection<String> filteredByAbstractRules = new HashSet<>(super.filterIds(ids));
+    Collection<String> filteredByCounties = filterByCounties(ids);
+    filteredByAbstractRules.retainAll(filteredByCounties);
+    return filteredByAbstractRules;
+  }
+
+  private Collection<String> filterByCounties(Collection<String> ids) {
+    Map<String, List<Short>> countiesMap = countyDeterminationDao.getClientCountiesMap(ids);
+    Short staffCounty = staffCounty();
+    Collection<String> result = new HashSet<>();
+    countiesMap.forEach((id, counties) -> {
+      if (counties.isEmpty() || counties.contains(staffCounty)) {
+        result.add(id);
+      }
+    });
+    return result;
   }
 
   private boolean checkIdByAssignment(String clientId) {
