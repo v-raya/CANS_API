@@ -12,8 +12,7 @@ import org.junit.Test;
 public class SecurityResourceTest extends AbstractFunctionalTest {
 
   private static final String PERSON_FIXTURE = "fixtures/client-of-0Ki-rw-assignment.json";
-  private static final String AUTHORIZED_USER =
-      "fixtures/perry-account/0ki-napa-all.json";
+  private static final String AUTHORIZED_USER = "fixtures/perry-account/0ki-napa-all.json";
   private static final String UNAUTHORIZED_USER = "fixtures/perry-account/marlin-unauthorized.json";
 
   @Test
@@ -22,8 +21,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
     final Boolean authorized =
         clientTestRule
             .withSecurityToken(AUTHORIZED_USER)
-            .target(
-                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(Boolean.class);
@@ -36,8 +34,7 @@ public class SecurityResourceTest extends AbstractFunctionalTest {
     final Boolean authorized =
         clientTestRule
             .withSecurityToken(UNAUTHORIZED_USER)
-            .target(
-                SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:read:" + personDto.getIdentifier())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .readEntity(Boolean.class);

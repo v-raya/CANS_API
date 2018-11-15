@@ -49,8 +49,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-no-age-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
-  private static final String AUTHORIZED_USER =
-      "fixtures/perry-account/0ki-napa-all.json";
+  private static final String AUTHORIZED_USER = "fixtures/perry-account/0ki-napa-all.json";
   private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
   private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
@@ -60,8 +59,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(
-              AUTHORIZED_USER)
+          .withSecurityToken(AUTHORIZED_USER)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
@@ -181,32 +179,28 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties =
         Arrays.asList(
-            new Object[]{
-                person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+            new Object[] {
+              person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
-            new Object[]{
-                person, IN_PROGRESS, LocalDate.of(2015, 10, 10),
-                AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+            new Object[] {
+              person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
-            new Object[]{
-                otherPerson,
-                IN_PROGRESS,
-                LocalDate.of(2015, 10, 10),
-                AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+            new Object[] {
+              otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
-            new Object[]{
-                person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+            new Object[] {
+              person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
-            new Object[]{
-                person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+            new Object[] {
+              person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             }*/
-        );
+            );
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
@@ -275,7 +269,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
         id = newAssessment.getId();
         cleanUpAssessments.push(newAssessment);
-        personHelper.pushToCleanUpPerson(newAssessment.getPerson());
 
       } else {
         newAssessment =

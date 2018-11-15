@@ -9,11 +9,9 @@ import java.util.stream.Collectors;
 
 public class AssessmentReadAuthorizer extends BaseAuthorizer<Assessment, Long> {
 
-  @Inject
-  private ClientReadAuthorizer clientReadAuthorizer;
+  @Inject private ClientReadAuthorizer clientReadAuthorizer;
 
-  @Inject
-  private AssessmentDao assessmentDao;
+  @Inject private AssessmentDao assessmentDao;
 
   protected boolean checkId(Long id) {
     Assessment assessment = assessmentDao.find(id);
@@ -27,12 +25,15 @@ public class AssessmentReadAuthorizer extends BaseAuthorizer<Assessment, Long> {
   @Override
   protected Collection<Assessment> filterInstances(Collection<Assessment> instances) {
     Collection<String> clientIds =
-        instances.stream().map(assessment -> assessment.getPerson().getExternalId()).collect(
-            Collectors.toSet());
+        instances
+            .stream()
+            .map(assessment -> assessment.getPerson().getExternalId())
+            .collect(Collectors.toSet());
     Collection<String> filterIds = clientReadAuthorizer.filterIds(clientIds);
-    return instances.stream()
-        .filter(assessment -> filterIds.contains(assessment.getPerson().getExternalId())).collect(
-            Collectors.toList());
+    return instances
+        .stream()
+        .filter(assessment -> filterIds.contains(assessment.getPerson().getExternalId()))
+        .collect(Collectors.toList());
   }
 
   protected Long stringToId(String id) {

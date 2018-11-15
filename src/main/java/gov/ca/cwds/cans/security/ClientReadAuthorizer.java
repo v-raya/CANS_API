@@ -17,10 +17,8 @@ import java.util.Set;
 
 public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
-  @Inject
-  private ClientDao clientDao;
-  @Inject
-  private CountyDeterminationDao countyDeterminationDao;
+  @Inject private ClientDao clientDao;
+  @Inject private CountyDeterminationDao countyDeterminationDao;
 
   @Inject
   public ClientReadAuthorizer(
@@ -82,11 +80,12 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
     Map<String, List<Short>> countiesMap = countyDeterminationDao.getClientCountiesMap(ids);
     Short staffCounty = staffCounty();
     Collection<String> result = new HashSet<>();
-    countiesMap.forEach((id, counties) -> {
-      if (counties.isEmpty() || counties.contains(staffCounty)) {
-        result.add(id);
-      }
-    });
+    countiesMap.forEach(
+        (id, counties) -> {
+          if (counties.isEmpty() || counties.contains(staffCounty)) {
+            result.add(id);
+          }
+        });
     return result;
   }
 

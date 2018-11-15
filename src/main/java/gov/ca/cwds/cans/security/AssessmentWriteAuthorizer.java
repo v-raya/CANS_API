@@ -8,11 +8,9 @@ import gov.ca.cwds.security.authorizer.BaseAuthorizer;
 
 public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> {
 
-  @Inject
-  private ClientReadAuthorizer clientReadAuthorizer;
+  @Inject private ClientReadAuthorizer clientReadAuthorizer;
 
-  @Inject
-  private AssessmentDao assessmentDao;
+  @Inject private AssessmentDao assessmentDao;
 
   protected boolean checkId(Long id) {
     Assessment assessment = assessmentDao.find(id);

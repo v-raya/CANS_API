@@ -39,7 +39,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
   private static final String FIXTURES_POST_RW_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
   private static final String FIXTURES_POST_R_PERSON = "fixtures/client-of-0Ki-r-assignment.json";
-  private static final String FIXTURE_ASSIGNED_CASEWORKER = "fixtures/perry-account/0ki-napa-all.json";
+  private static final String FIXTURE_ASSIGNED_CASEWORKER =
+      "fixtures/perry-account/0ki-napa-all.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
       "fixtures/assessment/assessment-post-complete-success.json";
@@ -56,8 +57,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(
-              FIXTURE_ASSIGNED_CASEWORKER)
+          .withSecurityToken(FIXTURE_ASSIGNED_CASEWORKER)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
@@ -320,42 +320,33 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     final List<Object[]> properties =
         Arrays.asList(
-            new Object[]{
-                person,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2010, 1, 1),
-                FIXTURE_ASSIGNED_CASEWORKER
+            new Object[] {
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2010, 1, 1),
+              FIXTURE_ASSIGNED_CASEWORKER
             },
-            new Object[]{
-                person,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2015, 10, 10),
-                FIXTURE_ASSIGNED_CASEWORKER
+            new Object[] {
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2015, 10, 10),
+              FIXTURE_ASSIGNED_CASEWORKER
             },
             // out of search results because of the other person
-            new Object[]{
-                otherPerson,
-                AssessmentStatus.IN_PROGRESS,
-                LocalDate.of(2015, 10, 10),
-                FIXTURE_ASSIGNED_CASEWORKER
+            new Object[] {
+              otherPerson,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2015, 10, 10),
+              FIXTURE_ASSIGNED_CASEWORKER
             },
-            new Object[]{
-                person,
-                COMPLETED,
-                LocalDate.of(2010, 1, 1),
-                FIXTURE_ASSIGNED_CASEWORKER
-            },
-            new Object[]{
-                person,
-                COMPLETED,
-                LocalDate.of(2015, 10, 10),
-                FIXTURE_ASSIGNED_CASEWORKER
+            new Object[] {person, COMPLETED, LocalDate.of(2010, 1, 1), FIXTURE_ASSIGNED_CASEWORKER},
+            new Object[] {
+              person, COMPLETED, LocalDate.of(2015, 10, 10), FIXTURE_ASSIGNED_CASEWORKER
             },
             // out of search results because of the other created by user
-            new Object[]{
-                person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
-            }
-        );
+            new Object[] {
+              person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
+            });
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =

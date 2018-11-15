@@ -28,23 +28,25 @@ import org.junit.ClassRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/** @author denys.davydov <p>The suite is a part of unit tests. All the tests with "ResourceTest"
- * postfix are excluded from default junit tests running and must be added to this suite. The suite
- * sets up dropwizard app and inmemory db once for all the "ResourceTest" tests.
+/**
+ * @author denys.davydov
+ *     <p>The suite is a part of unit tests. All the tests with "ResourceTest" postfix are excluded
+ *     from default junit tests running and must be added to this suite. The suite sets up
+ *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   AuthorizationResourceTest.class,
-   SystemInformationResourceTest.class,
-   AssessmentResourceTest.class,
-   CountyResourceTest.class,
-   I18nResourceTest.class,
-   InstrumentResourceTest.class,
-   SecurityResourceTest.class,
-   SensitivityTypeResourceTest.class,
-   StaffResourceTest.class,
-   AssessmentResourceAuthorizationTest.class,
-   ClientsResourceTest.class,
+  AuthorizationResourceTest.class,
+  SystemInformationResourceTest.class,
+  AssessmentResourceTest.class,
+  CountyResourceTest.class,
+  I18nResourceTest.class,
+  InstrumentResourceTest.class,
+  SecurityResourceTest.class,
+  SensitivityTypeResourceTest.class,
+  StaffResourceTest.class,
+  AssessmentResourceAuthorizationTest.class,
+  ClientsResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
 

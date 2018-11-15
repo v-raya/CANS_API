@@ -25,8 +25,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(
-              "fixtures/perry-account/0ki-napa-all.json")
+          .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
@@ -35,74 +34,90 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
 
   @Test
   public void postAssessment_success_whenUserHasAssignment() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-rw-assignment.json",
-        "fixtures/perry-account/0ki-marlin-none.json", HttpStatus.SC_CREATED);
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-rw-assignment.json",
+        "fixtures/perry-account/0ki-marlin-none.json",
+        HttpStatus.SC_CREATED);
   }
 
   @Test
   public void postAssessment_forbidden_whenUserHasReadOnlyAssignment() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-r-assignment.json",
-        "fixtures/perry-account/0ki-marlin-none.json", HttpStatus.SC_FORBIDDEN);
-
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-r-assignment.json",
+        "fixtures/perry-account/0ki-marlin-none.json",
+        HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void getAssessment_success_whenUserHasReadOnlyAssignment() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json",
-        HttpStatus.SC_OK);
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json", HttpStatus.SC_OK);
   }
 
   @Test
   public void postAssessment_success_noAssignmentSealedSameCounty() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sealed.json",
-        "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_CREATED);
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-sealed.json",
+        "fixtures/perry-account/account-napa-all.json",
+        HttpStatus.SC_CREATED);
   }
 
   @Test
   public void postAssessment_success_noAssignmentSensitiveSameCounty() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sensitive.json",
-        "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_CREATED);
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-sensitive.json",
+        "fixtures/perry-account/account-napa-all.json",
+        HttpStatus.SC_CREATED);
   }
 
   @Test
   public void getAssessment_success_noAssignmentSealedSameCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sealed.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/account-napa-all.json",
-        HttpStatus.SC_OK);
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(), "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_OK);
   }
 
   @Test
   public void getAssessment_success_noAssignmentSensitiveSameCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(), "fixtures/perry-account/account-napa-all.json",
-        HttpStatus.SC_OK);
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(), "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_OK);
   }
 
   @Test
   public void postAssessment_failed_noAssignmentSealedDiffCounty() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sealed.json",
-        "fixtures/perry-account/el-dorado-all-authorized.json", HttpStatus.SC_FORBIDDEN);
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-sealed.json",
+        "fixtures/perry-account/el-dorado-all-authorized.json",
+        HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void postAssessment_failed_noAssignmentSensitiveDiffCounty() throws Exception {
-    postAssessmentAndCheckStatus("fixtures/client-of-0Ki-sensitive.json",
-        "fixtures/perry-account/el-dorado-all-authorized.json", HttpStatus.SC_FORBIDDEN);
+    postAssessmentAndCheckStatus(
+        "fixtures/client-of-0Ki-sensitive.json",
+        "fixtures/perry-account/el-dorado-all-authorized.json",
+        HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void getAssessment_failed_noAssignmentSealedDiffCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sealed.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(),
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
   }
@@ -110,9 +125,11 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   @Test
   public void getAssessment_failed_noAssignmentSensitiveDiffCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(),
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
   }
@@ -120,9 +137,11 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   @Test
   public void getAssessment_failed_noAssignmentDiffCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
-    assessment = postAssessmentAndGetResponse(assessment,
-        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
-    getAssessmentAndCheckStatus(assessment.getId(),
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(
+        assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
   }
@@ -140,9 +159,8 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     return assessment;
   }
 
-  private void postAssessmentAndCheckStatus(String personFixture, String userFixture,
-      int expectedStatus)
-      throws Exception {
+  private void postAssessmentAndCheckStatus(
+      String personFixture, String userFixture, int expectedStatus) throws Exception {
     AssessmentDto assessment = createAssessmentDto(personFixture);
     Response response = postAssessmentAndGetResponse(assessment, userFixture);
     checkStatus(response, expectedStatus);

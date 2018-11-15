@@ -28,9 +28,7 @@ import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class CansApplication extends BaseApiApplication<CansConfiguration> {
 
   private static final Logger LOG = LoggerFactory.getLogger(CansApplication.class);
