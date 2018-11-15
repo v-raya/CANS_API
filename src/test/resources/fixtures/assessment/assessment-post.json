@@ -3,6 +3,7 @@
   "status": "IN_PROGRESS",
   "event_date": "2018-10-24",
   "conducted_by": "John Dow",
+  "case_or_referral_id": "abcdefg000",
   "completed_as": "COMMUNIMETRIC",
   "can_release_confidential_info": false,
   "has_caregiver": true,

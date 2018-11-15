@@ -5,16 +5,13 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
-import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.dto.logging.CreationLoggable;
 import gov.ca.cwds.cans.domain.dto.logging.UpdateLoggable;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -122,15 +119,6 @@ public abstract class AbstractCrudFunctionalTest<T extends Dto> extends Abstract
       final CreationLoggable creationLoggable = (CreationLoggable) actualResult;
       creationLoggable.setCreatedBy(null);
       creationLoggable.setCreatedTimestamp(null);
-    }
-    if (actualResult instanceof PersonDto) {
-      final PersonDto person = (PersonDto) actualResult;
-      final List<CaseDto> cases = person.getCases();
-      for (CaseDto aCase : cases) {
-        aCase.setId(null);
-        aCase.setCreatedBy(null);
-        aCase.setCreatedTimestamp(null);
-      }
     }
   }
 

@@ -10,7 +10,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
-import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.PaginationDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
@@ -26,7 +25,6 @@ import gov.ca.cwds.rest.exception.IssueDetails;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
@@ -156,7 +154,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     input.setExternalId("123");
     input.setPersonRole(PersonRole.CLIENT);
     input.setCounty(new CountyDto().setExportId("1"));
-    input.getCases().add(new CaseDto().setExternalId("1234"));
     input.setDob(LocalDate.now().plusDays(1));
 
     // when
@@ -176,8 +173,8 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
             .collect(Collectors.toSet());
 
     // then
-    assertThat(actualViolatedFields.size(), is(2));
-    assertThat(actualViolatedFields, containsInAnyOrder("cases.externalId", "dob"));
+    assertThat(actualViolatedFields.size(), is(1));
+    assertThat(actualViolatedFields, containsInAnyOrder("dob"));
     // valid error message is present for dob in future
     assertThat(
         actualResponse
@@ -217,8 +214,10 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   }
 
   @Test
-  public void searchPeople_success_whenSearchingForClientsFiltersCounty() throws IOException {
+  public void searchPeople_success_whenSearchingForClientsFiltersCounty_inMemoryOnly()
+      throws IOException {
     Assume.assumeTrue(FunctionalTestContextHolder.isInMemoryTestRunning);
+
     // given
     final Entity searchInput =
         FixtureReader.readRestObject(FIXTURES_SEARCH_CLIENTS_REQUEST, SearchPersonRequest.class);
@@ -419,7 +418,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
   public void postPerson_success_whenPersonHasNoCases() throws IOException {
     // given
     final PersonDto inputPerson = personHelper.readPersonDto(FIXTURES_POST);
-    inputPerson.getCases().clear();
 
     // when
     final PersonDto actualPerson =
@@ -434,31 +432,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     actualPerson.setId(null);
     assertThat(actualPerson.getExternalId(), is(inputPerson.getExternalId()));
-  }
-
-  @Test
-  public void postPerson_success_whenPersonHasExistentAndNewCases() throws IOException {
-    // given
-    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
-    personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-
-    // when
-    person.getCases().add(new CaseDto().setExternalId("2000-123-1234-12345678"));
-    person.setExternalId(personHelper.generateRandomExternalId());
-    final PersonDto actual = personHelper.postPerson(person, AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE);
-
-    // then
-    final Set<CaseDto> caseIds =
-        actual
-            .getCases()
-            .stream()
-            .filter(aCase -> aCase.getId() != null)
-            .collect(Collectors.toSet());
-    assertThat(caseIds.size(), is(2));
-    final List<String> externalIds =
-        actual.getCases().stream().map(CaseDto::getExternalId).collect(Collectors.toList());
-    assertThat(externalIds.size(), is(2));
-    assertThat(externalIds, containsInAnyOrder("4444-321-4321-87654321", "2000-123-1234-12345678"));
   }
 
   @Test
@@ -477,53 +450,6 @@ public class PersonResourceTest extends AbstractCrudFunctionalTest<PersonDto> {
     // then
     assertThat(postedPerson.getId(), notNullValue());
     assertThat(postedPerson.getSensitivityType(), is(SensitivityType.SEALED));
-  }
-
-  @Test
-  public void putPerson_success_whenUpdatingCasesListWithExistingAndNewCases() throws IOException {
-    // given
-    final PersonDto person = personHelper.readPersonDto(FIXTURES_POST);
-    final List<CaseDto> cases = person.getCases();
-    cases.add(new CaseDto().setExternalId("2000-123-1234-12345678"));
-    cases.add(new CaseDto().setExternalId("3000-123-1234-12345678"));
-    final PersonDto postedPerson =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(PEOPLE)
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(Entity.entity(person, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(PersonDto.class);
-    personHelper.pushToCleanUpPerson(postedPerson);
-    final List<CaseDto> createdPersonCases = postedPerson.getCases();
-    createdPersonCases.remove(0);
-    createdPersonCases.get(0).setExternalId("2222-123-1234-12345678");
-    createdPersonCases.add(new CaseDto().setExternalId("4000-123-1234-12345678"));
-
-    // when
-    final PersonDto actual =
-        clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
-            .target(PEOPLE + SLASH + postedPerson.getId())
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .put(Entity.entity(postedPerson, MediaType.APPLICATION_JSON_TYPE))
-            .readEntity(PersonDto.class);
-    personHelper.pushToCleanUpPerson(actual);
-
-    // then
-    final Set<CaseDto> caseIds =
-        actual
-            .getCases()
-            .stream()
-            .filter(aCase -> aCase.getId() != null)
-            .collect(Collectors.toSet());
-    assertThat(caseIds.size(), is(3));
-    final List<String> externalIds =
-        actual.getCases().stream().map(CaseDto::getExternalId).collect(Collectors.toList());
-    assertThat(externalIds.size(), is(3));
-    assertThat(
-        externalIds,
-        containsInAnyOrder(
-            "2222-123-1234-12345678", "3000-123-1234-12345678", "4000-123-1234-12345678"));
   }
 
   @Test

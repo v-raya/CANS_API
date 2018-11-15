@@ -1,5 +1,6 @@
 {
   "status": "COMPLETED",
+  "service_source_id": "short",
   "state": {
     "domains": [
       {

@@ -14,6 +14,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentType;
 import gov.ca.cwds.cans.domain.enumeration.CompletedAs;
+import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import gov.ca.cwds.cans.domain.json.AssessmentJson;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -107,6 +108,14 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "completed_as")
   private CompletedAs completedAs;
 
+  @Column(name = "service_source_id")
+  private String serviceSourceId;
+
+  @Enumerated(EnumType.STRING)
+  @Type(type = "PostgreSqlEnum")
+  @Column(name = "service_source")
+  private ServiceSource serviceSource;
+
   @Column(name = "can_release_confidential_info")
   private Boolean canReleaseConfidentialInfo;
 
@@ -120,13 +129,7 @@ public class Assessment implements Persistent<Long> {
 
   @ManyToOne private Person person;
 
-  @ManyToOne private Cft cft;
-
   @ManyToOne private County county;
-
-  @ManyToOne
-  @JoinColumn(name = "case_id")
-  private Case theCase;
 
   @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
