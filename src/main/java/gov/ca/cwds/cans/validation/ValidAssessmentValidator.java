@@ -45,7 +45,7 @@ public class ValidAssessmentValidator
     }
 
     if (assessment.getStatus() != AssessmentStatus.COMPLETED) {
-      return true;
+      return isValidInProgress(assessment, context);
     }
 
     return isEventDateValid(assessment, context)
@@ -55,7 +55,13 @@ public class ValidAssessmentValidator
         & hasCaregiver(assessment, context)
         & isUnderSixValid(assessment, context)
         & areItemsValid(assessment, context)
-        & isConductedByValid(assessment, context);
+        & isConductedByValid(assessment, context)
+        & areCaseNumberAndServiceSourceValid(assessment, context);
+  }
+
+  private boolean isValidInProgress(
+      final AssessmentDto assessment, final ConstraintValidatorContext context) {
+    return isUnderSixValid(assessment, context);
   }
 
   private boolean isEventDateValid(
@@ -83,6 +89,22 @@ public class ValidAssessmentValidator
         context);
   }
 
+  private boolean areCaseNumberAndServiceSourceValid(
+      final AssessmentDto assessment, final ConstraintValidatorContext context) {
+    if ((assessment.getServiceSourceId() != null && assessment.getServiceSource() == null)
+        || (assessment.getServiceSourceId() == null && assessment.getServiceSource() != null)) {
+      context
+          .buildConstraintViolationWithTemplate(
+              "service_source is required when service_source_id is present and "
+                  + "service_source is forbidden when service_source_id is not present")
+          .addPropertyNode("service_source")
+          .addConstraintViolation()
+          .disableDefaultConstraintViolation();
+      return false;
+    }
+    return true;
+  }
+
   private boolean hasCaregiver(
       final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
@@ -95,7 +117,7 @@ public class ValidAssessmentValidator
   private boolean isUnderSixValid(
       final AssessmentDto assessment, final ConstraintValidatorContext context) {
     return isPropertyNotNull(
-        assessment.getState().getUnderSix(), "Age Group", "state.is_under_six", context);
+        assessment.getState().getUnderSix(), "Age Group", "state.under_six", context);
   }
 
   private boolean areItemsValid(

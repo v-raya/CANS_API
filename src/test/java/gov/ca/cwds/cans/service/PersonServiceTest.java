@@ -5,8 +5,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import gov.ca.cwds.cans.dao.AssessmentDao;
-import gov.ca.cwds.cans.dao.CaseDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.search.SearchPersonParameters;
 import gov.ca.cwds.security.realm.PerryAccount;
@@ -21,11 +19,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class PersonServiceTest {
 
   @Test
-  public void search_returnsPeople() throws Exception {
+  public void search_returnsPeople() {
     PersonDao personDao = mock(PersonDao.class);
-    CaseDao caseDao = mock(CaseDao.class);
-    AssessmentDao assessmentDao = mock(AssessmentDao.class);
-    PerryService perryService = mock(PerryService.class);
     mockStatic(PrincipalUtils.class);
     PerryAccount perryAccount = new PerryAccount();
     perryAccount.setFirstName("Slick");
@@ -33,8 +28,7 @@ public class PersonServiceTest {
     perryAccount.setCountyCwsCode("1126");
     when(PrincipalUtils.getPrincipal()).thenReturn(perryAccount);
 
-    PersonService personService =
-        new PersonService(personDao, caseDao, assessmentDao, perryService);
+    PersonService personService = new PersonService(personDao);
     SearchPersonParameters searchPersonParameters =
         new SearchPersonParameters().setUsersCountyExternalId("1126");
     personService.search(searchPersonParameters);

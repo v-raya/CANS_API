@@ -1,16 +1,12 @@
 {
   "assessment_type": "INITIAL",
   "status": "IN_PROGRESS",
-  "event_date": "2018-10-24",
-  "conducted_by": "John Dow",
-  "case_or_referral_id": "abcdefg000",
   "completed_as": "COMMUNIMETRIC",
+  "event_date": "2018-10-10",
   "can_release_confidential_info": false,
   "has_caregiver": true,
   "state": {
-    "under_six": false,
     "caregiver_domain_template": {
-      "class": "domain",
       "code": "life_functioning",
       "is_caregiver_domain":true,
       "caregiver_index": "a",
@@ -48,64 +44,18 @@
             "confidential": false,
             "confidential_by_default": true,
             "rating_type": "REGULAR",
-            "rating": -1
+            "rating": 1
           },
           {
             "code": "lf11living",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",
-            "rating": -1
-          }
-        ]
-      },
-      {
-        "code": "potentially_traumatic_experience",
-        "is_caregiver_domain": false,
-        "items": [
-          {
-            "code": "pte51sexual",
-            "required": true,
-            "confidential": false,
-            "rating_type": "BOOLEAN",
-            "rating": -1
-          },
-          {
-            "code": "pte52physical",
-            "required": true,
-            "confidential": false,
-            "rating_type": "BOOLEAN",
-            "rating": -1
-          }
-        ]
-      },
-      {
-        "code": "ec_challenges",
-        "under_six": true,
-        "items": [
-          {
-            "code": "ec09sleep",
-            "required": true,
-            "confidential": false,
-            "rating_type": "REGULAR",
-            "has_na_option": true,
-            "rating": -1
-          }
-        ]
-      },
-      {
-        "code": "ec_functioning",
-        "under_six": true,
-        "items": [
-          {
-            "code": "ec10supervision",
-            "required": true,
-            "confidential": false,
-            "rating_type": "REGULAR",
-            "rating": -1
+            "rating": 1
           }
         ]
       }
-    ]
+    ],
+    "under_six": null
   }
 }

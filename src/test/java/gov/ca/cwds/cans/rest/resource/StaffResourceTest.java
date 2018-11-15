@@ -197,13 +197,28 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final int actualStatus =
         clientTestRule
             .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
-            .target(API.STAFF + SLASH + "UnknownId")
+            .target(API.STAFF + SLASH + "NOT")
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
             .getStatus();
 
     // then
     assertThat(actualStatus, is(404));
+  }
+
+  @Test
+  public void getStaffPersonWithStatistics_422_whenInvalidStaffId() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + "InvalidStaffId")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(422));
   }
 
   @Test
@@ -240,6 +255,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actual.getStaffPerson().getIdentifier(), is(ASSIGNED_STAFF_ID));
     assertThat(actual.getStaffPerson().getCounty().getName(), is(notNullValue()));
     assertStatistics(actual, 1, 1);
+  }
+
+  @Test
+  public void findAssignedPersonsForStaffId_422_whenInvalidStaffId() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + "InvalidStaffId" + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(422));
   }
 
   @Test
@@ -315,35 +345,23 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-              person,
-              AssessmentStatus.IN_PROGRESS,
-              LocalDate.of(2010, 1, 1),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, AssessmentStatus.IN_PROGRESS, LocalDate.of(2010, 1, 1), SUBORDINATE_MADERA
             },
             new Object[] {
-              person,
-              AssessmentStatus.IN_PROGRESS,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, AssessmentStatus.IN_PROGRESS, LocalDate.of(2015, 10, 10), SUBORDINATE_MADERA
             },
             // out of search results because of the other person
             new Object[] {
               otherPerson,
               AssessmentStatus.IN_PROGRESS,
               LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              SUBORDINATE_MADERA
             },
             new Object[] {
-              person,
-              AssessmentStatus.COMPLETED,
-              LocalDate.of(2010, 1, 1),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, AssessmentStatus.COMPLETED, LocalDate.of(2010, 1, 1), SUBORDINATE_MADERA
             },
             new Object[] {
-              person,
-              AssessmentStatus.COMPLETED,
-              LocalDate.of(2015, 10, 10),
-              AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, AssessmentStatus.COMPLETED, LocalDate.of(2015, 10, 10), SUBORDINATE_MADERA
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
@@ -369,7 +387,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentMetaDto[] actualResults =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(SUBORDINATE_MADERA)
             .target(STAFF + SLASH + ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()

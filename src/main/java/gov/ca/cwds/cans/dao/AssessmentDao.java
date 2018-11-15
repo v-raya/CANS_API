@@ -15,7 +15,6 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
-import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 import java.util.Optional;
 import org.hibernate.Session;
@@ -30,19 +29,9 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     super(sessionFactory);
   }
 
-  public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
-    grabSession()
-        .createQuery(
-            "update Assessment set case_id = :newCaseId where person_id = :personId and case_id = :oldCaseId")
-        .setParameter("personId", personId)
-        .setParameter("oldCaseId", oldCaseId)
-        .setParameter("newCaseId", newCaseId)
-        .executeUpdate();
-  }
-
   @Override
   public Assessment create(
-      @Authorize({"client:write:assessment.person.externalId"}) Assessment assessment) {
+      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
@@ -65,15 +54,16 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Override
   public Assessment update(
-      @Authorize({"client:write:assessment.person.externalId"}) Assessment assessment) {
-    revertCountyToInitialValue(assessment);
+      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
+    revertCountyAndCaseIdToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
   }
 
-  private void revertCountyToInitialValue(Assessment assessment) {
+  private void revertCountyAndCaseIdToInitialValue(Assessment assessment) {
     final Assessment previousState = super.find(assessment.getId());
     assessment.setCounty(previousState.getCounty());
+    assessment.setServiceSourceId(previousState.getServiceSourceId());
   }
 
   /* Authorization going to be reworked
@@ -84,7 +74,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
   */
 
-  //TODO @Authorize({"client:read:assessment.person.externalId"})
+  /*@Authorize({"person:read:assessment.person"})*/
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
@@ -110,7 +100,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  //TODO @Authorize({"client:write:assessment.person.externalId"})
+  // @Authorize({"person:read:assessment.person"})
   public Collection<Assessment> getAssessmentsByUserId(Long userId) {
     final Session session = grabSession();
     addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);
