@@ -29,6 +29,7 @@ public final class Constants {
     public static final String I18N = "i18n";
     public static final String I18N_LANG_PARAM = "lang";
     public static final String SENSITIVITY_TYPES = "sensitivity-types";
+    public static final String CHANGELOG = "changelog";
 
     private API() {}
   }
@@ -44,6 +45,8 @@ public final class Constants {
   public static class Roles {
     public static final String SUPERVISOR = "Supervisor";
     public static final String SOCIAL_WORKER = "SocialWorker";
+
+    private Roles() {}
   }
 
   public static class Privileges {

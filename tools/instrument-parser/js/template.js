@@ -47,7 +47,7 @@ exports.KEY_PLACEHOLDER = '%KEY_PLACEHOLDER%';
 exports.VALUE_PLACEHOLDER = '%VALUE_PLACEHOLDER%';
 
 exports.assessmentTemplate = {
-  "under_six": false,
+  "under_six": null,
   "caregiver_domain_template": null,
   "domains": []
 };

@@ -23,9 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-/**
- * @author denys.davydov
- */
+/** @author denys.davydov */
 public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Inject
@@ -55,16 +53,29 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return super.find(id);
   }
 
-
   public Assessment delete(@Authorize("assessment:write:id") Serializable id) {
     return super.delete(id);
   }
 
+  private void insertInstrumentById(final Assessment assessment) {
+    final Long instrumentId = assessment.getInstrumentId();
+    if (instrumentId == null || assessment.getInstrument() != null) {
+      return;
+    }
+    assessment.setInstrument(new Instrument().setId(instrumentId));
+  }
+
   @Override
   public Assessment update(@Authorize("assessment:write:assessment.id") Assessment assessment) {
-    revertCountyToInitialValue(assessment);
+    revertCountyAndCaseIdToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
+  }
+
+  private void revertCountyAndCaseIdToInitialValue(Assessment assessment) {
+    final Assessment previousState = super.find(assessment.getId());
+    assessment.setCounty(previousState.getCounty());
+    assessment.setServiceSourceId(previousState.getServiceSourceId());
   }
 
   @Authorize("assessment:read:assessment")
@@ -112,18 +123,5 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     Require.requireNotNullAndNotEmpty(inputPerson);
     Require.requireNotNullAndNotEmpty(inputPerson.getId());
     assessment.setCounty(inputPerson.getCounty());
-  }
-
-  private void insertInstrumentById(final Assessment assessment) {
-    final Long instrumentId = assessment.getInstrumentId();
-    if (instrumentId == null || assessment.getInstrument() != null) {
-      return;
-    }
-    assessment.setInstrument(new Instrument().setId(instrumentId));
-  }
-
-  private void revertCountyToInitialValue(Assessment assessment) {
-    final Assessment previousState = super.find(assessment.getId());
-    assessment.setCounty(previousState.getCounty());
   }
 }
