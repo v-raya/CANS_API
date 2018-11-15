@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientAbstractReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.ClientAbstractAuthorizationDroolsConfiguration;
+import gov.ca.cwds.data.dao.cms.CountyDeterminationDao;
 import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
@@ -16,6 +17,8 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   @Inject
   private ClientDao clientDao;
+  @Inject
+  private CountyDeterminationDao countyDeterminationDao;
 
   @Inject
   public ClientReadAuthorizer(
@@ -25,10 +28,14 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
   }
 
   protected boolean checkId(String clientId) {
-    return checkClientAbstractAccess(clientId) || checkIdByAssignment(clientId);
+    return checkSealedSensitive(clientId) || checkIdByAssignment(clientId);
   }
 
-  boolean checkClientAbstractAccess(String clientId) {
+  protected boolean checkSealedSensitive(String clientId) {
+    return checkByCounty(clientId) && checkClientAbstractAccess(clientId);
+  }
+
+  private boolean checkClientAbstractAccess(String clientId) {
     return super.checkId(clientId);
   }
 
@@ -38,6 +45,11 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   protected Collection<Client> filterInstances(Collection<Client> instances) {
     throw new UnsupportedOperationException(name() + ".filterInstances");
+  }
+
+  private boolean checkByCounty(String clientId) {
+    Collection<Short> counties = countyDeterminationDao.getClientCounties(clientId);
+    return counties.isEmpty() || counties.contains(staffCounty());
   }
 
   protected boolean checkByAssignmentAccessType(AccessType accessType) {
@@ -68,6 +80,10 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   private String staffId() {
     return PrincipalUtils.getStaffPersonId();
+  }
+
+  private Short staffCounty() {
+    return Short.valueOf(PrincipalUtils.getPrincipal().getCountyCwsCode());
   }
 
   private String name() {

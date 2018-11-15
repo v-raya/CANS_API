@@ -3,7 +3,6 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 
-import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import java.io.IOException;
@@ -110,6 +109,16 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
 
   @Test
   public void getAssessment_failed_noAssignmentSensitiveDiffCounty() throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
+    assessment = postAssessmentAndGetResponse(assessment,
+        "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
+    getAssessmentAndCheckStatus(assessment.getId(),
+        "fixtures/perry-account/el-dorado-all-authorized.json",
+        HttpStatus.SC_FORBIDDEN);
+  }
+
+  @Test
+  public void getAssessment_failed_noAssignmentDiffCounty() throws Exception {
     AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-sensitive.json");
     assessment = postAssessmentAndGetResponse(assessment,
         "fixtures/perry-account/0ki-napa-all.json").readEntity(AssessmentDto.class);
