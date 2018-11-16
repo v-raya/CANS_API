@@ -21,22 +21,25 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
   private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
   private static final String AUTHORIZED_USER_NAPA = "fixtures/perry-account/0ki-napa-all.json";
   private static final String UNAUTHORIZED_USER = AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE;
-  private static final String CLIENT = "fixtures/client-of-0Ki-rw-assignment.json";
   private static final String SEALED_CLIENT_MARLIN = "fixtures/sealed-client-marlin.json";
+  private static final String AUTHORIZED_ACCOUNT =
+      "fixtures/perry-account/1126-all-authorized.json";
 
   @Test
   public void doGetClient_success() throws IOException {
-    ClientDto expected = FixtureReader.readObject(CLIENT, ClientDto.class);
     Response response =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_USER_NAPA)
-            .target(API.CLIENTS + "/" + expected.getIdentifier())
+            .withSecurityToken(AUTHORIZED_ACCOUNT)
+            .target(API.CLIENTS + SLASH + CLIENT_CMS_ID)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
     Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
-    Assert.assertEquals(expected.getExternalId(), clientDto.getExternalId());
+    Assert.assertEquals(CLIENT_CMS_BASE10_KEY, clientDto.getExternalId());
+    Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, clientDto.getServiceSourceId());
+    Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, clientDto.getServiceSourceUiId());
+    Assert.assertEquals(ServiceSource.CASE, clientDto.getServiceSource());
   }
 
   @Test
@@ -49,10 +52,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
     Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_FORBIDDEN));
-    Assert.assertEquals(CLIENT_CMS_BASE10_KEY, expected.getExternalId());
-    Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, expected.getServiceSourceId());
-    Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, expected.getServiceSourceUiId());
-    Assert.assertEquals(ServiceSource.CASE, expected.getServiceSource());
   }
 
   @Test

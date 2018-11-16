@@ -17,9 +17,11 @@ import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.cans.util.DbUpgrader;
+import gov.ca.cwds.test.support.H2Function;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.ws.rs.client.Client;
 import liquibase.exception.LiquibaseException;
 import org.glassfish.jersey.client.JerseyClient;
@@ -108,8 +110,17 @@ public class InMemoryFunctionalTestSuite {
   }
 
   private static DatabaseHelper createCmsDbHelper() {
-    return new DatabaseHelper(
-        FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
+    DatabaseHelper databaseHelper =
+        new DatabaseHelper(FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
+    databaseHelper.setOnConnect(
+        connection -> {
+          try {
+            H2Function.createTimestampAlias(connection);
+          } catch (SQLException e) {
+            throw new RuntimeException(e);
+          }
+        });
+    return databaseHelper;
   }
 
   private static DatabaseHelper createCmsRsDbHelper() {

@@ -239,21 +239,21 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void getChangeLog_findsFourSortedRecords() throws IOException {
     // given
-    final ClientDto person = readObject(FIXTURE_POST_PERSON, ClientDto.class);
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-              person, IN_PROGRESS, LocalDate.of(2018, 1, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person, IN_PROGRESS, LocalDate.of(2018, 2, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 2, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person, IN_PROGRESS, LocalDate.of(2018, 5, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 5, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-              person, COMPLETED, LocalDate.of(2018, 10, 1), AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2018, 10, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             });
     Long id = null;
     for (Object[] property : properties) {
@@ -285,7 +285,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentChangeLogDto[] actualResults =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + String.valueOf(id) + SLASH + CHANGELOG)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -334,7 +334,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(actualAssessment.getCounty().getId(), is(28L));
-    assertThat(actualAssessment.getCounty().getId(), is(9L));
     assertThat(actualAssessment.getServiceSource(), is(ServiceSource.CASE));
     assertThat(actualAssessment.getServiceSourceId(), is(CASE_OR_REFERRAL_CMS_ID));
     assertThat(actualAssessment.getServiceSourceUiId(), is(CASE_OR_REFERRAL_CMS_BASE10_KEY));
