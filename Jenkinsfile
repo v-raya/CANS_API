@@ -112,6 +112,18 @@ node('linux') {
         stage('Preparation') {
             cleanWs()
             git branch: '$branch', url: gitHubUrl
+            checkout(
+                    changelog: false,
+                    poll: false,
+                    scm: [
+                            $class                           : 'GitSCM',
+                            branches                         : [[name: '*/master']],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions                       : [],
+                            submoduleCfg                     : [],
+                            userRemoteConfigs                : [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]
+                    ]
+            )
             rtGradle.tool = 'Gradle_35'
             rtGradle.resolver repo: 'repo', server: artifactoryServer
             rtGradle.useWrapper = true
@@ -152,11 +164,11 @@ node('linux') {
             )
             rtGradle.deployer.deployArtifacts = false
         }
-        stage('Publish Docker Image') {
+        stage('Build Docker Image') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
                 rtGradle.run(
                         buildFile: 'build.gradle',
-                        tasks: 'publishDocker' + javaEnvProps
+                        tasks: 'createDockerImage' + javaEnvProps
                 )
             }
         }
@@ -165,14 +177,6 @@ node('linux') {
                     buildFile: 'build.gradle',
                     tasks: 'dockerTestsCreateImage' + javaEnvProps
             )
-        }
-        stage('Publish Tests Docker Image') {
-            withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                rtGradle.run(
-                        buildFile: 'build.gradle',
-                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
-                )
-            }
         }
         stage('Trigger Security scan') {
             def props = readProperties  file: 'build/resources/main/version.properties'
@@ -187,19 +191,6 @@ node('linux') {
             archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
         }
         stage('Deploy Application') {
-            cleanWs()
-            checkout(
-                    changelog: false,
-                    poll: false,
-                    scm: [
-                            $class                           : 'GitSCM',
-                            branches                         : [[name: '*/master']],
-                            doGenerateSubmoduleConfigurations: false,
-                            extensions                       : [],
-                            submoduleCfg                     : [],
-                            userRemoteConfigs                : [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]
-                    ]
-            )
             sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
         }
         stage('Smoke Tests') {
@@ -211,6 +202,22 @@ node('linux') {
         stage('Performance Tests (Short Run)') {
             sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
             perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
+        }
+        stage('Publish Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: 'publishDocker' + javaEnvProps
+                )
+            }
+        }
+        stage('Publish Tests Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
+                )
+            }
         }
     } catch (Exception e) {
         errorcode = e
