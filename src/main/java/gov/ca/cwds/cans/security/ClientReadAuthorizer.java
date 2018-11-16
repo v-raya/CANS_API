@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.security;
 
+import static gov.ca.cwds.data.legacy.cms.entity.enums.AccessType.NONE;
+
 import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientAbstractReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
@@ -52,8 +54,8 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
     return counties.isEmpty() || counties.contains(staffCounty());
   }
 
-  protected boolean checkByAssignmentAccessType(AccessType accessType) {
-    return !accessType.equals(AccessType.NONE);
+  private boolean checkByAssignmentAccessType(AccessType accessType) {
+    return accessType != NONE;
   }
 
   @Override

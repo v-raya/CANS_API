@@ -4,7 +4,7 @@ import org.apache.shiro.SecurityUtils;
 
 public class SecurityService {
 
-  public Boolean isPermitted(String permission) {
+  public boolean isPermitted(String permission) {
     try {
       return SecurityUtils.getSubject().isPermitted(permission);
     } catch (Exception e) { // NOSONAR

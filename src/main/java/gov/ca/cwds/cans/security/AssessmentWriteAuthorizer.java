@@ -27,6 +27,6 @@ public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> 
   }
 
   private boolean checkByAssignment(String clientId) {
-    return clientReadAuthorizer.getAccessType(clientId).equals(AccessType.RW);
+    return clientReadAuthorizer.getAccessType(clientId) == AccessType.RW;
   }
 }
