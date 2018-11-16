@@ -121,7 +121,7 @@ if [ "$TEST_TYPE" == "performance" ]; then
   echo "JM_CANS_API_HOST = '$JM_CANS_API_HOST'"
   echo "JM_CANS_API_PORT = '$JM_CANS_API_PORT'"
 
-  $JMETER_HOME/bin/jmeter -n -t $JMETER_TESTS/AssessmentsApi.jmx -l $JMETER_TESTS/results/$JM_TARGET/resultfile -e -o $JMETER_TESTS/results/$JM_TARGET/web-report \
+  jmeter_log=$($JMETER_HOME/bin/jmeter -n -t $JMETER_TESTS/AssessmentsApi.jmx -l $JMETER_TESTS/results/$JM_TARGET/resultfile -e -o $JMETER_TESTS/results/$JM_TARGET/web-report \
     -JJM_TARGET=$JM_TARGET \
     -JJM_PERRY_MODE=$JM_PERRY_MODE \
     -JJM_PERRY_PROTOCOL=$JM_PERRY_PROTOCOL \
@@ -133,6 +133,14 @@ if [ "$TEST_TYPE" == "performance" ]; then
     -JJM_CANS_API_PATH_ROOT=$JM_CANS_API_PATH_ROOT \
     -JJM_USERS_CSV_PATH=$JM_USERS_CSV_PATH \
     -JJM_USERS_COUNT=$JM_USERS_COUNT \
-    -JJM_UPDATE_REQUESTS_PER_USER=$JM_UPDATE_REQUESTS_PER_USER
-  exit
+    -JJM_UPDATE_REQUESTS_PER_USER=$JM_UPDATE_REQUESTS_PER_USER)
+  if echo $jmeter_log | grep "Err: 0 (0.00%)"
+    then
+      echo Success
+      exit 0
+    else
+      echo $jmeter_log
+      echo Failure
+      exit 1
+  fi
 fi
