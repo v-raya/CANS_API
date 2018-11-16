@@ -29,6 +29,7 @@ def performanceTestsDockerEnvVars = ' -e TEST_TYPE=performance' +
         ' -e JM_USER_COUNTY_CODE=20' +
         ' -e JM_WEB_DRIVER_PATH=/usr/local/bin/chromedriver' +
         ' -e JM_CANS_API_PORT=443';
+
 def notifyBuild(String buildStatus, Exception e) {
     buildStatus = buildStatus ?: 'SUCCESSFUL'
 
@@ -95,7 +96,7 @@ def publishLicenseReportHtml() {
 node('linux') {
     def artifactoryServer = Artifactory.server artifactoryServerId
     def rtGradle = Artifactory.newGradleBuild()
-// DO NOT DELETE THIS BLOCK        
+// DO NOT DELETE THIS BLOCK
 //    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
 //                parameters([
 //                        string(defaultValue: 'latest', description: '', name: 'APP_VERSION'),
@@ -107,7 +108,7 @@ node('linux') {
 //                        booleanParam(defaultValue: true, description: '', name: 'USE_NEWRELIC'),
 //                        string(defaultValue: 'inventories/cans/hosts.yml', description: '', name: 'inventory'),
 //                ]), pipelineTriggers([pollSCM('H/5 * * * *')])])
-// DO NOT DELETE THIS BLOCK        
+// DO NOT DELETE THIS BLOCK
     try {
         stage('Preparation') {
             cleanWs()
@@ -168,19 +169,19 @@ node('linux') {
             )
         }
         stage('Trigger Security scan') {
-            def props = readProperties  file: 'build/resources/main/version.properties'
+            def props = readProperties file: 'build/resources/main/version.properties'
             def build_version = props["build.version"]
             sh "echo build_version: ${build_version}"
             build job: 'tenable-scan', parameters: [
-                [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
-                [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}" ]
+                    [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
+                    [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}"]
             ]
         }
         stage('Archive Artifacts') {
             archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
         }
         stage('Deploy Application') {
-            sh 'ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
+            sh 'cd ansible ; ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
         }
         stage('Smoke Tests') {
             sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
