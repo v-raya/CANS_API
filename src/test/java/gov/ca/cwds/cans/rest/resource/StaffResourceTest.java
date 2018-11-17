@@ -380,9 +380,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals(staffClientDto.getFirstName(), "child");
-    Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
-    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
+    Assert.assertEquals(staffClientDto.getFirstName(), "Billy");
+    Assert.assertEquals(staffClientDto.getLastName(), "Brack");
+    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("1989-12-30"));
     Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
   }
 }
