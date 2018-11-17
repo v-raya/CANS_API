@@ -160,8 +160,10 @@ dependencies {
         exclude group: 'junit', module: 'junit'
     }
 
-    apt 'org.mapstruct:mapstruct-processor:' + mapstructVersion
-    apt 'org.projectlombok:lombok:' + lombokVersion
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
 
 mainClassName = mainClass
