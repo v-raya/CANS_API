@@ -78,7 +78,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // when
     final AssessmentDto actualAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
@@ -314,7 +314,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assessment.setServiceSourceId(CASE_OR_REFERRAL_CMS_ID);
     final AssessmentDto postedAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
@@ -326,7 +326,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     postedAssessment.setConductedBy("John Smith");
     final AssessmentDto actualAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + postedAssessment.getId())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE))
@@ -353,7 +353,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assessment.setStatus(AssessmentStatus.COMPLETED);
     final AssessmentDto postedAssessment =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
@@ -364,7 +364,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     postedAssessment.setConductedBy("Other Person");
     Response response =
         clientTestRule
-            .withSecurityToken(AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + postedAssessment.getId())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .put(Entity.entity(postedAssessment, MediaType.APPLICATION_JSON_TYPE));

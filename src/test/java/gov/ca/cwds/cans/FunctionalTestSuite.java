@@ -19,22 +19,22 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/** @author denys.davydov <p>The suite is run with "functionalTest" gradle task. It requires
- * "api.url" and "perry.url" system properties to be set. The suite is used to test a remote
- * environment.
+/** @author denys.davydov
+ *     <p>The suite is run with "functionalTest" gradle task. It requires "api.url" and "perry.url"
+ *     system properties to be set. The suite is used to test a remote environment.
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    AuthorizationResourceTest.class,
-    SystemInformationResourceTest.class,
-    CountyResourceTest.class,
-    I18nResourceTest.class,
-    InstrumentResourceTest.class,
-    SecurityResourceTest.class,
-    SensitivityTypeResourceTest.class,
-    AssessmentResourceTest.class,
-    StaffResourceTest.class,
-    AssessmentResourceAuthorizationTest.class,
+  AuthorizationResourceTest.class,
+  SystemInformationResourceTest.class,
+  CountyResourceTest.class,
+  I18nResourceTest.class,
+  InstrumentResourceTest.class,
+  SecurityResourceTest.class,
+  SensitivityTypeResourceTest.class,
+  AssessmentResourceTest.class,
+  StaffResourceTest.class,
+  AssessmentResourceAuthorizationTest.class,
 })
 public class FunctionalTestSuite {
 
