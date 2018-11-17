@@ -49,7 +49,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String PERSON_ID_1 = "Ar9aZQx0En";
 
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-  private final String TEST_EXTERNAL_ID = "0BMedjX0I3";
+  private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
   private final String TEST_STAFF_ID = "0ME";
 
   @After
@@ -380,9 +380,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals(staffClientDto.getFirstName(), "Tom");
-    Assert.assertEquals(staffClientDto.getLastName(), "Jados");
-    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("1994-08-31"));
+    Assert.assertEquals(staffClientDto.getFirstName(), "TeenageBoy");
+    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("1982-09-08"));
     Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
   }
 }
