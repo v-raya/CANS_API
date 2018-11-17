@@ -49,15 +49,15 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String PERSON_ID_1 = "Ar9aZQx0En";
 
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-  private final String TEST_EXTERNAL_ID = "92PghIc0Ki";
-  private final String TEST_STAFF_ID = "0Ki";
+  private final String TEST_EXTERNAL_ID = "AfhccGA0Co";
+  private final String TEST_STAFF_ID = "0ME";
 
   @After
   public void tearDown() throws IOException {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(FIXTURE_ASSIGNED_CASEWORKER)
+          .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
