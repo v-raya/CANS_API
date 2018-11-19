@@ -158,7 +158,7 @@ node('linux') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
                 rtGradle.run(
                         buildFile: 'build.gradle',
-                        tasks: 'createDockerImage' + javaEnvProps
+                        tasks: 'pushDockerLatest' + javaEnvProps
                 )
             }
         }
