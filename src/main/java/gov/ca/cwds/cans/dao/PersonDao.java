@@ -33,17 +33,17 @@ public class PersonDao extends AbstractCrudDao<Person> {
   }
 
   @Override
-  public Person create(@Authorize("person:create:person") Person person) { // NOSONAR
+  public Person create(Person person) { // NOSONAR
     return super.create(person);
   }
 
   @Override
-  /*@Authorize("person:read:person")*/
+  @Authorize("client:read:person.externalId")
   public Person find(Serializable primaryKey) { // NOSONAR
     return super.find(primaryKey);
   }
 
-  public Person findByExternalId(final String externalId) {
+  public Person findByExternalId(@Authorize("client:read:externalId") final String externalId) {
     Require.requireNotNullAndNotEmpty(externalId);
     final List<Person> people =
         this.grabSession()

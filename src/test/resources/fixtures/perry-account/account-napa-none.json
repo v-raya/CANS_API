@@ -1,0 +1,14 @@
+{
+  "user": "000 supervisor",
+  "staffId": "000",
+  "roles": [
+    "Supervisor",
+    "CANS-worker"
+  ],
+  "county_code": "28",
+  "county_name": "Napa",
+  "county_cws_code": "1095",
+  "privileges": [
+    "CANS-rollout"
+  ]
+}

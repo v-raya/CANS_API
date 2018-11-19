@@ -2,13 +2,13 @@ package gov.ca.cwds.cans;
 
 import static gov.ca.cwds.cans.test.util.ConfigurationProvider.CONFIG_FILE_PATH;
 
+import gov.ca.cwds.cans.rest.resource.AssessmentResourceAuthorizationTest;
 import gov.ca.cwds.cans.rest.resource.AssessmentResourceTest;
 import gov.ca.cwds.cans.rest.resource.AuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.ClientsResourceTest;
 import gov.ca.cwds.cans.rest.resource.CountyResourceTest;
 import gov.ca.cwds.cans.rest.resource.I18nResourceTest;
 import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
-import gov.ca.cwds.cans.rest.resource.PersonResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
@@ -17,9 +17,11 @@ import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import gov.ca.cwds.cans.util.DbUpgrader;
+import gov.ca.cwds.test.support.H2Function;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.ws.rs.client.Client;
 import liquibase.exception.LiquibaseException;
 import org.glassfish.jersey.client.JerseyClient;
@@ -42,12 +44,10 @@ import org.junit.runners.Suite;
   CountyResourceTest.class,
   I18nResourceTest.class,
   InstrumentResourceTest.class,
-  PersonResourceTest.class,
   SecurityResourceTest.class,
   SensitivityTypeResourceTest.class,
   StaffResourceTest.class,
-  // PersonResourceAuthorizationTest.class, //Authorization will be reworked
-  // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
+  AssessmentResourceAuthorizationTest.class,
   ClientsResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
@@ -110,8 +110,17 @@ public class InMemoryFunctionalTestSuite {
   }
 
   private static DatabaseHelper createCmsDbHelper() {
-    return new DatabaseHelper(
-        FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
+    DatabaseHelper databaseHelper =
+        new DatabaseHelper(FunctionalTestContextHolder.cansConfiguration.getCmsDataSourceFactory());
+    databaseHelper.setOnConnect(
+        connection -> {
+          try {
+            H2Function.createTimestampAlias(connection);
+          } catch (SQLException e) {
+            throw new RuntimeException(e);
+          }
+        });
+    return databaseHelper;
   }
 
   private static DatabaseHelper createCmsRsDbHelper() {

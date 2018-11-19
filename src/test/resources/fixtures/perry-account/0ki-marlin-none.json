@@ -1,0 +1,15 @@
+{
+  "user": "001 supervisor",
+  "staffId": "0Ki",
+  "roles": [
+    "Supervisor",
+    "CANS-worker"
+  ],
+  "county_code": "21",
+  "county_name": "Marin",
+  "county_cws_code": "1088",
+  "privileges": [
+    "CWS CANS System",
+    "CANS-rollout"
+  ]
+}

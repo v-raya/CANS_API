@@ -15,6 +15,8 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
+import gov.ca.cwds.security.annotations.Authorize;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 import org.hibernate.Session;
@@ -29,19 +31,30 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     super(sessionFactory);
   }
 
+  public void replaceCaseIds(final long personId, final long oldCaseId, final long newCaseId) {
+    grabSession()
+        .createQuery(
+            "update Assessment set case_id = :newCaseId where person_id = :personId and case_id = :oldCaseId")
+        .setParameter("personId", personId)
+        .setParameter("oldCaseId", oldCaseId)
+        .setParameter("newCaseId", newCaseId)
+        .executeUpdate();
+  }
+
   @Override
-  public Assessment create(
-      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
+  public Assessment create(@Authorize("assessment:write:assessment") Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
   }
 
-  private void setCountyInitially(final Assessment assessment) {
-    final Person inputPerson = assessment.getPerson();
-    Require.requireNotNullAndNotEmpty(inputPerson);
-    Require.requireNotNullAndNotEmpty(inputPerson.getId());
-    assessment.setCounty(inputPerson.getCounty());
+  @Authorize("assessment:read:assessment")
+  public Assessment find(Serializable id) {
+    return super.find(id);
+  }
+
+  public Assessment delete(@Authorize("assessment:write:id") Serializable id) {
+    return super.delete(id);
   }
 
   private void insertInstrumentById(final Assessment assessment) {
@@ -53,8 +66,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment update(
-      /*@Authorize({"person:write:assessment.person.id"})*/ Assessment assessment) {
+  public Assessment update(@Authorize("assessment:write:assessment.id") Assessment assessment) {
     revertCountyAndCaseIdToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);
@@ -66,15 +78,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     assessment.setServiceSourceId(previousState.getServiceSourceId());
   }
 
-  /* Authorization going to be reworked
-  @Override
-  @Authorize({"person:read:result.person"})
-  public Assessment find(Serializable primaryKey) {
-    return super.find(primaryKey);
-  }
-  */
-
-  /*@Authorize({"person:read:assessment.person"})*/
+  @Authorize("assessment:read:assessment")
   public Collection<Assessment> search(SearchAssessmentParameters searchAssessmentParameters) {
     Require.requireNotNullAndNotEmpty(searchAssessmentParameters);
     final Session session = grabSession();
@@ -100,11 +104,10 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  // @Authorize({"person:read:assessment.person"})
+  @Authorize("assessment:read:assessment")
   public Collection<Assessment> getAssessmentsByUserId(Long userId) {
     final Session session = grabSession();
     addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);
-    // returns List (and not ImmutableList as usual) to filter results with authorizer)
     return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
   }
 
@@ -113,5 +116,12 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     if (parameterValue != null) {
       session.enableFilter(filterName).setParameter(filterParameter, parameterValue);
     }
+  }
+
+  private void setCountyInitially(final Assessment assessment) {
+    final Person inputPerson = assessment.getPerson();
+    Require.requireNotNullAndNotEmpty(inputPerson);
+    Require.requireNotNullAndNotEmpty(inputPerson.getId());
+    assessment.setCounty(inputPerson.getCounty());
   }
 }

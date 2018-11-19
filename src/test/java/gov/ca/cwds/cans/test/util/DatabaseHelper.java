@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.function.Consumer;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -25,6 +26,7 @@ public class DatabaseHelper implements Closeable {
   private final String user;
   private final String password;
   private final String schema;
+  private Consumer<Connection> onConnect;
 
   public DatabaseHelper(String url, String user, String password, String schema) {
     this.url = url;
@@ -39,6 +41,10 @@ public class DatabaseHelper implements Closeable {
         dataSourceFactory.getUser(),
         dataSourceFactory.getPassword(),
         dataSourceFactory.getProperties().get(AvailableSettings.DEFAULT_SCHEMA));
+  }
+
+  public void setOnConnect(Consumer<Connection> onConnect) {
+    this.onConnect = onConnect;
   }
 
   public void runScript(String script) throws LiquibaseException {
@@ -116,6 +122,9 @@ public class DatabaseHelper implements Closeable {
   private Database getDatabase() throws SQLException, DatabaseException {
     if (database == null) {
       Connection connection = DriverManager.getConnection(url, user, password);
+      if (onConnect != null) {
+        onConnect.accept(connection);
+      }
       database =
           DatabaseFactory.getInstance()
               .findCorrectDatabaseImplementation(new JdbcConnection(connection));

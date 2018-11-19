@@ -35,6 +35,7 @@ public class ClientsService {
   @Inject private ClientDao clientDao;
   @Inject private ClientMapper clientMapper;
   @Inject private ClientCountyDeterminationService countyDeterminationService;
+  @Inject private SecurityService securityService;
 
   @Inject private CountyService countyService;
   @Inject private CountyMapper countyMapper;
@@ -45,6 +46,7 @@ public class ClientsService {
   private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
 
   public ClientDto findByExternalId(String id) {
+    securityService.checkPermission("client:read:" + id);
     return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
   }
 

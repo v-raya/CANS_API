@@ -1,13 +1,13 @@
 {
-  "user": "WORKERE",
-  "staffId": "0I3",
+  "user": "000 supervisor",
+  "staffId": "000",
   "roles": [
     "Supervisor",
     "CANS-worker"
   ],
-  "county_code": "40",
-  "county_name": "San Luis Obispo",
-  "county_cws_code": "1111",
+  "county_code": "28",
+  "county_name": "Napa",
+  "county_cws_code": "1095",
   "privileges": [
     "Sensitive Persons",
     "Sealed",

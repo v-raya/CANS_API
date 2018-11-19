@@ -16,9 +16,7 @@ import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.cans.security.AssessmentReadAuthorizer;
 import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
-import gov.ca.cwds.cans.security.PersonCreateAuthorizer;
-import gov.ca.cwds.cans.security.PersonReadAuthorizer;
-import gov.ca.cwds.cans.security.PersonWriteAuthorizer;
+import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
@@ -49,11 +47,9 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
         install(
             new SecurityModule(BaseApiApplication::getInjector)
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
-                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class)
+                .addAuthorizer("client:read", ClientReadAuthorizer.class)
                 .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
-                .addAuthorizer("person:create", PersonCreateAuthorizer.class)
-                .addAuthorizer("person:read", PersonReadAuthorizer.class)
-                .addAuthorizer("person:write", PersonWriteAuthorizer.class));
+                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class));
       }
     };
   }
