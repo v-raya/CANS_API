@@ -17,6 +17,7 @@ import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.cans.security.AssessmentReadAuthorizer;
 import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
+import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
@@ -49,7 +50,8 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
                 .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
-                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class));
+                .addAuthorizer("assessment:write", AssessmentWriteAuthorizer.class)
+                .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class));
       }
     };
   }

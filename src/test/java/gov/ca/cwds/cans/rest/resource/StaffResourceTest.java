@@ -52,16 +52,19 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
   private final String TEST_STAFF_ID = "0ME";
 
+  private String tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
+
   @After
   public void tearDown() throws IOException {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+          .withSecurityToken(tearDownToken)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
+    this.tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
   }
 
   @Test
@@ -185,6 +188,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void getStaffPersonWithStatistics_403_whenNotAuthorized() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + "aa1")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(403));
+  }
+
+  @Test
   public void getStaffPersonWithStatistics_422_whenInvalidStaffId() throws IOException {
     // when
     final int actualStatus =
@@ -236,7 +254,22 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_422_whenInvalidStaffId() throws IOException {
+  public void findPersonsByStaffId_403_whenNotAuthorized() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + "aa1" + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(403));
+  }
+
+  @Test
+  public void findPersonsByStaffId_422_whenInvalidStaffId() throws IOException {
     // when
     final int actualStatus =
         clientTestRule
@@ -251,12 +284,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans()
-      throws IOException {
-
+  public void findPersonsByStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans() throws IOException {
     final StaffClientDto[] response =
         clientTestRule
-            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -279,9 +310,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
+  public void findPersonsByStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
-
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
@@ -294,7 +324,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     postAssessment(assessment);
     final StaffClientDto[] response =
         clientTestRule
-            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -377,6 +407,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[2].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[3].getId(), is(assessmentIds.get(4)));
     assertThat(actualResults[4].getId(), is(assessmentIds.get(3)));
+
+    // clean preparation
+    this.tearDownToken = AUTHORIZED_NAPA_ACCOUNT_FIXTURE;
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {

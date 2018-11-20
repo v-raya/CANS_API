@@ -7,6 +7,7 @@ import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import java.io.IOException;
 import java.util.Stack;
+import javafx.util.Pair;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,15 +19,15 @@ import org.junit.Test;
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
 
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
-  private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
+  private final Stack<Pair<Long, String>> cleanUpAssessmentsToUserFixtures = new Stack<>();
 
   @After
   public void tearDown() throws IOException {
-    while (!cleanUpAssessments.empty()) {
-      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
+    while (!cleanUpAssessmentsToUserFixtures.empty()) {
+      final Pair<Long, String> assessmentIdToUserFixture = cleanUpAssessmentsToUserFixtures.pop();
       clientTestRule
-          .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
-          .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
+          .withSecurityToken(assessmentIdToUserFixture.getValue())
+          .target(ASSESSMENTS + SLASH + assessmentIdToUserFixture.getKey())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
@@ -56,6 +57,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
         assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json", HttpStatus.SC_OK);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
@@ -82,6 +84,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
         assessment.getId(), "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_OK);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
@@ -92,6 +95,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
         assessment.getId(), "fixtures/perry-account/account-napa-all.json", HttpStatus.SC_OK);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
@@ -120,6 +124,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
@@ -132,6 +137,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
@@ -144,6 +150,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         assessment.getId(),
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   private void getAssessmentAndCheckStatus(Long id, String userFixture, int expectedStatus)
@@ -163,16 +170,20 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
       String personFixture, String userFixture, int expectedStatus) throws Exception {
     AssessmentDto assessment = createAssessmentDto(personFixture);
     Response response = postAssessmentAndGetResponse(assessment, userFixture);
-    checkStatus(response, expectedStatus);
+    checkStatus(response, userFixture, expectedStatus);
   }
 
-  private void checkStatus(Response response, int expectedStatus) {
+  private void checkStatus(Response response, String userFixture, int expectedStatus) {
     int actualStatus = response.getStatus();
     if (actualStatus < 300) {
       AssessmentDto postedAssessment = response.readEntity(AssessmentDto.class);
-      cleanUpAssessments.push(postedAssessment);
+      pushToCleanUpStack(postedAssessment.getId(), userFixture);
     }
     Assert.assertEquals(expectedStatus, actualStatus);
+  }
+
+  private void pushToCleanUpStack(Long assessmentId, String userFixture) {
+    cleanUpAssessmentsToUserFixtures.push(new Pair<>(assessmentId, userFixture));
   }
 
   private Response postAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
