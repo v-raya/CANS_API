@@ -82,9 +82,7 @@ public class StaffService {
                   .setStaffPerson(staffPersonMapper.toStaffPersonDto(staff))
                   .setClientsCount(clients.size());
           clients.forEach(
-              clientId -> {
-                incrementStatisticByStatus(staffStatistics, clientStatusMap.get(clientId));
-              });
+              clientId -> incrementStatisticByStatus(staffStatistics, clientStatusMap.get(clientId)));
           results.add(staffStatistics);
         });
     return results;

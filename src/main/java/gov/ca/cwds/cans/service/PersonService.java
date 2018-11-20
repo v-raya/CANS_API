@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.service;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 
+import gov.ca.cwds.cans.dao.CrudDao;
 import gov.ca.cwds.cans.dao.PersonDao;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.entity.Person;
@@ -13,7 +14,7 @@ import java.util.Set;
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
 
-  public PersonService(PersonDao dao) {
+  public PersonService(CrudDao dao) {
     super(dao);
   }
 

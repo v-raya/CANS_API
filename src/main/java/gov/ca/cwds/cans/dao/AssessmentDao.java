@@ -49,10 +49,13 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Authorize("assessment:read:assessment")
+  @Override
   public Assessment find(Serializable id) {
     return super.find(id);
   }
 
+  @Override
+  @SuppressWarnings("unchecked")
   public Assessment delete(@Authorize("assessment:write:id") Serializable id) {
     return super.delete(id);
   }
