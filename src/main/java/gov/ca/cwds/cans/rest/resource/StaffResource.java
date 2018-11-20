@@ -67,6 +67,7 @@ public class StaffResource {
   @ApiResponses(
       value = {
         @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not found"),
         @ApiResponse(code = 422, message = "Unprocessable Entity")
       })
@@ -90,10 +91,13 @@ public class StaffResource {
   @ApiResponses(
       value = {
         @ApiResponse(code = 401, message = "Not Authorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not found"),
         @ApiResponse(code = 422, message = "Unprocessable Entity")
       })
-  @ApiOperation(value = "Get all clients from assigned cases", response = StaffClientDto[].class)
+  @ApiOperation(
+      value = "Get all clients by staff person identifier",
+      response = StaffClientDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(

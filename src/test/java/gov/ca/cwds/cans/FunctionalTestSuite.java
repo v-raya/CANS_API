@@ -19,7 +19,8 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/** @author denys.davydov
+/**
+ * @author denys.davydov
  *     <p>The suite is run with "functionalTest" gradle task. It requires "api.url" and "perry.url"
  *     system properties to be set. The suite is used to test a remote environment.
  */
