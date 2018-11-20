@@ -13,6 +13,7 @@ import java.util.Set;
 /** @author denys.davydov */
 public class PersonService extends AbstractCrudService<Person> {
 
+  @SuppressWarnings("unchecked")
   public PersonService(PersonDao dao) {
     super(dao);
   }

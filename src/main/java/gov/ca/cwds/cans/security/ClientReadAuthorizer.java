@@ -29,6 +29,7 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
     super(droolsAuthorizationService, droolsConfiguration);
   }
 
+  @Override
   protected boolean checkId(String clientId) {
     return checkSealedSensitive(clientId) || checkIdByAssignment(clientId);
   }
@@ -41,10 +42,12 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
     return super.checkId(clientId);
   }
 
+  @Override
   protected boolean checkInstance(Client client) {
     return this.checkId(client.getIdentifier());
   }
 
+  @Override
   protected Collection<Client> filterInstances(Collection<Client> instances) {
     throw new UnsupportedOperationException(name() + ".filterInstances");
   }

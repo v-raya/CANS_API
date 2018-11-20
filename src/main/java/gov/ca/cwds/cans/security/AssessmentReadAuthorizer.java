@@ -13,11 +13,13 @@ public class AssessmentReadAuthorizer extends BaseAuthorizer<Assessment, Long> {
 
   @Inject private AssessmentDao assessmentDao;
 
+  @Override
   protected boolean checkId(Long id) {
     Assessment assessment = assessmentDao.find(id);
     return checkInstance(assessment);
   }
 
+  @Override
   protected boolean checkInstance(Assessment assessment) {
     return clientReadAuthorizer.checkId(assessment.getPerson().getExternalId());
   }
@@ -36,6 +38,7 @@ public class AssessmentReadAuthorizer extends BaseAuthorizer<Assessment, Long> {
         .collect(Collectors.toList());
   }
 
+  @Override
   protected Long stringToId(String id) {
     return Long.valueOf(id);
   }

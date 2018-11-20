@@ -12,16 +12,19 @@ public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> 
 
   @Inject private AssessmentDao assessmentDao;
 
+  @Override
   protected boolean checkId(Long id) {
     Assessment assessment = assessmentDao.find(id);
     return checkInstance(assessment);
   }
 
+  @Override
   protected boolean checkInstance(Assessment assessment) {
     String clientId = assessment.getPerson().getExternalId();
     return clientReadAuthorizer.checkSealedSensitive(clientId) || checkByAssignment(clientId);
   }
 
+  @Override
   protected Long stringToId(String id) {
     return Long.valueOf(id);
   }
