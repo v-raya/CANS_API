@@ -16,6 +16,7 @@ import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
+import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
@@ -30,27 +31,30 @@ import org.junit.runners.Suite;
 
 /**
  * @author denys.davydov
- *     <p>The suite is a part of unit tests. All the tests with "ResourceTest" postfix are excluded
- *     from default junit tests running and must be added to this suite. The suite sets up
- *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
+ * <p>The suite is a part of unit tests. All the tests with "ResourceTest" postfix are excluded
+ * from default junit tests running and must be added to this suite. The suite sets up dropwizard
+ * app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-  AuthorizationResourceTest.class,
-  SystemInformationResourceTest.class,
-  AssessmentResourceTest.class,
-  CountyResourceTest.class,
-  I18nResourceTest.class,
-  InstrumentResourceTest.class,
-  PersonResourceTest.class,
-  SecurityResourceTest.class,
-  SensitivityTypeResourceTest.class,
-  StaffResourceTest.class,
-  // PersonResourceAuthorizationTest.class, //Authorization will be reworked
-  // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
-  ClientsResourceTest.class,
+    AuthorizationResourceTest.class,
+    SystemInformationResourceTest.class,
+    AssessmentResourceTest.class,
+    CountyResourceTest.class,
+    I18nResourceTest.class,
+    InstrumentResourceTest.class,
+    PersonResourceTest.class,
+    SecurityResourceTest.class,
+    SensitivityTypeResourceTest.class,
+    StaffResourceTest.class,
+    // PersonResourceAuthorizationTest.class, //Authorization will be reworked
+    // AssessmentResourceAuthorizationTest.class, //Authorization will be reworked
+    ClientsResourceTest.class,
 })
 public class InMemoryFunctionalTestSuite {
+
+  private InMemoryFunctionalTestSuite() {
+  }
 
   @ClassRule
   public static final DropwizardAppRule<CansConfiguration> DROPWIZARD_APP_RULE =
@@ -74,7 +78,11 @@ public class InMemoryFunctionalTestSuite {
     FunctionalTestContextHolder.clientTestRule =
         new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
-    DbUpgrader.runDmlOnCansDb(configuration);
+    DbUpgrader.getBuilder()
+        .add(DbUpgradeJobFactory.newInstance(configuration).getCansDemoDataJobs())
+        .build()
+        .upgradeDb();
+
     initCmsDb();
     initCmsRsDb();
   }
