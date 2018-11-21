@@ -31,7 +31,9 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   @Override
   protected boolean checkId(String clientId) {
-    return checkSealedSensitive(clientId) || checkIdByAssignment(clientId);
+    return checkSealedSensitive(clientId)
+        || checkIdByAssignment(clientId)
+        || checkIdBySupervisorAssignment(clientId);
   }
 
   protected boolean checkSealedSensitive(String clientId) {
@@ -97,6 +99,15 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
   private boolean checkIdByAssignment(String clientId) {
     AccessType accessType = getAccessType(clientId);
     return checkByAssignmentAccessType(accessType);
+  }
+
+  private boolean checkIdBySupervisorAssignment(String clientId) {
+    AccessType accessType = getAccessTypeBySupervisor(clientId);
+    return checkByAssignmentAccessType(accessType);
+  }
+
+  AccessType getAccessTypeBySupervisor(String clientId) {
+    return clientDao.getAccessTypeBySupervisor(clientId, staffId());
   }
 
   AccessType getAccessType(String clientId) {
