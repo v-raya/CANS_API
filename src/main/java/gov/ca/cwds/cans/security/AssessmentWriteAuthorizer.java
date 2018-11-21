@@ -3,17 +3,14 @@ package gov.ca.cwds.cans.security;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
-import gov.ca.cwds.drools.DroolsConfiguration;
+import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
+import gov.ca.cwds.security.authorizer.BaseAuthorizer;
 
-public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long> {
+public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> {
 
-  private static final String CONFIGURATION_NAME = "authorization-rules";
-  private static final String AGENDA_GROUP_NAME = "assessment-write-authorization-rules";
+  @Inject private ClientReadAuthorizer clientReadAuthorizer;
+
   @Inject private AssessmentDao assessmentDao;
-
-  public AssessmentWriteAuthorizer() {
-    super(new DroolsConfiguration<>(CONFIGURATION_NAME, AGENDA_GROUP_NAME, CONFIGURATION_NAME));
-  }
 
   @Override
   protected boolean checkId(Long id) {
@@ -22,7 +19,17 @@ public class AssessmentWriteAuthorizer extends DroolsAuthorizer<Assessment, Long
   }
 
   @Override
+  protected boolean checkInstance(Assessment assessment) {
+    String clientId = assessment.getPerson().getExternalId();
+    return clientReadAuthorizer.checkSealedSensitive(clientId) || checkByAssignment(clientId);
+  }
+
+  @Override
   protected Long stringToId(String id) {
     return Long.valueOf(id);
+  }
+
+  private boolean checkByAssignment(String clientId) {
+    return clientReadAuthorizer.getAccessType(clientId) == AccessType.RW;
   }
 }

@@ -4,12 +4,15 @@ import org.apache.shiro.SecurityUtils;
 
 public class SecurityService {
 
-  public Boolean checkPermission(String permission) {
+  public boolean isPermitted(String permission) {
     try {
-      SecurityUtils.getSubject().checkPermission(permission);
+      return SecurityUtils.getSubject().isPermitted(permission);
     } catch (Exception e) { // NOSONAR
-      return Boolean.FALSE;
+      return false;
     }
-    return Boolean.TRUE;
+  }
+
+  public void checkPermission(String permission) {
+    SecurityUtils.getSubject().checkPermission(permission);
   }
 }

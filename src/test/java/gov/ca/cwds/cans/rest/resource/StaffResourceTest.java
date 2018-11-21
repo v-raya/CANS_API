@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
+import static gov.ca.cwds.cans.domain.enumeration.AssessmentStatus.COMPLETED;
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.IN_PROGRESS;
 import static gov.ca.cwds.cans.domain.enumeration.ClientAssessmentStatus.NO_PRIOR_CANS;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
@@ -10,12 +11,10 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
-import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import java.io.IOException;
@@ -29,7 +28,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -39,38 +37,34 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       "fixtures/perry-account/subordinate-san-louis.json";
   private static final String SUPERVISOR_NO_SUBORDINATES =
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
-  private static final String FIXTURES_POST_PERSON = "fixtures/person-post.json";
+  private static final String FIXTURES_POST_RW_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
+  private static final String FIXTURES_POST_R_PERSON = "fixtures/client-of-0Ki-r-assignment.json";
+  private static final String FIXTURE_ASSIGNED_CASEWORKER =
+      "fixtures/perry-account/0ki-napa-all.json";
   private static final String FIXTURE_POST_ASSESSMENT = "fixtures/assessment/assessment-post.json";
   private static final String FIXTURE_POST_COMPLETED_ASSESSMENT =
       "fixtures/assessment/assessment-post-complete-success.json";
   private static final String ASSIGNED_STAFF_ID = "0ME";
   private static final String PERSON_ID_0 = "AfhccGA0Co";
   private static final String PERSON_ID_1 = "Ar9aZQx0En";
-  private static final String SAN_LUIS_OBISPO_NAME = "San Luis Obispo";
-  private static final long SAN_LUIS_OBISPO_ID = 40L;
 
   private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-  private final String TEST_EXTERNAL_ID = "92PghIc0Ki";
-  private final String TEST_STAFF_ID = "0Ki";
-  private PersonResourceHelper personHelper;
+  private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
+  private final String TEST_STAFF_ID = "0ME";
 
-  @Before
-  public void before() {
-    personHelper = new PersonResourceHelper(clientTestRule);
-  }
+  private String tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
 
   @After
   public void tearDown() throws IOException {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
       clientTestRule
-          .withSecurityToken(
-              personHelper.findUserAccountForDelete(assessmentToDelete.getPerson().getCounty()))
+          .withSecurityToken(tearDownToken)
           .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
           .request(MediaType.APPLICATION_JSON_TYPE)
           .delete();
     }
-    personHelper.cleanUp();
+    this.tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
   }
 
   @Test
@@ -134,19 +128,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     return assessment;
   }
 
-  private PersonDto postPerson(final String externalId) throws IOException {
-    final CountyDto county =
-        (CountyDto) new CountyDto().setName(SAN_LUIS_OBISPO_NAME).setId(SAN_LUIS_OBISPO_ID);
-    final PersonDto person =
-        (PersonDto)
-            personHelper
-                .readPersonDto(FIXTURES_POST_PERSON)
-                .setCounty(county)
-                .setExternalId(externalId)
-                .setIdentifier(externalId);
-    return personHelper.postPerson(person, SUBORDINATE_MADERA);
-  }
-
   private void postAssessment(AssessmentDto assessment) throws IOException {
     AssessmentDto postedAssessment =
         clientTestRule
@@ -207,6 +188,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void getStaffPersonWithStatistics_403_whenNotAuthorized() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + "aa1")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(403));
+  }
+
+  @Test
   public void getStaffPersonWithStatistics_422_whenInvalidStaffId() throws IOException {
     // when
     final int actualStatus =
@@ -258,7 +254,22 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_422_whenInvalidStaffId() throws IOException {
+  public void findPersonsByStaffId_403_whenNotAuthorized() throws IOException {
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .target(API.STAFF + SLASH + "aa1" + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(403));
+  }
+
+  @Test
+  public void findPersonsByStaffId_422_whenInvalidStaffId() throws IOException {
     // when
     final int actualStatus =
         clientTestRule
@@ -273,13 +284,10 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans()
-      throws IOException {
-
-    postPerson(TEST_EXTERNAL_ID);
+  public void findPersonsByStaffId_statusIsNO_PRIOR_CANS_whenNoPriorCans() throws IOException {
     final StaffClientDto[] response =
         clientTestRule
-            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -302,9 +310,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void findAssignedPersonsForStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
+  public void findPersonsByStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
-
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     ClientDto clientDto = new ClientDto();
     clientDto.setIdentifier(TEST_EXTERNAL_ID);
@@ -313,11 +320,11 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
     postAssessment(assessment);
     assessment.setEventDate(LocalDate.now());
-    assessment.setStatus(AssessmentStatus.COMPLETED);
+    assessment.setStatus(COMPLETED);
     postAssessment(assessment);
     final StaffClientDto[] response =
         clientTestRule
-            .withSecurityToken(SUPERVISOR_NO_SUBORDINATES)
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
             .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -338,37 +345,38 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void getAllAssessments_findsFiveRecords() throws IOException {
     // given
     final List<Long> assessmentIds = new ArrayList<>();
-    final ClientDto person = readObject(FIXTURES_POST_PERSON, ClientDto.class);
-    final ClientDto otherPerson = readObject(FIXTURES_POST_PERSON, ClientDto.class);
-    otherPerson.setIdentifier("aaaaaaaaaa");
+    final ClientDto person = readObject(FIXTURES_POST_RW_PERSON, ClientDto.class);
+    final ClientDto otherPerson = readObject(FIXTURES_POST_R_PERSON, ClientDto.class);
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-              person, AssessmentStatus.IN_PROGRESS, LocalDate.of(2010, 1, 1), SUBORDINATE_MADERA
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2010, 1, 1),
+              FIXTURE_ASSIGNED_CASEWORKER
             },
             new Object[] {
-              person, AssessmentStatus.IN_PROGRESS, LocalDate.of(2015, 10, 10), SUBORDINATE_MADERA
+              person,
+              AssessmentStatus.IN_PROGRESS,
+              LocalDate.of(2015, 10, 10),
+              FIXTURE_ASSIGNED_CASEWORKER
             },
             // out of search results because of the other person
             new Object[] {
               otherPerson,
               AssessmentStatus.IN_PROGRESS,
               LocalDate.of(2015, 10, 10),
-              SUBORDINATE_MADERA
+              FIXTURE_ASSIGNED_CASEWORKER
             },
+            new Object[] {person, COMPLETED, LocalDate.of(2010, 1, 1), FIXTURE_ASSIGNED_CASEWORKER},
             new Object[] {
-              person, AssessmentStatus.COMPLETED, LocalDate.of(2010, 1, 1), SUBORDINATE_MADERA
+              person, COMPLETED, LocalDate.of(2015, 10, 10), FIXTURE_ASSIGNED_CASEWORKER
             },
-            new Object[] {
-              person, AssessmentStatus.COMPLETED, LocalDate.of(2015, 10, 10), SUBORDINATE_MADERA
-            }
-            /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
-            }*/
-            );
+            });
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
@@ -381,13 +389,12 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       assessmentIds.add(newAssessment.getId());
       if (newAssessment.getId() != null) {
         cleanUpAssessments.push(newAssessment);
-        personHelper.pushToCleanUpPerson(newAssessment.getPerson());
       }
     }
     // when
     final AssessmentMetaDto[] actualResults =
         clientTestRule
-            .withSecurityToken(SUBORDINATE_MADERA)
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(STAFF + SLASH + ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get()
@@ -400,12 +407,14 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[2].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[3].getId(), is(assessmentIds.get(4)));
     assertThat(actualResults[4].getId(), is(assessmentIds.get(3)));
+
+    // clean preparation
+    this.tearDownToken = AUTHORIZED_NAPA_ACCOUNT_FIXTURE;
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals(staffClientDto.getFirstName(), "child");
-    Assert.assertEquals(staffClientDto.getLastName(), "Hoofe");
-    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("2000-11-23"));
+    Assert.assertEquals(staffClientDto.getFirstName(), "TeenageBoy");
+    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("1982-09-08"));
     Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
   }
 }

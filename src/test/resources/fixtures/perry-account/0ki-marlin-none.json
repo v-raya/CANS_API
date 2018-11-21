@@ -1,15 +1,15 @@
 {
-  "user": "RACFID0",
-  "staffId": "000",
+  "user": "RACFID1",
+  "staffId": "0Ki",
   "roles": [
-    "Supervisor"
+    "Supervisor",
+    "CANS-worker"
   ],
   "county_code": "21",
   "county_name": "Marin",
   "county_cws_code": "1088",
   "privileges": [
-    "Sensitive Persons",
-    "Sealed",
+    "CWS CANS System",
     "CANS-rollout"
   ]
 }

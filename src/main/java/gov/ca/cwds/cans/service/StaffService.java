@@ -43,6 +43,7 @@ public class StaffService {
   @Inject private AssessmentService assessmentService;
   @Inject private AssessmentMapper assessmentMapper;
   @Inject private CountyDao countyDao;
+  @Inject private SecurityService securityService;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final String currentStaffId = PrincipalUtils.getPrincipal().getStaffId();
@@ -81,9 +82,8 @@ public class StaffService {
                   .setStaffPerson(staffPersonMapper.toStaffPersonDto(staff))
                   .setClientsCount(clients.size());
           clients.forEach(
-              clientId -> {
-                incrementStatisticByStatus(staffStatistics, clientStatusMap.get(clientId));
-              });
+              clientId ->
+                  incrementStatisticByStatus(staffStatistics, clientStatusMap.get(clientId)));
           results.add(staffStatistics);
         });
     return results;
@@ -164,6 +164,7 @@ public class StaffService {
 
   @UnitOfWork(CMS)
   Collection<ClientByStaff> findClientsByStaffId(String staffId) {
+    securityService.checkPermission("staff:read:" + staffId);
     return caseDao.findClientsByStaffIdAndActiveDate(staffId, LocalDate.now());
   }
 
@@ -178,7 +179,6 @@ public class StaffService {
     return assessmentMapper.toShortDtos(entities);
   }
 
-  // Add authorization here (CANS-537)
   public StaffStatisticsDto getStaffPersonWithStatistics(final String staffId) {
     Require.requireNotNullAndNotEmpty(staffId);
     final StaffPerson entity = fetchLegacyStaffPerson(staffId);

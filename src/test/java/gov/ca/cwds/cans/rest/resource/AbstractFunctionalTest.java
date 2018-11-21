@@ -21,6 +21,8 @@ public abstract class AbstractFunctionalTest {
       "fixtures/perry-account/supervisor-san-louis-all-authorized.json";
   public static final String AUTHORIZED_EL_DORADO_ACCOUNT_FIXTURE =
       "fixtures/perry-account/el-dorado-all-authorized.json";
+  public static final String AUTHORIZED_NAPA_ACCOUNT_FIXTURE =
+      "fixtures/perry-account/0ki-napa-all.json";
   public static final String AUTHORIZED_NO_SEALED_ACCOUNT_FIXTURE =
       "fixtures/perry-account/authorized-no-sealed.json";
   public static final String SENSITIVE_PERSONS_ACCOUNT_FIXTURE =
