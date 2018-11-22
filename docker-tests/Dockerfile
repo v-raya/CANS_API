@@ -1,10 +1,10 @@
 FROM cwds/alpinejre
 
 # Performance tests
-RUN yum -y install curl
+RUN apk add curl
 RUN curl https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
 RUN chmod +x /usr/local/bin/chromedriver
-RUN yum -y install wget
+RUN apk add wget
 RUN cd /opt/ \
     && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-4.0.tgz \
     && tar -xvzf apache-jmeter-4.0.tgz \
