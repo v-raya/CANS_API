@@ -1,4 +1,4 @@
-FROM cwds/javajdk
+FROM cwds/alpinejre
 
 # Performance tests
 RUN yum -y install curl
