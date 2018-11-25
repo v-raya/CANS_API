@@ -12,7 +12,9 @@ import liquibase.change.ColumnConfig;
 import liquibase.change.core.UpdateDataChange;
 import lombok.extern.slf4j.Slf4j;
 
-/** @author CWDS TPT-2 Team */
+/**
+ * @author CWDS TPT-2 Team
+ */
 @Slf4j
 public class ClientExternalIdValidator implements ChangeValidator {
 
@@ -29,32 +31,25 @@ public class ClientExternalIdValidator implements ChangeValidator {
       return null;
     }
     BuilderError error = null;
-    PreparedStatement statement = null;
     try (Connection conn = connectionProvider.getConnection()) {
-      statement = conn.prepareStatement("SELECT external_id FROM person WHERE external_id=?");
-      statement.setString(1, valueForUpdate);
-      if (statement.executeQuery().next()) {
-        String uiIdentifier = CmsKeyIdGenerator.getUIIdentifierFromKey(valueForUpdate);
-        error =
-            new BuilderError(
-                "person.external_id ["
-                    + valueForUpdate
-                    + "] already exist,"
-                    + " current person.external_id ["
-                    + uiIdentifier
-                    + "] can't be updated",
-                null);
+      try (PreparedStatement statement = conn
+          .prepareStatement("SELECT external_id FROM person WHERE external_id=?")) {
+        statement.setString(1, valueForUpdate);
+        if (statement.executeQuery().next()) {
+          String uiIdentifier = CmsKeyIdGenerator.getUIIdentifierFromKey(valueForUpdate);
+          error =
+              new BuilderError(
+                  "person.external_id ["
+                      + valueForUpdate
+                      + "] already exist,"
+                      + " current person.external_id ["
+                      + uiIdentifier
+                      + "] can't be updated",
+                  null);
+        }
       }
     } catch (Exception e) {
       throw new UpgradeDbException(e.getMessage(), e);
-    } finally {
-      if (statement != null) {
-        try {
-          statement.close();
-        } catch (Exception e) {
-          log.error(e.getMessage(), e);
-        }
-      }
     }
     return error;
   }

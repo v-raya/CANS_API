@@ -211,29 +211,26 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
 
   private Map<Long, String> getAssessmentCaseExternalIdMap() {
     Map<Long, String> assessmentCaseExternalIdMap;
-    Statement statement = null;
-    ResultSet resultSet = null;
     try (Connection conn = getConnection()) {
-      statement = conn.createStatement();
-      resultSet =
-          statement.executeQuery(
-              "SELECT a.id as id, c.external_id as case_ext_id "
-                  + "FROM assessment AS a "
-                  + "JOIN cases AS c on a.case_id = c.id "
-                  + "WHERE a.case_id NOTNULL");
-      assessmentCaseExternalIdMap = new HashMap<>();
-      while (resultSet.next()) {
-        Long assessmentId = resultSet.getLong("id");
-        String caseExternalId = resultSet.getString("case_ext_id");
-        if (caseExternalId != null) {
-          assessmentCaseExternalIdMap.put(assessmentId, caseExternalId);
+      try (Statement statement = conn.createStatement()) {
+        try (ResultSet resultSet =
+            statement.executeQuery(
+                "SELECT a.id as id, c.external_id as case_ext_id "
+                    + "FROM assessment AS a "
+                    + "JOIN cases AS c on a.case_id = c.id "
+                    + "WHERE a.case_id NOTNULL")) {
+          assessmentCaseExternalIdMap = new HashMap<>();
+          while (resultSet.next()) {
+            Long assessmentId = resultSet.getLong("id");
+            String caseExternalId = resultSet.getString("case_ext_id");
+            if (caseExternalId != null) {
+              assessmentCaseExternalIdMap.put(assessmentId, caseExternalId);
+            }
+          }
         }
       }
     } catch (Exception e) {
       throw new UpgradeDbException(e.getMessage(), e);
-    } finally {
-      closeCloseable(resultSet);
-      closeCloseable(statement);
     }
     return assessmentCaseExternalIdMap;
   }
@@ -277,18 +274,8 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
 
   @Override
   public Connection getConnection() throws SQLException {
-    Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword); // NOSONAR
     conn.setSchema(schemaName);
     return conn;
-  }
-
-  private void closeCloseable(AutoCloseable closeable) {
-    if (closeable != null) {
-      try {
-        closeable.close();
-      } catch (Exception e) {
-        log.error(e.getMessage(), e);
-      }
-    }
   }
 }
