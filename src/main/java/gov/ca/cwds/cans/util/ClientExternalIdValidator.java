@@ -7,6 +7,7 @@ import gov.ca.cwds.cans.util.ChangesBuilder.BuilderError;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import liquibase.change.Change;
 import liquibase.change.ColumnConfig;
 import liquibase.change.core.UpdateDataChange;
@@ -35,17 +36,19 @@ public class ClientExternalIdValidator implements ChangeValidator {
       try (PreparedStatement statement = conn
           .prepareStatement("SELECT external_id FROM person WHERE external_id=?")) {
         statement.setString(1, valueForUpdate);
-        if (statement.executeQuery().next()) {
-          String uiIdentifier = CmsKeyIdGenerator.getUIIdentifierFromKey(valueForUpdate);
-          error =
-              new BuilderError(
-                  "person.external_id ["
-                      + valueForUpdate
-                      + "] already exist,"
-                      + " current person.external_id ["
-                      + uiIdentifier
-                      + "] can't be updated",
-                  null);
+        try (ResultSet resultSet = statement.executeQuery()) {
+          if (resultSet.next()) {
+            String uiIdentifier = CmsKeyIdGenerator.getUIIdentifierFromKey(valueForUpdate);
+            error =
+                new BuilderError(
+                    "person.external_id ["
+                        + valueForUpdate
+                        + "] already exist,"
+                        + " current person.external_id ["
+                        + uiIdentifier
+                        + "] can't be updated",
+                    null);
+          }
         }
       }
     } catch (Exception e) {
