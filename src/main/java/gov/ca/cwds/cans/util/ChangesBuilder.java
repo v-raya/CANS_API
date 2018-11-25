@@ -53,8 +53,7 @@ public class ChangesBuilder {
                           errors.add(error);
                           return Boolean.FALSE;
                         })
-                    .orElse(Boolean.TRUE)
-        );
+                    .orElse(Boolean.TRUE));
     return result[0];
   }
 

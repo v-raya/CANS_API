@@ -1,11 +1,13 @@
 package gov.ca.cwds.cans.util;
 
+import static gov.ca.cwds.cans.util.DbUpgradeConstants.CLIENT_EXTERNAL_ID_FIELD_NAME;
+import static gov.ca.cwds.cans.util.DbUpgradeConstants.CLIENT_ID_FIELD_NAME;
+import static gov.ca.cwds.cans.util.DbUpgradeConstants.CLIENT_TABLE_NAME;
+
 import com.google.common.collect.ImmutableList;
-import gov.ca.cwds.cans.util.ChangesBuilder.BuilderError;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /** @author CWDS TPT-2 Team */
 @Slf4j
-public class ExternalIdConverterJob implements DbUpgradeJob {
+public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider {
 
   // Changelog metadata
   private static final String JOB_ID = "cans_1.0_to_1.1_conversion";
@@ -42,9 +44,6 @@ public class ExternalIdConverterJob implements DbUpgradeJob {
   private static final String JOB_DESCRIPTION =
       "Converts UIID to Base62 identifiers for Clients and assessments";
 
-  private static final String CLIENT_TABLE_NAME = "person";
-  private static final String CLIENT_ID_FIELD_NAME = "id";
-  private static final String CLIENT_EXTERNAL_ID_FIELD_NAME = "external_id";
   public static final String LOG_MESSAGE_SEPARATOR =
       "=============================================================";
 
@@ -91,7 +90,7 @@ public class ExternalIdConverterJob implements DbUpgradeJob {
     final ChangesBuilder changesBuilder = new ChangesBuilder();
     changesBuilder.addChangesProvider(() -> collectChangesForClientExternalId(changesBuilder));
     changesBuilder.addChangesProvider(() -> collectChangesForAssessmentCaseId(changesBuilder));
-    changesBuilder.addValidator(this::validateIfClientExternalIdIsUnique);
+    changesBuilder.addValidator(new ClientExternalIdValidator(this));
     List<Change> changes = changesBuilder.build();
     log.info(LOG_MESSAGE_SEPARATOR);
     log.info("=== Success Changes count: " + changes.size());
@@ -181,51 +180,6 @@ public class ExternalIdConverterJob implements DbUpgradeJob {
       closeCloseable(statement);
     }
     return clientExternalIdMap;
-  }
-
-  private BuilderError validateIfClientExternalIdIsUnique(Change change) {
-    String valueForUpdate = null;
-    if (change instanceof UpdateDataChange
-        && ((UpdateDataChange) change).getTableName().equalsIgnoreCase(CLIENT_TABLE_NAME)) {
-      UpdateDataChange updateDataChange = (UpdateDataChange) change;
-      valueForUpdate =
-          updateDataChange
-              .getColumns()
-              .stream()
-              .filter(
-                  columnConfig ->
-                      columnConfig.getName().equalsIgnoreCase(CLIENT_EXTERNAL_ID_FIELD_NAME))
-              .findFirst()
-              .map(ColumnConfig::getValue)
-              .orElse(null);
-    }
-    if (valueForUpdate == null) {
-      return null;
-    }
-    BuilderError error = null;
-    PreparedStatement statement = null;
-    ResultSet resultSet = null;
-    try (Connection conn = getConnection()) {
-      statement = conn.prepareStatement("SELECT external_id FROM person WHERE external_id=?");
-      statement.setString(1, valueForUpdate);
-      if (statement.executeQuery().next()) {
-        String uiIdentifier = CmsKeyIdGenerator.getUIIdentifierFromKey(valueForUpdate);
-        error =
-            new BuilderError(
-                "person.external_id ["
-                    + valueForUpdate
-                    + "] already exist, current person.external_id ["
-                    + uiIdentifier
-                    + "] can't be updated",
-                null);
-      }
-    } catch (Exception e) {
-      throw new UpgradeDbException(e.getMessage(), e);
-    } finally {
-      closeCloseable(resultSet);
-      closeCloseable(statement);
-    }
-    return error;
   }
 
   private Change buildUpdateClientExternalIdChange(Long id, String newValue) {
@@ -324,7 +278,8 @@ public class ExternalIdConverterJob implements DbUpgradeJob {
     return CmsKeyIdGenerator.getKeyFromUIIdentifier(clientExternalId);
   }
 
-  private Connection getConnection() throws SQLException {
+  @Override
+  public Connection getConnection() throws SQLException {
     Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     conn.setSchema(schemaName);
     return conn;
