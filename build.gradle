@@ -33,7 +33,7 @@ project.ext {
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     projectMajorVersion = '0.10.3'
     dataModelVersion = '0.10.2_701-RC'
-    coreApiVersion = '1.10.2_884-RC'
+    coreApiVersion = '1.10.2_891-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
     dropwizardVersion = '1.1.0'
     hibernateVersion = '5.2.16.Final'

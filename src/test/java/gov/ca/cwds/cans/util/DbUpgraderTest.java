@@ -4,9 +4,7 @@ import gov.ca.cwds.cans.util.DbUpgrader.DbUpgraderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class DbUpgraderTest {
 
   @Test
@@ -19,23 +17,26 @@ public class DbUpgraderTest {
 
     builder
         .add(
-            (DbUpgradeJob) () -> {
-              firstCalled[0] = true;
-              Assert.assertFalse(secondCalled[0]);
-              Assert.assertFalse(thirdCalled[0]);
-            })
+            (DbUpgradeJob)
+                () -> {
+                  firstCalled[0] = true;
+                  Assert.assertFalse(secondCalled[0]);
+                  Assert.assertFalse(thirdCalled[0]);
+                })
         .add(
-            (DbUpgradeJob) () -> {
-              secondCalled[0] = true;
-              Assert.assertTrue(firstCalled[0]);
-              Assert.assertFalse(thirdCalled[0]);
-            })
+            (DbUpgradeJob)
+                () -> {
+                  secondCalled[0] = true;
+                  Assert.assertTrue(firstCalled[0]);
+                  Assert.assertFalse(thirdCalled[0]);
+                })
         .add(
-            (DbUpgradeJob) () -> {
-              thirdCalled[0] = true;
-              Assert.assertTrue(firstCalled[0]);
-              Assert.assertTrue(secondCalled[0]);
-            })
+            (DbUpgradeJob)
+                () -> {
+                  thirdCalled[0] = true;
+                  Assert.assertTrue(firstCalled[0]);
+                  Assert.assertTrue(secondCalled[0]);
+                })
         .build()
         .upgradeDb();
   }

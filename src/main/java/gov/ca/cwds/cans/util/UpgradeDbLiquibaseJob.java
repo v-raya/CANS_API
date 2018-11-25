@@ -13,9 +13,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 @Slf4j
 public class UpgradeDbLiquibaseJob implements DbUpgradeJob {
 

@@ -33,9 +33,9 @@ import org.junit.runners.Suite;
 
 /**
  * @author denys.davydov
- * <p>The suite is a part of unit tests. All the tests with "ResourceTest" postfix are excluded
- * from default junit tests running and must be added to this suite. The suite sets up dropwizard
- * app and inmemory db once for all the "ResourceTest" tests.
+ *     <p>The suite is a part of unit tests. All the tests with "ResourceTest" postfix are excluded
+ *     from default junit tests running and must be added to this suite. The suite sets up
+ *     dropwizard app and inmemory db once for all the "ResourceTest" tests.
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -53,8 +53,7 @@ import org.junit.runners.Suite;
 })
 public class InMemoryFunctionalTestSuite {
 
-  private InMemoryFunctionalTestSuite() {
-  }
+  private InMemoryFunctionalTestSuite() {}
 
   @ClassRule
   public static final DropwizardAppRule<CansConfiguration> DROPWIZARD_APP_RULE =

@@ -3,9 +3,7 @@ package gov.ca.cwds.cans.util;
 import gov.ca.cwds.cans.CansConfiguration;
 import io.dropwizard.db.DataSourceFactory;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class DbUpgradeJobFactory {
 
   private static final String LB_SCRIPT_CREATE_SCHEMA = "liquibase/util/cans_schema.xml";
@@ -53,7 +51,10 @@ public class DbUpgradeJobFactory {
   }
 
   public DbUpgradeJob getExternalIdConverterJob() {
-    return new ExternalIdConverterJob(dataSourceFactory.getUrl(), dataSourceFactory.getUser(),
-        dataSourceFactory.getPassword(), schemaName);
+    return new ExternalIdConverterJob(
+        dataSourceFactory.getUrl(),
+        dataSourceFactory.getUser(),
+        dataSourceFactory.getPassword(),
+        schemaName);
   }
 }
