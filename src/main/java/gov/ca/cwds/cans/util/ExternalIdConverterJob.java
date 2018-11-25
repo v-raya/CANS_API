@@ -93,8 +93,8 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
     changesBuilder.addValidator(new ClientExternalIdValidator(this));
     List<Change> changes = changesBuilder.build();
     log.info(LOG_MESSAGE_SEPARATOR);
-    log.info("=== Success Changes count: " + changes.size());
-    log.info("=== Errors count: " + changesBuilder.getErrors().size());
+    log.info("=== Success Changes count: {}", changes.size());
+    log.info("=== Errors count: {}", changesBuilder.getErrors().size());
     log.info(LOG_MESSAGE_SEPARATOR);
     if (changes.isEmpty()) {
       log.info("=== No data found to change");
@@ -155,29 +155,26 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
 
   private Map<Long, String> getClientIdExternalIdMap() {
     Map<Long, String> clientExternalIdMap;
-    Statement statement = null;
-    ResultSet resultSet = null;
     try (Connection conn = getConnection()) {
-      statement = conn.createStatement();
-      resultSet =
-          statement.executeQuery(
-              "SELECT "
-                  + CLIENT_ID_FIELD_NAME
-                  + ", "
-                  + CLIENT_EXTERNAL_ID_FIELD_NAME
-                  + " FROM "
-                  + CLIENT_TABLE_NAME);
-      clientExternalIdMap = new HashMap<>();
-      while (resultSet.next()) {
-        Long clientId = resultSet.getLong(CLIENT_ID_FIELD_NAME);
-        String clientExternalId = resultSet.getString(CLIENT_EXTERNAL_ID_FIELD_NAME);
-        clientExternalIdMap.put(clientId, clientExternalId);
+      try (Statement statement = conn.createStatement()) {
+        try (ResultSet resultSet =
+            statement.executeQuery(
+                "SELECT "
+                    + CLIENT_ID_FIELD_NAME
+                    + ", "
+                    + CLIENT_EXTERNAL_ID_FIELD_NAME
+                    + " FROM "
+                    + CLIENT_TABLE_NAME)) {
+          clientExternalIdMap = new HashMap<>(resultSet.getFetchSize());
+          while (resultSet.next()) {
+            Long clientId = resultSet.getLong(CLIENT_ID_FIELD_NAME);
+            String clientExternalId = resultSet.getString(CLIENT_EXTERNAL_ID_FIELD_NAME);
+            clientExternalIdMap.put(clientId, clientExternalId);
+          }
+        }
       }
     } catch (Exception e) {
       throw new UpgradeDbException(e.getMessage(), e);
-    } finally {
-      closeCloseable(resultSet);
-      closeCloseable(statement);
     }
     return clientExternalIdMap;
   }

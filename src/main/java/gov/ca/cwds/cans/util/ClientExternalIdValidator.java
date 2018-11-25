@@ -10,8 +10,10 @@ import java.sql.PreparedStatement;
 import liquibase.change.Change;
 import liquibase.change.ColumnConfig;
 import liquibase.change.core.UpdateDataChange;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author CWDS TPT-2 Team */
+@Slf4j
 public class ClientExternalIdValidator implements ChangeValidator {
 
   private ConnectionProvider connectionProvider;
@@ -45,6 +47,14 @@ public class ClientExternalIdValidator implements ChangeValidator {
       }
     } catch (Exception e) {
       throw new UpgradeDbException(e.getMessage(), e);
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (Exception e) {
+          log.error(e.getMessage(), e);
+        }
+      }
     }
     return error;
   }
