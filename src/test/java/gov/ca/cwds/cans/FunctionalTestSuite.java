@@ -10,6 +10,7 @@ import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
+import gov.ca.cwds.cans.rest.resource.SupervisorAuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.IntegrationRestClientTestRule;
 import gov.ca.cwds.cans.test.util.ConfigurationProvider;
@@ -36,6 +37,7 @@ import org.junit.runners.Suite;
   AssessmentResourceTest.class,
   StaffResourceTest.class,
   AssessmentResourceAuthorizationTest.class,
+  SupervisorAuthorizationResourceTest.class,
 })
 public class FunctionalTestSuite {
 
