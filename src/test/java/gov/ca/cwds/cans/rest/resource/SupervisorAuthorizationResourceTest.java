@@ -90,6 +90,7 @@ public class SupervisorAuthorizationResourceTest extends AbstractFunctionalTest 
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
         assessment.getId(), FIXTURES_SUPERVISOR_06S_SANTA_CLARA, HttpStatus.SC_OK);
+    pushToCleanUpStack(assessment.getId(), FIXTURES_SUPERVISOR_06S_SANTA_CLARA);
   }
 
   @Test
@@ -100,5 +101,6 @@ public class SupervisorAuthorizationResourceTest extends AbstractFunctionalTest 
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
         assessment.getId(), FIXTURES_SUPERVISOR_00j_MERCED, HttpStatus.SC_FORBIDDEN);
+    pushToCleanUpStack(assessment.getId(), FIXTURES_SUPERVISOR_06S_SANTA_CLARA);
   }
 }
