@@ -19,19 +19,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class ClientExternalIdValidatorTest {
 
-  @Mock
-  private Connection connection;
+  @Mock private Connection connection;
 
-  @Mock
-  private PreparedStatement preparedStatement;
+  @Mock private PreparedStatement preparedStatement;
 
-  @Mock
-  private ResultSet resultSet;
+  @Mock private ResultSet resultSet;
 
   @Before
   public void before() {

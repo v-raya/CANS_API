@@ -92,8 +92,9 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
     changesBuilder.addChangesProvider(() -> collectChangesForAssessmentCaseId(changesBuilder));
     changesBuilder.addValidator(new ClientExternalIdValidator(this));
     List<Change> changes = changesBuilder.build();
+    printErrors(changesBuilder);
     log.info(LOG_MESSAGE_SEPARATOR);
-    log.info("=== Success Changes count: {}", changes.size());
+    log.info("=== Success count: {}", changes.size());
     log.info("=== Errors count: {}", changesBuilder.getErrors().size());
     log.info(LOG_MESSAGE_SEPARATOR);
     if (changes.isEmpty()) {
@@ -101,7 +102,7 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
       return;
     }
     log.info("=== Finish of Preparing External Id changes");
-    printErrors(changesBuilder);
+
     changes.forEach(changeSet::addChange);
   }
 
@@ -142,7 +143,7 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
               if (extId != null && extId.matches("\\d{4}-\\d{4}-\\d{4}-\\d{7}")) {
                 try {
                   String base62Key = convertToBase62(extId);
-                  log.info("Person external_id: {} => {}", extId, base62Key);
+                  log.info("=== Person external_id: {} => {}", extId, base62Key);
                   changes.add(buildUpdateClientExternalIdChange(id, base62Key));
                 } catch (Exception e) {
                   changesBuilder.addError(
@@ -198,7 +199,7 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
               if (caseExtId != null && caseExtId.matches("\\d{4}-\\d{3}-\\d{4}-\\d{8}")) {
                 try {
                   String base62Key = convertToBase62(caseExtId);
-                  log.info("case external_id: {} => {}", caseExtId, base62Key);
+                  log.info("=== case external_id: {} => {}", caseExtId, base62Key);
                   changes.add(buildUpdateAssessmentCaseExternalIdChange(assessmentId, base62Key));
                 } catch (Exception e) {
                   changesBuilder.addError(
