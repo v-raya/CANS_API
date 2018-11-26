@@ -16,8 +16,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ClientReadAuthorizer.class);
 
   @Inject private ClientDao clientDao;
   @Inject private CountyDeterminationDao countyDeterminationDao;
@@ -31,17 +35,34 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   @Override
   protected boolean checkId(String clientId) {
-    return checkSealedSensitive(clientId)
-        || checkIdByAssignment(clientId)
-        || checkIdBySupervisorAssignment(clientId);
+    long startTime = System.currentTimeMillis();
+    LOG.info("Authorization: client [{}] started", clientId);
+    boolean isAuthorized =
+        checkSealedSensitive(clientId)
+            || checkIdByAssignment(clientId)
+            || checkIdBySupervisorAssignment(clientId);
+    LOG.info(
+        "Authorization: client [{}] finished with result [{}] in {} ms",
+        clientId,
+        isAuthorized,
+        System.currentTimeMillis() - startTime);
+    return isAuthorized;
   }
 
   protected boolean checkSealedSensitive(String clientId) {
-    return checkByCounty(clientId) && checkClientAbstractAccess(clientId);
+    boolean isSealedSensitive = checkByCounty(clientId) && checkClientAbstractAccess(clientId);
+    LOG.info(
+        "Authorization: client [{}] county and abstract result [{}]", clientId, isSealedSensitive);
+    return isSealedSensitive;
   }
 
   private boolean checkClientAbstractAccess(String clientId) {
-    return super.checkId(clientId);
+    boolean isClientAbstractAuthorized = super.checkId(clientId);
+    LOG.info(
+        "Authorization: client [{}] abstract authorization result [{}]",
+        clientId,
+        isClientAbstractAuthorized);
+    return isClientAbstractAuthorized;
   }
 
   @Override
@@ -56,7 +77,13 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   private boolean checkByCounty(String clientId) {
     Collection<Short> counties = countyDeterminationDao.getClientCounties(clientId);
-    return counties.isEmpty() || counties.contains(staffCounty());
+    boolean hasEmptyOrSameCounty = counties.isEmpty() || counties.contains(staffCounty());
+    LOG.info(
+        "Authorization: client [{}] has no or the same county [{}] result [{}]",
+        clientId,
+        counties,
+        hasEmptyOrSameCounty);
+    return hasEmptyOrSameCounty;
   }
 
   private boolean checkByAssignmentAccessType(AccessType accessType) {
@@ -98,12 +125,20 @@ public class ClientReadAuthorizer extends ClientAbstractReadAuthorizer {
 
   private boolean checkIdByAssignment(String clientId) {
     AccessType accessType = getAccessType(clientId);
-    return checkByAssignmentAccessType(accessType);
+    boolean isAssignedToClient = checkByAssignmentAccessType(accessType);
+    LOG.info(
+        "Authorization: client [{}] assignment check result [{}]", clientId, isAssignedToClient);
+    return isAssignedToClient;
   }
 
   private boolean checkIdBySupervisorAssignment(String clientId) {
     AccessType accessType = getAccessTypeBySupervisor(clientId);
-    return checkByAssignmentAccessType(accessType);
+    boolean isAssignedToSubordinate = checkByAssignmentAccessType(accessType);
+    LOG.info(
+        "Authorization: client [{}] subordinates assignment check result [{}]",
+        clientId,
+        isAssignedToSubordinate);
+    return isAssignedToSubordinate;
   }
 
   AccessType getAccessTypeBySupervisor(String clientId) {

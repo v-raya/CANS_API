@@ -1,0 +1,26 @@
+{
+  "user": "RACFID1",
+  "staffId": "06s",
+  "roles": [
+    "Supervisor",
+    "CWS-worker"
+  ],
+  "county_code": "43",
+  "county_name": "Santa Clara",
+  "county_cws_code": "1110",
+  "privileges": [
+    "CANS-staff-person-subordinates-read",
+    "CANS-staff-person-read",
+    "CANS-staff-person-clients-read",
+    "CANS-client-read",
+    "CANS-client-search",
+    "CANS-assessment-read",
+    "CANS-assessment-create",
+    "CANS-assessment-in-progress-update",
+    "CANS-assessment-completed-update",
+    "CANS-assessment-completed-delete",
+    "CANS-assessment-in-progress-delete",
+    "CANS-assessment-complete",
+    "CANS-rollout"
+  ]
+}
