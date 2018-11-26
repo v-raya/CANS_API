@@ -12,6 +12,7 @@ import gov.ca.cwds.cans.rest.resource.InstrumentResourceTest;
 import gov.ca.cwds.cans.rest.resource.SecurityResourceTest;
 import gov.ca.cwds.cans.rest.resource.SensitivityTypeResourceTest;
 import gov.ca.cwds.cans.rest.resource.StaffResourceTest;
+import gov.ca.cwds.cans.rest.resource.SupervisorAuthorizationResourceTest;
 import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
@@ -50,6 +51,7 @@ import org.junit.runners.Suite;
   StaffResourceTest.class,
   AssessmentResourceAuthorizationTest.class,
   ClientsResourceTest.class,
+  SupervisorAuthorizationResourceTest.class
 })
 public class InMemoryFunctionalTestSuite {
 
