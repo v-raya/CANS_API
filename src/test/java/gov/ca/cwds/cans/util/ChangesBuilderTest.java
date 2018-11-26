@@ -23,7 +23,7 @@ public class ChangesBuilderTest {
   }
 
   @Test
-  public void buildChanges_WithNoError_success() {
+  public void buildChanges_success_withNoError() {
     List<Change> validChanges = new LinkedList<>();
     validChanges.add(new UpdateDataChange());
     builder.addChangesProvider(() -> {return validChanges;});
@@ -34,7 +34,7 @@ public class ChangesBuilderTest {
   }
 
   @Test
-  public void buildChanges_WithAnError_success() {
+  public void buildChanges_success_withAnError() {
     List<Change> changes = new LinkedList<>();
     UpdateDataChange change1 = new UpdateDataChange();
     change1.setTableName("valid");
