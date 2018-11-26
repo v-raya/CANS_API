@@ -16,13 +16,7 @@ public final class DbUpgrader {
 
   public void upgradeDb() {
     while (!jobs.isEmpty()) {
-
-      Runnable job = jobs.poll();
-      if (job != null) {
-        job.run();
-      } else {
-        log.warn("The DBUpgradeJob is NULL");
-      }
+      jobs.poll().run();
     }
   }
 

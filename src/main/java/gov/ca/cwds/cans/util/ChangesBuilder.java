@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import liquibase.change.Change;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /** @author CWDS TPT-2 Team */
@@ -67,7 +67,7 @@ public class ChangesBuilder {
     return new LinkedList<>(errors);
   }
 
-  @Data
+  @Getter
   @AllArgsConstructor
   public static class BuilderError {
     private String message;
