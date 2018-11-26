@@ -16,6 +16,7 @@ import gov.ca.cwds.cans.rest.resource.SystemInformationResourceTest;
 import gov.ca.cwds.cans.test.InMemoryFunctionalRestClientTestRule;
 import gov.ca.cwds.cans.test.util.DatabaseHelper;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
+import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.test.support.H2Function;
 import io.dropwizard.testing.ResourceHelpers;
@@ -52,6 +53,8 @@ import org.junit.runners.Suite;
 })
 public class InMemoryFunctionalTestSuite {
 
+  private InMemoryFunctionalTestSuite() {}
+
   @ClassRule
   public static final DropwizardAppRule<CansConfiguration> DROPWIZARD_APP_RULE =
       new DropwizardAppRule<CansConfiguration>(
@@ -74,7 +77,11 @@ public class InMemoryFunctionalTestSuite {
     FunctionalTestContextHolder.clientTestRule =
         new InMemoryFunctionalRestClientTestRule(DROPWIZARD_APP_RULE);
     initCansDb();
-    DbUpgrader.runDmlOnCansDb(configuration);
+    DbUpgrader.getBuilder()
+        .add(DbUpgradeJobFactory.newInstance(configuration).getCansDemoDataJobs())
+        .build()
+        .upgradeDb();
+
     initCmsDb();
     initCmsRsDb();
   }
