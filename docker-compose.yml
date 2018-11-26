@@ -15,69 +15,69 @@ services:
     ports:
     - ${DB_CMS_DB2_PORT}:50000
 
-#  postgres:
-#    image: cwds/postgresql_data:0.8.4_662-RC
-#    hostname: postgresql_data
-#    ports:
-#    - ${POSTGRES_PORT}:5432
-#
-#  cans-api:
-#    image: cwds/cans-api
-#    hostname: cans-api
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        delay: 15s
-#        max_attempts: 5
-#        window: 120s
-#    depends_on:
-#    - postgres
-#    - perry
-#    - db2
-#    ports:
-#    - ${CANS_API_PORT}:8080
-#    environment:
-#      LOGIN_URL: ${LOGIN_URL}
-#      LOGOUT_URL: ${LOGOUT_URL}
-#      SWAGGER_TOKEN_URL: ${SWAGGER_TOKEN_URL}
-#      SWAGGER_JSON_URL: ${SWAGGER_JSON_URL}
-#      SWAGGER_CALLBACK_URL: ${SWAGGER_CALLBACK_URL}
-#      SHIRO_CONFIG_PATH: ${SHIRO_CONFIG_PATH}
-#      KEY_STORE_FILE: ${KEY_STORE_FILE}
-#      AUTHORIZATION_ENABLED: ${AUTHORIZATION_ENABLED}
-#      DB_NS_JDBC_URL: ${DB_NS_JDBC_URL}
-#      DB_NS_SCHEMA: ${DB_NS_SCHEMA}
-#      DB_NS_USER: ${DB_NS_USER}
-#      DB_NS_PASSWORD: ${DB_NS_PASSWORD}
-#      DB_CMS_JDBC_URL: ${DB_CMS_JDBC_URL}
-#      DB_CMS_SCHEMA: ${DB_CMS_SCHEMA}
-#      DB_CMS_USER: ${DB_CMS_USER}
-#      DB_CMS_PASSWORD: ${DB_CMS_PASSWORD}
-#      DB_CMS_RS_JDBC_URL: ${DB_CMS_RS_JDBC_URL}
-#      DB_CMS_RS_SCHEMA: ${DB_CMS_RS_SCHEMA}
-#      DB_CMS_RS_USER: ${DB_CMS_RS_USER}
-#      DB_CMS_RS_PASSWORD: ${DB_CMS_RS_PASSWORD}
-#
-#  cans-api-test:
-#    image: cwds/cans-api-test
-#    hostname: cans-api-test
-#    entrypoint: sleep infinity
-#    depends_on:
-#    - postgres
-#    - db2
-#    - perry
-#    - cans-api
-#    environment:
-#      TEST_TYPE: ""
-#      CANS_API_URL: ${CANS_API_URL}
-#      PERRY_URL: ${PERRY_URL}
-#      JM_TARGET: ${JM_TARGET}
-#      JM_PERRY_MODE: ${JM_PERRY_MODE}
-#      JM_USERS_COUNT: ${JM_USERS_COUNT}
-#      JM_UPDATE_REQUESTS_PER_USER: ${JM_UPDATE_REQUESTS_PER_USER}
-#      JM_PERRY_PROTOCOL: ${JM_PERRY_PROTOCOL}
-#      JM_PERRY_HOST: ${JM_PERRY_HOST}
-#      JM_PERRY_PORT: ${JM_PERRY_PORT}
-#      JM_CANS_API_PROTOCOL: ${JM_CANS_API_PROTOCOL}
-#      JM_CANS_API_HOST: ${JM_CANS_API_HOST}
-#      JM_CANS_API_PORT: ${JM_CANS_API_PORT}
+  postgres:
+    image: cwds/postgresql_data:0.8.4_662-RC
+    hostname: postgresql_data
+    ports:
+    - ${POSTGRES_PORT}:5432
+
+  cans-api:
+    image: cwds/cans-api
+    hostname: cans-api
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 120s
+    depends_on:
+    - postgres
+    - perry
+    - db2
+    ports:
+    - ${CANS_API_PORT}:8080
+    environment:
+      LOGIN_URL: ${LOGIN_URL}
+      LOGOUT_URL: ${LOGOUT_URL}
+      SWAGGER_TOKEN_URL: ${SWAGGER_TOKEN_URL}
+      SWAGGER_JSON_URL: ${SWAGGER_JSON_URL}
+      SWAGGER_CALLBACK_URL: ${SWAGGER_CALLBACK_URL}
+      SHIRO_CONFIG_PATH: ${SHIRO_CONFIG_PATH}
+      KEY_STORE_FILE: ${KEY_STORE_FILE}
+      AUTHORIZATION_ENABLED: ${AUTHORIZATION_ENABLED}
+      DB_NS_JDBC_URL: ${DB_NS_JDBC_URL}
+      DB_NS_SCHEMA: ${DB_NS_SCHEMA}
+      DB_NS_USER: ${DB_NS_USER}
+      DB_NS_PASSWORD: ${DB_NS_PASSWORD}
+      DB_CMS_JDBC_URL: ${DB_CMS_JDBC_URL}
+      DB_CMS_SCHEMA: ${DB_CMS_SCHEMA}
+      DB_CMS_USER: ${DB_CMS_USER}
+      DB_CMS_PASSWORD: ${DB_CMS_PASSWORD}
+      DB_CMS_RS_JDBC_URL: ${DB_CMS_RS_JDBC_URL}
+      DB_CMS_RS_SCHEMA: ${DB_CMS_RS_SCHEMA}
+      DB_CMS_RS_USER: ${DB_CMS_RS_USER}
+      DB_CMS_RS_PASSWORD: ${DB_CMS_RS_PASSWORD}
+
+  cans-api-test:
+    image: cwds/cans-api-test
+    hostname: cans-api-test
+    entrypoint: sleep infinity
+    depends_on:
+    - postgres
+    - db2
+    - perry
+    - cans-api
+    environment:
+      TEST_TYPE: ""
+      CANS_API_URL: ${CANS_API_URL}
+      PERRY_URL: ${PERRY_URL}
+      JM_TARGET: ${JM_TARGET}
+      JM_PERRY_MODE: ${JM_PERRY_MODE}
+      JM_USERS_COUNT: ${JM_USERS_COUNT}
+      JM_UPDATE_REQUESTS_PER_USER: ${JM_UPDATE_REQUESTS_PER_USER}
+      JM_PERRY_PROTOCOL: ${JM_PERRY_PROTOCOL}
+      JM_PERRY_HOST: ${JM_PERRY_HOST}
+      JM_PERRY_PORT: ${JM_PERRY_PORT}
+      JM_CANS_API_PROTOCOL: ${JM_CANS_API_PROTOCOL}
+      JM_CANS_API_HOST: ${JM_CANS_API_HOST}
+      JM_CANS_API_PORT: ${JM_CANS_API_PORT}
