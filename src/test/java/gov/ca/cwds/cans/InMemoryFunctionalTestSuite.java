@@ -93,7 +93,6 @@ public class InMemoryFunctionalTestSuite {
   private static void initCmsDb() throws LiquibaseException {
     try (final DatabaseHelper databaseHelper = createCmsDbHelper()) {
       databaseHelper.runScript("liquibase/cwscms_database_master.xml");
-      databaseHelper.runScript("liquibase/supervisor_assignment_data.xml");
     } catch (IOException e) {
       throw new LiquibaseException(e);
     }
@@ -102,7 +101,6 @@ public class InMemoryFunctionalTestSuite {
   private static void initCmsRsDb() throws LiquibaseException {
     try (final DatabaseHelper databaseHelper = createCmsRsDbHelper()) {
       databaseHelper.runScript("liquibase/cwscmsrs_database_master.xml");
-      databaseHelper.runScript("liquibase/rs_supervisor_assignment_data.xml");
     } catch (IOException e) {
       throw new LiquibaseException(e);
     }
