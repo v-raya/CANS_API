@@ -143,7 +143,8 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
               if (extId != null && extId.matches("\\d{4}-\\d{4}-\\d{4}-\\d{7}")) {
                 try {
                   String base62Key = convertToBase62(extId);
-                  log.info("=== Converted successfully person external_id: {} => {}", extId, base62Key);
+                  log.info(
+                      "=== Converted successfully person external_id: {} => {}", extId, base62Key);
                   changes.add(buildUpdateClientExternalIdChange(id, base62Key));
                 } catch (Exception e) {
                   changesBuilder.addError(
@@ -199,7 +200,10 @@ public class ExternalIdConverterJob implements DbUpgradeJob, ConnectionProvider 
               if (caseExtId != null && caseExtId.matches("\\d{4}-\\d{3}-\\d{4}-\\d{8}")) {
                 try {
                   String base62Key = convertToBase62(caseExtId);
-                  log.info("=== Converted successfully case external_id: {} => {}", caseExtId, base62Key);
+                  log.info(
+                      "=== Converted successfully case external_id: {} => {}",
+                      caseExtId,
+                      base62Key);
                   changes.add(buildUpdateAssessmentCaseExternalIdChange(assessmentId, base62Key));
                 } catch (Exception e) {
                   changesBuilder.addError(

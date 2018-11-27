@@ -23,6 +23,8 @@ import org.hibernate.envers.RevisionType;
 public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
 
   private String userId;
+  private String userFirstName;
+  private String userLastName;
   private Long entityId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_ISO8601_FORMAT)
@@ -36,11 +38,19 @@ public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
   }
 
   AbstractChangeLogDto(ChangeLogDtoParameters<E> params) {
-    setId(params.getRevisionEntity().getId());
-    entityId = (Long) params.getCurrent().getId();
-    userId = params.getRevisionEntity().getUserId();
-    changedAt = params.getRevisionEntity().getRevisionDate();
+    if (params.getRevisionEntity() != null) {
+      setId(params.getRevisionEntity().getId());
+      userId = params.getRevisionEntity().getUserId();
+      changedAt = params.getRevisionEntity().getRevisionDate();
+    }
+    if (params.getCurrent() != null) {
+      entityId = (Long) params.getCurrent().getId();
+    }
     changeType = params.getRevisionType();
+    if (params.getUser() != null) {
+      userFirstName = params.getUser().getFirstName();
+      userLastName = params.getUser().getLastName();
+    }
     populateChanges(params.getCurrent(), params.getPrevious());
   }
 
@@ -52,7 +62,7 @@ public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
   public class Change {
 
     String elementName;
-    String beofreValue;
+    String beforeValue;
     String afterValue;
   }
 }
