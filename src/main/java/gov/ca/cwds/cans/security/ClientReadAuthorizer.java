@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientResultReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.ClientResultAuthorizationDroolsConfiguration;
-import gov.ca.cwds.data.dao.cms.CountyDeterminationDao;
 import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
@@ -22,7 +21,6 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
   private static final Logger LOG = LoggerFactory.getLogger(ClientReadAuthorizer.class);
 
   @Inject private ClientDao clientDao;
-  @Inject private CountyDeterminationDao countyDeterminationDao;
 
   @Inject
   public ClientReadAuthorizer(
@@ -74,9 +72,17 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
   protected Collection<String> filterIds(Collection<String> ids) {
     Collection<String> filteredByAssignments =
         clientDao.filterClientIdsByAssignment(ids, staffId());
+    Collection<String> filteredBySealedSensitive = filterSealedSensitive(ids);
+    return mergeClientIds(ids, filteredByAssignments, filteredBySealedSensitive);
+  }
+
+  Collection<String> mergeClientIds(
+      Collection<String> ids,
+      Collection<String> filteredByAssignments,
+      Collection<String> filteredBySealedSensitive) {
     if (filteredByAssignments.size() != ids.size()) {
       Set<String> result = new HashSet<>(filteredByAssignments);
-      result.addAll(filterSealedSensitive(ids));
+      result.addAll(filteredBySealedSensitive);
       return result;
     } else {
       return ids;
@@ -84,8 +90,7 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
   }
 
   private Collection<String> filterSealedSensitive(Collection<String> ids) {
-    Collection<String> filteredByResultRules = new HashSet<>(super.filterIds(ids));
-    return filteredByResultRules;
+    return new HashSet<>(super.filterIds(ids));
   }
 
   private boolean checkIdByAssignment(String clientId) {
