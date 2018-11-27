@@ -69,7 +69,6 @@ public abstract class AbstractFunctionalTest {
     AssessmentDto assessment = createAssessmentDto(personFixture);
     Response response = postAssessmentAndGetResponse(assessment, userFixture);
     checkStatus(response, userFixture, expectedStatus);
-    pushToCleanUpStack(assessment.getId(), userFixture);
   }
 
   private void checkStatus(Response response, String userFixture, int expectedStatus) {
