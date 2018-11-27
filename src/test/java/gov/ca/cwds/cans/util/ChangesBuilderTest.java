@@ -10,9 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 public class ChangesBuilderTest {
 
   private ChangesBuilder builder;
@@ -26,7 +24,10 @@ public class ChangesBuilderTest {
   public void buildChanges_WithNoError_success() {
     List<Change> validChanges = new LinkedList<>();
     validChanges.add(new UpdateDataChange());
-    builder.addChangesProvider(() -> {return validChanges;});
+    builder.addChangesProvider(
+        () -> {
+          return validChanges;
+        });
     builder.addValidator(change -> (null));
     List<Change> changes = builder.build();
     Assert.assertThat(changes.size(), Is.is(1));
@@ -42,14 +43,18 @@ public class ChangesBuilderTest {
     UpdateDataChange change2 = new UpdateDataChange();
     change2.setTableName("invalid");
     changes.add(change2);
-    builder.addChangesProvider(() -> {return changes;});
-    builder.addValidator(change -> {
-      if (!((UpdateDataChange)change).getTableName().equals("valid")) {
-        return new BuilderError("Error", null);
-      } else {
-        return null;
-      }
-    });
+    builder.addChangesProvider(
+        () -> {
+          return changes;
+        });
+    builder.addValidator(
+        change -> {
+          if (!((UpdateDataChange) change).getTableName().equals("valid")) {
+            return new BuilderError("Error", null);
+          } else {
+            return null;
+          }
+        });
     List<Change> builtChanges = builder.build();
     Assert.assertThat(builtChanges.size(), Is.is(1));
     Assert.assertThat(builder.getErrors().size(), Is.is(1));

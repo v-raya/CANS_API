@@ -15,7 +15,7 @@ public class AssessmentWriteAuthorizer extends BaseAssessmentAuthorizer {
   @Override
   protected boolean checkInstance(Assessment assessment) {
     String clientId = assessment.getPerson().getExternalId();
-    return clientReadAuthorizer.checkSealedSensitive(clientId)
+    return clientReadAuthorizer.checkClientResultAccess(clientId)
         || checkByAssignment(clientId)
         || checkBySubordinateAssignment(clientId);
   }

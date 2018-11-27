@@ -13,9 +13,7 @@ import liquibase.change.ColumnConfig;
 import liquibase.change.core.UpdateDataChange;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author CWDS TPT-2 Team
- */
+/** @author CWDS TPT-2 Team */
 @Slf4j
 public class ClientExternalIdValidator implements ChangeValidator {
 
@@ -33,8 +31,8 @@ public class ClientExternalIdValidator implements ChangeValidator {
     }
     BuilderError error = null;
     try (Connection conn = connectionProvider.getConnection()) {
-      try (PreparedStatement statement = conn
-          .prepareStatement("SELECT external_id FROM person WHERE external_id=?")) {
+      try (PreparedStatement statement =
+          conn.prepareStatement("SELECT external_id FROM person WHERE external_id=?")) {
         statement.setString(1, valueForUpdate);
         try (ResultSet resultSet = statement.executeQuery()) {
           if (resultSet.next()) {
