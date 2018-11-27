@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AssessmentReadAuthorizer extends BaseAssessmentAuthorizer {
+public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
 
   private static final Logger LOG = LoggerFactory.getLogger(AssessmentReadAuthorizer.class);
 
@@ -39,7 +39,7 @@ public class AssessmentReadAuthorizer extends BaseAssessmentAuthorizer {
         .collect(Collectors.toList());
   }
 
-  protected Collection<String> filterClientIds(Collection<String> ids) {
+  private Collection<String> filterClientIds(Collection<String> ids) {
     Collection<String> filteredByAssignments =
         clientDao.filterClientIdsByAssignment(ids, staffId());
 
@@ -86,10 +86,5 @@ public class AssessmentReadAuthorizer extends BaseAssessmentAuthorizer {
         clientId,
         isAssignedToSubordinate);
     return isAssignedToSubordinate;
-  }
-
-  @Override
-  protected Long stringToId(String id) {
-    return Long.valueOf(id);
   }
 }
