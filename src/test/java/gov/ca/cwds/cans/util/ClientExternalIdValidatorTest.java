@@ -34,7 +34,7 @@ public class ClientExternalIdValidatorTest {
   }
 
   @Test
-  public void validate_ValidChange_success() throws Exception {
+  public void validate_success_validChange() throws Exception {
     when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
     when(preparedStatement.executeQuery()).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(false);
@@ -52,7 +52,7 @@ public class ClientExternalIdValidatorTest {
   }
 
   @Test
-  public void validate_InvalidChange_validationError() throws Exception {
+  public void validate_validationError_invalidChange() throws Exception {
     when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
     when(preparedStatement.executeQuery()).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true);
@@ -71,7 +71,7 @@ public class ClientExternalIdValidatorTest {
   }
 
   @Test
-  public void validate_noChangeForClientTable_success() throws Exception {
+  public void validate_success_noChangeForClientTable() throws Exception {
     ClientExternalIdValidator validator = new ClientExternalIdValidator(() -> connection);
     UpdateDataChange updateDataChange = new UpdateDataChange();
     updateDataChange.setTableName("some_other_table");

@@ -59,7 +59,7 @@ public class ChangesBuilder {
 
   public void printErrors() {
     log.warn("================ Errors ==================");
-    errors.forEach(builderError -> log.warn("=== {}", builderError.message));
+    errors.forEach(builderError -> log.warn("{}", builderError.message));
     log.warn("==========================================");
   }
 
