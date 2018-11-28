@@ -1,6 +1,7 @@
 package gov.ca.cwds.cans.domain.dto.changelog;
 
 import gov.ca.cwds.cans.domain.entity.Persistent;
+import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,4 +22,5 @@ public class ChangeLogDtoParameters<E extends Persistent> {
   private RevisionType revisionType = null;
   private E current = null;
   private E previous = null;
+  private Person user;
 }
