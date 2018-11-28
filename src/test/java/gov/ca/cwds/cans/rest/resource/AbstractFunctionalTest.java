@@ -19,6 +19,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
 
@@ -55,6 +56,18 @@ public abstract class AbstractFunctionalTest {
   public static final String SLASH = "/";
   private static final String EDITABLE = "editable";
 
+  @After
+  public void tearDown() throws IOException {
+    while (!cleanUpAssessmentsToUserFixtures.empty()) {
+      final Pair<Long, String> assessmentIdToUserFixture = cleanUpAssessmentsToUserFixtures.pop();
+      clientTestRule
+          .withSecurityToken(assessmentIdToUserFixture.getValue())
+          .target(ASSESSMENTS + SLASH + assessmentIdToUserFixture.getKey())
+          .request(MediaType.APPLICATION_JSON_TYPE)
+          .delete();
+    }
+  }
+
   @Rule
   public AbstractRestClientTestRule clientTestRule = FunctionalTestContextHolder.clientTestRule;
 
@@ -69,7 +82,6 @@ public abstract class AbstractFunctionalTest {
     AssessmentDto assessment = createAssessmentDto(personFixture);
     Response response = postAssessmentAndGetResponse(assessment, userFixture);
     checkStatus(response, userFixture, expectedStatus);
-    pushToCleanUpStack(assessment.getId(), userFixture);
   }
 
   private void checkStatus(Response response, String userFixture, int expectedStatus) {
