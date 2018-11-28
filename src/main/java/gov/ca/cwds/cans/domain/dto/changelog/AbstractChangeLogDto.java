@@ -5,6 +5,8 @@ import static gov.ca.cwds.rest.api.domain.DomainObject.TIMESTAMP_ISO8601_FORMAT;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.entity.Persistent;
+import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
@@ -23,6 +25,8 @@ import org.hibernate.envers.RevisionType;
 public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
 
   private String userId;
+  private String userFirstName;
+  private String userLastName;
   private Long entityId;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_ISO8601_FORMAT)
@@ -36,12 +40,23 @@ public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
   }
 
   AbstractChangeLogDto(ChangeLogDtoParameters<E> params) {
-    setId(params.getRevisionEntity().getId());
-    entityId = (Long) params.getCurrent().getId();
-    userId = params.getRevisionEntity().getUserId();
-    changedAt = params.getRevisionEntity().getRevisionDate();
+    final NsRevisionEntity revisionEntity = params.getRevisionEntity();
+    if (revisionEntity != null) {
+      setId(revisionEntity.getId());
+      userId = revisionEntity.getUserId();
+      changedAt = revisionEntity.getRevisionDate();
+    }
+    final E current = params.getCurrent();
+    if (current != null) {
+      entityId = (Long) current.getId();
+    }
     changeType = params.getRevisionType();
-    populateChanges(params.getCurrent(), params.getPrevious());
+    final Person user = params.getUser();
+    if (user != null) {
+      userFirstName = user.getFirstName();
+      userLastName = user.getLastName();
+    }
+    populateChanges(current, params.getPrevious());
   }
 
   abstract void populateChanges(E current, E previous);
@@ -52,7 +67,7 @@ public abstract class AbstractChangeLogDto<E extends Persistent> extends Dto {
   public class Change {
 
     String elementName;
-    String beofreValue;
+    String beforeValue;
     String afterValue;
   }
 }

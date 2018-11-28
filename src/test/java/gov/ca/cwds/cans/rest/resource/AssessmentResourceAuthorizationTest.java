@@ -1,28 +1,10 @@
 package gov.ca.cwds.cans.rest.resource;
 
-import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
-
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
-import java.io.IOException;
-import javafx.util.Pair;
-import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
-import org.junit.After;
 import org.junit.Test;
 
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
-
-  @After
-  public void tearDown() throws IOException {
-    while (!cleanUpAssessmentsToUserFixtures.empty()) {
-      final Pair<Long, String> assessmentIdToUserFixture = cleanUpAssessmentsToUserFixtures.pop();
-      clientTestRule
-          .withSecurityToken(assessmentIdToUserFixture.getValue())
-          .target(ASSESSMENTS + SLASH + assessmentIdToUserFixture.getKey())
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
-    }
-  }
 
   @Test
   public void postAssessment_success_whenUserHasAssignment() throws Exception {
