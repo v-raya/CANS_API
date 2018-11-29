@@ -107,7 +107,6 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  @Authorize("assessment:read:assessment")
   public Collection<Assessment> getAssessmentsByUserId(Long userId) {
     final Session session = grabSession();
     addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);

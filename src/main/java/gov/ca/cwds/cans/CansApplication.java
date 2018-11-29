@@ -18,7 +18,9 @@ import gov.ca.cwds.cans.security.AssessmentReadAuthorizer;
 import gov.ca.cwds.cans.security.AssessmentWriteAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
+import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
+import gov.ca.cwds.cans.util.DbUpgrader.DbUpgraderBuilder;
 import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
 import io.dropwizard.setup.Bootstrap;
@@ -92,12 +94,18 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
   }
 
   private void upgradeDbIfNeeded(CansConfiguration configuration) {
+    DbUpgraderBuilder builder = DbUpgrader.getBuilder();
+    DbUpgradeJobFactory jobFactory = DbUpgradeJobFactory.newInstance(configuration);
     if (isTrue(configuration.getUpgradeCansDbOnStart())) {
-      DbUpgrader.upgradeCansDb(configuration);
+      builder.add(jobFactory.getCreateSchemaJob());
+      builder.add(jobFactory.getUpgradeDbStructureJob());
+      builder.add(jobFactory.getExternalIdConverterJob());
     }
     if (isTrue(configuration.getPopulateDemoDataOnStart())) {
-      DbUpgrader.runDmlOnCansDb(configuration);
+      builder.add(jobFactory.getCansDemoDataJobs());
     }
+
+    builder.build().upgradeDb();
   }
 
   private void runDataSourceHealthChecks(Environment environment) {
