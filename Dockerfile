@@ -1,5 +1,4 @@
-FROM cwds/javajdk
-RUN yum -y update glibc
+FROM cwds/alpinejre
 RUN mkdir /opt/cans-api
 RUN mkdir /opt/cans-api/logs
 RUN mkdir /opt/cans-api/config
