@@ -2,18 +2,16 @@ package gov.ca.cwds.cans.rest.resource;
 
 import static gov.ca.cwds.cans.Constants.API.ASSESSMENTS;
 import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
+import static gov.ca.cwds.cans.Constants.API.CLIENTS;
 import static gov.ca.cwds.cans.Constants.API.COUNTIES;
 import static gov.ca.cwds.cans.Constants.API.I18N;
 import static gov.ca.cwds.cans.Constants.API.INSTRUMENTS;
-import static gov.ca.cwds.cans.Constants.API.PEOPLE;
-import static gov.ca.cwds.cans.Constants.API.SEARCH;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 import static gov.ca.cwds.cans.test.util.FixtureReader.readObject;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.domain.dto.InstrumentDto;
-import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import java.io.IOException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -23,20 +21,31 @@ import org.junit.Test;
 public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
   private static final String INSTRUMENT_DTO = InstrumentDto.class.getCanonicalName();
-  private static final String PERSON_DTO = PersonDto.class.getCanonicalName();
 
   private static final String ID = "1";
   private static final String KEY_PREFIX = "instrument.1.";
   private static final String LANGUAGE = "en";
   private static final String FIXTURES_INSTRUMENT_PUT_JSON = "fixtures/instrument-put.json";
   private static final String FIXTURES_INSTRUMENT_POST_JSON = "fixtures/instrument-post.json";
-  private static final String FIXTURES_PERSON_PUT_JSON = "fixtures/person-put.json";
-  private static final String FIXTURES_PERSON_POST_JSON = "fixtures/person-post.json";
 
   @Test
-  public void assessmentEndpoints_failed_whenUnauthorizedUser()
+  public void assessmentEndpoints_forbidden_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertAssessmentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  @Test
+  public void clientEndpoint_forbidden_whenUnauthorizedUser()
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(
+        CLIENTS + SLASH + "clientId", null, null, HttpMethod.GET, NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  @Test
+  public void clientEndpoint_forbidden_whenNoPermission()
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(
+        CLIENTS + SLASH + "clientId", null, null, HttpMethod.GET, NO_CLIENT_READ_ACCOUNT_FIXTURE);
   }
 
   @Test
@@ -46,19 +55,19 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
-  public void i18nEndpoints_failed_whenUnauthorizedUser()
+  public void i18nEndpoints_forbidden_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertI18nEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   @Test
-  public void instrumentEndpoints_failed_whenUnauthorizedUser()
+  public void instrumentEndpoints_forbidden_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertInstrumentEndpointsAreSecured(NOT_AUTHORIZED_ACCOUNT_FIXTURE);
   }
 
   @Test
-  public void securityEndpoints_failed_whenUnauthorizedUser()
+  public void securityEndpoints_forbidden_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(
         SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1",
@@ -109,32 +118,6 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
 
     assertEndpointIsSecured(
         INSTRUMENTS + SLASH + ID, null, null, HttpMethod.DELETE, securityTokenFixturePath);
-  }
-
-  private void assertPeopleEndpointsAreSecured(String securityTokenFixturePath)
-      throws IOException, ClassNotFoundException {
-    assertEndpointIsSecured(
-        PEOPLE + SLASH + ID, null, null, HttpMethod.GET, securityTokenFixturePath);
-
-    assertEndpointIsSecured(
-        PEOPLE + SLASH + ID,
-        FIXTURES_PERSON_PUT_JSON,
-        PERSON_DTO,
-        HttpMethod.PUT,
-        securityTokenFixturePath);
-
-    assertEndpointIsSecured(
-        PEOPLE, FIXTURES_PERSON_POST_JSON, PERSON_DTO, HttpMethod.POST, securityTokenFixturePath);
-
-    assertEndpointIsSecured(
-        PEOPLE + SLASH + SEARCH,
-        FIXTURES_PERSON_POST_JSON,
-        PERSON_DTO,
-        HttpMethod.POST,
-        securityTokenFixturePath);
-
-    assertEndpointIsSecured(
-        PEOPLE + SLASH + ID, null, null, HttpMethod.DELETE, securityTokenFixturePath);
   }
 
   private void assertAssessmentEndpointsAreSecured(String securityTokenFixturePath)
