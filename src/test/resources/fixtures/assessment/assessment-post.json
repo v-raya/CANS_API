@@ -41,6 +41,7 @@
         "caregiver_name": "Tony Giving Care",
         "under_six": true,
         "above_six": true,
+        "comment": "This is a user added comment for domain",
         "items": [
           {
             "code": "lf10family",
@@ -48,7 +49,8 @@
             "confidential": false,
             "confidential_by_default": true,
             "rating_type": "REGULAR",
-            "rating": -1
+            "rating": -1,
+            "comment": "This is a user added comment for an item"
           },
           {
             "code": "lf11living",

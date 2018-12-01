@@ -69,7 +69,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
     // given
-
     final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
     final AssessmentDto inputAssessment =
         readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class);
@@ -122,7 +121,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .stream()
             .map(IssueDetails::getProperty)
             .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(11));
+    assertThat(itemCodes.size(), is(13));
     assertThat(
         itemCodes,
         containsInAnyOrder(
@@ -136,6 +135,8 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             "completed_as",
             "state.under_six",
             "state.domains.caregiverName",
+            "state.domains.comment",
+            "state.domains.items.comment",
             "person"));
   }
 

@@ -24,6 +24,7 @@ import org.hibernate.envers.query.AuditEntity;
 public class ChangeLogService {
 
   private SessionFactory sessionFactory;
+  @Inject private PersonService personService;
 
   @Inject
   public ChangeLogService(@CansSessionFactory final SessionFactory sessionFactory) {
@@ -49,6 +50,8 @@ public class ChangeLogService {
               .setCurrent((E) revision[0])
               .setRevisionEntity((NsRevisionEntity) revision[1])
               .setRevisionType((RevisionType) revision[2]);
+      dtoParams.setUser(personService.findByExternalId(dtoParams.getRevisionEntity().getUserId()));
+
       changeLogDto = ChangeLogDtoFactory.newInstance(dtoClass, dtoParams);
       if (changeLogDto != null) {
         changeLog.add(changeLogDto);
@@ -68,7 +71,7 @@ public class ChangeLogService {
     return auditReader
         .createQuery()
         .forRevisionsOfEntity(entityClass, false, false)
-        .addOrder(AuditEntity.revisionNumber().asc())
+        .addOrder(AuditEntity.revisionProperty("timestamp").asc())
         .add(AuditEntity.id().eq(id))
         .getResultList();
   }
