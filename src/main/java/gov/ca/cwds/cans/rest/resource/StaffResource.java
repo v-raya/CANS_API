@@ -5,6 +5,9 @@ import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.API.STAFF;
 import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
+import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_CLIENTS_READ;
+import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_READ;
+import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_SUBORDINATES_READ;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -54,7 +57,7 @@ public class StaffResource {
       value =
           "Get all subordinates with assessment statistics for a logged in user who has a supervisor privileges",
       response = StaffStatisticsDto[].class)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @RequiresPermissions({CANS_ROLLOUT_PERMISSION, CANS_STAFF_PERSON_SUBORDINATES_READ})
   @Timed
   public Response getSubordinatesBySupervisor() {
     final Collection<StaffStatisticsDto> staffStatistics =
@@ -74,7 +77,7 @@ public class StaffResource {
   @ApiOperation(
       value = "Get staff person with assessment statistics",
       response = StaffStatisticsDto.class)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @RequiresPermissions({CANS_ROLLOUT_PERMISSION, CANS_STAFF_PERSON_READ})
   @Timed
   public Response getStaffPersonWithStatistics(
       @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5")
@@ -98,7 +101,7 @@ public class StaffResource {
   @ApiOperation(
       value = "Get all clients by staff person identifier",
       response = StaffClientDto[].class)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @RequiresPermissions({CANS_ROLLOUT_PERMISSION, CANS_STAFF_PERSON_CLIENTS_READ})
   @Timed
   public Collection<StaffClientDto> findPersonsByStaffId(
       @ApiParam(required = true, name = ID, value = "Staff id", example = "0X5")

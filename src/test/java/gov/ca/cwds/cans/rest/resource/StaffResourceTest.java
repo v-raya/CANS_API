@@ -26,6 +26,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -87,6 +88,24 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
     final StaffStatisticsDto staffTwo = findStatisticsByStaffId(actualDtos, "0I2");
     assertStatistics(staffTwo, 0, 0);
+  }
+
+  @Test
+  public void getSubordinates_403_whenNoPermission() throws IOException {
+    // given
+    postTestAssessmentsForAssignedStaffId();
+
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_NO_PERMISSION)
+            .target(API.STAFF + SLASH + API.SUBORDINATES)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(HttpStatus.SC_FORBIDDEN));
   }
 
   private void postTestAssessmentsForAssignedStaffId() throws IOException {
@@ -184,7 +203,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .getStatus();
 
     // then
-    assertThat(actualStatus, is(404));
+    assertThat(actualStatus, is(HttpStatus.SC_NOT_FOUND));
   }
 
   @Test
@@ -199,7 +218,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .getStatus();
 
     // then
-    assertThat(actualStatus, is(403));
+    assertThat(actualStatus, is(HttpStatus.SC_FORBIDDEN));
   }
 
   @Test
@@ -254,6 +273,24 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void getStaffPersonWithStatistics_403_whenNoPermission() throws IOException {
+    // given
+    postTestAssessmentsForAssignedStaffId();
+
+    // when
+    final int actualStatus =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_NO_PERMISSION)
+            .target(API.STAFF + SLASH + ASSIGNED_STAFF_ID)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .getStatus();
+
+    // then
+    assertThat(actualStatus, is(HttpStatus.SC_FORBIDDEN));
+  }
+
+  @Test
   public void findPersonsByStaffId_403_whenNotAuthorized() throws IOException {
     // when
     final int actualStatus =
@@ -265,7 +302,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .getStatus();
 
     // then
-    assertThat(actualStatus, is(403));
+    assertThat(actualStatus, is(HttpStatus.SC_FORBIDDEN));
   }
 
   @Test
@@ -413,8 +450,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals(staffClientDto.getFirstName(), "TeenageBoy");
-    Assert.assertEquals(staffClientDto.getDob(), LocalDate.parse("1982-09-08"));
-    Assert.assertEquals(staffClientDto.getIdentifier(), TEST_EXTERNAL_ID);
+    Assert.assertEquals("TeenageBoy", staffClientDto.getFirstName());
+    Assert.assertEquals(LocalDate.parse("1982-09-08"), staffClientDto.getDob());
+    Assert.assertEquals(TEST_EXTERNAL_ID, staffClientDto.getIdentifier());
   }
 }

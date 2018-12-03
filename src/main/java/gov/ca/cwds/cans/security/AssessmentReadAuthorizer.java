@@ -69,6 +69,7 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
     return result;
   }
 
+  @Override
   protected boolean checkByAssignment(String clientId) {
     boolean isAssignedToClient = clientReadAuthorizer.getAccessType(clientId) != AccessType.NONE;
     LOG.info(
@@ -78,12 +79,14 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
     return isAssignedToClient;
   }
 
+  @Override
   protected boolean checkBySubordinateAssignment(String clientId) {
-    boolean isAssignedToSubordinate =
-        clientReadAuthorizer.getAccessTypeBySupervisor(clientId) != AccessType.NONE;
+    AccessType accessType = clientReadAuthorizer.getAccessTypeBySupervisor(clientId);
+    boolean isAssignedToSubordinate = accessType != AccessType.NONE;
     LOG.info(
-        "Authorization: client [{}] subordinates assignment with RW check result [{}]",
+        "Authorization: client [{}] subordinates assignment with access type [{}] check result [{}]",
         clientId,
+        accessType,
         isAssignedToSubordinate);
     return isAssignedToSubordinate;
   }
