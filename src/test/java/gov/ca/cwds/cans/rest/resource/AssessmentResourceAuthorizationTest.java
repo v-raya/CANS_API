@@ -1,7 +1,12 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
+import static gov.ca.cwds.cans.Constants.API.SECURITY;
+
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
@@ -124,5 +129,29 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
         "fixtures/perry-account/el-dorado-all-authorized.json",
         HttpStatus.SC_FORBIDDEN);
     pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
+  }
+
+  @Test
+  public void assessmentCreateAuth_authorized() throws Exception {
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:createAssessment:Abxl9D005Y")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
+    Assert.assertFalse(authorized);
+  }
+
+  @Test
+  public void assessmentCreateAuth_unauthorized() throws Exception {
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:createAssessment:O9kIYi80Ki")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
+    Assert.assertTrue(authorized);
   }
 }
