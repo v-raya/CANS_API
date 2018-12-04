@@ -47,7 +47,7 @@ public class ClientsResource {
         @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(value = "Get Child by cms id", response = ClientDto.class)
-  @RequiresPermissions({CANS_ROLLOUT_PERMISSION, CANS_CLIENT_READ})
+  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
   public Response get(
       @PathParam(ID)
