@@ -1,24 +1,18 @@
 package gov.ca.cwds.cans.security.facts;
 
 import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.security.AssessmentOperation;
 import gov.ca.cwds.security.realm.PerryAccount;
-import gov.ca.cwds.security.utils.PrincipalUtils;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class AssessmentOperationFact {
 
-  private String operation;
-  private PerryAccount user;
+  private AssessmentOperation operation;
   private Assessment assessment;
-  private boolean sameCounty;
-  private boolean hasAccess;
+  private PerryAccount user;
+  private boolean assessmentAccessible;
 
-  public AssessmentOperationFact(String operation, Assessment assessment, boolean hasAccess) {
-    this.operation = operation;
-    this.assessment = assessment;
-    this.user = PrincipalUtils.getPrincipal();
-    this.sameCounty = user.getCountyCwsCode().equals(assessment.getCounty().getExternalId());
-    this.hasAccess = hasAccess;
-  }
 }

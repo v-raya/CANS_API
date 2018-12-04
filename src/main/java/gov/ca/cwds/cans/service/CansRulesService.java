@@ -4,7 +4,7 @@ import gov.ca.cwds.drools.DroolsConfiguration;
 import gov.ca.cwds.drools.DroolsService;
 import java.util.Arrays;
 
-public class CansDroolsService extends DroolsService {
+public class CansRulesService extends DroolsService {
 
   private static final String AUTHORIZATION_K_BASE_NAME = "authorization-rules";
   private static final DroolsConfiguration AUTHORIZATION_CONFIG =
