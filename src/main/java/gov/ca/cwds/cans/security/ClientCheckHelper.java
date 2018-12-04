@@ -9,13 +9,18 @@ import java.util.Collection;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
-/** @author CWDS TPT-2 Team */
+/**
+ * @author CWDS TPT-2 Team
+ */
 @Slf4j
 public class ClientCheckHelper {
 
-  @Inject private CansClientAbstractReadAuthorizer clientAbstractReadAuthorizer;
-  @Inject private CountyDeterminationDao countyDeterminationDao;
-  @Inject private ClientReadAuthorizer clientReadAuthorizer;
+  @Inject
+  private CansClientAbstractReadAuthorizer clientAbstractReadAuthorizer;
+  @Inject
+  private CountyDeterminationDao countyDeterminationDao;
+  @Inject
+  private ClientReadAuthorizer clientReadAuthorizer;
 
   public boolean checkWriteAssessmentByClientId(String clientId) {
     return checkAssessmentByClientIdAndAccessType(clientId, AccessType.RW);
@@ -65,11 +70,8 @@ public class ClientCheckHelper {
   }
 
   private boolean checkByAssignment(String clientId, AccessType desiredAccessType) {
-    AccessType asignedAccessType = clientReadAuthorizer.getAccessType(clientId);
-    boolean isAssignedToClient =
-        Optional.ofNullable(desiredAccessType)
-            .map(at -> asignedAccessType == at)
-            .orElseGet(() -> asignedAccessType != AccessType.NONE);
+    boolean isAssignedToClient = checkByAccessType(desiredAccessType,
+        clientReadAuthorizer.getAccessType(clientId));
     log.info(
         "Authorization: client [{}] assigned with [{}] check result [{}]",
         clientId,
@@ -79,16 +81,19 @@ public class ClientCheckHelper {
   }
 
   private boolean checkBySubordinateAssignment(String clientId, AccessType desiredAccessType) {
-    AccessType accessTypeBySupervisor = clientReadAuthorizer.getAccessTypeBySupervisor(clientId);
-    boolean isAssignedToSubordinate =
-        Optional.ofNullable(desiredAccessType)
-            .map(at -> accessTypeBySupervisor == at)
-            .orElseGet(() -> accessTypeBySupervisor != AccessType.NONE);
+    boolean isAssignedToSubordinate = checkByAccessType(desiredAccessType,
+        clientReadAuthorizer.getAccessTypeBySupervisor(clientId));
     log.info(
         "Authorization: client [{}] subordinates assignment with [{}] check result [{}]",
         clientId,
         desiredAccessType == null ? "Any" : desiredAccessType,
         isAssignedToSubordinate);
     return isAssignedToSubordinate;
+  }
+
+  private boolean checkByAccessType(AccessType desiredAccessType, AccessType actualAccessType) {
+    return Optional.ofNullable(desiredAccessType)
+        .map(at -> actualAccessType == at)
+        .orElseGet(() -> actualAccessType != AccessType.NONE);
   }
 }
