@@ -33,7 +33,7 @@ project.ext {
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     projectMajorVersion = '0.10.3'
     dataModelVersion = '0.10.3_708-RC'
-    coreApiVersion = '1.10.3_893-RC'
+    coreApiVersion = '1.10.3-SNAPSHOT'
     apiSecurityVersion = '4.0.0_1010-RC'
     dropwizardVersion = '1.1.0'
     hibernateVersion = '5.2.16.Final'
@@ -297,10 +297,14 @@ task publishDocker(dependsOn: [pushDockerVersionTagged, pushDockerLatest]) {
 }
 
 processResources {
-    filter(ReplaceTokens, tokens: [
-            'build.version': projectVersion,
-            'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
-    ])
+    eachFile { details ->
+        if (!details.name.endsWith('.xlsx')) {
+            details.filter(ReplaceTokens, tokens: [
+                    'build.version': projectVersion,
+                    'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
+            ])
+        }
+    }
 }
 
 publishing {
