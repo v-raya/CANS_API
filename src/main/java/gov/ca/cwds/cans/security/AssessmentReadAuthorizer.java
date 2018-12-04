@@ -4,18 +4,14 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.data.dao.cms.CountyDeterminationDao;
 import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
-import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
+import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
-
-  private static final Logger LOG = LoggerFactory.getLogger(AssessmentReadAuthorizer.class);
 
   @Inject private CountyDeterminationDao countyDeterminationDao;
 
@@ -24,6 +20,13 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
   @Inject private ClientReadAuthorizer clientReadAuthorizer;
 
   @Inject private ClientDao clientDao;
+
+  @Inject private ClientCheckHelper clientCheckHelper;
+
+  @Override
+  protected boolean checkAssessmentByClientId(String clientId) {
+    return clientCheckHelper.checkReadAssessmentByClientId(clientId);
+  }
 
   @Override
   protected Collection<Assessment> filterInstances(Collection<Assessment> instances) {
@@ -48,6 +51,10 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
         ids, filteredByAssignments, filteredBySealedSensitive);
   }
 
+  protected String staffId() {
+    return PrincipalUtils.getStaffPersonId();
+  }
+
   private Collection<String> filterSealedSensitive(Collection<String> ids) {
     Collection<String> filteredByAbstractRules =
         new HashSet<>(clientAbstractReadAuthorizer.filterClientIds(ids));
@@ -58,7 +65,7 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
 
   private Collection<String> filterByCounties(Collection<String> ids) {
     Map<String, List<Short>> countiesMap = countyDeterminationDao.getClientCountiesMap(ids);
-    Short staffCounty = staffCounty();
+    Short staffCounty = clientCheckHelper.staffCounty();
     Collection<String> result = new HashSet<>();
     countiesMap.forEach(
         (id, counties) -> {
@@ -67,27 +74,5 @@ public class AssessmentReadAuthorizer extends AssessmentWriteAuthorizer {
           }
         });
     return result;
-  }
-
-  @Override
-  protected boolean checkByAssignment(String clientId) {
-    boolean isAssignedToClient = clientReadAuthorizer.getAccessType(clientId) != AccessType.NONE;
-    LOG.info(
-        "Authorization: client [{}] assigned with RW check result [{}]",
-        clientId,
-        isAssignedToClient);
-    return isAssignedToClient;
-  }
-
-  @Override
-  protected boolean checkBySubordinateAssignment(String clientId) {
-    AccessType accessType = clientReadAuthorizer.getAccessTypeBySupervisor(clientId);
-    boolean isAssignedToSubordinate = accessType != AccessType.NONE;
-    LOG.info(
-        "Authorization: client [{}] subordinates assignment with access type [{}] check result [{}]",
-        clientId,
-        accessType,
-        isAssignedToSubordinate);
-    return isAssignedToSubordinate;
   }
 }

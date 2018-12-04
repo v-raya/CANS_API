@@ -3,11 +3,7 @@ package gov.ca.cwds.cans.security;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
-import gov.ca.cwds.data.dao.cms.CountyDeterminationDao;
-import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
 import gov.ca.cwds.security.authorizer.BaseAuthorizer;
-import gov.ca.cwds.security.utils.PrincipalUtils;
-import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +13,7 @@ public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> 
 
   @Inject private AssessmentDao assessmentDao;
 
-  @Inject private CansClientAbstractReadAuthorizer clientAbstractReadAuthorizer;
-
-  @Inject private CountyDeterminationDao countyDeterminationDao;
-
-  @Inject private ClientReadAuthorizer clientReadAuthorizer;
+  @Inject private ClientCheckHelper clientCheckHelper;
 
   @Override
   protected boolean checkId(Long id) {
@@ -39,57 +31,21 @@ public class AssessmentWriteAuthorizer extends BaseAuthorizer<Assessment, Long> 
 
   @Override
   protected boolean checkInstance(Assessment assessment) {
+    long startTime = System.currentTimeMillis();
+    Long assessmentId = assessment.getId();
+    LOG.info("Authorization: assessment [{}] started", assessmentId);
     String clientId = assessment.getPerson().getExternalId();
-    return (checkByCounty(clientId) && checkClientAbstractAccess(clientId))
-        || checkByAssignment(clientId)
-        || checkBySubordinateAssignment(clientId);
-  }
-
-  private boolean checkClientAbstractAccess(String clientId) {
-    boolean isClientAbstractAuthorized = clientAbstractReadAuthorizer.checkClientId(clientId);
+    boolean isAuthorized = checkAssessmentByClientId(clientId);
     LOG.info(
-        "Authorization: client [{}] abstract authorization result [{}]",
-        clientId,
-        isClientAbstractAuthorized);
-    return isClientAbstractAuthorized;
+        "Authorization: assessment [{}] finished with result [{}] in {} ms",
+        assessmentId,
+        isAuthorized,
+        System.currentTimeMillis() - startTime);
+    return isAuthorized;
   }
 
-  private boolean checkByCounty(String clientId) {
-    Collection<Short> counties = countyDeterminationDao.getClientCounties(clientId);
-    boolean hasEmptyOrSameCounty = counties.isEmpty() || counties.contains(staffCounty());
-    LOG.info(
-        "Authorization: client [{}] has no or the same county [{}] result [{}]",
-        clientId,
-        counties,
-        hasEmptyOrSameCounty);
-    return hasEmptyOrSameCounty;
-  }
-
-  protected Short staffCounty() {
-    return Short.valueOf(PrincipalUtils.getPrincipal().getCountyCwsCode());
-  }
-
-  protected String staffId() {
-    return PrincipalUtils.getStaffPersonId();
-  }
-
-  protected boolean checkByAssignment(String clientId) {
-    boolean isAssignedToClient = clientReadAuthorizer.getAccessType(clientId) == AccessType.RW;
-    LOG.info(
-        "Authorization: client [{}] assigned with RW check result [{}]",
-        clientId,
-        isAssignedToClient);
-    return isAssignedToClient;
-  }
-
-  protected boolean checkBySubordinateAssignment(String clientId) {
-    boolean isAssignedToSubordinate =
-        clientReadAuthorizer.getAccessTypeBySupervisor(clientId) == AccessType.RW;
-    LOG.info(
-        "Authorization: client [{}] subordinates assignment with RW check result [{}]",
-        clientId,
-        isAssignedToSubordinate);
-    return isAssignedToSubordinate;
+  protected boolean checkAssessmentByClientId(String clientId) {
+    return clientCheckHelper.checkWriteAssessmentByClientId(clientId);
   }
 
   @Override
