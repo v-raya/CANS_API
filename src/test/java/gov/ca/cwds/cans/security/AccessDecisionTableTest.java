@@ -2,7 +2,8 @@ package gov.ca.cwds.cans.security;
 
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.County;
-import gov.ca.cwds.cans.security.facts.AssessmentOperationFact;
+import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
+import gov.ca.cwds.cans.security.assessment.facts.AssessmentOperationFact;
 import gov.ca.cwds.cans.service.CansRulesService;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.test.support.TestPrincipalUtils;

@@ -1,7 +1,7 @@
-package gov.ca.cwds.cans.security.facts;
+package gov.ca.cwds.cans.security.assessment.facts;
 
 import gov.ca.cwds.cans.domain.entity.Assessment;
-import gov.ca.cwds.cans.security.AssessmentOperation;
+import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
 import gov.ca.cwds.security.realm.PerryAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

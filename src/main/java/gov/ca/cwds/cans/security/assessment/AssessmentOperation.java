@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.security;
+package gov.ca.cwds.cans.security.assessment;
 
 public enum AssessmentOperation {
   create,

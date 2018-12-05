@@ -1,4 +1,4 @@
-package gov.ca.cwds.cans.security;
+package gov.ca.cwds.cans.security.assessment;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientAbstractReadAuthorizer;
@@ -14,11 +14,11 @@ class CansClientAbstractReadAuthorizer extends ClientAbstractReadAuthorizer {
     super(droolsAuthorizationService, droolsConfiguration);
   }
 
-  boolean checkClientId(String clientId) {
+  public boolean checkId(String clientId) {
     return super.checkId(clientId);
   }
 
-  Collection<String> filterClientIds(Collection<String> ids) {
+  public Collection<String> filterIds(Collection<String> ids) {
     return super.filterIds(ids);
   }
 }

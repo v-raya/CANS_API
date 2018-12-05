@@ -64,33 +64,13 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
     throw new UnsupportedOperationException(name() + ".filterInstances");
   }
 
-  private boolean checkByAssignmentAccessType(AccessType accessType) {
-    return accessType != NONE;
-  }
-
   @Override
   protected Collection<String> filterIds(Collection<String> ids) {
-    Collection<String> filteredByAssignments =
-        clientDao.filterClientIdsByAssignment(ids, staffId());
-    Collection<String> filteredBySealedSensitive = filterSealedSensitive(ids);
-    return mergeClientIds(ids, filteredByAssignments, filteredBySealedSensitive);
+    throw new UnsupportedOperationException(name() + ".filterIds");
   }
 
-  Collection<String> mergeClientIds(
-      Collection<String> ids,
-      Collection<String> filteredByAssignments,
-      Collection<String> filteredBySealedSensitive) {
-    if (filteredByAssignments.size() != ids.size()) {
-      Set<String> result = new HashSet<>(filteredByAssignments);
-      result.addAll(filteredBySealedSensitive);
-      return result;
-    } else {
-      return ids;
-    }
-  }
-
-  private Collection<String> filterSealedSensitive(Collection<String> ids) {
-    return new HashSet<>(super.filterIds(ids));
+  private boolean checkByAssignmentAccessType(AccessType accessType) {
+    return accessType != NONE;
   }
 
   private boolean checkIdByAssignment(String clientId) {
@@ -111,11 +91,11 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
     return isAssignedToSubordinate;
   }
 
-  AccessType getAccessTypeBySupervisor(String clientId) {
+  public AccessType getAccessTypeBySupervisor(String clientId) {
     return clientDao.getAccessTypeBySupervisor(clientId, staffId());
   }
 
-  AccessType getAccessType(String clientId) {
+  public AccessType getAccessType(String clientId) {
     return clientDao.getAccessTypeByAssignment(clientId, staffId());
   }
 
