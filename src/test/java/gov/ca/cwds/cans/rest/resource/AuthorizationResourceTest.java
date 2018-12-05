@@ -61,7 +61,7 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   public void securityEndpoints_failed_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(
-        SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1",
+        SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:update:1",
         null,
         null,
         HttpMethod.GET,

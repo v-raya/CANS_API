@@ -42,7 +42,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment create(@Authorize("assessment:write:assessment") Assessment assessment) {
+  public Assessment create(@Authorize("assessment:create:assessment") Assessment assessment) {
     setCountyInitially(assessment);
     insertInstrumentById(assessment);
     return super.create(assessment);
@@ -56,7 +56,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Assessment delete(@Authorize("assessment:write:id") Serializable id) {
+  public Assessment delete(@Authorize("assessment:delete:id") Serializable id) {
     return super.delete(id);
   }
 
@@ -69,7 +69,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   }
 
   @Override
-  public Assessment update(@Authorize("assessment:write:assessment.id") Assessment assessment) {
+  public Assessment update(Assessment assessment) {
     revertCountyAndCaseIdToInitialValue(assessment);
     insertInstrumentById(assessment);
     return super.update(assessment);

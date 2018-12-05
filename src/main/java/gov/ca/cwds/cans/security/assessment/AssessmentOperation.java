@@ -18,4 +18,8 @@ public enum AssessmentOperation {
     this.authorizer = authorizer;
     this.permission = "assessment:" + toString();
   }
+
+  public String permission(Long id) {
+    return permission + ":" + id;
+  }
 }

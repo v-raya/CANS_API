@@ -51,7 +51,7 @@ public class SecurityResource {
               required = true,
               name = "permission",
               value = "The Assessment permission",
-              example = "assessment:write:1")
+              example = "assessment:update:1")
           @PathParam("permission")
           String permission) {
     return Response.ok(securityService.isPermitted(permission)).build();
