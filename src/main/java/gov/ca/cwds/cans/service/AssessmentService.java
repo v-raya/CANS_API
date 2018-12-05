@@ -45,10 +45,10 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
                     new IllegalArgumentException(
                         "Can't find the client with externalId: " + clientExternalId)));
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
-    //TODO: design flow approach
-    if(assessment.getStatus() == AssessmentStatus.COMPLETED) {
+    // TODO: design flow approach
+    if (assessment.getStatus() == AssessmentStatus.COMPLETED) {
       Assessment existingAssessment = read(assessment.getId());
-      if(existingAssessment.getStatus() != AssessmentStatus.COMPLETED) {
+      if (existingAssessment.getStatus() != AssessmentStatus.COMPLETED) {
         return runCompleteFlow(assessment);
       }
     }
@@ -65,13 +65,13 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
   }
 
   private Assessment runCompleteFlow(Assessment assessment) {
-    //TODO: design flow approach
+    // TODO: design flow approach
     securityService.checkPermission(AssessmentOperation.complete.permission(assessment.getId()));
     return super.update(assessment);
   }
 
   private Assessment runUpdateFlow(Assessment assessment) {
-    //TODO: design flow approach
+    // TODO: design flow approach
     securityService.checkPermission(AssessmentOperation.update.permission(assessment.getId()));
     return super.update(assessment);
   }

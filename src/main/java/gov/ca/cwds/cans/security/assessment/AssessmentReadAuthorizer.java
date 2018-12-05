@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 
 public class AssessmentReadAuthorizer extends AssessmentOperationAuthorizer {
 
-  @Inject
-  private ClientDao clientDao;
+  @Inject private ClientDao clientDao;
 
   public AssessmentReadAuthorizer() {
     super(AssessmentOperation.read);
   }
 
   protected Collection<Assessment> filterInstances(Collection<Assessment> instances) {
-    return filterAccessibleInstances(instances).stream()
+    return filterAccessibleInstances(instances)
+        .stream()
         .filter(assessment -> this.checkOperation(assessment, true))
         .collect(Collectors.toList());
   }
@@ -40,10 +40,9 @@ public class AssessmentReadAuthorizer extends AssessmentOperationAuthorizer {
   }
 
   private Collection<String> filterClientIds(Collection<String> ids) {
-    Collection<String> filteredByAssignments = clientDao
-        .filterClientIdsByAssignment(ids, staffId());
-    Collection<String> filteredByAbstractAccess = clientAbstractReadAuthorizer
-        .filterIds(ids);
+    Collection<String> filteredByAssignments =
+        clientDao.filterClientIdsByAssignment(ids, staffId());
+    Collection<String> filteredByAbstractAccess = clientAbstractReadAuthorizer.filterIds(ids);
     return mergeClientIds(ids, filteredByAssignments, filteredByAbstractAccess);
   }
 
@@ -59,5 +58,4 @@ public class AssessmentReadAuthorizer extends AssessmentOperationAuthorizer {
       return ids;
     }
   }
-
 }

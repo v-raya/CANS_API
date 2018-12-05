@@ -32,8 +32,8 @@ public class AccessDecisionTableTest {
             setExternalId("1111");
           }
         });
-    AssessmentOperationFact fact = new AssessmentOperationFact(AssessmentOperation.read, assessment,
-        perryAccount, true);
+    AssessmentOperationFact fact =
+        new AssessmentOperationFact(AssessmentOperation.read, assessment, perryAccount, true);
     Assert.assertTrue(droolsService.authorize(fact, assessment));
     fact = new AssessmentOperationFact(AssessmentOperation.create, assessment, perryAccount, true);
     Assert.assertFalse(droolsService.authorize(fact, assessment));

@@ -11,8 +11,6 @@ import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

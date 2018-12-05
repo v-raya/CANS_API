@@ -9,8 +9,7 @@ import gov.ca.cwds.security.utils.PrincipalUtils;
 public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuthorizer {
 
   private final AssessmentOperation operation;
-  @Inject
-  private CansRulesService rulesService;
+  @Inject private CansRulesService rulesService;
 
   AssessmentOperationAuthorizer(AssessmentOperation operation) {
     this.operation = operation;
@@ -21,11 +20,10 @@ public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuth
     return checkOperation(assessment, isAssessmentAccessible);
   }
 
-
   boolean checkOperation(Assessment assessment, boolean isAssessmentAccessible) {
-    AssessmentOperationFact operationFact = new AssessmentOperationFact(operation, assessment,
-        PrincipalUtils.getPrincipal(), isAssessmentAccessible);
+    AssessmentOperationFact operationFact =
+        new AssessmentOperationFact(
+            operation, assessment, PrincipalUtils.getPrincipal(), isAssessmentAccessible);
     return rulesService.authorize(operationFact);
   }
-
 }

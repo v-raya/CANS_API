@@ -14,5 +14,4 @@ public class AssessmentOperationFact {
   private Assessment assessment;
   private PerryAccount user;
   private boolean assessmentAccessible;
-
 }

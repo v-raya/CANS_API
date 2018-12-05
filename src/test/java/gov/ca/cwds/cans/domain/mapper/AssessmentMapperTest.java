@@ -44,8 +44,7 @@ public class AssessmentMapperTest {
   @Test
   public void toDtos_addsServiceSourceUiIdField_afterMapping() {
     final Assessment input = new Assessment().setServiceSourceId(CASE_ID);
-    final Collection<AssessmentDto> actual =
-        testSubject.toDtos(Collections.singletonList(input));
+    final Collection<AssessmentDto> actual = testSubject.toDtos(Collections.singletonList(input));
     assertThat(actual.iterator().next().getServiceSourceUiId(), is(CASE_BASE10_KEY));
   }
 }

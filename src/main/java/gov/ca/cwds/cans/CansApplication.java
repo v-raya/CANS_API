@@ -47,13 +47,16 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       protected void configure() {
         super.configure();
         install(new DataAccessModule(bootstrap));
-        SecurityModule securityModule = new SecurityModule(BaseApiApplication::getInjector)
-            .addStaticAuthorizer(CansStaticAuthorizer.class)
-            .addAuthorizer("client:read", ClientReadAuthorizer.class)
-            .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
-        Arrays.stream(AssessmentOperation.values()).forEach(assessmentOperation -> securityModule
-            .addAuthorizer(assessmentOperation.getPermission(),
-                assessmentOperation.getAuthorizer()));
+        SecurityModule securityModule =
+            new SecurityModule(BaseApiApplication::getInjector)
+                .addStaticAuthorizer(CansStaticAuthorizer.class)
+                .addAuthorizer("client:read", ClientReadAuthorizer.class)
+                .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
+        Arrays.stream(AssessmentOperation.values())
+            .forEach(
+                assessmentOperation ->
+                    securityModule.addAuthorizer(
+                        assessmentOperation.getPermission(), assessmentOperation.getAuthorizer()));
         install(securityModule);
       }
     };
