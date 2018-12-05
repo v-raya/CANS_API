@@ -14,10 +14,9 @@ import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
-import gov.ca.cwds.cans.security.assessment.AssessmentReadAuthorizer;
-import gov.ca.cwds.cans.security.assessment.AssessmentAccessAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
+import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
 import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.cans.util.DbUpgrader.DbUpgraderBuilder;
@@ -25,6 +24,7 @@ import gov.ca.cwds.rest.BaseApiApplication;
 import gov.ca.cwds.security.module.SecurityModule;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import java.util.Arrays;
 import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
@@ -47,13 +47,14 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
       protected void configure() {
         super.configure();
         install(new DataAccessModule(bootstrap));
-        install(
-            new SecurityModule(BaseApiApplication::getInjector)
-                .addStaticAuthorizer(CansStaticAuthorizer.class)
-                .addAuthorizer("client:read", ClientReadAuthorizer.class)
-                .addAuthorizer("assessment:read", AssessmentReadAuthorizer.class)
-                .addAuthorizer("assessment:write", AssessmentAccessAuthorizer.class)
-                .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class));
+        SecurityModule securityModule = new SecurityModule(BaseApiApplication::getInjector)
+            .addStaticAuthorizer(CansStaticAuthorizer.class)
+            .addAuthorizer("client:read", ClientReadAuthorizer.class)
+            .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
+        Arrays.stream(AssessmentOperation.values()).forEach(assessmentOperation -> securityModule
+            .addAuthorizer(assessmentOperation.getPermission(),
+                assessmentOperation.getAuthorizer()));
+        install(securityModule);
       }
     };
   }
