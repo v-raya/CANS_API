@@ -2,6 +2,7 @@ package gov.ca.cwds.cans.security;
 
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.County;
+import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
 import gov.ca.cwds.cans.security.assessment.facts.AssessmentOperationFact;
 import gov.ca.cwds.cans.service.CansRulesService;
@@ -32,6 +33,8 @@ public class AccessDecisionTableTest {
             setExternalId("1111");
           }
         });
+    assessment.setPerson(new Person());
+    assessment.getPerson().setCounty(assessment.getCounty());
     AssessmentOperationFact fact =
         new AssessmentOperationFact(AssessmentOperation.read, assessment, perryAccount, true);
     Assert.assertTrue(droolsService.authorize(fact, assessment));
