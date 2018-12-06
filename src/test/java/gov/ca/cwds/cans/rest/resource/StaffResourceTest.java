@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import gov.ca.cwds.cans.Constants.API;
+import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
@@ -122,10 +123,20 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private AssessmentDto postAssessmentWithPerson(
       final String personIdentifier, final String assessmentFixture) throws IOException {
     final AssessmentDto assessment = readObject(assessmentFixture, AssessmentDto.class);
-    final ClientDto client = (ClientDto) new ClientDto().setIdentifier(personIdentifier);
+    final ClientDto client = getSanLuisObispoClientDto(personIdentifier);
     assessment.setPerson(client);
     postAssessment(assessment);
     return assessment;
+  }
+
+  private ClientDto getSanLuisObispoClientDto(String personIdentifier) {
+    final ClientDto client = (ClientDto) new ClientDto().setIdentifier(personIdentifier);
+    client.setCounty(new CountyDto() {{
+      setName("San Luis Obispo");
+      setId(40L);
+      setExternalId("1111");
+    }});
+    return client;
   }
 
   private void postAssessment(AssessmentDto assessment) throws IOException {
@@ -313,8 +324,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void findPersonsByStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
-    ClientDto clientDto = new ClientDto();
-    clientDto.setIdentifier(TEST_EXTERNAL_ID);
+    ClientDto clientDto = getSanLuisObispoClientDto(TEST_EXTERNAL_ID);
     assessment.setPerson(clientDto);
     assessment.setEventDate(LocalDate.now());
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
