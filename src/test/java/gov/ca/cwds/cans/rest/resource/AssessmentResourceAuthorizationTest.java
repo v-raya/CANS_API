@@ -10,7 +10,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   public void postAssessment_success_whenUserHasAssignment() throws Exception {
     postAssessmentAndCheckStatus(
         "fixtures/client-of-0Ki-rw-assignment.json",
-        "fixtures/perry-account/0ki-marlin-none.json",
+        "fixtures/perry-account/0ki-napa-none.json",
         HttpStatus.SC_CREATED);
   }
 
