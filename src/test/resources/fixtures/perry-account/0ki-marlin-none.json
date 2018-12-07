@@ -22,7 +22,6 @@
     "CANS-assessment-completed-update",
     "CANS-assessment-completed-delete",
     "CANS-assessment-in-progress-delete",
-    "CANS-assessment-complete",
-    "CANS-rollout"
+    "CANS-assessment-complete"
   ]
 }

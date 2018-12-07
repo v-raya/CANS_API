@@ -51,6 +51,8 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
             new SecurityModule(BaseApiApplication::getInjector)
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
+                .addAuthorizer("client:createAssessment", AssessmentCreateAuthorizer.class)
+                .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class)
                 .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
         Arrays.stream(AssessmentOperation.values())
             .forEach(

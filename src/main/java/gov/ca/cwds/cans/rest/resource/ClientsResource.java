@@ -3,6 +3,7 @@ package gov.ca.cwds.cans.rest.resource;
 import static gov.ca.cwds.cans.Constants.API.CLIENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
+import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_CLIENT_READ;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -46,7 +47,7 @@ public class ClientsResource {
         @ApiResponse(code = 404, message = "Not found")
       })
   @ApiOperation(value = "Get Child by cms id", response = ClientDto.class)
-  @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
+  @RequiresPermissions({CANS_ROLLOUT_PERMISSION, CANS_CLIENT_READ})
   @Timed
   public Response get(
       @PathParam(ID)

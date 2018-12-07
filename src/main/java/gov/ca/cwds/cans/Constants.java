@@ -49,6 +49,28 @@ public final class Constants {
     private Roles() {}
   }
 
+  public static class CansPermissions {
+    public static final String CANS_STAFF_PERSON_SUBORDINATES_READ =
+        "CANS-staff-person-subordinates-read";
+    public static final String CANS_STAFF_PERSON_READ = "CANS-staff-person-read";
+    public static final String CANS_STAFF_PERSON_CLIENTS_READ = "CANS-staff-person-clients-read";
+    public static final String CANS_CLIENT_READ = "CANS-client-read";
+    public static final String CANS_CLIENT_SEARCH = "CANS-client-search";
+    public static final String CANS_ASSESSMENT_READ = "CANS-assessment-read";
+    public static final String CANS_ASSESSMENT_CREATE = "CANS-assessment-create";
+    public static final String CANS_ASSESSMENT_IN_PROGRESS_UPDATE =
+        "CANS-assessment-in-progress-update";
+    public static final String CANS_ASSESSMENT_COMPLETED_UPDATE =
+        "CANS-assessment-completed-update";
+    public static final String CANS_ASSESSMENT_COMPLETED_DELETE =
+        "CANS-assessment-completed-delete";
+    public static final String CANS_ASSESSMENT_IN_PROGRESS_DELETE =
+        "CANS-assessment-in-progress-delete";
+    public static final String CANS_ASSESSMENT_COMPLETE = "CANS-assessment-complete";
+
+    private CansPermissions() {}
+  }
+
   public static class Privileges {
     public static final String SENSITIVE_PERSONS = "Sensitive Persons";
     public static final String SEALED = "Sealed";

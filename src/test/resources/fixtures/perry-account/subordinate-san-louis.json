@@ -10,9 +10,7 @@
   "privileges": [
     "Sensitive Persons",
     "Sealed",
-    "CWS CANS System",
-    "CANS-staff-person-subordinates-read",
-    "CANS-staff-person-read",
+    "CANS-rollout",
     "CANS-staff-person-clients-read",
     "CANS-client-read",
     "CANS-client-search",
@@ -22,7 +20,6 @@
     "CANS-assessment-completed-update",
     "CANS-assessment-completed-delete",
     "CANS-assessment-in-progress-delete",
-    "CANS-assessment-complete",
-    "CANS-rollout"
+    "CANS-assessment-complete"
   ]
 }

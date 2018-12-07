@@ -9,6 +9,18 @@
   "county_name": "Marin",
   "county_cws_code": "1088",
   "privileges": [
-    "CANS-rollout"
+    "CANS-rollout",
+    "CANS-staff-person-subordinates-read",
+    "CANS-staff-person-read",
+    "CANS-staff-person-clients-read",
+    "CANS-client-read",
+    "CANS-client-search",
+    "CANS-assessment-read",
+    "CANS-assessment-create",
+    "CANS-assessment-in-progress-update",
+    "CANS-assessment-completed-update",
+    "CANS-assessment-completed-delete",
+    "CANS-assessment-in-progress-delete",
+    "CANS-assessment-complete"
   ]
 }

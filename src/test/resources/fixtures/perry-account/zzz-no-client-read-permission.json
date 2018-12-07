@@ -1,0 +1,11 @@
+{
+  "user": "RACFID4",
+  "staffId": "zzz",
+  "roles": [],
+  "county_code": "21",
+  "county_name": "Marin",
+  "county_cws_code": "1088",
+  "privileges": [
+    "CANS-rollout"
+  ]
+}
