@@ -34,7 +34,7 @@ import org.junit.Test;
 /** @author denys.davydov */
 public class StaffResourceTest extends AbstractFunctionalTest {
 
-  private static final String SUBORDINATE_MADERA =
+  private static final String SUBORDINATE_SAN_LOUIS =
       "fixtures/perry-account/subordinate-san-louis.json";
   private static final String SUPERVISOR_NO_SUBORDINATES =
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
@@ -59,11 +59,14 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   public void tearDown() throws IOException {
     while (!cleanUpAssessments.empty()) {
       AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
-      clientTestRule
-          .withSecurityToken(tearDownToken)
-          .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
+      int status =
+          clientTestRule
+              .withSecurityToken(tearDownToken)
+              .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
+              .request(MediaType.APPLICATION_JSON_TYPE)
+              .delete()
+              .getStatus();
+      Assert.assertTrue(status < 300);
     }
     this.tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
   }
@@ -131,18 +134,21 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
   private ClientDto getSanLuisObispoClientDto(String personIdentifier) {
     final ClientDto client = (ClientDto) new ClientDto().setIdentifier(personIdentifier);
-    client.setCounty(new CountyDto() {{
-      setName("San Luis Obispo");
-      setId(40L);
-      setExternalId("1111");
-    }});
+    client.setCounty(
+        new CountyDto() {
+          {
+            setName("San Luis Obispo");
+            setId(40L);
+            setExternalId("1107");
+          }
+        });
     return client;
   }
 
   private void postAssessment(AssessmentDto assessment) throws IOException {
     AssessmentDto postedAssessment =
         clientTestRule
-            .withSecurityToken(SUBORDINATE_MADERA)
+            .withSecurityToken(SUBORDINATE_SAN_LOUIS)
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))

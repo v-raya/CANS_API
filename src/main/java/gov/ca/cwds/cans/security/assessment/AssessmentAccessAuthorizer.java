@@ -71,7 +71,7 @@ public abstract class AssessmentAccessAuthorizer extends BaseAuthorizer<Assessme
     boolean isAssignedToSubordinate =
         clientReadAuthorizer.getAccessTypeBySupervisor(clientId) != AccessType.NONE;
     LOG.info(
-        "Authorization: client [{}] subordinates assignment with RW check result [{}]",
+        "Authorization: client [{}] subordinates assignment check result [{}]",
         clientId,
         isAssignedToSubordinate);
     return isAssignedToSubordinate;

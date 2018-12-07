@@ -5,9 +5,12 @@ import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.security.assessment.facts.AssessmentOperationFact;
 import gov.ca.cwds.cans.service.CansRulesService;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuthorizer {
 
+  private static final Logger LOG = LoggerFactory.getLogger(AssessmentOperationAuthorizer.class);
   private final AssessmentOperation operation;
   @Inject private CansRulesService rulesService;
 
@@ -24,6 +27,17 @@ public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuth
     AssessmentOperationFact operationFact =
         new AssessmentOperationFact(
             operation, assessment, PrincipalUtils.getPrincipal(), isAssessmentAccessible);
-    return rulesService.authorize(operationFact);
+    boolean result = rulesService.authorize(operationFact);
+    if (!result) {
+      LOG.info(
+          "Authorization: operation [{}] for assessment with status [{}] and county [{}]"
+              + " is not allowed for user [{}] from county [{}]",
+          operationFact.getOperation(),
+          assessment.getStatus(),
+          assessment.getPerson().getCounty(),
+          operationFact.getUser().getStaffId(),
+          operationFact.getUser().getCountyCwsCode());
+    }
+    return result;
   }
 }
