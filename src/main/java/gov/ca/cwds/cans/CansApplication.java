@@ -18,6 +18,7 @@ import gov.ca.cwds.cans.security.ClientAssessmentCreateAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
+import gov.ca.cwds.cans.security.assessment.AssessmentUpdateAuthorizer;
 import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.cans.util.DbUpgrader.DbUpgraderBuilder;
@@ -54,6 +55,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
                 // TODO: Authorizer.checkInstance rest wrapper must be implemented.
                 .addAuthorizer("client:createAssessment", ClientAssessmentCreateAuthorizer.class)
+                .addAuthorizer("assessment:write", AssessmentUpdateAuthorizer.class)
                 .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
         Arrays.stream(AssessmentOperation.values())
             .forEach(

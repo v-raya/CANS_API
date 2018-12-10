@@ -8,6 +8,7 @@ import static gov.ca.cwds.cans.Constants.API.SUBORDINATES;
 import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_CLIENTS_READ;
 import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_READ;
 import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_STAFF_PERSON_SUBORDINATES_READ;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -18,6 +19,7 @@ import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.StaffService;
 import gov.ca.cwds.cans.validation.ValidStaffId;
+import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,6 +41,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StaffResource {
+
   private final StaffService staffService;
 
   @Inject
@@ -46,6 +49,7 @@ public class StaffResource {
     this.staffService = staffService;
   }
 
+  @UnitOfWork(CANS)
   @GET
   @Path(SUBORDINATES)
   @ApiResponses(
@@ -65,6 +69,7 @@ public class StaffResource {
     return ResponseUtil.responseOk(staffStatistics);
   }
 
+  @UnitOfWork(CANS)
   @GET
   @Path("{" + ID + "}")
   @ApiResponses(
@@ -89,6 +94,7 @@ public class StaffResource {
     return ResponseUtil.responseOrNotFound(result);
   }
 
+  @UnitOfWork(CANS)
   @GET
   @Path("{" + ID + "}/" + PEOPLE)
   @ApiResponses(
@@ -112,6 +118,7 @@ public class StaffResource {
     return staffService.findAssignedPersonsForStaffId(staffId);
   }
 
+  @UnitOfWork(CANS)
   @GET
   @Path(ASSESSMENTS)
   @ApiResponses(
