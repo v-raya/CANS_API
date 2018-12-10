@@ -70,6 +70,17 @@ public class AuthorizationResourceTest extends AbstractFunctionalTest {
   public void securityEndpoints_forbidden_whenUnauthorizedUser()
       throws IOException, ClassNotFoundException {
     assertEndpointIsSecured(
+        SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:update:1",
+        null,
+        null,
+        HttpMethod.GET,
+        NOT_AUTHORIZED_ACCOUNT_FIXTURE);
+  }
+
+  @Test
+  public void securityEndpointsAssessmentWrite_forbidden_whenUnauthorizedUser()
+      throws IOException, ClassNotFoundException {
+    assertEndpointIsSecured(
         SECURITY + SLASH + CHECK_PERMISSION + SLASH + "assessment:write:1",
         null,
         null,

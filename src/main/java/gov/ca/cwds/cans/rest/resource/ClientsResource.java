@@ -4,6 +4,7 @@ import static gov.ca.cwds.cans.Constants.API.CLIENTS;
 import static gov.ca.cwds.cans.Constants.API.ID;
 import static gov.ca.cwds.cans.Constants.API.PEOPLE;
 import static gov.ca.cwds.cans.Constants.CansPermissions.CANS_CLIENT_READ;
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMISSION;
 
 import com.codahale.metrics.annotation.Timed;
@@ -11,6 +12,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
 import gov.ca.cwds.cans.service.ClientsService;
+import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,6 +41,7 @@ public class ClientsResource {
     this.clientsService = clientsService;
   }
 
+  @UnitOfWork(CANS)
   @GET
   @Path("/{" + ID + "}")
   @ApiResponses(

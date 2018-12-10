@@ -1,16 +1,15 @@
 {
-  "user": "WORKERE",
-  "staffId": "0I3",
+  "user": "RACFID1",
+  "staffId": "0Ki",
   "roles": [
     "Supervisor",
     "CANS-worker"
   ],
-  "county_code": "40",
-  "county_name": "San Luis Obispo",
-  "county_cws_code": "1107",
+  "county_code": "28",
+  "county_name": "Napa",
+  "county_cws_code": "1095",
   "privileges": [
-    "Sensitive Persons",
-    "Sealed",
+    "CWS CANS System",
     "CANS-rollout",
     "CANS-staff-person-subordinates-read",
     "CANS-staff-person-read",
@@ -23,6 +22,7 @@
     "CANS-assessment-completed-update",
     "CANS-assessment-completed-delete",
     "CANS-assessment-in-progress-delete",
-    "CANS-assessment-complete"
+    "CANS-assessment-complete",
+    "CANS-rollout"
   ]
 }

@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.service;
 
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 
 import com.google.inject.Inject;
@@ -173,7 +172,6 @@ public class StaffService {
     return staffPersonDao.findClientIdsByStaffIds(staffIds, LocalDate.now());
   }
 
-  @UnitOfWork(CANS)
   public Collection<AssessmentMetaDto> findAssessmentsByCurrentUser() {
     final Collection<Assessment> entities = assessmentService.getAssessmentsByCurrentUser();
     return assessmentMapper.toShortDtos(entities);
@@ -206,8 +204,7 @@ public class StaffService {
     return staffPersonDao.find(staffId);
   }
 
-  @UnitOfWork(CANS)
-  public County fetchCountyById(final Long id) {
+  private County fetchCountyById(final Long id) {
     return countyDao.find(id);
   }
 }

@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.service;
 
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
@@ -32,18 +31,15 @@ import java.util.stream.Collectors;
 @SuppressFBWarnings("PMB_POSSIBLE_MEMORY_BLOAT")
 public class ClientsService {
 
+  private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
   @Inject private ClientDao clientDao;
   @Inject private ClientMapper clientMapper;
   @Inject private ClientCountyDeterminationService countyDeterminationService;
   @Inject private SecurityService securityService;
-
   @Inject private CountyService countyService;
   @Inject private CountyMapper countyMapper;
-
   @Inject private CaseDao cmsCaseDao;
   @Inject private ReferralDao cmsReferralDao;
-
-  private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
 
   public ClientDto findByExternalId(String id) {
     securityService.checkPermission("client:read:" + id);
@@ -108,8 +104,7 @@ public class ClientsService {
         .orElse(Collections.emptyList());
   }
 
-  @UnitOfWork(CANS)
-  protected CountyDto findCountyDto(String externalId) {
+  private CountyDto findCountyDto(String externalId) {
     if (countiesCache.isEmpty()) {
       Collection<CountyDto> countyDtos = countyMapper.toDtos(countyService.findAll());
       countyDtos.forEach(countyDto -> countiesCache.put(countyDto.getExternalId(), countyDto));
