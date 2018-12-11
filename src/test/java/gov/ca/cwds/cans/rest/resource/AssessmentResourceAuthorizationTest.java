@@ -154,4 +154,28 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .readEntity(Boolean.class);
     Assert.assertTrue(authorized);
   }
+
+  @Test
+  public void assessmentCompleteAuth_authorized() throws Exception {
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:completeAssessment:O9kIYi80Ki")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
+    Assert.assertTrue(authorized);
+  }
+
+  @Test
+  public void assessmentCompleteAuth_unauthorized() throws Exception {
+    final Boolean authorized =
+        clientTestRule
+            .withSecurityToken("fixtures/perry-account/0ki-napa-all-no-assessment-complete.json")
+            .target(SECURITY + "/" + CHECK_PERMISSION + "/client:completeAssessment:O9kIYi80Ki")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(Boolean.class);
+    Assert.assertFalse(authorized);
+  }
 }
