@@ -132,7 +132,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   @Test
-  public void assessmentCreateAuth_authorized() throws Exception {
+  public void assessmentCreateAuth_unauthorized() throws Exception {
     final Boolean authorized =
         clientTestRule
             .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
@@ -144,7 +144,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   @Test
-  public void assessmentCreateAuth_unauthorized() throws Exception {
+  public void assessmentCreateAuth_authorized() throws Exception {
     final Boolean authorized =
         clientTestRule
             .withSecurityToken("fixtures/perry-account/0ki-napa-all.json")
