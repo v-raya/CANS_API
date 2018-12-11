@@ -24,6 +24,8 @@ exports.toItemsObjectArray = parsedArray => {
 
     mapToNewElement(parsedElement, 'Item_Name', newElement, '_title_');
     mapToNewElement(parsedElement, 'Description', newElement, '_description_');
+    mapToNewElement(parsedElement, 'Rate_NA', newElement,
+        '_rating_.8._description_');
     mapToNewElement(parsedElement, 'Rate_0', newElement,
         '_rating_.0._description_');
     mapToNewElement(parsedElement, 'Rate_1', newElement,
