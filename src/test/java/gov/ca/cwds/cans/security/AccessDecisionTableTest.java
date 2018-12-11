@@ -11,7 +11,6 @@ import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.test.support.TestPrincipalUtils;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import org.drools.decisiontable.InputType;
 import org.drools.decisiontable.SpreadsheetCompiler;
@@ -24,8 +23,8 @@ public class AccessDecisionTableTest {
   public void testDecisionTable() {
     printCompiledDTable();
     final PerryAccount perryAccount = new PerryAccount();
-    perryAccount.setPrivileges(new HashSet<>(
-        Arrays.asList("CANS-assessment-read", "CANS-assessment-complete")));
+    perryAccount.setPrivileges(
+        new HashSet<>(Arrays.asList("CANS-assessment-read", "CANS-assessment-complete")));
     perryAccount.setCountyCwsCode("1111");
     TestPrincipalUtils.login(perryAccount);
     CansRulesService droolsService = new CansRulesService();
@@ -46,15 +45,18 @@ public class AccessDecisionTableTest {
     fact = new AssessmentOperationFact(AssessmentOperation.read, assessment, perryAccount, false);
     Assert.assertFalse(droolsService.authorize(fact, assessment));
 
-    fact = new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
+    fact =
+        new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
     Assert.assertTrue(droolsService.authorize(fact, assessment));
 
     assessment.setStatus(AssessmentStatus.IN_PROGRESS);
-    fact = new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
+    fact =
+        new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
     Assert.assertTrue(droolsService.authorize(fact, assessment));
 
     assessment.setStatus(AssessmentStatus.COMPLETED);
-    fact = new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
+    fact =
+        new AssessmentOperationFact(AssessmentOperation.complete, assessment, perryAccount, true);
     Assert.assertFalse(droolsService.authorize(fact, assessment));
   }
 

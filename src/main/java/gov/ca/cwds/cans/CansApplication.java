@@ -14,7 +14,8 @@ import gov.ca.cwds.cans.inject.InjectorHolder;
 import gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer;
 import gov.ca.cwds.cans.rest.filters.RequestExecutionContextFilter;
 import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
-import gov.ca.cwds.cans.security.ClientAssessmentCreateAuthorizer;
+import gov.ca.cwds.cans.security.ClientCompleteAssessmentAuthorizer;
+import gov.ca.cwds.cans.security.ClientCreateAssessmentAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
@@ -54,7 +55,9 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
                 .addStaticAuthorizer(CansStaticAuthorizer.class)
                 .addAuthorizer("client:read", ClientReadAuthorizer.class)
                 // TODO: Authorizer.checkInstance rest wrapper must be implemented.
-                .addAuthorizer("client:createAssessment", ClientAssessmentCreateAuthorizer.class)
+                .addAuthorizer("client:createAssessment", ClientCreateAssessmentAuthorizer.class)
+                .addAuthorizer(
+                    "client:completeAssessment", ClientCompleteAssessmentAuthorizer.class)
                 .addAuthorizer("assessment:write", AssessmentUpdateAuthorizer.class)
                 .addAuthorizer("staff:read", StaffPersonReadAuthorizer.class);
         Arrays.stream(AssessmentOperation.values())
