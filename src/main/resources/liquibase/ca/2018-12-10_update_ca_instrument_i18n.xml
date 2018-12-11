@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog 
-  logicalFilePath="ca/2018-09-06-2_update_ca_instrument_i18n.xml"
+  logicalFilePath="ca/2018-12-10_update_ca_instrument_i18n.xml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-  <changeSet id="2018-09-06-instrument-ca-i18n-update" author="denys.davydov">
-     <delete tableName="i_18_n">
+  <changeSet id="2018-12-10-instrument-ca-i18n-update" author="denys.davydov">
+    <delete tableName="i_18_n">
       <where>lang = 'en' and k like 'instrument.1%'</where>
     </delete>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.BEN._title_"/>
-      <column name="v" value="BEHAVIORAL/EMOTIONAL NEEDS DOMAIN"/>
+      <column name="v" value="Behavioral/Emotional Needs Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -48,7 +48,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.LFD._title_"/>
-      <column name="v" value="LIFE FUNCTIONING DOMAIN"/>
+      <column name="v" value="Life Functioning Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -83,7 +83,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.RSK._title_"/>
-      <column name="v" value="RISK BEHAVIORS DOMAIN"/>
+      <column name="v" value="Risk Behaviors Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -118,7 +118,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CUL._title_"/>
-      <column name="v" value="CULTURAL FACTORS DOMAIN"/>
+      <column name="v" value="Cultural Factors Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -153,7 +153,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.STR._title_"/>
-      <column name="v" value="STRENGTHS DOMAIN"/>
+      <column name="v" value="Strengths Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -188,7 +188,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.CGV._title_"/>
-      <column name="v" value="CAREGIVER RESOURCES AND NEEDS DOMAIN"/>
+      <column name="v" value="Caregiver Resources And Needs Domain"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -228,7 +228,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.TRM._title_"/>
-      <column name="v" value="POTENTIALLY TRAUMATIC / ADVERSE CHILDHOOD EXPERIENCES"/>
+      <column name="v" value="Potentially Traumatic / Adverse Childhood Experiences"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -253,7 +253,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ECH._title_"/>
-      <column name="v" value="CHALLENGES"/>
+      <column name="v" value="Challenges"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -283,7 +283,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EFX._title_"/>
-      <column name="v" value="FUNCTIONING"/>
+      <column name="v" value="Functioning"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -313,7 +313,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ERB._title_"/>
-      <column name="v" value="RISK BEHAVIORS &amp; FACTORS"/>
+      <column name="v" value="Risk Behaviors &amp; Factors"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -343,7 +343,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.ECF._title_"/>
-      <column name="v" value="CULTURAL FACTORS - FAMILY"/>
+      <column name="v" value="Cultural Factors - Family"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -373,7 +373,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EST._title_"/>
-      <column name="v" value="STRENGTHS"/>
+      <column name="v" value="Strengths"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -403,7 +403,7 @@
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDY._title_"/>
-      <column name="v" value="DYADIC CONSIDERATIONS"/>
+      <column name="v" value="Dyadic Considerations"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -1929,6 +1929,11 @@
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.EDUCATIONAL_SETTING._description_"/>
       <column name="v" value="This item is used to evaluate the nature of the school's relationship with the youth and family, as well as, the level of support the youth receives from the school. Rate according to how much the school is an effective partner in promoting youth's functioning and addressing youth's needs in school."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.EDUCATIONAL_SETTING._rating_.8._description_"/>
+      <column name="v" value="Youth is not in school"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
@@ -3822,6 +3827,11 @@
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SELF_HARM._rating_.8._description_"/>
+      <column name="v" value="Child is younger than 12 months of age"/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SELF_HARM._rating_.0._description_"/>
       <column name="v" value="No current need; no need for action or intervention. There is no evidence of self-harm behaviors."/>
     </insert>
@@ -3904,6 +3914,11 @@
       <column name="lang" value="en"/>
       <column name="k" value="instrument.1.SLEEP_CHILD._description_"/>
       <column name="v" value="This item rates the child/youth's sleep patterns. This item is used to describe any problems with sleep, regardless of the cause including difficulties falling asleep or staying asleep as well as sleeping too much. Both bedwetting and nightmares should be considered sleep issues."/>
+    </insert>
+    <insert tableName="i_18_n">
+      <column name="lang" value="en"/>
+      <column name="k" value="instrument.1.SLEEP_CHILD._rating_.8._description_"/>
+      <column name="v" value="Child is younger than 12 months of age"/>
     </insert>
     <insert tableName="i_18_n">
       <column name="lang" value="en"/>
