@@ -14,7 +14,7 @@ public class SecurityService {
     try {
       return SecurityUtils.getSubject().isPermitted(permission);
     } catch (AuthorizationException e) { // NOSONAR
-      LOG.info("user: " + PrincipalUtils.getPrincipal().getStaffId() + " doesn't have permission: "
+      LOG.debug("user: " + PrincipalUtils.getPrincipal().getStaffId() + " doesn't have permission: "
           + permission, e.getCause());
       return false;
     }
