@@ -18,6 +18,7 @@ public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuth
     this.operation = operation;
   }
 
+  @Override
   protected boolean checkInstance(Assessment assessment) {
     boolean isAssessmentAccessible = super.checkInstance(assessment);
     return checkOperation(assessment, isAssessmentAccessible);
