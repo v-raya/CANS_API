@@ -12,11 +12,11 @@ import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.DateOfBirthStatus;
 import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
-import gov.ca.cwds.security.utils.PrincipalUtils;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -44,33 +44,16 @@ public interface ClientMapper {
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
 
-    if (Objects.nonNull(counties)) {
-      // filtering possible null values
-      List<CountyDto> filtered =
-          counties.stream().filter(Objects::nonNull).collect(Collectors.toList());
-      // setting all client counties
-      childDto.setCounties(ImmutableList.copyOf(filtered));
+    Optional.ofNullable(counties)
+        .ifPresent(
+            countyDtos -> {
+              List<CountyDto> filtered =
+                  countyDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
+              Iterator<CountyDto> iterator = filtered.iterator();
+              childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
+              childDto.setCounties(ImmutableList.copyOf(filtered));
+            });
 
-      // Client county Determination
-      String userCountyCwsCode = PrincipalUtils.getPrincipal().getCountyCwsCode();
-      CountyDto clientCounty =
-          filtered
-              .stream()
-              // trying to find user county in the client counties
-              .filter(countyDto -> userCountyCwsCode.equals(countyDto.getExternalId()))
-              .findFirst()
-              // if there are no user county in the client counties
-              // then getting county with a minimum CWS code
-              .orElseGet(
-                  () ->
-                      filtered
-                          .stream()
-                          .min(Comparator.comparing(CountyDto::getExternalId))
-                          // there are no client counties defined
-                          .orElse(null));
-
-      childDto.setCounty(clientCounty);
-    }
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
   }
