@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import gov.ca.cwds.cans.Constants.UnitOfWork;
+import gov.ca.cwds.cans.cache.CachingModule;
 import gov.ca.cwds.cans.inject.ApplicationModule;
 import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
@@ -66,6 +67,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
                     securityModule.addAuthorizer(
                         assessmentOperation.getPermission(), assessmentOperation.getAuthorizer()));
         install(securityModule);
+        install(new CachingModule());
       }
     };
   }
