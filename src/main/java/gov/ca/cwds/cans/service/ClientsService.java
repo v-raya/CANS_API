@@ -17,6 +17,7 @@ import gov.ca.cwds.data.legacy.cms.dao.ReferralDao;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
+import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
@@ -36,7 +37,6 @@ public class ClientsService {
   @Inject private ClientDao clientDao;
   @Inject private ClientMapper clientMapper;
   @Inject private ClientCountyDeterminationService countyDeterminationService;
-  @Inject private SecurityService securityService;
   @Inject private CountyService countyService;
   @Inject private CountyMapper countyMapper;
   @Inject private CaseDao cmsCaseDao;
@@ -44,7 +44,10 @@ public class ClientsService {
 
   @Cached
   public ClientDto findByExternalId(String id) {
-    securityService.checkPermission("client:read:" + id);
+    return findByExternalIdSecured(id);
+  }
+
+  ClientDto findByExternalIdSecured(@Authorize("client:read:id") String id) {
     return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
   }
 
