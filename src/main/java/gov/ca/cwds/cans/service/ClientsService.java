@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import gov.ca.cwds.cans.cache.Cached;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
@@ -41,6 +42,7 @@ public class ClientsService {
   @Inject private CaseDao cmsCaseDao;
   @Inject private ReferralDao cmsReferralDao;
 
+  @Cached
   public ClientDto findByExternalId(String id) {
     securityService.checkPermission("client:read:" + id);
     return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
