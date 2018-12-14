@@ -26,7 +26,5 @@ public class CachingInterceptorTest extends TestService {
     Assert.assertEquals(RESULT, cache.get(expectedCacheKey()));
     Mockito.verify(methodInvocation, Mockito.times(1)).proceed();
     Assert.assertEquals(result, result2);
-
   }
-
 }

@@ -15,14 +15,12 @@ public class CacheKey {
 
   @Override
   public boolean equals(Object o) {
-    return this == o ||
-        (o instanceof CacheKey
-            && Arrays.deepEquals(this.elements, ((CacheKey) o).elements));
+    return this == o
+        || (o instanceof CacheKey && Arrays.deepEquals(this.elements, ((CacheKey) o).elements));
   }
 
   @Override
   public final int hashCode() {
     return this.hashCode;
   }
-
 }

@@ -29,5 +29,4 @@ public class CachingInterceptor implements MethodInterceptor {
   private String getCacheName(Cached cached, Object target) {
     return cached.value().isEmpty() ? target.getClass().getName() : cached.value();
   }
-
 }

@@ -17,5 +17,4 @@ public class TestCacheManager {
     Assert.assertNotEquals(c1, c3);
     Assert.assertNotEquals(c2, c3);
   }
-
 }

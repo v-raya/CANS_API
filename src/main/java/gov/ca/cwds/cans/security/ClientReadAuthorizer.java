@@ -7,7 +7,6 @@ import gov.ca.cwds.authorizer.ClientResultReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.ClientResultAuthorizationDroolsConfiguration;
 import gov.ca.cwds.cans.cache.Cached;
-import gov.ca.cwds.cans.cache.MethodKeyGenerator;
 import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;

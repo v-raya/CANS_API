@@ -7,7 +7,7 @@ import com.google.inject.Provides;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.servlet.RequestScoped;
 
-//TODO move to api-core
+// TODO move to api-core
 public class CachingModule extends AbstractModule {
 
   @Override

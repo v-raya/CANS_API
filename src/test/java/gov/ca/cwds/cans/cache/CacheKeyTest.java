@@ -13,15 +13,14 @@ public class CacheKeyTest {
     CacheKey key2 = new CacheKey("method", person1);
     CacheKey key3 = new CacheKey("method", person1, "arg1");
 
-    //equals
+    // equals
     Assert.assertEquals(key1, key2);
     Assert.assertNotEquals(key1, key3);
     Assert.assertNotEquals(key2, key3);
 
-    //hashCode
+    // hashCode
     Assert.assertEquals(key1.hashCode(), key2.hashCode());
     Assert.assertNotEquals(key1.hashCode(), key3.hashCode());
     Assert.assertNotEquals(key2.hashCode(), key3.hashCode());
   }
-
 }
