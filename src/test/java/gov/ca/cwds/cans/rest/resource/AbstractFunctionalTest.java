@@ -113,6 +113,15 @@ public abstract class AbstractFunctionalTest {
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
   }
 
+  Response putAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
+      throws IOException {
+    return clientTestRule
+        .withSecurityToken(userFixture)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .put(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
+  }
+
   void getAssessmentAndCheckStatus(Long id, String userFixture, int expectedStatus)
       throws IOException {
     int actualStatus = getAssessment(userFixture, id).getStatus();
@@ -123,7 +132,7 @@ public abstract class AbstractFunctionalTest {
     cleanUpAssessmentsToUserFixtures.push(new Pair<>(assessmentId, userFixture));
   }
 
-  private Response getAssessment(String accountFixture, Long id) throws IOException {
+  Response getAssessment(String accountFixture, Long id) throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(ASSESSMENTS + SLASH + id)

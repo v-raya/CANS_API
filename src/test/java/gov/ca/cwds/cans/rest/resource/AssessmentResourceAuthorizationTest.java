@@ -4,6 +4,9 @@ import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.TreeSet;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
@@ -36,6 +39,26 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
     getAssessmentAndCheckStatus(
         assessment.getId(), "fixtures/perry-account/0ki-marlin-none.json", HttpStatus.SC_OK);
     pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
+  }
+
+  @Test
+  public void postGetPutAssessment_hasAllowedOperations_whenUserHasReadOnlyAssignment()
+      throws Exception {
+    String[] allowedOperations = {"read", "update", "create", "complete", "write", "delete"};
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
+    assessment =
+        postAssessmentAndGetResponse(assessment, AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    assessment =
+        putAssessmentAndGetResponse(assessment, AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    assessment =
+        getAssessment(AUTHORIZED_NAPA_ACCOUNT_FIXTURE, assessment.getId())
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    pushToCleanUpStack(assessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
   }
 
   @Test
@@ -177,5 +200,12 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .get()
             .readEntity(Boolean.class);
     Assert.assertFalse(authorized);
+  }
+
+  private void checkOperations(AssessmentDto assessmentDto, String... operations) {
+    final String opsKey = "allowed_operations";
+    Assert.assertEquals(
+        new TreeSet<>(Arrays.asList(operations)),
+        new TreeSet<>((Collection<?>) assessmentDto.getMetadata().get(opsKey)));
   }
 }
