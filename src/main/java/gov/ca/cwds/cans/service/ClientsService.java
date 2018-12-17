@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,8 @@ public class ClientsService {
     clientDto.setServiceSource(serviceSource);
   }
 
-  private List<CountyDto> getCountyDtos(String clientId) {
+  @Cached
+  public List<CountyDto> getCountyDtos(String clientId) {
     Collection<Short> countyIds = determineClientCounties(clientId);
 
     return countyIds
@@ -106,6 +108,7 @@ public class ClientsService {
   @UnitOfWork(CMS_RS)
   protected Collection<Short> determineClientCounties(String cmsClientId) {
     return Optional.ofNullable(countyDeterminationService.getClientCountiesById(cmsClientId))
+        .map(counties -> counties.stream().filter(Objects::nonNull).collect(Collectors.toList()))
         .orElse(Collections.emptyList());
   }
 

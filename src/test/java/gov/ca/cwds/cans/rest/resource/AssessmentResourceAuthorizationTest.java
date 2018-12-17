@@ -4,9 +4,6 @@ import static gov.ca.cwds.cans.Constants.API.CHECK_PERMISSION;
 import static gov.ca.cwds.cans.Constants.API.SECURITY;
 
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.TreeSet;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
@@ -200,12 +197,5 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
             .get()
             .readEntity(Boolean.class);
     Assert.assertFalse(authorized);
-  }
-
-  private void checkOperations(AssessmentDto assessmentDto, String... operations) {
-    final String opsKey = "allowed_operations";
-    Assert.assertEquals(
-        new TreeSet<>(Arrays.asList(operations)),
-        new TreeSet<>((Collection<?>) assessmentDto.getMetadata().get(opsKey)));
   }
 }

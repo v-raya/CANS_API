@@ -15,11 +15,9 @@ import gov.ca.cwds.cans.domain.dto.assessment.SearchAssessmentRequest;
 import gov.ca.cwds.cans.domain.dto.changelog.AssessmentChangeLogDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
-import gov.ca.cwds.cans.domain.mapper.OperationCheckingMapper;
 import gov.ca.cwds.cans.domain.mapper.search.SearchAssessmentRequestMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.rest.ResponseUtil;
-import gov.ca.cwds.cans.security.PermissionService;
 import gov.ca.cwds.cans.service.AssessmentService;
 import gov.ca.cwds.cans.service.ChangeLogService;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -51,8 +49,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 public class AssessmentResource {
 
   private final AssessmentService assessmentService;
-  private final OperationCheckingMapper<Assessment, AssessmentDto, AssessmentMapper>
-      assessmentMapper;
+  private final AssessmentMapper assessmentMapper;
   private final ACrudResource<Assessment, AssessmentDto> crudResource;
   private final SearchAssessmentRequestMapper searchAssessmentMapper;
   private final ChangeLogService changeLogService;
@@ -62,11 +59,10 @@ public class AssessmentResource {
       AssessmentService assessmentService,
       AssessmentMapper assessmentMapper,
       SearchAssessmentRequestMapper searchAssessmentMapper,
-      ChangeLogService changeLogService,
-      PermissionService permissionService) {
+      ChangeLogService changeLogService) {
     this.assessmentService = assessmentService;
-    this.assessmentMapper = new OperationCheckingMapper<>(assessmentMapper, permissionService);
-    crudResource = new ACrudResource<>(assessmentService, this.assessmentMapper);
+    this.assessmentMapper = assessmentMapper;
+    crudResource = new ACrudResource<>(assessmentService, assessmentMapper);
     this.searchAssessmentMapper = searchAssessmentMapper;
     this.changeLogService = changeLogService;
   }
@@ -148,7 +144,7 @@ public class AssessmentResource {
     final SearchAssessmentParameters searchAssessmentParameters =
         searchAssessmentMapper.fromSearchRequest(searchRequest);
     final Collection<Assessment> entities = assessmentService.search(searchAssessmentParameters);
-    final Collection<AssessmentMetaDto> dtos = assessmentMapper.getDelegate().toShortDtos(entities);
+    final Collection<AssessmentMetaDto> dtos = assessmentMapper.toShortDtos(entities);
     return ResponseUtil.responseCreatedOrNot(dtos);
   }
 
