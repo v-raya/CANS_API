@@ -59,6 +59,18 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   @Test
+  public void postAssessment_hasAllowedOperationsExceptComplete_whenUserHasntCompletePermission()
+      throws Exception {
+    String[] allowedOperations = {"read", "update", "create", "write", "delete"};
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
+    assessment =
+        postAssessmentAndGetResponse(
+                assessment, "fixtures/perry-account/0ki-napa-all-no-assessment-complete.json")
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+  }
+
+  @Test
   public void postAssessment_success_noAssignmentSealedSameCounty() throws Exception {
     postAssessmentAndCheckStatus(
         "fixtures/client-of-0Ki-sealed.json",
