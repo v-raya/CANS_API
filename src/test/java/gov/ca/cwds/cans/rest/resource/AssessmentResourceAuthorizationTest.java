@@ -12,18 +12,10 @@ import org.junit.Test;
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
 
   @Test
-  public void postAssessment_success_whenUserHasAssignment() throws Exception {
+  public void postAssessment_fail_whenCountyAltered() throws Exception {
     postAssessmentAndCheckStatus(
-        "fixtures/client-of-0Ki-rw-assignment.json",
+        "fixtures/client-with-altered-county.json",
         "fixtures/perry-account/0ki-napa-none.json",
-        HttpStatus.SC_CREATED);
-  }
-
-  @Test
-  public void postAssessment_forbidden_whenUserHasReadOnlyAssignment() throws Exception {
-    postAssessmentAndCheckStatus(
-        "fixtures/client-of-0Ki-r-assignment.json",
-        "fixtures/perry-account/0ki-marlin-none.json",
         HttpStatus.SC_FORBIDDEN);
   }
 
