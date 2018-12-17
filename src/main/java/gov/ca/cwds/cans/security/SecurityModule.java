@@ -55,9 +55,9 @@ public class SecurityModule extends gov.ca.cwds.security.module.SecurityModule {
   }
 
   protected void configure() {
-    Map<Class, Set<String>> cache = new HashMap<>();
+    Map<Class<?>, Set<String>> cache = new HashMap<>();
     permissionsRegistry.forEach((k, v) -> cache.put(k, Collections.unmodifiableSet(v)));
-    permissionsRegistry = Collections.unmodifiableMap(permissionsRegistry);
+    permissionsRegistry = Collections.unmodifiableMap(cache);
     bindPermissionInterceptors(AssessmentMapper.class, ClientMapper.class);
     super.configure();
   }
