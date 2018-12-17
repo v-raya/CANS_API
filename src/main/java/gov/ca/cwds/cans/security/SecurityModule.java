@@ -2,15 +2,13 @@ package gov.ca.cwds.cans.security;
 
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.matcher.Matcher;
 import com.google.inject.matcher.Matchers;
 import gov.ca.cwds.cans.domain.mapper.AssessmentMapper;
 import gov.ca.cwds.cans.domain.mapper.ClientMapper;
-import gov.ca.cwds.cans.util.MethodNameMatcher;
+import gov.ca.cwds.cans.util.CansMatchers;
 import gov.ca.cwds.security.authorizer.BaseAuthorizer;
 import gov.ca.cwds.security.authorizer.StaticAuthorizer;
 import gov.ca.cwds.security.module.InjectorProvider;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -69,11 +67,10 @@ public class SecurityModule extends gov.ca.cwds.security.module.SecurityModule {
         binder().getProvider(PermissionService.class);
     PermissionInterceptor permissionInterceptor =
         new PermissionInterceptor(permissionServiceProvider);
-    Matcher<Method> toDtoMatcher = new MethodNameMatcher("toDto");
     for (Class<?> mapper : mappers) {
       bindInterceptor(
           Matchers.subclassesOf(Mappers.getMapper(mapper).getClass()),
-          toDtoMatcher,
+          CansMatchers.methodByName("toDto"),
           permissionInterceptor);
     }
   }

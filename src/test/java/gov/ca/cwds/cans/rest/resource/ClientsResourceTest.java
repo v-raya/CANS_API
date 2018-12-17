@@ -5,9 +5,6 @@ import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
 import gov.ca.cwds.cans.test.util.FixtureReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.TreeSet;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
@@ -80,12 +77,5 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
     Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_NOT_FOUND));
-  }
-
-  private void checkOperations(ClientDto assessmentDto, String... operations) {
-    final String opsKey = "allowed_operations";
-    Assert.assertEquals(
-        new TreeSet<>(Arrays.asList(operations)),
-        new TreeSet<>((Collection<?>) assessmentDto.getMetadata().get(opsKey)));
   }
 }
