@@ -101,6 +101,7 @@ public abstract class AbstractFunctionalTest {
     final AssessmentDto assessment = readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class);
     final ClientDto person = readObject(personFixture, ClientDto.class);
     assessment.setPerson(person);
+    assessment.setCounty(person.getCounty());
     return assessment;
   }
 
