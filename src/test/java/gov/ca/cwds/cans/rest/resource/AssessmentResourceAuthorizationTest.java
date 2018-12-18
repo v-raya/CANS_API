@@ -31,6 +31,39 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   }
 
   @Test
+  public void postGetPutAssessment_hasAllowedOperations_whenUserHasReadOnlyAssignment()
+      throws Exception {
+    String[] allowedOperations = {"read", "update", "create", "complete", "write", "delete"};
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
+    assessment =
+        postAssessmentAndGetResponse(assessment, AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    assessment =
+        putAssessmentAndGetResponse(assessment, AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    assessment =
+        getAssessment(AUTHORIZED_NAPA_ACCOUNT_FIXTURE, assessment.getId())
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    pushToCleanUpStack(assessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+  }
+
+  @Test
+  public void postAssessment_hasAllowedOperationsExceptComplete_whenUserHasntCompletePermission()
+      throws Exception {
+    String[] allowedOperations = {"read", "update", "create", "write", "delete"};
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-r-assignment.json");
+    assessment =
+        postAssessmentAndGetResponse(
+                assessment, "fixtures/perry-account/0ki-napa-all-no-assessment-complete.json")
+            .readEntity(AssessmentDto.class);
+    checkOperations(assessment, allowedOperations);
+    pushToCleanUpStack(assessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+  }
+
+  @Test
   public void postAssessment_success_noAssignmentSealedSameCounty() throws Exception {
     postAssessmentAndCheckStatus(
         "fixtures/client-of-0Ki-sealed.json",

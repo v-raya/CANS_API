@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientAbstractReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.ClientAbstractAuthorizationDroolsConfiguration;
+import gov.ca.cwds.cans.cache.Cached;
 import java.util.Collection;
 
 class CansClientAbstractReadAuthorizer extends ClientAbstractReadAuthorizer {
@@ -14,6 +15,7 @@ class CansClientAbstractReadAuthorizer extends ClientAbstractReadAuthorizer {
     super(droolsAuthorizationService, droolsConfiguration);
   }
 
+  @Cached
   public boolean checkId(String clientId) {
     return super.checkId(clientId);
   }

@@ -12,8 +12,6 @@ import gov.ca.cwds.cans.domain.enumeration.Race;
 import gov.ca.cwds.cans.domain.enumeration.SensitivityType;
 import gov.ca.cwds.cans.validation.ValidPerson;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
@@ -61,5 +59,4 @@ public class PersonShortDto extends Dto {
   private String countyClientNumber;
   private String clientIndexNumber;
   private SensitivityType sensitivityType;
-  private Map<String, Object> metadata = new HashMap<>();
 }

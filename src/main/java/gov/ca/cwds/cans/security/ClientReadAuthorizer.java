@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.ClientResultReadAuthorizer;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.ClientResultAuthorizationDroolsConfiguration;
+import gov.ca.cwds.cans.cache.Cached;
 import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
@@ -27,7 +28,18 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
     super(droolsAuthorizationService, droolsConfiguration);
   }
 
+  @Cached
+  public AccessType getAccessTypeBySupervisor(String clientId) {
+    return clientDao.getAccessTypeBySupervisor(clientId, staffId());
+  }
+
+  @Cached
+  public AccessType getAccessType(String clientId) {
+    return clientDao.getAccessTypeByAssignment(clientId, staffId());
+  }
+
   @Override
+  @Cached
   protected boolean checkId(String clientId) {
     long startTime = System.currentTimeMillis();
     LOG.info("Authorization: client [{}] started", clientId);
@@ -87,14 +99,6 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
         clientId,
         isAssignedToSubordinate);
     return isAssignedToSubordinate;
-  }
-
-  public AccessType getAccessTypeBySupervisor(String clientId) {
-    return clientDao.getAccessTypeBySupervisor(clientId, staffId());
-  }
-
-  public AccessType getAccessType(String clientId) {
-    return clientDao.getAccessTypeByAssignment(clientId, staffId());
   }
 
   private String staffId() {

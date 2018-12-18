@@ -16,6 +16,7 @@ import gov.ca.cwds.cans.domain.entity.I18n;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.entity.envers.NsRevisionEntity;
+import gov.ca.cwds.cans.transaction.TransactionalModule;
 import gov.ca.cwds.data.legacy.cms.entity.BackgroundCheck;
 import gov.ca.cwds.data.legacy.cms.entity.CaseAssignment;
 import gov.ca.cwds.data.legacy.cms.entity.CaseLoad;
@@ -175,7 +176,7 @@ public class DataAccessModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    // do nothing
+    install(new TransactionalModule());
   }
 
   @Provides

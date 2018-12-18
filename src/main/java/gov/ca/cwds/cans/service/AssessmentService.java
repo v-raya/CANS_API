@@ -8,6 +8,7 @@ import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
+import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
 import gov.ca.cwds.rest.exception.ExpectedException;
 import java.util.Collection;
@@ -79,15 +80,14 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
         .getAssessmentsByUserId(perryService.getOrPersistAndGetCurrentUser().getId());
   }
 
-  private Assessment runCompleteFlow(Assessment assessment) {
+  Assessment runCompleteFlow(
+      @Authorize("assessment:complete:assessment.id") Assessment assessment) {
     // TODO: design flow approach
-    securityService.checkPermission(AssessmentOperation.complete.permission(assessment.getId()));
     return super.update(assessment);
   }
 
-  private Assessment runUpdateFlow(Assessment assessment) {
+  Assessment runUpdateFlow(@Authorize("assessment:update:assessment.id") Assessment assessment) {
     // TODO: design flow approach
-    securityService.checkPermission(AssessmentOperation.update.permission(assessment.getId()));
     return super.update(assessment);
   }
 }

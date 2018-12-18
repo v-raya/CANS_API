@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import gov.ca.cwds.cans.cache.Cached;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
@@ -16,6 +17,7 @@ import gov.ca.cwds.data.legacy.cms.dao.ReferralDao;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
+import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
@@ -24,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,14 +38,17 @@ public class ClientsService {
   @Inject private ClientDao clientDao;
   @Inject private ClientMapper clientMapper;
   @Inject private ClientCountyDeterminationService countyDeterminationService;
-  @Inject private SecurityService securityService;
   @Inject private CountyService countyService;
   @Inject private CountyMapper countyMapper;
   @Inject private CaseDao cmsCaseDao;
   @Inject private ReferralDao cmsReferralDao;
 
+  @Cached
   public ClientDto findByExternalId(String id) {
-    securityService.checkPermission("client:read:" + id);
+    return findByExternalIdSecured(id);
+  }
+
+  ClientDto findByExternalIdSecured(@Authorize("client:read:id") String id) {
     return Optional.ofNullable(findClient(id)).map(this::composeClientDto).orElse(null);
   }
 
@@ -74,7 +80,8 @@ public class ClientsService {
     clientDto.setServiceSource(serviceSource);
   }
 
-  private List<CountyDto> getCountyDtos(String clientId) {
+  @Cached
+  public List<CountyDto> getCountyDtos(String clientId) {
     Collection<Short> countyIds = determineClientCounties(clientId);
 
     return countyIds
@@ -101,6 +108,7 @@ public class ClientsService {
   @UnitOfWork(CMS_RS)
   protected Collection<Short> determineClientCounties(String cmsClientId) {
     return Optional.ofNullable(countyDeterminationService.getClientCountiesById(cmsClientId))
+        .map(counties -> counties.stream().filter(Objects::nonNull).collect(Collectors.toList()))
         .orElse(Collections.emptyList());
   }
 
