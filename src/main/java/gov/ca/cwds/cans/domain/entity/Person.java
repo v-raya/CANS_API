@@ -219,8 +219,7 @@ public class Person implements Persistent<Long> {
   @Column(name = "client_index_number")
   private String clientIndexNumber;
 
-  @Transient
-  @ManyToOne private County county;
+  @Transient @ManyToOne private County county;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
   private Set<Cft> cfts = new HashSet<>();
