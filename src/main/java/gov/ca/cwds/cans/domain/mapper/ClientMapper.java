@@ -15,9 +15,6 @@ import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -43,19 +40,15 @@ public interface ClientMapper {
       childDto.setEstimatedDob(Boolean.TRUE);
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
-
-    Optional.ofNullable(counties)
-        .ifPresent(
-            countyDtos -> {
-              List<CountyDto> filtered =
-                  countyDtos.stream().filter(Objects::nonNull).collect(Collectors.toList());
-              Iterator<CountyDto> iterator = filtered.iterator();
-              childDto.setCounty(iterator.hasNext() ? iterator.next() : null);
-              childDto.setCounties(ImmutableList.copyOf(filtered));
-            });
-
+    childDto.setCounty(toCansCounty(counties));
+    childDto.setCounties(ImmutableList.copyOf(counties));
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
+  }
+
+  default CountyDto toCansCounty(Collection<CountyDto> counties) {
+    Iterator<CountyDto> iterator = counties.iterator();
+    return iterator.hasNext() ? iterator.next() : null;
   }
 
   default SensitivityType toSensitivityType(Sensitivity sensitivity) {
