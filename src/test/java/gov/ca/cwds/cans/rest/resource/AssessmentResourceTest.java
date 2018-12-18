@@ -235,6 +235,20 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[1].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[2].getId(), is(assessmentIds.get(4)));
     assertThat(actualResults[3].getId(), is(assessmentIds.get(3)));
+
+    // check allowed operations
+
+    // first two are in progress, so "complete" permission is present
+    for (int i = 0; i < 2; i++) {
+      AssessmentMetaDto metaDto = actualResults[i];
+      checkOperations(metaDto, "read", "update", "create", "complete", "write", "delete");
+    }
+
+    // next two are completed so "complete" permission is absent
+    for (int i = 2; i < 4; i++) {
+      AssessmentMetaDto metaDto = actualResults[i];
+      checkOperations(metaDto, "read", "update", "create", "write", "delete");
+    }
   }
 
   @Test
