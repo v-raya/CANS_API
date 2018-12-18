@@ -68,6 +68,7 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
                 assessment, "fixtures/perry-account/0ki-napa-all-no-assessment-complete.json")
             .readEntity(AssessmentDto.class);
     checkOperations(assessment, allowedOperations);
+    pushToCleanUpStack(assessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
   }
 
   @Test
