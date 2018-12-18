@@ -58,19 +58,25 @@ public class SecurityModule extends gov.ca.cwds.security.module.SecurityModule {
     Map<Class<?>, Set<String>> cache = new HashMap<>();
     permissionsRegistry.forEach((k, v) -> cache.put(k, Collections.unmodifiableSet(v)));
     permissionsRegistry = Collections.unmodifiableMap(cache);
-    bindPermissionInterceptors(AssessmentMapper.class, ClientMapper.class);
+    PermissionInterceptor permissionInterceptor = getPermissionInterceptor();
+    bindPermissionInterceptor(
+        permissionInterceptor, "toDto", AssessmentMapper.class, ClientMapper.class);
+    bindPermissionInterceptor(permissionInterceptor, "toShortDto", AssessmentMapper.class);
     super.configure();
   }
 
-  private void bindPermissionInterceptors(Class<?>... mappers) {
+  private PermissionInterceptor getPermissionInterceptor() {
     Provider<PermissionService> permissionServiceProvider =
         binder().getProvider(PermissionService.class);
-    PermissionInterceptor permissionInterceptor =
-        new PermissionInterceptor(permissionServiceProvider);
+    return new PermissionInterceptor(permissionServiceProvider);
+  }
+
+  private void bindPermissionInterceptor(
+      PermissionInterceptor permissionInterceptor, String methodName, Class<?>... mappers) {
     for (Class<?> mapper : mappers) {
       bindInterceptor(
           Matchers.subclassesOf(Mappers.getMapper(mapper).getClass()),
-          CansMatchers.methodByName("toDto"),
+          CansMatchers.methodByName(methodName),
           permissionInterceptor);
     }
   }
