@@ -28,13 +28,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
-import org.junit.After;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -52,19 +50,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   private static final String AUTHORIZED_USER = "fixtures/perry-account/0ki-napa-all.json";
   private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
   private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
-  private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
-
-  @After
-  public void tearDown() throws IOException {
-    while (!cleanUpAssessments.empty()) {
-      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
-      clientTestRule
-          .withSecurityToken(AUTHORIZED_USER)
-          .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
-          .request(MediaType.APPLICATION_JSON_TYPE)
-          .delete();
-    }
-  }
 
   @Test
   public void postAssessment_ignoresInputLogInfo() throws IOException {
@@ -82,6 +67,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(AssessmentDto.class);
+    pushToCleanUpStack(actualAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
 
     // then
     assertThat(
@@ -92,9 +78,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getUpdatedTimestamp(), is(nullValue()));
     assertThat(actualAssessment.getCompletedBy(), is(nullValue()));
     assertThat(actualAssessment.getCompletedTimestamp(), is(nullValue()));
-
-    // clean up
-    cleanUpAssessments.push(actualAssessment);
   }
 
   @Test
@@ -213,7 +196,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
               (String) property[3]);
       assessmentIds.add(newAssessment.getId());
       if (newAssessment.getId() != null) {
-        cleanUpAssessments.push(newAssessment);
+        pushToCleanUpStack(newAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
       }
     }
     // when
@@ -269,7 +252,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
                 (String) property[3]);
 
         id = newAssessment.getId();
-        cleanUpAssessments.push(newAssessment);
+        pushToCleanUpStack(newAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
 
       } else {
         newAssessment =
@@ -320,6 +303,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(AssessmentDto.class);
+    pushToCleanUpStack(postedAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
 
     // when
     postedAssessment.setCounty((CountyDto) new CountyDto().setName("Sacramento").setId(1L));
@@ -339,8 +323,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getServiceSourceId(), is(CASE_OR_REFERRAL_CMS_ID));
     assertThat(actualAssessment.getServiceSourceUiId(), is(CASE_OR_REFERRAL_CMS_BASE10_KEY));
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
-    // clean up
-    cleanUpAssessments.push(postedAssessment);
   }
 
   @Test
@@ -359,7 +341,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(AssessmentDto.class);
-
+    pushToCleanUpStack(postedAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
     // when
 
     postedAssessment.setConductedBy("Other Person");
@@ -372,9 +354,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
-
-    // clean up
-    cleanUpAssessments.push(postedAssessment);
   }
 
   private AssessmentDto postAssessment(
