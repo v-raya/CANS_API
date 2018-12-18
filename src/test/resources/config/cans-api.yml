@@ -31,7 +31,7 @@ cansDataSourceFactory:
   driverClass: org.h2.Driver
   user: sa
   password:
-  url: jdbc:h2:mem:cans;INIT=create schema if not exists cans\;set schema cans
+  url: jdbc:h2:~/build/data/cans;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=create schema if not exists cans\;set schema cans
   validationQuery: "/* MyService Health Check */ SELECT 1"
   logValidationErrors: true
   initialSize: ${DB_CMS_CP_INITIAL_SIZE:-2}
@@ -49,7 +49,7 @@ cmsDataSourceFactory:
   driverClass: org.h2.Driver
   user: sa
   password:
-  url: jdbc:h2:mem:cwscms;INIT=create schema if not exists cwscms\;set schema cwscms
+  url: jdbc:h2:~/build/data/cwscms;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;MODE=DB2;INIT=create schema if not exists cwscms\;set schema cwscms
   validationQuery: "/* MyService Health Check */ SELECT 1"
   logValidationErrors: true
   initialSize: ${DB_CMS_CP_INITIAL_SIZE:-2}
@@ -65,7 +65,7 @@ cmsRsDataSourceFactory:
   driverClass: org.h2.Driver
   user: sa
   password:
-  url: jdbc:h2:mem:cwscmsrs;INIT=create schema if not exists cwscmsrs\;set schema cwscmsrs
+  url: jdbc:h2:~/build/data/cwscmsrs;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;MODE=DB2;INIT=create schema if not exists cwscmsrs\;set schema cwscmsrs
   validationQuery: "/* MyService Health Check */ SELECT 1"
   logValidationErrors: true
   initialSize: ${DB_CMS_RS_CP_INITIAL_SIZE:-2}
