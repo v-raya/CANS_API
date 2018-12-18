@@ -2,19 +2,26 @@ package gov.ca.cwds.cans.service;
 
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
+import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
+import gov.ca.cwds.cans.domain.entity.Person;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
+import gov.ca.cwds.rest.exception.ExpectedException;
 import java.util.Collection;
 import java.util.Optional;
+import javax.ws.rs.core.Response.Status;
 
 /** @author denys.davydov */
 public class AssessmentService extends AbstractCrudService<Assessment> {
 
   private final PerryService perryService;
   @Inject private PersonService personService;
+  @Inject private ClientsService clientsService;
   @Inject private SecurityService securityService;
+  @Inject private ClientMapper clientMapper;
 
   @Inject
   public AssessmentService(AssessmentDao assessmentDao, PerryService perryService) {
@@ -24,6 +31,14 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment create(Assessment assessment) {
+    Person assessmentPerson = assessment.getPerson();
+    String clientId = assessmentPerson.getExternalId();
+    ClientDto client = clientsService.findByExternalId(clientId);
+    if (client == null) {
+      throw new ExpectedException("Client is not found in CWS/CMS database.", Status.BAD_REQUEST);
+    }
+    Person person = clientMapper.toPerson(client);
+    assessment.setPerson(person);
     assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
     createClientIfNeeded(assessment);
     return super.create(assessment);

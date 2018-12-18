@@ -49,6 +49,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Filter;
@@ -218,6 +219,7 @@ public class Person implements Persistent<Long> {
   @Column(name = "client_index_number")
   private String clientIndexNumber;
 
+  @Transient
   @ManyToOne private County county;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "persons")
