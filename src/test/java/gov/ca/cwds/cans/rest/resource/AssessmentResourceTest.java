@@ -93,7 +93,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE));
-    pushToCleanUpStack(postResponse.readEntity(AssessmentDto.class).getId(), AUTHORIZED_ACCOUNT_FIXTURE);
 
     // then
     assertThat(postResponse.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
@@ -139,7 +138,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .target(ASSESSMENTS)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE));
-    pushToCleanUpStack(postResponse.readEntity(AssessmentDto.class).getId(), AUTHORIZED_ACCOUNT_FIXTURE);
 
     // then
     assertThat(postResponse.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
@@ -166,27 +164,27 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-                person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             // out of search results because of the other person
             new Object[] {
-                otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              otherPerson, IN_PROGRESS, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2010, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2015, 10, 10), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             }
             /*, Authorization going to be reworked
             // out of search results because of the other created by user
             new Object[] {
               person, COMPLETED, LocalDate.of(2015, 10, 10), NOT_AUTHORIZED_ACCOUNT_FIXTURE
             }*/
-        );
+            );
 
     for (Object[] property : properties) {
       final AssessmentDto newAssessment =
@@ -230,16 +228,16 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     final List<Object[]> properties =
         Arrays.asList(
             new Object[] {
-                person, IN_PROGRESS, LocalDate.of(2018, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 1, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, IN_PROGRESS, LocalDate.of(2018, 2, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 2, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, IN_PROGRESS, LocalDate.of(2018, 5, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, IN_PROGRESS, LocalDate.of(2018, 5, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             },
             new Object[] {
-                person, COMPLETED, LocalDate.of(2018, 10, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
+              person, COMPLETED, LocalDate.of(2018, 10, 1), AUTHORIZED_NAPA_ACCOUNT_FIXTURE
             });
     Long id = null;
     for (Object[] property : properties) {
