@@ -95,7 +95,7 @@ webSecurity:
     Content-Security-Policy: default-src 'self' 'unsafe-inline';
 
 logging:
-  level: ${LOGLEVEL:-INFO}
+  level: ${LOGLEVEL:-DEBUG}
   loggers:
     "org.hibernate.SQL":
       level: DEBUG
@@ -110,4 +110,4 @@ logging:
       threshold: INFO
       timeZone: UTC
       target: stdout
-      logFormat: '[%X{remoteAddress}] [%date{ISO8601}] [%level] [%thread] [%X{uniqueId}] [%logger:] [%message]%n'
+      logFormat: '[%X{REMOTE_ADDRESS}] [%date{ISO8601}] [%X{USER_ID}] [%X{UNIQUE_ID}] [%level] [%thread] [%logger]: [%message]%n'
