@@ -441,7 +441,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
               (String) property[3]);
       assessmentIds.add(newAssessment.getId());
       if (newAssessment.getId() != null) {
-        cleanUpAssessments.push(newAssessment);
+        pushToCleanUpStack(newAssessment.getId(), (String) property[3]);
       }
     }
     // when
