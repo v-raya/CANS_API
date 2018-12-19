@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.Constants.API.SECURITY;
 
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,8 +16,22 @@ public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest 
   public void postAssessment_success_whenUserHasAssignment() throws Exception {
     postAssessmentAndCheckStatus(
         "fixtures/client-of-0Ki-rw-assignment.json",
-        "fixtures/perry-account/0ki-napa-none.json",
+        "fixtures/perry-account/0ki-napa-all.json",
         HttpStatus.SC_CREATED);
+  }
+
+  @Test
+  public void deleteAssessment_unauthorized_whenUserHasAssignmentButDoesntHaveDeletePerm()
+      throws Exception {
+    AssessmentDto assessment = createAssessmentDto("fixtures/client-of-0Ki-rw-assignment.json");
+    assessment =
+        postAssessmentAndGetResponse(assessment, "fixtures/perry-account/0ki-napa-all.json")
+            .readEntity(AssessmentDto.class);
+    Response response =
+        deleteAssessmentAndGetResponse(
+            assessment, "fixtures/perry-account/0ki-napa-all-except-delete.json");
+    Assert.assertEquals(HttpStatus.SC_FORBIDDEN, response.getStatus());
+    pushToCleanUpStack(assessment.getId(), "fixtures/perry-account/0ki-napa-all.json");
   }
 
   @Test
