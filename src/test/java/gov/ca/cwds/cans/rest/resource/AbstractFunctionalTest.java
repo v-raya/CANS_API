@@ -117,6 +117,15 @@ public abstract class AbstractFunctionalTest {
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
   }
 
+  Response deleteAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
+      throws IOException {
+    return clientTestRule
+        .withSecurityToken(userFixture)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .delete();
+  }
+
   Response putAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
       throws IOException {
     return clientTestRule
