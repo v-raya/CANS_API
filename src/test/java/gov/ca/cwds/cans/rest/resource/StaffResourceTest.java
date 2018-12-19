@@ -56,22 +56,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
 
   private String tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
 
-  @After
-  public void tearDown() throws IOException {
-    while (!cleanUpAssessments.empty()) {
-      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
-      int status =
-          clientTestRule
-              .withSecurityToken(tearDownToken)
-              .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
-              .request(MediaType.APPLICATION_JSON_TYPE)
-              .delete()
-              .getStatus();
-      Assert.assertTrue(status < 300);
-    }
-    this.tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
-  }
-
   @Test
   public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
