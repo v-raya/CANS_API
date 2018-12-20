@@ -16,6 +16,7 @@ import org.junit.Test;
 public class ClientsResourceTest extends AbstractFunctionalTest {
 
   private static final String CLIENT_CMS_ID = "AbA4BJy0Aq";
+  private static final String CLIENT_NAPA_SENSITIVE_CMS_ID = "9uBGbl20Ki";
   private static final String CLIENT_CMS_BASE10_KEY = "0602-0480-3081-8000672";
   private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
   private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
@@ -24,6 +25,19 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
   private static final String SEALED_CLIENT_MARLIN = "fixtures/sealed-client-marlin.json";
   private static final String AUTHORIZED_ACCOUNT =
       "fixtures/perry-account/1126-all-authorized.json";
+
+  @Test
+  public void doGetClient_readOnlyAccess() throws IOException {
+    Response response =
+        clientTestRule
+            .withSecurityToken("fixtures/perry-account/0Ht-napa-all-no-sensitive.json")
+            .target(API.CLIENTS + SLASH + CLIENT_NAPA_SENSITIVE_CMS_ID)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
+    ClientDto clientDto = response.readEntity(ClientDto.class);
+    checkOperations(clientDto, "read");
+  }
 
   @Test
   public void doGetClient_success() throws IOException {
