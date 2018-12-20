@@ -5,6 +5,7 @@ import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_UPDATED_B
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT;
+import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_FIND_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_UPDATED_BY_ID;
@@ -27,6 +28,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
@@ -34,16 +36,26 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.hibernate.envers.Audited;
 
-/** An Assessment. */
+/**
+ * An Assessment.
+ */
 @Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Table(name = "assessment")
+@SQLDelete(sql = "UPDATE assessment SET status = 'DELETED' WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Loader(namedQuery = NQ_FIND_BY_ID)
+@NamedQuery(name = NQ_FIND_BY_ID, query = "FROM Assessment WHERE id = ? AND status <> 'DELETED'")
+@Where(clause = "status <> 'DELETED'")
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
 @NamedQuery(
     name = NQ_ALL_FOR_CLIENT,
@@ -72,6 +84,7 @@ import org.hibernate.envers.Audited;
 @Accessors(chain = true)
 public class Assessment implements Persistent<Long> {
 
+  public static final String NQ_FIND_BY_ID = "gov.ca.cwds.cans.domain.entity.Assessment.findById";
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Assessment.findAll";
   public static final String NQ_ALL_FOR_CLIENT =
       "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClient";
@@ -125,11 +138,14 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;
 
-  @ManyToOne private Instrument instrument;
+  @ManyToOne
+  private Instrument instrument;
 
-  @ManyToOne private Person person;
+  @ManyToOne
+  private Person person;
 
-  @ManyToOne private County county;
+  @ManyToOne
+  private County county;
 
   @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
@@ -156,4 +172,10 @@ public class Assessment implements Persistent<Long> {
 
   @Column(name = "conducted_by")
   private String conductedBy;
+
+
+  @PreRemove
+  public void onPreRemove() {
+    this.status = AssessmentStatus.DELETED;
+  }
 }

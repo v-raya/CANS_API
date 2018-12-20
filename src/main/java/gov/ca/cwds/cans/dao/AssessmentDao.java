@@ -12,11 +12,13 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 import org.hibernate.Session;
@@ -57,6 +59,15 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   @Override
   @SuppressWarnings("unchecked")
   public Assessment delete(@Authorize("assessment:delete:id") Serializable id) {
+    //This 'hack' is needed for Envers audit table to have the status field = "DELETED"
+    //for the delete operation record.
+    Assessment assessment = super.find(id);
+    if (assessment != null) {
+      assessment.setStatus(AssessmentStatus.DELETED);
+      assessment.setEventDate(LocalDate.now());
+      super.update(assessment);
+      super.grabSession().flush();
+    }
     return super.delete(id);
   }
 
