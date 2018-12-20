@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import gov.ca.cwds.cans.Constants.UnitOfWork;
+import gov.ca.cwds.cans.cache.CachingModule;
 import gov.ca.cwds.cans.inject.ApplicationModule;
 import gov.ca.cwds.cans.inject.DataAccessModule;
 import gov.ca.cwds.cans.inject.InjectorHolder;
@@ -17,6 +18,7 @@ import gov.ca.cwds.cans.rest.filters.RequestResponseLoggingFilter;
 import gov.ca.cwds.cans.security.ClientCompleteAssessmentAuthorizer;
 import gov.ca.cwds.cans.security.ClientCreateAssessmentAuthorizer;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
+import gov.ca.cwds.cans.security.SecurityModule;
 import gov.ca.cwds.cans.security.StaffPersonReadAuthorizer;
 import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
 import gov.ca.cwds.cans.security.assessment.AssessmentUpdateAuthorizer;
@@ -24,7 +26,6 @@ import gov.ca.cwds.cans.util.DbUpgradeJobFactory;
 import gov.ca.cwds.cans.util.DbUpgrader;
 import gov.ca.cwds.cans.util.DbUpgrader.DbUpgraderBuilder;
 import gov.ca.cwds.rest.BaseApiApplication;
-import gov.ca.cwds.security.module.SecurityModule;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import java.util.Arrays;
@@ -66,6 +67,7 @@ public class CansApplication extends BaseApiApplication<CansConfiguration> {
                     securityModule.addAuthorizer(
                         assessmentOperation.getPermission(), assessmentOperation.getAuthorizer()));
         install(securityModule);
+        install(new CachingModule());
       }
     };
   }

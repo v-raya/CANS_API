@@ -5,7 +5,7 @@ import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
-import gov.ca.cwds.cans.security.assessment.AssessmentOperation;
+import gov.ca.cwds.security.annotations.Authorize;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -14,7 +14,6 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   private final PerryService perryService;
   @Inject private PersonService personService;
-  @Inject private SecurityService securityService;
 
   @Inject
   public AssessmentService(AssessmentDao assessmentDao, PerryService perryService) {
@@ -64,15 +63,14 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
         .getAssessmentsByUserId(perryService.getOrPersistAndGetCurrentUser().getId());
   }
 
-  private Assessment runCompleteFlow(Assessment assessment) {
+  Assessment runCompleteFlow(
+      @Authorize("assessment:complete:assessment.id") Assessment assessment) {
     // TODO: design flow approach
-    securityService.checkPermission(AssessmentOperation.complete.permission(assessment.getId()));
     return super.update(assessment);
   }
 
-  private Assessment runUpdateFlow(Assessment assessment) {
+  Assessment runUpdateFlow(@Authorize("assessment:update:assessment.id") Assessment assessment) {
     // TODO: design flow approach
-    securityService.checkPermission(AssessmentOperation.update.permission(assessment.getId()));
     return super.update(assessment);
   }
 }

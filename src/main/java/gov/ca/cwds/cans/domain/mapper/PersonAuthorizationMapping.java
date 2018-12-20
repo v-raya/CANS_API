@@ -22,11 +22,11 @@ public interface PersonAuthorizationMapping {
 
   default void authorizedPersonMapping(
       PersonShortDto personShort, @Authorize("person:write:person") Person person) {
-    personShort.getMetadata().put(EDITABLE, true);
+    personShort.addMetadata(EDITABLE, true);
   }
 
   default void unauthorizedPersonMapping(PersonShortDto personShort) {
-    personShort.getMetadata().put(EDITABLE, false);
+    personShort.addMetadata(EDITABLE, false);
     personShort.setExternalId(null);
   }
 }

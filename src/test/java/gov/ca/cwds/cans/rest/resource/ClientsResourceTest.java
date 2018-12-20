@@ -43,6 +43,20 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void doGetClient_allowedOperationsArePresent() throws IOException {
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT)
+            .target(API.CLIENTS + SLASH + CLIENT_CMS_ID)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
+
+    ClientDto clientDto = response.readEntity(ClientDto.class);
+    checkOperations(clientDto, "read", "createAssessment", "completeAssessment");
+  }
+
+  @Test
   public void doGetClient_unauthorized() throws IOException {
     ClientDto expected = FixtureReader.readObject(SEALED_CLIENT_MARLIN, ClientDto.class);
     Response response =

@@ -7,13 +7,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 
 import gov.ca.cwds.cans.Constants.API;
+import gov.ca.cwds.cans.domain.dto.Dto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.dto.person.PersonDto;
 import gov.ca.cwds.cans.test.AbstractRestClientTestRule;
 import gov.ca.cwds.cans.test.util.FunctionalTestContextHolder;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Stack;
+import java.util.TreeSet;
 import javafx.util.Pair;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -113,6 +117,24 @@ public abstract class AbstractFunctionalTest {
         .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
   }
 
+  Response deleteAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
+      throws IOException {
+    return clientTestRule
+        .withSecurityToken(userFixture)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .delete();
+  }
+
+  Response putAssessmentAndGetResponse(AssessmentDto assessment, String userFixture)
+      throws IOException {
+    return clientTestRule
+        .withSecurityToken(userFixture)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .put(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE));
+  }
+
   void getAssessmentAndCheckStatus(Long id, String userFixture, int expectedStatus)
       throws IOException {
     int actualStatus = getAssessment(userFixture, id).getStatus();
@@ -123,7 +145,7 @@ public abstract class AbstractFunctionalTest {
     cleanUpAssessmentsToUserFixtures.push(new Pair<>(assessmentId, userFixture));
   }
 
-  private Response getAssessment(String accountFixture, Long id) throws IOException {
+  Response getAssessment(String accountFixture, Long id) throws IOException {
     return clientTestRule
         .withSecurityToken(accountFixture)
         .target(ASSESSMENTS + SLASH + id)
@@ -139,5 +161,12 @@ public abstract class AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
     Assert.assertThat(response.getStatus(), Matchers.equalTo(httpStatus));
+  }
+
+  void checkOperations(Dto assessmentDto, String... operations) {
+    final String opsKey = "allowed_operations";
+    Assert.assertEquals(
+        new TreeSet<>(Arrays.asList(operations)),
+        new TreeSet<>((Collection<?>) assessmentDto.getMetadata().get(opsKey)));
   }
 }

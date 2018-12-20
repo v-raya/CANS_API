@@ -20,6 +20,7 @@ import gov.ca.cwds.data.legacy.cms.entity.StaffPerson;
 import gov.ca.cwds.data.legacy.cms.entity.facade.ClientByStaff;
 import gov.ca.cwds.data.legacy.cms.entity.facade.StaffBySupervisor;
 import gov.ca.cwds.rest.exception.ExpectedException;
+import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.utils.PrincipalUtils;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
@@ -42,7 +43,6 @@ public class StaffService {
   @Inject private AssessmentService assessmentService;
   @Inject private AssessmentMapper assessmentMapper;
   @Inject private CountyDao countyDao;
-  @Inject private SecurityService securityService;
 
   public Collection<StaffStatisticsDto> getStaffStatisticsBySupervisor() {
     final String currentStaffId = PrincipalUtils.getPrincipal().getStaffId();
@@ -163,7 +163,11 @@ public class StaffService {
 
   @UnitOfWork(CMS)
   Collection<ClientByStaff> findClientsByStaffId(String staffId) {
-    securityService.checkPermission("staff:read:" + staffId);
+    return findClientsByStaffIdSecured(staffId);
+  }
+
+  Collection<ClientByStaff> findClientsByStaffIdSecured(
+      @Authorize("staff:read:staffId") String staffId) {
     return caseDao.findClientsByStaffIdAndActiveDate(staffId, LocalDate.now());
   }
 

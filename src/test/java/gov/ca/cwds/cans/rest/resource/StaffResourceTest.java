@@ -23,12 +23,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -50,27 +48,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private static final String PERSON_ID_0 = "AfhccGA0Co";
   private static final String PERSON_ID_1 = "Ar9aZQx0En";
 
-  private final Stack<AssessmentDto> cleanUpAssessments = new Stack<>();
   private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
   private final String TEST_STAFF_ID = "0ME";
-
-  private String tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
-
-  @After
-  public void tearDown() throws IOException {
-    while (!cleanUpAssessments.empty()) {
-      AssessmentDto assessmentToDelete = cleanUpAssessments.pop();
-      int status =
-          clientTestRule
-              .withSecurityToken(tearDownToken)
-              .target(ASSESSMENTS + SLASH + assessmentToDelete.getId())
-              .request(MediaType.APPLICATION_JSON_TYPE)
-              .delete()
-              .getStatus();
-      Assert.assertTrue(status < 300);
-    }
-    this.tearDownToken = SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED;
-  }
 
   @Test
   public void getSubordinates_success_whenRecordsExist() throws IOException {
@@ -172,7 +151,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
             .request(MediaType.APPLICATION_JSON_TYPE)
             .post(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
             .readEntity(AssessmentDto.class);
-    cleanUpAssessments.push(postedAssessment);
+    pushToCleanUpStack(postedAssessment.getId(), SUBORDINATE_SAN_LOUIS);
   }
 
   private AssessmentDto postAssessmentForGetAll(
@@ -441,7 +420,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
               (String) property[3]);
       assessmentIds.add(newAssessment.getId());
       if (newAssessment.getId() != null) {
-        cleanUpAssessments.push(newAssessment);
+        pushToCleanUpStack(newAssessment.getId(), (String) property[3]);
       }
     }
     // when
@@ -460,9 +439,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[2].getId(), is(assessmentIds.get(0)));
     assertThat(actualResults[3].getId(), is(assessmentIds.get(4)));
     assertThat(actualResults[4].getId(), is(assessmentIds.get(3)));
-
-    // clean preparation
-    this.tearDownToken = AUTHORIZED_NAPA_ACCOUNT_FIXTURE;
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
