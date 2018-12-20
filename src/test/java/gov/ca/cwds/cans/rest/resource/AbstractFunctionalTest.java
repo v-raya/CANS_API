@@ -163,10 +163,10 @@ public abstract class AbstractFunctionalTest {
     Assert.assertThat(response.getStatus(), Matchers.equalTo(httpStatus));
   }
 
-  void checkOperations(Dto assessmentDto, String... operations) {
+  void checkOperations(Dto dto, String... operations) {
     final String opsKey = "allowed_operations";
     Assert.assertEquals(
         new TreeSet<>(Arrays.asList(operations)),
-        new TreeSet<>((Collection<?>) assessmentDto.getMetadata().get(opsKey)));
+        new TreeSet<>((Collection<?>) dto.getMetadata().get(opsKey)));
   }
 }

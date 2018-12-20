@@ -32,6 +32,7 @@ public abstract class BaseClientAssessmentAuthorizer extends BaseAuthorizer<Clie
     CountyDto countyDto = clientMapper.toCansCounty(countyDtos);
     County county = countyMapper.fromDto(countyDto);
     Person person = new Person();
+    person.setExternalId(clientId);
     person.setCounty(county);
     assessment.setPerson(person);
     return authorizer.check(assessment);
