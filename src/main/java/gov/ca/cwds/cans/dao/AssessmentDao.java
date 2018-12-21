@@ -110,7 +110,9 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
             .map(
                 clientIdentifier -> {
                   Query<Assessment> query =
-                      session.createNamedQuery(Assessment.NQ_ALL_FOR_CLIENT, Assessment.class);
+                      session.createNamedQuery(searchAssessmentParameters.getInclideDeleted() ?
+                          Assessment.NQ_ALL_FOR_CLIENT_WITH_DELETED : Assessment.NQ_ALL_FOR_CLIENT,
+                          Assessment.class);
                   query.setParameter(PARAM_CLIENT_IDENTIFIER, clientIdentifier);
                   return query;
                 })
