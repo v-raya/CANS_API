@@ -18,7 +18,6 @@ import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
 import gov.ca.cwds.security.annotations.Authorize;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 import org.hibernate.Session;
@@ -64,7 +63,6 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     Assessment assessment = super.find(id);
     if (assessment != null) {
       assessment.setStatus(AssessmentStatus.DELETED);
-      assessment.setEventDate(LocalDate.now());
       super.update(assessment);
       super.grabSession().flush();
     }
@@ -110,7 +108,7 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
             .map(
                 clientIdentifier -> {
                   Query<Assessment> query =
-                      session.createNamedQuery(searchAssessmentParameters.getInclideDeleted() ?
+                      session.createNamedQuery(searchAssessmentParameters.getIncludeDeleted() ?
                           Assessment.NQ_ALL_FOR_CLIENT_WITH_DELETED : Assessment.NQ_ALL_FOR_CLIENT,
                           Assessment.class);
                   query.setParameter(PARAM_CLIENT_IDENTIFIER, clientIdentifier);
