@@ -48,18 +48,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.hibernate.envers.Audited;
 
-/**
- * An Assessment.
- */
+/** An Assessment. */
 @Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Table(name = "assessment")
-@SQLDelete(sql = "UPDATE assessment SET status = 'DELETED' WHERE id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(
+    sql = "UPDATE assessment SET status = 'DELETED' WHERE id = ?",
+    check = ResultCheckStyle.COUNT)
 @Loader(namedQuery = NQ_FIND_BY_ID)
 @NamedQuery(name = NQ_FIND_BY_ID, query = "FROM Assessment WHERE id = ? AND status <> 'DELETED'")
 @Where(clause = "status <> 'DELETED'")
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
-//HQL @Where is applied - Doesn't return DELETED records
+// HQL @Where is applied - Doesn't return DELETED records
 @NamedQuery(
     name = NQ_ALL_FOR_CLIENT,
     query =
@@ -67,7 +67,7 @@ import org.hibernate.envers.Audited;
             + PARAM_CLIENT_IDENTIFIER
             + "  ORDER by status desc, event_date desc")
 
-//SQL @Where is not applied - Does return DELETED records
+// SQL @Where is not applied - Does return DELETED records
 @NamedNativeQuery(
     name = NQ_ALL_FOR_CLIENT_WITH_DELETED,
     query =
@@ -154,14 +154,11 @@ public class Assessment implements Persistent<Long> {
   @Column(name = "instrument_id", insertable = false, updatable = false)
   private Long instrumentId;
 
-  @ManyToOne
-  private Instrument instrument;
+  @ManyToOne private Instrument instrument;
 
-  @ManyToOne
-  private Person person;
+  @ManyToOne private Person person;
 
-  @ManyToOne
-  private County county;
+  @ManyToOne private County county;
 
   @Column(name = "created_timestamp", nullable = false, updatable = false)
   @CreationTimestamp
@@ -188,7 +185,6 @@ public class Assessment implements Persistent<Long> {
 
   @Column(name = "conducted_by")
   private String conductedBy;
-
 
   @PreRemove
   public void onPreRemove() {
