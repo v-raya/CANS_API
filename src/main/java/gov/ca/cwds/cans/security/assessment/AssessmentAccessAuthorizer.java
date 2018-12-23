@@ -5,8 +5,10 @@ import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.security.ClientReadAuthorizer;
 import gov.ca.cwds.data.legacy.cms.entity.enums.AccessType;
+import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.security.authorizer.BaseAuthorizer;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,11 @@ public abstract class AssessmentAccessAuthorizer extends BaseAuthorizer<Assessme
 
   @Override
   protected boolean checkInstance(Assessment assessment) {
+    if (assessment == null
+        || assessment.getPerson() == null
+        || assessment.getPerson().getExternalId() == null) {
+      throw new ExpectedException("Assessment not found or have no person", Status.NOT_FOUND);
+    }
     String clientId = assessment.getPerson().getExternalId();
     return checkClientAbstractAccess(clientId)
         || checkByAssignment(clientId)
