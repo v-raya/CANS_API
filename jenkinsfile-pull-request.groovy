@@ -48,6 +48,7 @@ node('linux') {
                 parameters([
                         string(defaultValue: 'master', description: '', name: 'branch'),
                         string(defaultValue: '', description: 'Used for mergerequest default is empty', name: 'refspec'),
+                        string(defaultValue: '', description: 'The github pull request id', name: 'ghprbPullId'),
                 ])
     ])
     try {
