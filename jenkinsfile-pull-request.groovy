@@ -1,3 +1,5 @@
+@Library('jenkins-pipeline-utils') _
+
 def dockerImageName = 'cwds/cans-api'
 def testsDockerImageName = 'cwds/cans-api-test'
 def dockerCredentialsId = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
@@ -90,6 +92,9 @@ node('linux') {
         }
         stage('Performance Tests (Short Run)') {
             sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
+        }
+        stage('Verify SemVer Label') {
+          checkForLabel("cans-api")
         }
     } catch (Exception e) {
         errorcode = e
