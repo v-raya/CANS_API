@@ -61,7 +61,13 @@ project.ext {
 }
 
 group projectGroup
-version projectVersion
+
+if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {
+      def newVersion = "${System.getProperty('newVersion')}"
+      version = newVersion
+    } else {
+      version = projectVersion
+}
 
 repositories {
     mavenLocal()
