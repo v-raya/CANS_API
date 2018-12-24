@@ -57,6 +57,9 @@ node('linux') {
             rtGradle.resolver repo: 'repo', server: serverArti
             rtGradle.useWrapper = true
         }
+        stage('Verify SemVer Label') {
+          checkForLabel("cans-api")
+        }
         stage('Build') {
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
@@ -92,9 +95,6 @@ node('linux') {
         }
         stage('Performance Tests (Short Run)') {
             sh "docker-compose exec -T -e TEST_TYPE=performance cans-api-test ./entrypoint.sh"
-        }
-        stage('Verify SemVer Label') {
-          checkForLabel("cans-api")
         }
     } catch (Exception e) {
         errorcode = e
