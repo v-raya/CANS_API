@@ -1,3 +1,5 @@
+@Library('jenkins-pipeline-utils') _
+
 def gitHubUrl = 'https://github.com/ca-cwds/cans-api.git'
 def ansibleGitHubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 def dockerImageName = 'cwds/cans-api'
