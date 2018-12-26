@@ -52,7 +52,7 @@ import org.hibernate.envers.Audited;
 @Entity
 @Table(name = "assessment")
 @SQLDelete(
-    sql = "UPDATE assessment SET status = 'DELETED' WHERE id = ?",
+    sql = "UPDATE {h-schema}assessment SET status = 'DELETED' WHERE id = ?",
     check = ResultCheckStyle.COUNT)
 @Loader(namedQuery = NQ_FIND_BY_ID)
 @NamedQuery(name = NQ_FIND_BY_ID, query = "FROM Assessment WHERE id = ? AND status <> 'DELETED'")
