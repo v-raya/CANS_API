@@ -131,6 +131,7 @@ node('linux') {
 
           javaEnvProps = " -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
         }
+        // uncomment this
         // stage('Build') {
         //     echo("RELEASE: ${params.RELEASE_PROJECT}")
         //     echo("BUILD_NUMBER: ${BUILD_NUMBER}")
