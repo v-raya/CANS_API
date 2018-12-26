@@ -29,7 +29,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
@@ -185,9 +184,4 @@ public class Assessment implements Persistent<Long> {
 
   @Column(name = "conducted_by")
   private String conductedBy;
-
-  @PreRemove
-  public void onPreRemove() {
-    this.status = AssessmentStatus.DELETED;
-  }
 }
