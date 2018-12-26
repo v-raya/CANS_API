@@ -13,5 +13,5 @@ import lombok.experimental.Accessors;
 public class SearchAssessmentRequest implements SearchRequest {
   private Long personId;
   private String clientIdentifier;
-  private Boolean includeDeleted;
+  private Boolean includeDeleted = Boolean.FALSE;
 }
