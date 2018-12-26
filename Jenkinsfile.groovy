@@ -131,18 +131,18 @@ node('linux') {
 
           javaEnvProps = " -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
         }
-        stage('Build') {
-            echo("RELEASE: ${params.RELEASE_PROJECT}")
-            echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-            echo("ONLY_TESTING: ${ONLY_TESTING}")
-            echo("newTag: ${newTag}")
-            echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
+        // stage('Build') {
+        //     echo("RELEASE: ${params.RELEASE_PROJECT}")
+        //     echo("BUILD_NUMBER: ${BUILD_NUMBER}")
+        //     echo("ONLY_TESTING: ${ONLY_TESTING}")
+        //     echo("newTag: ${newTag}")
+        //     echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
 
-            rtGradle.run(
-                    buildFile: 'build.gradle',
-                    tasks: 'jar' + javaEnvProps
-            )
-        }
+        //     rtGradle.run(
+        //             buildFile: 'build.gradle',
+        //             tasks: 'jar' + javaEnvProps
+        //     )
+        // }
 
         // stage('Unit Tests') {
         //     rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
@@ -164,22 +164,22 @@ node('linux') {
         stage('Tag Git') {
            tagGithubRepo(newTag, github_credentials_id)
         }
-        stage('Push to artifactory') {
-            rtGradle.deployer.deployArtifacts = true
-            rtGradle.run(
-                    buildFile: 'build.gradle',
-                    tasks: 'publish ' + javaEnvProps
-            )
-            rtGradle.deployer.deployArtifacts = false
-        }
-        stage('Build Docker Image') {
-            withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                rtGradle.run(
-                        buildFile: 'build.gradle',
-                        tasks: 'pushDockerLatest' + javaEnvProps
-                )
-            }
-        }
+        // stage('Push to artifactory') {
+        //     rtGradle.deployer.deployArtifacts = true
+        //     rtGradle.run(
+        //             buildFile: 'build.gradle',
+        //             tasks: 'publish ' + javaEnvProps
+        //     )
+        //     rtGradle.deployer.deployArtifacts = false
+        // }
+        // stage('Build Docker Image') {
+        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
+        //         rtGradle.run(
+        //                 buildFile: 'build.gradle',
+        //                 tasks: 'pushDockerLatest' + javaEnvProps
+        //         )
+        //     }
+        // }
         // stage('Build Tests Docker Image') {
         //     rtGradle.run(
         //             buildFile: 'build.gradle',
