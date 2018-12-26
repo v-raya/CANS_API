@@ -202,22 +202,22 @@ node('linux') {
         //     sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
         //     perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
         // }
-        stage('Publish Docker Image') {
-            withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                rtGradle.run(
-                        buildFile: 'build.gradle',
-                        tasks: 'publishDocker' + javaEnvProps
-                )
-            }
-        }
-        stage('Publish Tests Docker Image') {
-            withDockerRegistry([credentialsId: dockerCredentialsId]) {
-                rtGradle.run(
-                        buildFile: 'build.gradle',
-                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
-                )
-            }
-        }
+        // stage('Publish Docker Image') {
+        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
+        //         rtGradle.run(
+        //                 buildFile: 'build.gradle',
+        //                 tasks: 'publishDocker' + javaEnvProps
+        //         )
+        //     }
+        // }
+        // stage('Publish Tests Docker Image') {
+        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
+        //         rtGradle.run(
+        //                 buildFile: 'build.gradle',
+        //                 tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
+        //         )
+        //     }
+        // }
         // stage('Trigger Security scan') {
         //     def props = readProperties file: 'build/resources/main/version.properties'
         //     def build_version = props["build.version"]
