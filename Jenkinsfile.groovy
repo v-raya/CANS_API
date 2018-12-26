@@ -116,7 +116,8 @@ node('linux') {
     try {
         stage('Preparation') {
             cleanWs()
-            git branch: '$branch', url: gitHubUrl
+            checkout scm
+            //git branch: '$branch', url: gitHubUrl
             checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]]
             rtGradle.tool = 'Gradle_35'
             rtGradle.resolver repo: 'repo', server: artifactoryServer
