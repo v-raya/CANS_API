@@ -230,20 +230,20 @@ node('linux') {
         // }
         stage('Deploy to Pre-int') {
           withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-          sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/view/preint/job/preint/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
+          sh "curl -u $  'http://jenkins.mgmt.cwds.io:8080/view/preint/job/preint/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
           }
         }
         stage('Update Pre-int Manifest') {
           updateManifest("cans-api", "preint", github_credentials_id, newTag)
         }    
-        // stage('Deploy to Integration') {
-        //   withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-        //     sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/view/Integration/job/Integration%20Environment/job/deploy-cans-api/buildWithParameters?token=deployCansApiToIntegration&version=${newTag}'"
-        //   }
-        // }
-        // stage('Update Integration Manifest') {
-        //   updateManifest("cans-api", "integration", github_credentials_id, newTag)
-        // }
+        stage('Deploy to Integration') {
+          withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+            sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/view/Integration/job/Integration%20Environment/job/deploy-cans-api/buildWithParameters?token=deployCansApiToIntegration&version=${newTag}'"
+          }
+        }
+        stage('Update Integration Manifest') {
+          updateManifest("cans-api", "integration", github_credentials_id, newTag)
+        }
     } catch (Exception e) {
         errorcode = e
         currentBuild.result = "FAIL"
