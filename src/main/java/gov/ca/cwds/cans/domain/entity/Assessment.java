@@ -70,8 +70,8 @@ import org.hibernate.envers.Audited;
 @NamedNativeQuery(
     name = NQ_ALL_FOR_CLIENT_WITH_DELETED,
     query =
-        "SELECT a.* FROM assessment a "
-            + " INNER JOIN person p ON p.id = a.person_id"
+        "SELECT a.* FROM {h-schema}assessment a "
+            + " INNER JOIN {h-schema}person p ON p.id = a.person_id"
             + " WHERE p.external_id = :"
             + PARAM_CLIENT_IDENTIFIER
             + " ORDER by status desc, event_date desc",
