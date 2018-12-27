@@ -44,7 +44,8 @@ public class ACrudResource<E extends Persistent, D extends Dto> {
   }
 
   public Response delete(final Long id) {
-    crudService.delete(id);
-    return Response.noContent().build();
+    final E resultEntity = crudService.delete(id);
+    final D resultDto = mapper.toDto(resultEntity);
+    return ResponseUtil.responseOrNotFound(resultDto);
   }
 }

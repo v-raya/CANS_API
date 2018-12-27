@@ -70,7 +70,7 @@ public class ChangeLogService {
     }
     return auditReader
         .createQuery()
-        .forRevisionsOfEntity(entityClass, false, false)
+        .forRevisionsOfEntity(entityClass, false, true)
         .addOrder(AuditEntity.revisionProperty("timestamp").asc())
         .add(AuditEntity.id().eq(id))
         .getResultList();

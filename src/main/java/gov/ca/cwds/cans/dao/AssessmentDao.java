@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.Instrument;
 import gov.ca.cwds.cans.domain.entity.Person;
+import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.cans.inject.CansSessionFactory;
 import gov.ca.cwds.cans.util.Require;
@@ -57,6 +58,14 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
   @Override
   @SuppressWarnings("unchecked")
   public Assessment delete(@Authorize("assessment:delete:id") Serializable id) {
+    // This 'hack' is needed for Envers audit table to have the status field = "DELETED"
+    // for the delete operation record.
+    Assessment assessment = super.find(id);
+    if (assessment != null) {
+      assessment.setStatus(AssessmentStatus.DELETED);
+      super.update(assessment);
+      super.grabSession().flush();
+    }
     return super.delete(id);
   }
 
@@ -99,7 +108,11 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
             .map(
                 clientIdentifier -> {
                   Query<Assessment> query =
-                      session.createNamedQuery(Assessment.NQ_ALL_FOR_CLIENT, Assessment.class);
+                      session.createNamedQuery(
+                          searchAssessmentParameters.getIncludeDeleted()
+                              ? Assessment.NQ_ALL_FOR_CLIENT_WITH_DELETED
+                              : Assessment.NQ_ALL_FOR_CLIENT,
+                          Assessment.class);
                   query.setParameter(PARAM_CLIENT_IDENTIFIER, clientIdentifier);
                   return query;
                 })

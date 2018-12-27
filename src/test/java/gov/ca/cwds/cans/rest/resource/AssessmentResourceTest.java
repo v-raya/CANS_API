@@ -232,6 +232,36 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       AssessmentMetaDto metaDto = actualResults[i];
       checkOperations(metaDto, "read", "update", "create", "write", "delete");
     }
+
+
+    //Delete one for otherPerson
+    final AssessmentMetaDto deleteResults =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessmentIds.get(2).toString())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .delete()
+            .readEntity(AssessmentMetaDto.class);
+    assertThat(deleteResults.getStatus(), is(AssessmentStatus.DELETED));
+    //Check for DELETED to come back in results
+    // when
+    final Entity<SearchAssessmentRequest> searchRequestIncludeDeleted =
+        Entity.entity(
+            new SearchAssessmentRequest().setClientIdentifier(otherPerson.getIdentifier())
+                .setIncludeDeleted(Boolean.TRUE),
+            MediaType.APPLICATION_JSON_TYPE);
+    final AssessmentMetaDto[] actualResults2 =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(searchRequestIncludeDeleted)
+            .readEntity(AssessmentMetaDto[].class);
+
+    // then
+    assertThat(actualResults2.length, is(1));
+    assertThat(actualResults2[0].getId(), is(assessmentIds.get(2)));
+
   }
 
   @Test
