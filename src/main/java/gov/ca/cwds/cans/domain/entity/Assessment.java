@@ -5,6 +5,8 @@ import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_UPDATED_B
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL;
 import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT;
+import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_ALL_FOR_CLIENT_WITH_DELETED;
+import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_FIND_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_UPDATED_BY_ID;
@@ -34,23 +36,46 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.hibernate.envers.Audited;
 
 /** An Assessment. */
 @Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Table(name = "assessment")
+@SQLDelete(
+    sql = "UPDATE {h-schema}assessment SET status = 'DELETED' WHERE id = ?",
+    check = ResultCheckStyle.COUNT)
+@Loader(namedQuery = NQ_FIND_BY_ID)
+@NamedQuery(name = NQ_FIND_BY_ID, query = "FROM Assessment WHERE id = ? AND status <> 'DELETED'")
+@Where(clause = "status <> 'DELETED'")
 @NamedQuery(name = NQ_ALL, query = "FROM Assessment a order by status desc, event_date desc")
+// HQL @Where is applied - Doesn't return DELETED records
 @NamedQuery(
     name = NQ_ALL_FOR_CLIENT,
     query =
         "FROM Assessment a WHERE person.externalId = :"
             + PARAM_CLIENT_IDENTIFIER
             + "  ORDER by status desc, event_date desc")
+
+// SQL @Where is not applied - Does return DELETED records
+@NamedNativeQuery(
+    name = NQ_ALL_FOR_CLIENT_WITH_DELETED,
+    query =
+        "SELECT a.* FROM {h-schema}assessment a "
+            + " INNER JOIN {h-schema}person p ON p.id = a.person_id"
+            + " WHERE p.external_id = :"
+            + PARAM_CLIENT_IDENTIFIER
+            + " ORDER by status desc, event_date desc",
+    resultClass = Assessment.class)
 @FilterDef(
     name = FILTER_CREATED_BY_ID,
     parameters = @ParamDef(name = PARAM_CREATED_BY_ID, type = "long"))
@@ -64,7 +89,7 @@ import org.hibernate.envers.Audited;
     condition =
         "( created_by = :"
             + PARAM_CREATED_UPDATED_BY_ID
-            + " OR updated_by =:"
+            + " OR updated_by = :"
             + PARAM_CREATED_UPDATED_BY_ID
             + " )")
 @Filter(name = FILTER_PERSON_ID, condition = "person_id = :" + PARAM_PERSON_ID)
@@ -72,9 +97,12 @@ import org.hibernate.envers.Audited;
 @Accessors(chain = true)
 public class Assessment implements Persistent<Long> {
 
+  public static final String NQ_FIND_BY_ID = "gov.ca.cwds.cans.domain.entity.Assessment.findById";
   public static final String NQ_ALL = "gov.ca.cwds.cans.domain.entity.Assessment.findAll";
   public static final String NQ_ALL_FOR_CLIENT =
       "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClient";
+  public static final String NQ_ALL_FOR_CLIENT_WITH_DELETED =
+      "gov.ca.cwds.cans.domain.entity.Assessment.findAllForClientWithDeletes";
   public static final String FILTER_CREATED_BY_ID = "createdByFilter";
   public static final String PARAM_CREATED_BY_ID = "createdBy";
   public static final String FILTER_CREATED_UPDATED_BY_ID = "createdByUpdatedByFilter";

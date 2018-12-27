@@ -10,4 +10,5 @@ public class SearchAssessmentParameters implements SearchParameters {
   private Long personId;
   private String clientIdentifier;
   private Long createdById;
+  private Boolean includeDeleted = Boolean.FALSE;
 }

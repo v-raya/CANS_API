@@ -142,10 +142,10 @@ import org.hibernate.annotations.Type;
             + "    p.external_id as external_id"
             + "  FROM {h-schema}assessment a "
             + "    INNER JOIN {h-schema}person p ON a.person_id = p.id "
-            + "  WHERE p.external_id IN :"
+            + "  WHERE a.status <> 'DELETED' AND p.external_id IN :"
             + PARAM_EXTERNAL_IDS
             + "  GROUP BY p.id, p.external_id) AS b "
-            + " ON (a.person_id = b.person_id AND a.event_date = b.event_date) "
+            + " ON (a.person_id = b.person_id AND a.event_date = b.event_date AND a.status <> 'DELETED') "
             + " GROUP BY b.external_id, b.person_id, b.event_date",
     resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
