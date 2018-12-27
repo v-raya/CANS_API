@@ -23,7 +23,7 @@ public class PermissionInterceptor implements MethodInterceptor {
     Dto dto = (Dto) toDto.proceed();
     if (dto == null) {
       throw new ExpectedException(
-          "Assessment was not found in database or has no person object", Status.NOT_FOUND);
+          "Assessment was not found in the database", Status.NOT_FOUND);
     }
     Set<String> allowedOperations =
         permissionServiceProvider.get().getAllowedOperations(toDto.getArguments()[0]);
