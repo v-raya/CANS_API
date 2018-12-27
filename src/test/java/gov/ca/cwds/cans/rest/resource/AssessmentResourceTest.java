@@ -370,6 +370,47 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
   }
 
+  @Test
+  public void getAssessment_success_whenExistingCans() throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    AssessmentDto postedAssessment =
+        postAssessment(
+            assessment,
+            person,
+            AssessmentStatus.IN_PROGRESS,
+            LocalDate.now(),
+            AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    pushToCleanUpStack(postedAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_OK));
+  }
+
+  @Test
+  public void getAssessment_notFound_whenNonExistingCans() throws IOException {
+    // given
+    final String assessmentId = "1234567890";
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessmentId)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
+  }
+
   private AssessmentDto postAssessment(
       AssessmentDto assessment,
       ClientDto person,

@@ -39,7 +39,8 @@ public abstract class AssessmentAccessAuthorizer extends BaseAuthorizer<Assessme
     if (assessment == null
         || assessment.getPerson() == null
         || assessment.getPerson().getExternalId() == null) {
-      throw new ExpectedException("Assessment not found or have no person", Status.NOT_FOUND);
+      throw new ExpectedException(
+          "Assessment was not found in database or has no person object", Status.NOT_FOUND);
     }
     String clientId = assessment.getPerson().getExternalId();
     return checkClientAbstractAccess(clientId)
