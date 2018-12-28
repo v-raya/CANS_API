@@ -29,16 +29,17 @@ public abstract class AssessmentOperationAuthorizer extends AssessmentAccessAuth
         new AssessmentOperationFact(
             operation, assessment, PrincipalUtils.getPrincipal(), isAssessmentAccessible);
     boolean result = rulesService.authorize(operationFact);
-    if (!result) {
-      LOG.info(
-          "Authorization: operation [{}] for assessment with status [{}] and county [{}]"
-              + " is not allowed for user [{}] from county [{}]",
-          operationFact.getOperation(),
-          assessment.getStatus(),
-          assessment.getPerson().getCounty(),
-          operationFact.getUser().getStaffId(),
-          operationFact.getUser().getCountyCwsCode());
-    }
+    LOG.info(
+        "Authorization: client [{}], operation [{}] for assessment [{}] with status [{}] and county [{}]"
+            + " for user [{}] from county [{}] with result [{}]",
+        assessment.getPerson().getExternalId(),
+        operationFact.getOperation(),
+        assessment.getId(),
+        assessment.getStatus(),
+        assessment.getPerson().getCounty(),
+        operationFact.getUser().getStaffId(),
+        operationFact.getUser().getCountyCwsCode(),
+        result);
     return result;
   }
 }

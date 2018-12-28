@@ -10,6 +10,7 @@
   "county_cws_code": "1095",
   "privileges": [
     "CWS CANS System",
+    "CWS Case Management System",
     "CANS-rollout",
     "CANS-staff-person-subordinates-read",
     "CANS-staff-person-read",
