@@ -1,7 +1,6 @@
 package gov.ca.cwds.cans.service;
 
 import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS;
-import static gov.ca.cwds.cans.Constants.UnitOfWork.CMS_RS;
 
 import com.google.inject.Inject;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -16,23 +15,28 @@ import gov.ca.cwds.data.legacy.cms.dao.ClientDao;
 import gov.ca.cwds.data.legacy.cms.dao.ReferralDao;
 import gov.ca.cwds.data.legacy.cms.entity.Case;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
+import gov.ca.cwds.data.legacy.cms.entity.facade.ClientCounty;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
 import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** @author CWDS TPT-2 Team */
 @SuppressFBWarnings("PMB_POSSIBLE_MEMORY_BLOAT")
 public class ClientsService {
+
+  private final Logger LOG = LoggerFactory.getLogger(ClientsService.class);
 
   private static Map<String, CountyDto> countiesCache = new HashMap<>(); // NOSONAR
   @Inject private ClientDao clientDao;
@@ -105,11 +109,15 @@ public class ClientsService {
     return clientDao.find(id);
   }
 
-  @UnitOfWork(CMS_RS)
+  @UnitOfWork(CMS)
   protected Collection<Short> determineClientCounties(String cmsClientId) {
-    return Optional.ofNullable(countyDeterminationService.getClientCountiesById(cmsClientId))
-        .map(counties -> counties.stream().filter(Objects::nonNull).collect(Collectors.toList()))
-        .orElse(Collections.emptyList());
+    ClientCounty clientCounty =
+        countyDeterminationService.getClientCountiesRealtimeById(cmsClientId);
+    LOG.info("Authorization: client [{}] county determined [{}]", cmsClientId, clientCounty);
+
+    return clientCounty.getCountyCode() == 0
+        ? Collections.emptyList()
+        : Arrays.asList(clientCounty.getCountyCode().shortValue());
   }
 
   private CountyDto findCountyDto(String externalId) {
