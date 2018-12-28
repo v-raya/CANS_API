@@ -124,7 +124,7 @@ import org.hibernate.annotations.Type;
             @ColumnResult(name = "person_id", type = Long.class),
             @ColumnResult(name = "external_id", type = String.class),
             @ColumnResult(name = "status", type = String.class),
-            @ColumnResult(name = "event_date", type = LocalDate.class),
+            @ColumnResult(name = "last_completed_event_date", type = LocalDate.class),
           })
     })
 @NamedNativeQuery(
@@ -133,7 +133,7 @@ import org.hibernate.annotations.Type;
         "SELECT "
             + "  b.person_id, "
             + "  b.external_id, "
-            + "  b.event_date, "
+            + "  MAX(c.last_completed_event_date) last_completed_event_date, "
             + "  MAX(a.status) status "
             + " FROM {h-schema}assessment a INNER JOIN ( "
             + "  SELECT "
@@ -146,6 +146,16 @@ import org.hibernate.annotations.Type;
             + PARAM_EXTERNAL_IDS
             + "  GROUP BY p.id, p.external_id) AS b "
             + " ON (a.person_id = b.person_id AND a.event_date = b.event_date AND a.status <> 'DELETED') "
+            + " LEFT JOIN ("
+            + "   SELECT "
+            + "     p.id AS person_id, "
+            + "     MAX(a.event_date) AS last_completed_event_date "
+            + "   FROM  {h-schema}assessment a "
+            + "     INNER JOIN {h-schema}person p ON a.person_id = p.id "
+            + "   WHERE a.status = 'COMPLETED' AND p.external_id IN :"
+            + PARAM_EXTERNAL_IDS
+            + "  GROUP BY p.id"
+            + " ) AS c ON (a.person_id = c.person_id) "
             + " GROUP BY b.external_id, b.person_id, b.event_date",
     resultSetMapping = "PersonStatusDtoResult")
 public class Person implements Persistent<Long> {
