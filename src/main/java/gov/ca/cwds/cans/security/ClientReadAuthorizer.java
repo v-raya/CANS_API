@@ -58,7 +58,7 @@ public class ClientReadAuthorizer extends ClientResultReadAuthorizer {
   private boolean checkClientResultAccess(String clientId) {
     boolean isClientResultAuthorized = super.checkId(clientId);
     LOG.info(
-        "Authorization: client [{}] abstract authorization result [{}]",
+        "Authorization: client [{}] result authorization result [{}]",
         clientId,
         isClientResultAuthorized);
     return isClientResultAuthorized;

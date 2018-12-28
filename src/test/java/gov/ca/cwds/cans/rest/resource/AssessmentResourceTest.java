@@ -233,8 +233,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       checkOperations(metaDto, "read", "update", "create", "write", "delete");
     }
 
-
-    //Delete one for otherPerson
+    // Delete one for otherPerson
     final AssessmentMetaDto deleteResults =
         clientTestRule
             .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
@@ -243,11 +242,12 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             .delete()
             .readEntity(AssessmentMetaDto.class);
     assertThat(deleteResults.getStatus(), is(AssessmentStatus.DELETED));
-    //Check for DELETED to come back in results
+    // Check for DELETED to come back in results
     // when
     final Entity<SearchAssessmentRequest> searchRequestIncludeDeleted =
         Entity.entity(
-            new SearchAssessmentRequest().setClientIdentifier(otherPerson.getIdentifier())
+            new SearchAssessmentRequest()
+                .setClientIdentifier(otherPerson.getIdentifier())
                 .setIncludeDeleted(Boolean.TRUE),
             MediaType.APPLICATION_JSON_TYPE);
     final AssessmentMetaDto[] actualResults2 =
@@ -261,7 +261,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     // then
     assertThat(actualResults2.length, is(1));
     assertThat(actualResults2[0].getId(), is(assessmentIds.get(2)));
-
   }
 
   @Test
@@ -398,6 +397,47 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
 
     // then
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
+  }
+
+  @Test
+  public void getAssessment_success_whenExistingCans() throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    AssessmentDto postedAssessment =
+        postAssessment(
+            assessment,
+            person,
+            AssessmentStatus.IN_PROGRESS,
+            LocalDate.now(),
+            AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    pushToCleanUpStack(postedAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_OK));
+  }
+
+  @Test
+  public void getAssessment_notFound_whenNonExistingCans() throws IOException {
+    // given
+    final String assessmentId = "1234567890";
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessmentId)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
   }
 
   private AssessmentDto postAssessment(
