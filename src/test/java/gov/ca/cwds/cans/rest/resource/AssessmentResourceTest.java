@@ -411,6 +411,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[3].getAssessmentChangeType(), is(AssessmentChangeType.CREATED));
   }
 
+  @Ignore
   @Test
   public void putAssessment_notUpdatingCountyAndCaseId_whenUpdatingAssessment() throws IOException {
     // given
