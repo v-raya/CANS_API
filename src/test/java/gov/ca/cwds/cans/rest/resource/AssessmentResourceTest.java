@@ -34,7 +34,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -77,7 +76,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(
         actualAssessment.getCreatedTimestamp(), is(not(inputAssessment.getCreatedTimestamp())));
     assertThat(actualAssessment.getUpdatedBy(), is(nullValue()));
-    assertThat(actualAssessment.getUpdatedTimestamp(), is(nullValue()));
+    assertThat(actualAssessment.getUpdatedTimestamp(), is(not(nullValue())));
     assertThat(actualAssessment.getCompletedBy(), is(nullValue()));
     assertThat(actualAssessment.getCompletedTimestamp(), is(nullValue()));
   }
@@ -191,7 +190,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(getResponse.getStatus(), is(HttpStatus.SC_NOT_FOUND));
   }
 
-  @Ignore
   @Test
   public void searchAssessments_findsFourSortedRecords() throws IOException {
     // given
@@ -411,7 +409,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualResults[3].getAssessmentChangeType(), is(AssessmentChangeType.CREATED));
   }
 
-  @Ignore
   @Test
   public void putAssessment_notUpdatingCountyAndCaseId_whenUpdatingAssessment() throws IOException {
     // given
@@ -449,7 +446,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
   }
 
-  @Ignore
   @Test
   public void putAssessment_validationError_whenUpdatingConductedByOnCompleted()
       throws IOException {

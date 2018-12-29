@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.BooleanUtils.isTrue;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import com.google.inject.Key;
+import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
@@ -24,7 +25,7 @@ import org.hibernate.SessionFactory;
 
 /** @author denys.davydov */
 public class ValidAssessmentValidator
-    implements ConstraintValidator<ValidAssessment, AssessmentDto>, PersistentAware<Assessment> {
+    implements ConstraintValidator<ValidAssessment, AssessmentDto> {
 
   @Override
   public void initialize(ValidAssessment constraintAnnotation) {
@@ -212,6 +213,7 @@ public class ValidAssessmentValidator
         InjectorHolder.INSTANCE
             .getInjector()
             .getInstance(Key.get(SessionFactory.class, CansSessionFactory.class));
-    return getPersisted(sessionFactory, Assessment.class, id);
+    AssessmentDao assessmentDao = new AssessmentDao(sessionFactory);
+    return assessmentDao.find(id);
   }
 }

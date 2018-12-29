@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.service;
 
+import static gov.ca.cwds.cans.Constants.UnitOfWork.CANS;
+
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.dao.AssessmentDao;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
@@ -10,6 +12,7 @@ import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.search.SearchAssessmentParameters;
 import gov.ca.cwds.rest.exception.ExpectedException;
 import gov.ca.cwds.security.annotations.Authorize;
+import io.dropwizard.hibernate.UnitOfWork;
 import java.util.Collection;
 import java.util.Optional;
 import javax.ws.rs.core.Response.Status;
@@ -30,16 +33,22 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment create(Assessment assessment) {
+    String clientId = assessment.getPerson().getExternalId();
+    final Person person = getPersonFromLegacy(clientId);
+    return processAssessmentForCreate(assessment, person);
+  }
+
+  @UnitOfWork(CANS)
+  protected Assessment processAssessmentForCreate(Assessment assessment, Person person) {
     assessment.setCreatedBy(perryService.getOrPersistAndGetCurrentUser());
-    createClientIfNeeded(assessment);
+    createClientIfNeeded(assessment, person);
     return super.create(assessment);
   }
 
-  private void createClientIfNeeded(Assessment assessment) {
-    String clientId = assessment.getPerson().getExternalId();
-    final Person person = getPersonFromLegacy(clientId);
-    Person persistedPerson = Optional.ofNullable(personService.findByExternalId(clientId))
-        .orElseGet(() -> personService.create(person));
+  private void createClientIfNeeded(Assessment assessment, final Person person) {
+    Person persistedPerson =
+        Optional.ofNullable(personService.findByExternalId(person.getExternalId()))
+            .orElseGet(() -> personService.create(person));
     assessment.setPerson(persistedPerson);
   }
 
@@ -54,8 +63,15 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
 
   @Override
   public Assessment update(Assessment assessment) {
+    String clientId = assessment.getPerson().getExternalId();
+    final Person person = getPersonFromLegacy(clientId);
+    return processAssessmentForUpdate(assessment, person);
+  }
+
+  @UnitOfWork(CANS)
+  protected Assessment processAssessmentForUpdate(Assessment assessment, Person person) {
     assessment.setUpdatedBy(perryService.getOrPersistAndGetCurrentUser());
-    createClientIfNeeded(assessment);
+    createClientIfNeeded(assessment, person);
     // TODO: design flow approach
     if (assessment.getStatus() == AssessmentStatus.COMPLETED) {
       Assessment existingAssessment = read(assessment.getId());
