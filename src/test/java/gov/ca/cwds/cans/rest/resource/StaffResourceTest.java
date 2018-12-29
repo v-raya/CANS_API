@@ -374,6 +374,39 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void findPersonsByStaffId_reminderDateIsLastCompletedPlus6Month_whenMultipleAssessments()
+      throws IOException {
+    // given
+    final LocalDate lastCompletedEventDate = LocalDate.now().minusDays(10);
+    final AssessmentDto assessment =
+        (AssessmentDto)
+            readObject(FIXTURE_POST_ASSESSMENT, AssessmentDto.class)
+                .setPerson(getSanLuisObispoClientDto(TEST_EXTERNAL_ID))
+                .setEventDate(lastCompletedEventDate)
+                .setStatus(AssessmentStatus.COMPLETED);
+    postAssessment(assessment);
+    assessment.setEventDate(LocalDate.now()).setStatus(AssessmentStatus.IN_PROGRESS);
+    postAssessment(assessment);
+
+    // when
+    final StaffClientDto[] responseArray =
+        clientTestRule
+            .withSecurityToken(SUPERVISOR_SAN_LOUIS_ALL_AUTHORIZED)
+            .target(API.STAFF + SLASH + TEST_STAFF_ID + SLASH + API.PEOPLE)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+            .readEntity(StaffClientDto[].class);
+    final List<StaffClientDto> staffClients =
+        Arrays.stream(responseArray)
+            .filter(client -> client.getIdentifier().equals(TEST_EXTERNAL_ID))
+            .collect(Collectors.toList());
+
+    // then
+    assertThat(staffClients.size(), is(1));
+    assertThat(staffClients.get(0).getReminderDate(), is(lastCompletedEventDate.plusMonths(6)));
+  }
+
+  @Test
   public void getAllAssessments_findsFiveRecords() throws IOException {
     // given
     final List<Long> assessmentIds = new ArrayList<>();
