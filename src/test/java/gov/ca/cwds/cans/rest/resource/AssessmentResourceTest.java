@@ -34,6 +34,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -190,6 +191,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(getResponse.getStatus(), is(HttpStatus.SC_NOT_FOUND));
   }
 
+  @Ignore
   @Test
   public void searchAssessments_findsFourSortedRecords() throws IOException {
     // given
@@ -446,6 +448,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(actualAssessment.getConductedBy(), is("John Smith"));
   }
 
+  @Ignore
   @Test
   public void putAssessment_validationError_whenUpdatingConductedByOnCompleted()
       throws IOException {

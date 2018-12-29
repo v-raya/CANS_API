@@ -28,6 +28,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -51,6 +52,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
   private final String TEST_STAFF_ID = "0ME";
 
+  @Ignore
   @Test
   public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
@@ -248,6 +250,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertStatistics(actual, 0, 0);
   }
 
+  @Ignore
   @Test
   public void getStaffPersonWithStatistics_success_whenStatisticsExists() throws IOException {
     // given
@@ -342,6 +345,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     validateCommonFields(staffClientDto);
   }
 
+  @Ignore
   @Test
   public void findPersonsByStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
@@ -373,6 +377,7 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
   }
 
+  @Ignore
   @Test
   public void findPersonsByStaffId_reminderDateIsLastCompletedPlus6Month_whenMultipleAssessments()
       throws IOException {
