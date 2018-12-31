@@ -1,5 +1,7 @@
 package gov.ca.cwds.cans.rest.resource;
 
+import static org.hamcrest.Matchers.equalTo;
+
 import gov.ca.cwds.cans.Constants.API;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
 import gov.ca.cwds.cans.domain.enumeration.ServiceSource;
@@ -8,7 +10,6 @@ import java.io.IOException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,8 +35,10 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .target(API.CLIENTS + SLASH + CLIENT_NAPA_SENSITIVE_CMS_ID)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
-    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
     ClientDto clientDto = response.readEntity(ClientDto.class);
+    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1095"));
+    Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1095"));
     checkOperations(clientDto, "read");
   }
 
@@ -47,13 +50,15 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .target(API.CLIENTS + SLASH + CLIENT_CMS_ID)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
-    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
     Assert.assertEquals(CLIENT_CMS_BASE10_KEY, clientDto.getExternalId());
     Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, clientDto.getServiceSourceId());
     Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, clientDto.getServiceSourceUiId());
     Assert.assertEquals(ServiceSource.CASE, clientDto.getServiceSource());
+    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1126"));
+    Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1126"));
   }
 
   @Test
@@ -64,10 +69,27 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .target(API.CLIENTS + SLASH + CLIENT_CMS_ID)
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
-    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_OK));
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
     checkOperations(clientDto, "read", "createAssessment", "completeAssessment");
+    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1126"));
+    Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1126"));
+  }
+
+  @Test
+  public void doGetClient_success_whenNoCounty() throws IOException {
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_ACCOUNT)
+            .target(API.CLIENTS + SLASH + "AbtnmWU0Mq")
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
+
+    ClientDto clientDto = response.readEntity(ClientDto.class);
+    Assert.assertTrue(clientDto.getCounties().isEmpty());
+    Assert.assertNull(clientDto.getCounty());
   }
 
   @Test
@@ -79,7 +101,7 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .target(API.CLIENTS + "/" + expected.getIdentifier())
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
-    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_FORBIDDEN));
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_FORBIDDEN));
   }
 
   @Test
@@ -90,6 +112,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .target(API.CLIENTS + SLASH + "-1")
             .request(MediaType.APPLICATION_JSON_TYPE)
             .get();
-    Assert.assertThat(response.getStatus(), Matchers.equalTo(HttpStatus.SC_NOT_FOUND));
+    Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_NOT_FOUND));
   }
 }

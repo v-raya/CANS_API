@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.notNullValue;
 
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
@@ -154,6 +155,42 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
   }
 
   @Test
+  public void deleteAssessment_returns404_whenTryingToGetDeletedAssessment() throws IOException {
+    // given
+    final AssessmentDto inputAssessment =
+        (AssessmentDto)
+            readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class)
+                .setPerson(readObject(FIXTURE_PERSON, ClientDto.class));
+    final AssessmentDto assessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
+    pushToCleanUpStack(assessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+
+    // when
+    final AssessmentMetaDto deletedAssessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .delete()
+            .readEntity(AssessmentMetaDto.class);
+
+    // then
+    assertThat(deletedAssessment.getStatus(), is(AssessmentStatus.DELETED));
+    final Response getResponse =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+    assertThat(getResponse.getStatus(), is(HttpStatus.SC_NOT_FOUND));
+  }
+
+  @Test
   public void searchAssessments_findsFourSortedRecords() throws IOException {
     // given
     final List<Long> assessmentIds = new ArrayList<>();
@@ -200,16 +237,12 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       }
     }
     // when
-    final Entity<SearchAssessmentRequest> searchRequest =
-        Entity.entity(
-            new SearchAssessmentRequest().setClientIdentifier(person.getIdentifier()),
-            MediaType.APPLICATION_JSON_TYPE);
     final AssessmentMetaDto[] actualResults =
         clientTestRule
             .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
             .target(ASSESSMENTS + SLASH + SEARCH)
             .request(MediaType.APPLICATION_JSON_TYPE)
-            .post(searchRequest)
+            .post(toSearchAssessmentRequestEntity(person.getIdentifier(), false))
             .readEntity(AssessmentMetaDto[].class);
 
     // then
@@ -232,6 +265,80 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       AssessmentMetaDto metaDto = actualResults[i];
       checkOperations(metaDto, "read", "update", "create", "write", "delete");
     }
+  }
+
+  @Test
+  public void searchAssessments_returnsNoSoftDeletedRecords_whenIncludeDeletedIsFalse()
+      throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final AssessmentDto inputAssessment =
+        (AssessmentDto)
+            readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class).setPerson(person);
+    final AssessmentDto assessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
+    clientTestRule
+        .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .delete();
+
+    // when
+    final AssessmentMetaDto[] actualResults =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(toSearchAssessmentRequestEntity(person.getIdentifier(), false))
+            .readEntity(AssessmentMetaDto[].class);
+
+    // then
+    assertThat(actualResults.length, is(0));
+  }
+
+  @Test
+  public void searchAssessments_returnsSoftDeletedRecords_whenIncludeDeletedIsTrue()
+      throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final AssessmentDto inputAssessment =
+        (AssessmentDto)
+            readObject(FIXTURE_POST_LOGGING_INFO, AssessmentDto.class).setPerson(person);
+    final AssessmentDto assessment =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(Entity.entity(inputAssessment, MediaType.APPLICATION_JSON_TYPE))
+            .readEntity(AssessmentDto.class);
+    clientTestRule
+        .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+        .target(ASSESSMENTS + SLASH + assessment.getId())
+        .request(MediaType.APPLICATION_JSON_TYPE)
+        .delete();
+
+    // when
+    final AssessmentMetaDto[] searchResults =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + SEARCH)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .post(toSearchAssessmentRequestEntity(person.getIdentifier(), true))
+            .readEntity(AssessmentMetaDto[].class);
+
+    // then
+    final AssessmentMetaDto expectedAssessment =
+        Arrays.stream(searchResults)
+            .filter(item -> item.getId().equals(assessment.getId()))
+            .findFirst()
+            .orElse(null);
+    assertThat(expectedAssessment, is(notNullValue()));
+    assertThat(expectedAssessment.getStatus(), is(AssessmentStatus.DELETED));
   }
 
   @Test
@@ -370,6 +477,47 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(response.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
   }
 
+  @Test
+  public void getAssessment_success_whenExistingCans() throws IOException {
+    // given
+    final ClientDto person = readObject(FIXTURE_PERSON, ClientDto.class);
+    final AssessmentDto assessment = readObject(FIXTURE_POST, AssessmentDto.class);
+    AssessmentDto postedAssessment =
+        postAssessment(
+            assessment,
+            person,
+            AssessmentStatus.IN_PROGRESS,
+            LocalDate.now(),
+            AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    pushToCleanUpStack(postedAssessment.getId(), AUTHORIZED_NAPA_ACCOUNT_FIXTURE);
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + postedAssessment.getId())
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_OK));
+  }
+
+  @Test
+  public void getAssessment_notFound_whenNonExistingCans() throws IOException {
+    // given
+    final String assessmentId = "1234567890";
+    // when
+    Response response =
+        clientTestRule
+            .withSecurityToken(AUTHORIZED_NAPA_ACCOUNT_FIXTURE)
+            .target(ASSESSMENTS + SLASH + assessmentId)
+            .request(MediaType.APPLICATION_JSON_TYPE)
+            .get();
+
+    // then
+    assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
+  }
+
   private AssessmentDto postAssessment(
       AssessmentDto assessment,
       ClientDto person,
@@ -406,5 +554,14 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
         .request(MediaType.APPLICATION_JSON_TYPE)
         .put(Entity.entity(assessment, MediaType.APPLICATION_JSON_TYPE))
         .readEntity(AssessmentDto.class);
+  }
+
+  private Entity<SearchAssessmentRequest> toSearchAssessmentRequestEntity(
+      String personIdentifier, boolean shouldIncludeDeleted) {
+    return Entity.entity(
+        new SearchAssessmentRequest()
+            .setClientIdentifier(personIdentifier)
+            .setIncludeDeleted(shouldIncludeDeleted),
+        MediaType.APPLICATION_JSON_TYPE);
   }
 }

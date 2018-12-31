@@ -1,11 +1,15 @@
 package gov.ca.cwds.cans.domain.dto.changelog;
 
+import static gov.ca.cwds.rest.api.domain.DomainObject.DATE_FORMAT;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentChangeType;
 import gov.ca.cwds.cans.domain.enumeration.AssessmentStatus;
+import java.time.LocalDate;
 import java.util.Collections;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +30,9 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
   @JsonIgnore AssessmentStatus assessmentStatus;
   AssessmentChangeType assessmentChangeType;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+  LocalDate eventDate;
+
   public AssessmentChangeLogDto() {
     // default constructor
   }
@@ -33,6 +40,7 @@ public class AssessmentChangeLogDto extends AbstractChangeLogDto<Assessment> {
   AssessmentChangeLogDto(ChangeLogDtoParameters<Assessment> dtoParams) {
     super(dtoParams);
     assessmentStatus = dtoParams.getCurrent().getStatus();
+    eventDate = dtoParams.getCurrent().getEventDate();
     assessmentChangeType = fromRevisionTypeAndStatus();
   }
 
