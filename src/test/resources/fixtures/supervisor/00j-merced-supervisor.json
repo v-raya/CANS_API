@@ -9,6 +9,7 @@
   "county_name": "Merced",
   "county_cws_code": "1091",
   "privileges": [
+    "CWS Case Management System",
     "CANS-staff-person-subordinates-read",
     "CANS-staff-person-read",
     "CANS-staff-person-clients-read",
