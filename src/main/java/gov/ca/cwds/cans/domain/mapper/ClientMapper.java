@@ -43,11 +43,6 @@ public interface ClientMapper {
     return childDto;
   }
 
-  default CountyDto toCansCounty(Collection<CountyDto> counties) {
-    Iterator<CountyDto> iterator = counties.iterator();
-    return iterator.hasNext() ? iterator.next() : null;
-  }
-
   default SensitivityType toSensitivityType(Sensitivity sensitivity) {
     switch (sensitivity) {
       case SENSITIVE:
