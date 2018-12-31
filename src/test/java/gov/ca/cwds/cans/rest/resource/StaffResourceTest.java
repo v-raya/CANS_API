@@ -28,7 +28,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /** @author denys.davydov */
@@ -47,12 +46,11 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-complete-success.json";
   private static final String ASSIGNED_STAFF_ID = "0ME";
   private static final String PERSON_ID_0 = "AfhccGA0Co";
-  private static final String PERSON_ID_1 = "Ar9aZQx0En";
+  private static final String PERSON_ID_1 = "2dsesiZ0I3";
 
-  private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
+  private final String TEST_EXTERNAL_ID = "PndSNox0I3";
   private final String TEST_STAFF_ID = "0ME";
 
-  @Ignore
   @Test
   public void getSubordinates_success_whenRecordsExist() throws IOException {
     // given
@@ -250,7 +248,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     assertStatistics(actual, 0, 0);
   }
 
-  @Ignore
   @Test
   public void getStaffPersonWithStatistics_success_whenStatisticsExists() throws IOException {
     // given
@@ -345,7 +342,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     validateCommonFields(staffClientDto);
   }
 
-  @Ignore
   @Test
   public void findPersonsByStaffId_statusIsLastAssessmentStatus_whenMultipleAssessements()
       throws IOException {
@@ -377,7 +373,6 @@ public class StaffResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(staffClientDto.getReminderDate(), LocalDate.now().plusMonths(6));
   }
 
-  @Ignore
   @Test
   public void findPersonsByStaffId_reminderDateIsLastCompletedPlus6Month_whenMultipleAssessments()
       throws IOException {
@@ -480,8 +475,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals("TeenageBoy", staffClientDto.getFirstName());
-    Assert.assertEquals(LocalDate.parse("1982-09-08"), staffClientDto.getDob());
+    Assert.assertEquals("Brother", staffClientDto.getFirstName());
+    Assert.assertEquals(LocalDate.parse("1991-08-26"), staffClientDto.getDob());
     Assert.assertEquals(TEST_EXTERNAL_ID, staffClientDto.getIdentifier());
   }
 }
