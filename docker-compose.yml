@@ -10,7 +10,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
 
   db2:
-    image: cwds/db2data:0.10.31
+    image: cwds/db2data
     hostname: db2data
     ports:
     - ${DB_CMS_DB2_PORT}:50000
