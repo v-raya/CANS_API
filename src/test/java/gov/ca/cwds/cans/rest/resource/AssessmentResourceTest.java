@@ -76,7 +76,7 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(
         actualAssessment.getCreatedTimestamp(), is(not(inputAssessment.getCreatedTimestamp())));
     assertThat(actualAssessment.getUpdatedBy(), is(nullValue()));
-    assertThat(actualAssessment.getUpdatedTimestamp(), is(nullValue()));
+    assertThat(actualAssessment.getUpdatedTimestamp(), is(not(nullValue())));
     assertThat(actualAssessment.getCompletedBy(), is(nullValue()));
     assertThat(actualAssessment.getCompletedTimestamp(), is(nullValue()));
   }

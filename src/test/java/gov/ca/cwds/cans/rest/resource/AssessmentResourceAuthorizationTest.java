@@ -13,6 +13,14 @@ import org.junit.Test;
 public class AssessmentResourceAuthorizationTest extends AbstractFunctionalTest {
 
   @Test
+  public void postAssessment_fail_whenCountyAltered() throws Exception {
+    postAssessmentAndCheckStatus(
+        "fixtures/client-with-altered-county.json",
+        "fixtures/perry-account/0ki-napa-none.json",
+        HttpStatus.SC_FORBIDDEN);
+  }
+
+  @Test
   public void postAssessment_success_whenUserHasAssignment() throws Exception {
     postAssessmentAndCheckStatus(
         "fixtures/client-of-0Ki-rw-assignment.json",

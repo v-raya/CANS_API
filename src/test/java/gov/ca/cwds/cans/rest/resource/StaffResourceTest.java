@@ -34,7 +34,7 @@ import org.junit.Test;
 public class StaffResourceTest extends AbstractFunctionalTest {
 
   private static final String SUBORDINATE_SAN_LOUIS =
-      "fixtures/perry-account/subordinate-san-louis.json";
+      "fixtures/perry-account/subordinate-santa-cruz.json";
   private static final String SUPERVISOR_NO_SUBORDINATES =
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
   private static final String FIXTURES_POST_RW_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
@@ -46,9 +46,9 @@ public class StaffResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-complete-success.json";
   private static final String ASSIGNED_STAFF_ID = "0ME";
   private static final String PERSON_ID_0 = "AfhccGA0Co";
-  private static final String PERSON_ID_1 = "Ar9aZQx0En";
+  private static final String PERSON_ID_1 = "2dsesiZ0I3";
 
-  private final String TEST_EXTERNAL_ID = "Ar9aZQx0En";
+  private final String TEST_EXTERNAL_ID = "PndSNox0I3";
   private final String TEST_STAFF_ID = "0ME";
 
   @Test
@@ -475,8 +475,8 @@ public class StaffResourceTest extends AbstractFunctionalTest {
   }
 
   private void validateCommonFields(StaffClientDto staffClientDto) {
-    Assert.assertEquals("TeenageBoy", staffClientDto.getFirstName());
-    Assert.assertEquals(LocalDate.parse("1982-09-08"), staffClientDto.getDob());
+    Assert.assertEquals("Brother", staffClientDto.getFirstName());
+    Assert.assertEquals(LocalDate.parse("1991-08-26"), staffClientDto.getDob());
     Assert.assertEquals(TEST_EXTERNAL_ID, staffClientDto.getIdentifier());
   }
 }
