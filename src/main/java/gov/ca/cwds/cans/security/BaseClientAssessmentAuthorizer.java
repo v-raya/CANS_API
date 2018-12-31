@@ -5,7 +5,6 @@ import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.entity.Assessment;
 import gov.ca.cwds.cans.domain.entity.County;
 import gov.ca.cwds.cans.domain.entity.Person;
-import gov.ca.cwds.cans.domain.mapper.ClientMapper;
 import gov.ca.cwds.cans.domain.mapper.CountyMapper;
 import gov.ca.cwds.cans.service.ClientsService;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
@@ -17,7 +16,6 @@ public abstract class BaseClientAssessmentAuthorizer extends BaseAuthorizer<Clie
 
   private Authorizer authorizer;
   @Inject private ClientsService clientsService;
-  @Inject private ClientMapper clientMapper;
   @Inject private CountyMapper countyMapper;
 
   public BaseClientAssessmentAuthorizer(Authorizer authorizer) {
