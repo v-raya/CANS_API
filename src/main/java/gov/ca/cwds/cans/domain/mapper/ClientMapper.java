@@ -11,8 +11,6 @@ import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.DateOfBirthStatus;
 import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
-import java.util.Collection;
-import java.util.Iterator;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
