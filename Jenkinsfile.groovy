@@ -132,32 +132,32 @@ node('linux') {
           javaEnvProps = " -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
         }
 
-        // stage('Build') {
-        //     echo("RELEASE: ${params.RELEASE_PROJECT}")
-        //     echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-        //     echo("ONLY_TESTING: ${ONLY_TESTING}")
-        //     echo("newTag: ${newTag}")
-        //     echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
+        stage('Build') {
+            echo("RELEASE: ${params.RELEASE_PROJECT}")
+            echo("BUILD_NUMBER: ${BUILD_NUMBER}")
+            echo("ONLY_TESTING: ${ONLY_TESTING}")
+            echo("newTag: ${newTag}")
+            echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
 
-        //     rtGradle.run(
-        //             buildFile: 'build.gradle',
-        //             tasks: 'jar' + javaEnvProps
-        //     )
-        // }
+            rtGradle.run(
+                    buildFile: 'build.gradle',
+                    tasks: 'jar' + javaEnvProps
+            )
+        }
 
-        // stage('Unit Tests') {
-        //     rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
-        //     publishUnitTestsHtml()
-        // }
-        // stage('License Report') {
-        //     rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
-        //     publishLicenseReportHtml()
-        // }
-        // stage('SonarQube analysis') {
-        //     withSonarQubeEnv(sonarQubeServerName) {
-        //         rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
-        //     }
-        // }
+        stage('Unit Tests') {
+            rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'
+            publishUnitTestsHtml()
+        }
+        stage('License Report') {
+            rtGradle.run buildFile: 'build.gradle', tasks: 'downloadLicenses'
+            publishLicenseReportHtml()
+        }
+        stage('SonarQube analysis') {
+            withSonarQubeEnv(sonarQubeServerName) {
+                rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
+            }
+        }
         if ("${params.ONLY_TESTING}" == "true") {
             currentBuild.result = 'SUCCESS'
             return
@@ -165,69 +165,69 @@ node('linux') {
         stage('Tag Git') {
            tagGithubRepo(newTag, github_credentials_id)
         }
-        // stage('Push to artifactory') {
-        //     rtGradle.deployer.deployArtifacts = true
-        //     rtGradle.run(
-        //             buildFile: 'build.gradle',
-        //             tasks: 'publish ' + javaEnvProps
-        //     )
-        //     rtGradle.deployer.deployArtifacts = false
-        // }
-        // stage('Build Docker Image') {
-        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
-        //         rtGradle.run(
-        //                 buildFile: 'build.gradle',
-        //                 tasks: 'pushDockerLatest' + javaEnvProps
-        //         )
-        //     }
-        // }
-        // stage('Build Tests Docker Image') {
-        //     rtGradle.run(
-        //             buildFile: 'build.gradle',
-        //             tasks: 'dockerTestsCreateImage' + javaEnvProps
-        //     )
-        // }
-        // stage('Archive Artifacts') {
-        //     archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
-        // }
-        // stage('Deploy Application') {
-        //     sh 'cd ansible ; ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
-        // }
-        // stage('Smoke Tests') {
-        //     sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-        // }
-        // stage('Functional Tests') {
-        //     sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-        // }
-        // stage('Performance Tests (Short Run)') {
-        //     sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
-        //     perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
-        // }
-        // stage('Publish Docker Image') {
-        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
-        //         rtGradle.run(
-        //                 buildFile: 'build.gradle',
-        //                 tasks: 'publishDocker' + javaEnvProps
-        //         )
-        //     }
-        // }
-        // stage('Publish Tests Docker Image') {
-        //     withDockerRegistry([credentialsId: dockerCredentialsId]) {
-        //         rtGradle.run(
-        //                 buildFile: 'build.gradle',
-        //                 tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
-        //         )
-        //     }
-        // }
-        // stage('Trigger Security scan') {
-        //     def props = readProperties file: 'build/resources/main/version.properties'
-        //     def build_version = props["build.version"]
-        //     sh "echo build_version: ${build_version}"
-        //     build job: 'tenable-scan', parameters: [
-        //             [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
-        //             [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}"]
-        //     ]
-        // }
+        stage('Push to artifactory') {
+            rtGradle.deployer.deployArtifacts = true
+            rtGradle.run(
+                    buildFile: 'build.gradle',
+                    tasks: 'publish ' + javaEnvProps
+            )
+            rtGradle.deployer.deployArtifacts = false
+        }
+        stage('Build Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: 'pushDockerLatest' + javaEnvProps
+                )
+            }
+        }
+        stage('Build Tests Docker Image') {
+            rtGradle.run(
+                    buildFile: 'build.gradle',
+                    tasks: 'dockerTestsCreateImage' + javaEnvProps
+            )
+        }
+        stage('Archive Artifacts') {
+            archiveArtifacts artifacts: '**/cans-api-*.jar,readme.txt', fingerprint: true
+        }
+        stage('Deploy Application') {
+            sh 'cd ansible ; ansible-playbook -e NEW_RELIC_AGENT=$USE_NEWRELIC -e APP_VERSION=$APP_VERSION -e UPGRADE_CANS_DB_ON_START=$UPGRADE_CANS_DB_ON_START -i $inventory deploy-cans-api.yml --vault-password-file ~/.ssh/vault.txt -vv'
+        }
+        stage('Smoke Tests') {
+            sh "docker run --rm $smokeTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+        }
+        stage('Functional Tests') {
+            sh "docker run --rm $functionalTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+        }
+        stage('Performance Tests (Short Run)') {
+            sh "docker run --rm -v `pwd`/performance-results-api:/opt/cans-api-perf-test/results/api $performanceTestsDockerEnvVars $testsDockerImageName:$APP_VERSION"
+            perfReport errorFailedThreshold: 10, errorUnstableThreshold: 5, modeThroughput: true, sourceDataFiles: '**/resultfile'
+        }
+        stage('Publish Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: 'publishDocker' + javaEnvProps
+                )
+            }
+        }
+        stage('Publish Tests Docker Image') {
+            withDockerRegistry([credentialsId: dockerCredentialsId]) {
+                rtGradle.run(
+                        buildFile: 'build.gradle',
+                        tasks: ':docker-tests:dockerTestsPublish' + javaEnvProps
+                )
+            }
+        }
+        stage('Trigger Security scan') {
+            def props = readProperties file: 'build/resources/main/version.properties'
+            def build_version = props["build.version"]
+            sh "echo build_version: ${build_version}"
+            build job: 'tenable-scan', parameters: [
+                    [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans-api'],
+                    [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}"]
+            ]
+        }
         stage('Deploy to Pre-int') {
           withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
           sh "curl -u $  'http://jenkins.mgmt.cwds.io:8080/view/preint/job/preint/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
