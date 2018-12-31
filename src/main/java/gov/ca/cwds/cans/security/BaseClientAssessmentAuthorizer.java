@@ -11,7 +11,6 @@ import gov.ca.cwds.cans.service.ClientsService;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.security.authorizer.Authorizer;
 import gov.ca.cwds.security.authorizer.BaseAuthorizer;
-import java.util.List;
 
 /** @author CWDS TPT-2 Team */
 public abstract class BaseClientAssessmentAuthorizer extends BaseAuthorizer<Client, String> {
@@ -28,8 +27,7 @@ public abstract class BaseClientAssessmentAuthorizer extends BaseAuthorizer<Clie
   @Override
   protected boolean checkId(String clientId) {
     Assessment assessment = new Assessment();
-    List<CountyDto> countyDtos = clientsService.getCountyDtos(clientId);
-    CountyDto countyDto = clientMapper.toCansCounty(countyDtos);
+    CountyDto countyDto = clientsService.getCountyDto(clientId);
     County county = countyMapper.fromDto(countyDto);
     Person person = new Person();
     person.setExternalId(clientId);
