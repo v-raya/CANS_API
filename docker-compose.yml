@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   perry:
-    image: cwds/perry:4.0.0_946-RC
+    image: cwds/perry:4.1.0_1224-RC
     hostname: perry
     ports:
     - ${PERRY_PORT}:8080
@@ -10,13 +10,13 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
 
   db2:
-    image: cwds/db2data
+    image: cwds/db2data:0.10.31
     hostname: db2data
     ports:
     - ${DB_CMS_DB2_PORT}:50000
 
   postgres:
-    image: cwds/postgresql_data:0.8.4_662-RC
+    image: cwds/postgresql_data:0.11.2_710-RC
     hostname: postgresql_data
     ports:
     - ${POSTGRES_PORT}:5432
