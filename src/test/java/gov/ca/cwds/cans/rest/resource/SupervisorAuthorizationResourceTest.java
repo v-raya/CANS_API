@@ -78,13 +78,13 @@ public class SupervisorAuthorizationResourceTest extends AbstractFunctionalTest 
   }
 
   @Test
-  public void getAssessment_forbidden_whenSupervisorHasNoSubordinatesAssigned() throws Exception {
+  public void getAssessment_success_whenSupervisorHasNoSubordinatesAssigned() throws Exception {
     AssessmentDto assessment = createAssessmentDto(FIXTURES_CLIENT_ASSIGNED_TO_0HS);
     assessment =
         postAssessmentAndGetResponse(assessment, FIXTURES_SUPERVISOR_06S_SANTA_CLARA)
             .readEntity(AssessmentDto.class);
     getAssessmentAndCheckStatus(
-        assessment.getId(), FIXTURES_SUPERVISOR_00j_MERCED, HttpStatus.SC_FORBIDDEN);
+        assessment.getId(), FIXTURES_SUPERVISOR_00j_MERCED, HttpStatus.SC_OK);
     pushToCleanUpStack(assessment.getId(), FIXTURES_SUPERVISOR_06S_SANTA_CLARA);
   }
 }
