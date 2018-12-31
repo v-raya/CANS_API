@@ -34,7 +34,7 @@ import org.junit.Test;
 public class StaffResourceTest extends AbstractFunctionalTest {
 
   private static final String SUBORDINATE_SAN_LOUIS =
-      "fixtures/perry-account/subordinate-san-louis.json";
+      "fixtures/perry-account/subordinate-santa-cruz.json";
   private static final String SUPERVISOR_NO_SUBORDINATES =
       "fixtures/perry-account/supervisor-with-no-subordinates.json";
   private static final String FIXTURES_POST_RW_PERSON = "fixtures/client-of-0Ki-rw-assignment.json";
