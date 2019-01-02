@@ -21,14 +21,11 @@ import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.service.ClientCountyDeterminationService;
 import io.dropwizard.hibernate.UnitOfWork;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +54,8 @@ public class ClientsService {
   }
 
   private ClientDto composeClientDto(Client client) {
-    final List<CountyDto> counties = getCountyDtos(client.getIdentifier());
-    final ClientDto result = clientMapper.toClientDto(client, counties);
+    final CountyDto county = getCountyDto(client.getIdentifier());
+    final ClientDto result = clientMapper.toClientDto(client, county);
     enhanceWithCaseOrReferralId(result);
     return result;
   }
@@ -85,13 +82,9 @@ public class ClientsService {
   }
 
   @Cached
-  public List<CountyDto> getCountyDtos(String clientId) {
-    Collection<Short> countyIds = determineClientCounties(clientId);
-
-    return countyIds
-        .stream()
-        .map(countyExternalId -> findCountyDto(String.valueOf(countyExternalId)))
-        .collect(Collectors.toList());
+  public CountyDto getCountyDto(String clientId) {
+    Short countyId = determineClientCounty(clientId);
+    return findCountyDto(String.valueOf(countyId));
   }
 
   @UnitOfWork(CMS)
@@ -110,14 +103,11 @@ public class ClientsService {
   }
 
   @UnitOfWork(CMS)
-  protected Collection<Short> determineClientCounties(String cmsClientId) {
+  protected Short determineClientCounty(String cmsClientId) {
     ClientCounty clientCounty =
         countyDeterminationService.getClientCountiesRealtimeById(cmsClientId);
     LOG.info("Authorization: client [{}] county determined [{}]", cmsClientId, clientCounty);
-
-    return clientCounty.getCountyCode() == 0
-        ? Collections.emptyList()
-        : Arrays.asList(clientCounty.getCountyCode().shortValue());
+    return clientCounty.getCountyCode().shortValue();
   }
 
   private CountyDto findCountyDto(String externalId) {

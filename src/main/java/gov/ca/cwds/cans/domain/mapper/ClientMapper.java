@@ -1,6 +1,5 @@
 package gov.ca.cwds.cans.domain.mapper;
 
-import com.google.common.collect.ImmutableList;
 import gov.ca.cwds.cans.domain.dto.CaseDto;
 import gov.ca.cwds.cans.domain.dto.CountyDto;
 import gov.ca.cwds.cans.domain.dto.person.ClientDto;
@@ -12,9 +11,6 @@ import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.enums.DateOfBirthStatus;
 import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
 import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -34,21 +30,15 @@ public interface ClientMapper {
   @Mapping(target = "gender", ignore = true)
   ClientDto toDto(Client client);
 
-  default ClientDto toClientDto(Client client, Collection<CountyDto> counties) {
+  default ClientDto toClientDto(Client client, CountyDto county) {
     ClientDto childDto = toDto(client);
     if (DateOfBirthStatus.ESTIMATED.equals(client.getDateOfBirthStatus())) {
       childDto.setEstimatedDob(Boolean.TRUE);
     }
     childDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(client.getIdentifier()));
-    childDto.setCounty(toCansCounty(counties));
-    childDto.setCounties(ImmutableList.copyOf(counties));
+    childDto.setCounty(county);
     childDto.setSensitivityType(toSensitivityType(client.getSensitivity()));
     return childDto;
-  }
-
-  default CountyDto toCansCounty(Collection<CountyDto> counties) {
-    Iterator<CountyDto> iterator = counties.iterator();
-    return iterator.hasNext() ? iterator.next() : null;
   }
 
   default SensitivityType toSensitivityType(Sensitivity sensitivity) {
@@ -67,8 +57,6 @@ public interface ClientMapper {
     caseDto.setExternalId(CmsKeyIdGenerator.getUIIdentifierFromKey(cmsCase.getIdentifier()));
     return caseDto;
   }
-
-  List<CaseDto> toCaseDtoList(Collection<Case> clientCases);
 
   void toDto(@MappingTarget ClientDto dto, Person person);
 
