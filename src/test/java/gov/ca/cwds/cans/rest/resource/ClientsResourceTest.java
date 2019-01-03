@@ -37,7 +37,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
             .get();
     Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
     ClientDto clientDto = response.readEntity(ClientDto.class);
-    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1095"));
     Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1095"));
     checkOperations(clientDto, "read");
   }
@@ -57,7 +56,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
     Assert.assertEquals(CASE_OR_REFERRAL_CMS_ID, clientDto.getServiceSourceId());
     Assert.assertEquals(CASE_OR_REFERRAL_CMS_BASE10_KEY, clientDto.getServiceSourceUiId());
     Assert.assertEquals(ServiceSource.CASE, clientDto.getServiceSource());
-    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1126"));
     Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1126"));
   }
 
@@ -73,7 +71,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
     checkOperations(clientDto, "read", "createAssessment", "completeAssessment");
-    Assert.assertThat(clientDto.getCounties().get(0).getExternalId(), equalTo("1126"));
     Assert.assertThat(clientDto.getCounty().getExternalId(), equalTo("1126"));
   }
 
@@ -88,7 +85,6 @@ public class ClientsResourceTest extends AbstractFunctionalTest {
     Assert.assertThat(response.getStatus(), equalTo(HttpStatus.SC_OK));
 
     ClientDto clientDto = response.readEntity(ClientDto.class);
-    Assert.assertTrue(clientDto.getCounties().isEmpty());
     Assert.assertNull(clientDto.getCounty());
   }
 

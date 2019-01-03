@@ -18,14 +18,6 @@
     "external_id": "1076",
     "export_id": "09"
   },
-  "counties": [
-    {
-      "id": 9,
-      "name": "El Dorado",
-      "external_id": "1076",
-      "export_id": "09"
-    }
-  ],
   "cases": [
     {
       "external_id": "4444-321-4321-87654321"
