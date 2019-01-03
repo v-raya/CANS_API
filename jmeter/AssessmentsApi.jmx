@@ -99,7 +99,7 @@
       </ThreadGroup>
       <hashTree>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Thread" enabled="true">
-          <boolProp name="TransactionController.parent">true</boolProp>
+          <boolProp name="TransactionController.parent">false</boolProp>
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
@@ -135,7 +135,7 @@
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Login" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
             <stringProp name="TestPlan.comments">Logs in user</stringProp>
-            <boolProp name="TransactionController.parent">true</boolProp>
+            <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
             <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Users CSV Data Set" enabled="true">
@@ -1054,7 +1054,7 @@ log.info(&quot;user_role = &quot; + vars.get(&quot;user_role&quot;))</stringProp
             </ResultCollector>
             <hashTree/>
           </hashTree>
-          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Transaction" enabled="true">
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Lopped Transaction" enabled="true">
             <boolProp name="LoopController.continue_forever">true</boolProp>
             <stringProp name="LoopController.loops">${putAssessmentsPerUser}</stringProp>
           </LoopController>
@@ -1066,7 +1066,7 @@ log.info(&quot;user_role = &quot; + vars.get(&quot;user_role&quot;))</stringProp
             <hashTree>
               <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Supervisor Only Part of Scenario" enabled="true">
                 <boolProp name="TransactionController.includeTimers">false</boolProp>
-                <boolProp name="TransactionController.parent">true</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
               </TransactionController>
               <hashTree>
                 <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
@@ -1170,7 +1170,7 @@ log.info(&quot;staff_id = &quot; + vars.get(&quot;staff_id&quot;))	</stringProp>
             <hashTree>
               <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Supervisor or Social Worker Part of Scenario" enabled="true">
                 <boolProp name="TransactionController.includeTimers">false</boolProp>
-                <boolProp name="TransactionController.parent">true</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
               </TransactionController>
               <hashTree>
                 <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
@@ -1184,7 +1184,7 @@ log.info(&quot;staff_id = &quot; + vars.get(&quot;staff_id&quot;))	</stringProp>
                 <hashTree/>
                 <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Assigned Clients page" enabled="true">
                   <boolProp name="TransactionController.includeTimers">false</boolProp>
-                  <boolProp name="TransactionController.parent">true</boolProp>
+                  <boolProp name="TransactionController.parent">false</boolProp>
                 </TransactionController>
                 <hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Read assigned clients and store first client id" enabled="true">
@@ -1241,7 +1241,7 @@ log.info(&quot;client_id = &quot; + vars.get(&quot;client_id&quot;))	</stringPro
                 <hashTree>
                   <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Client page" enabled="true">
                     <boolProp name="TransactionController.includeTimers">false</boolProp>
-                    <boolProp name="TransactionController.parent">true</boolProp>
+                    <boolProp name="TransactionController.parent">false</boolProp>
                   </TransactionController>
                   <hashTree>
                     <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Read client" enabled="true">
@@ -1316,7 +1316,7 @@ log.info(&quot;client_id = &quot; + vars.get(&quot;client_id&quot;))	</stringPro
                   </hashTree>
                   <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Assessment page" enabled="true">
                     <boolProp name="TransactionController.includeTimers">false</boolProp>
-                    <boolProp name="TransactionController.parent">true</boolProp>
+                    <boolProp name="TransactionController.parent">false</boolProp>
                   </TransactionController>
                   <hashTree>
                     <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch instrument" enabled="true">
@@ -1599,7 +1599,7 @@ vars.put(&quot;completed_assessment&quot;, JsonOutput.prettyPrint(jsonOut))</str
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="All Users Part of Scenario" enabled="true">
               <boolProp name="TransactionController.includeTimers">false</boolProp>
-              <boolProp name="TransactionController.parent">true</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
             </TransactionController>
             <hashTree>
               <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
@@ -1613,7 +1613,7 @@ vars.put(&quot;completed_assessment&quot;, JsonOutput.prettyPrint(jsonOut))</str
               <hashTree/>
               <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Search Clients page" enabled="true">
                 <boolProp name="TransactionController.includeTimers">false</boolProp>
-                <boolProp name="TransactionController.parent">true</boolProp>
+                <boolProp name="TransactionController.parent">false</boolProp>
               </TransactionController>
               <hashTree>
                 <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If testing RAILS layer" enabled="true">
