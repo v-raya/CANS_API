@@ -19,6 +19,7 @@
       "items": [
         {
           "code": "lf10family",
+          "under_six_id": "id0",
           "required": true,
           "confidential": false,
           "confidential_by_default": true,
@@ -27,6 +28,7 @@
         },
         {
           "code": "lf11living",
+          "under_six_id": "id1",
           "required": true,
           "confidential": false,
           "rating_type": "REGULAR",
@@ -45,6 +47,7 @@
         "items": [
           {
             "code": "lf10family",
+            "under_six_id": "id2",
             "required": true,
             "confidential": false,
             "confidential_by_default": true,
@@ -54,6 +57,7 @@
           },
           {
             "code": "lf11living",
+            "under_six_id": "id3",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",
@@ -63,10 +67,12 @@
       },
       {
         "code": "potentially_traumatic_experience",
+        "under_six": true,
         "is_caregiver_domain": false,
         "items": [
           {
             "code": "pte51sexual",
+            "under_six_id": "id4",
             "required": true,
             "confidential": false,
             "rating_type": "BOOLEAN",
@@ -74,6 +80,7 @@
           },
           {
             "code": "pte52physical",
+            "under_six_id": "id5",
             "required": true,
             "confidential": false,
             "rating_type": "BOOLEAN",
@@ -87,6 +94,7 @@
         "items": [
           {
             "code": "ec09sleep",
+            "under_six_id": "id6",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",
@@ -101,6 +109,7 @@
         "items": [
           {
             "code": "ec10supervision",
+            "under_six_id": "id7",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",

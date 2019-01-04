@@ -15,6 +15,7 @@
       "items": [
         {
           "code": "lf10family",
+          "under_six_id": "id0",
           "required": true,
           "confidential": false,
           "confidential_by_default": true,
@@ -23,6 +24,7 @@
         },
         {
           "code": "lf11living",
+          "under_six_id": "id1",
           "required": true,
           "confidential": false,
           "rating_type": "REGULAR",
@@ -40,6 +42,7 @@
         "items": [
           {
             "code": "lf10family",
+            "under_six_id": "id2",
             "required": true,
             "confidential": false,
             "confidential_by_default": true,
@@ -48,6 +51,7 @@
           },
           {
             "code": "lf11living",
+            "under_six_id": "id3",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",

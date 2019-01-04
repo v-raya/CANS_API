@@ -35,6 +35,7 @@
         "items": [
           {
             "code": "lf10family",
+            "under_six_id": "id",
             "required": true,
             "confidential": false,
             "rating_type": "REGULAR",
