@@ -4,6 +4,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import gov.ca.cwds.cans.domain.enumeration.RatingType;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +27,13 @@ public class DomainJsonValidationTest {
             .setAboveSix(true)
             .setComment("comment")
             .setCaregiverName("Caregiver Name")
-            .setItems(singletonList(new ItemJson()));
+            .setItems(
+                singletonList(
+                    new ItemJson()
+                        .setCode("code")
+                        .setAboveSixId("id")
+                        .setRatingType(RatingType.REGULAR)
+                        .setRating(-1)));
     final Set<ConstraintViolation<DomainJson>> violations = validator.validate(validDomain);
     assertThat(violations.isEmpty(), is(true));
   }

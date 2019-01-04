@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -48,7 +49,6 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
       "fixtures/assessment/assessment-post-no-age-fail.json";
   private static final String FIXTURE_POST_LOGGING_INFO =
       "fixtures/assessment/assessment-post-logging-info.json";
-  private static final String AUTHORIZED_USER = "fixtures/perry-account/0ki-napa-all.json";
   private static final String CASE_OR_REFERRAL_CMS_ID = "C6vN5DG0Aq";
   private static final String CASE_OR_REFERRAL_CMS_BASE10_KEY = "0687-9473-7673-8000672";
 
@@ -99,13 +99,13 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
     assertThat(postResponse.getStatus(), is(HttpStatus.SC_UNPROCESSABLE_ENTITY));
     final BaseExceptionResponse exceptionResponse =
         postResponse.readEntity(BaseExceptionResponse.class);
-    final List<String> itemCodes =
+    final Set<String> itemCodes =
         exceptionResponse
             .getIssueDetails()
             .stream()
             .map(IssueDetails::getProperty)
-            .collect(Collectors.toList());
-    assertThat(itemCodes.size(), is(13));
+            .collect(Collectors.toSet());
+    assertThat(itemCodes.size(), is(16));
     assertThat(
         itemCodes,
         containsInAnyOrder(
@@ -118,9 +118,12 @@ public class AssessmentResourceTest extends AbstractFunctionalTest {
             "event_date",
             "completed_as",
             "state.under_six",
+            "state.domains.code",
             "state.domains.caregiverName",
             "state.domains.comment",
+            "state.domains.items.code",
             "state.domains.items.comment",
+            "state.domains.items.ratingType",
             "person"));
   }
 
