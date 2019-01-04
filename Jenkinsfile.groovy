@@ -230,7 +230,7 @@ node('linux') {
         }
         stage('Deploy to Pre-int') {
           withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-          sh "curl -u $  'http://jenkins.mgmt.cwds.io:8080/job/PreInt-Integration/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
+            sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/PreInt-Integration/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
           }
         }
         stage('Update Pre-int Manifest') {
