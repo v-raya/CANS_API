@@ -9,52 +9,52 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="target" elementType="Argument">
             <stringProp name="Argument.name">target</stringProp>
-            <stringProp name="Argument.value">${__P(JM_TARGET,rails)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_TARGET,api)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryMode" elementType="Argument">
             <stringProp name="Argument.name">perryMode</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,PROD_MFA)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_MODE,DEV)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryProtocol" elementType="Argument">
             <stringProp name="Argument.name">perryProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryHost" elementType="Argument">
             <stringProp name="Argument.name">perryHost</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,perf.cwds.ca.gov)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_HOST,localhost)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="perryPort" elementType="Argument">
             <stringProp name="Argument.name">perryPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_PERRY_PORT,18080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiProtocol" elementType="Argument">
             <stringProp name="Argument.name">cansApiProtocol</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiHost" elementType="Argument">
             <stringProp name="Argument.name">cansApiHost</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_HOST,perf.cwds.ca.gov)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_HOST,localhost)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiPort" elementType="Argument">
             <stringProp name="Argument.name">cansApiPort</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PORT,8080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiPathRoot" elementType="Argument">
             <stringProp name="Argument.name">cansApiPathRoot</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/cans/)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_ROOT,/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="cansApiPathPrefix" elementType="Argument">
             <stringProp name="Argument.name">cansApiPathPrefix</stringProp>
-            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_PREFIX,api/)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_CANS_API_PATH_PREFIX,)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="usersCsvPath" elementType="Argument">
@@ -64,7 +64,7 @@
           </elementProp>
           <elementProp name="usersCount" elementType="Argument">
             <stringProp name="Argument.name">usersCount</stringProp>
-            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,1)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_USERS_COUNT,3)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="putAssessmentsPerUser" elementType="Argument">
@@ -74,7 +74,7 @@
           </elementProp>
           <elementProp name="webDriverPath" elementType="Argument">
             <stringProp name="Argument.name">webDriverPath</stringProp>
-            <stringProp name="Argument.value">${__P(JM_WEB_DRIVER_PATH,/Users/metquota/prg/chromedriver)}</stringProp>
+            <stringProp name="Argument.value">${__P(JM_WEB_DRIVER_PATH,/usr/local/bin/chromedriver)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
