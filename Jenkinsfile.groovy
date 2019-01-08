@@ -1,3 +1,5 @@
+@Library('jenkins-pipeline-utils') _
+
 def gitHubUrl = 'https://github.com/ca-cwds/cans-api.git'
 def ansibleGitHubUrl = 'git@github.com:ca-cwds/de-ansible.git'
 def dockerImageName = 'cwds/cans-api'
@@ -5,9 +7,11 @@ def dockerImageName = 'cwds/cans-api'
 def artifactoryServerId = 'CWDS_DEV'
 def sonarQubeServerName = 'Core-SonarQube'
 def dockerCredentialsId = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+def github_credentials_id = '433ac100-b3c2-4519-b4d6-207c029a103b'
 def ansibleScmCredentialsId = '433ac100-b3c2-4519-b4d6-207c029a103b'
 
-def javaEnvProps = ' -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION '
+def javaEnvProps
+def newTag
 
 // tests variables
 def testsDockerImageName = 'cwds/cans-api-test'
@@ -112,17 +116,29 @@ node('linux') {
     try {
         stage('Preparation') {
             cleanWs()
-            git branch: '$branch', url: gitHubUrl
+            checkout scm
             checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: ansibleScmCredentialsId, url: ansibleGitHubUrl]]]
             rtGradle.tool = 'Gradle_35'
             rtGradle.resolver repo: 'repo', server: artifactoryServer
             rtGradle.useWrapper = true
         }
+        stage('Increment Tag') {
+          newTag = newSemVer()
+          projectSnapshotVersion = newTag + "-SNAPSHOT"
+          projectReleaseVersion = (env.OVERRIDE_VERSION == null || env.OVERRIDE_VERSION == ""  ? newTag + '_' + env.BUILD_NUMBER + '-RC' : env.OVERRIDE_VERSION )
+          projectVersion = (env.RELEASE_PROJECT == "true" ? projectReleaseVersion : projectSnapshotVersion )
+          newTag = projectVersion
+
+          javaEnvProps = " -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
+        }
+
         stage('Build') {
             echo("RELEASE: ${params.RELEASE_PROJECT}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             echo("ONLY_TESTING: ${ONLY_TESTING}")
+            echo("newTag: ${newTag}")
             echo("OVERRIDE_VERSION: ${params.OVERRIDE_VERSION}")
+
             rtGradle.run(
                     buildFile: 'build.gradle',
                     tasks: 'jar' + javaEnvProps
@@ -145,6 +161,9 @@ node('linux') {
         if ("${params.ONLY_TESTING}" == "true") {
             currentBuild.result = 'SUCCESS'
             return
+        }
+        stage('Tag Git') {
+           tagGithubRepo(newTag, github_credentials_id)
         }
         stage('Push to artifactory') {
             rtGradle.deployer.deployArtifacts = true
@@ -209,6 +228,14 @@ node('linux') {
                     [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${build_version}"]
             ]
         }
+        stage('Deploy to Pre-int') {
+          withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+            sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/PreInt-Integration/job/deploy-cans-api/buildWithParameters?token=deployCansApiToPreint&version=${newTag}'"
+          }
+        }
+        stage('Update Pre-int Manifest') {
+          updateManifest("cans-api", "preint", github_credentials_id, newTag)
+        }    
     } catch (Exception e) {
         errorcode = e
         currentBuild.result = "FAIL"
