@@ -31,7 +31,8 @@ project.ext {
     projectDockerGroup = 'cwds'
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
-    projectMajorVersion = '0.11.2'
+    semanticVersion = System.getProperty('newVersion')
+    projectMajorVersion = (semanticVersion && semanticVersion != '') ? semanticVersion : '0.11.2'
     dataModelVersion = '0.11.2_711-RC'
     coreApiVersion = '1.11.2_908-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
@@ -61,13 +62,6 @@ project.ext {
 }
 
 group projectGroup
-
-if (System.getProperty('newVersion') && System.getProperty('newVersion')!='null') {
-      def newVersion = "${System.getProperty('newVersion')}"
-      version = newVersion
-    } else {
-      version = projectVersion
-}
 
 repositories {
     mavenLocal()
