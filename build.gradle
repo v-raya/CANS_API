@@ -40,8 +40,8 @@ project.ext {
     hibernateVersion = '5.2.16.Final'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
-	projectVersion = projectMajorVersion
-	version = semanticVersion
+    projectVersion = projectMajorVersion
+    version = semanticVersion
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
