@@ -40,6 +40,8 @@ project.ext {
     hibernateVersion = '5.2.16.Final'
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
+	projectVersion = projectMajorVersion
+	version = semanticVersion
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
@@ -48,7 +50,6 @@ project.ext {
     projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
     projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion)
     projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion)
-    dockerTag = projectVersion
 
     // assumed that Windows users use the Docker Toolbox
     buildEnv = System.env.BUILD_ENV ?: (Os.isFamily(Os.FAMILY_WINDOWS) ? 'WIN_DEV' : 'JENKINS')
@@ -60,6 +61,8 @@ project.ext {
     releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
     artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
+
+def dockerTag = projectVersion
 
 group projectGroup
 

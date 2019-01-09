@@ -124,12 +124,6 @@ node('linux') {
         }
         stage('Increment Tag') {
           newTag = newSemVer()
-          projectSnapshotVersion = newTag + "-SNAPSHOT"
-          projectReleaseVersion = (env.OVERRIDE_VERSION == null || env.OVERRIDE_VERSION == ""  ? newTag + '_' + env.BUILD_NUMBER + '-RC' : env.OVERRIDE_VERSION )
-          projectVersion = (env.RELEASE_PROJECT == "true" ? projectReleaseVersion : projectSnapshotVersion )
-          newTag = projectVersion
-
-          javaEnvProps = " -DRelease=$RELEASE_PROJECT -DBuildNumber=$BUILD_NUMBER -DCustomVersion=$OVERRIDE_VERSION -DnewVersion=${newTag}".toString()
         }
 
         stage('Build') {
@@ -169,7 +163,7 @@ node('linux') {
             rtGradle.deployer.deployArtifacts = true
             rtGradle.run(
                     buildFile: 'build.gradle',
-                    tasks: 'publish ' + javaEnvProps
+                    tasks: "publish -DRelease=true -DnewVersion=${newTag}".toString()
             )
             rtGradle.deployer.deployArtifacts = false
         }
@@ -177,14 +171,14 @@ node('linux') {
             withDockerRegistry([credentialsId: dockerCredentialsId]) {
                 rtGradle.run(
                         buildFile: 'build.gradle',
-                        tasks: 'pushDockerLatest' + javaEnvProps
+                        tasks: "pushDockerLatest -DRelease=true -DnewVersion=${newTag}".toString()
                 )
             }
         }
         stage('Build Tests Docker Image') {
             rtGradle.run(
                     buildFile: 'build.gradle',
-                    tasks: 'dockerTestsCreateImage' + javaEnvProps
+                    tasks: "dockerTestsCreateImage -DRelease=true -DnewVersion=${newTag}".toString()
             )
         }
         stage('Archive Artifacts') {
