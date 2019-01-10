@@ -42,6 +42,7 @@ project.ext {
     lombokVersion = '1.16.18'
     projectVersion = projectMajorVersion
     version = semanticVersion
+    dockerTag = projectVersion
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
@@ -62,7 +63,6 @@ project.ext {
     artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
 
-def dockerTag = projectVersion
 
 group projectGroup
 
