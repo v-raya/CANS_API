@@ -31,8 +31,6 @@ project.ext {
     projectDockerGroup = 'cwds'
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
-    semanticVersion = System.getProperty('newVersion')
-    projectMajorVersion = (semanticVersion && semanticVersion != '') ? semanticVersion : '0.11.2'
     dataModelVersion = '0.11.2_711-RC'
     coreApiVersion = '1.11.2_908-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
@@ -41,13 +39,8 @@ project.ext {
     mapstructVersion = '1.2.0.Final'
     lombokVersion = '1.16.18'
 
-    isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
-    customVersion = System.getProperty('CustomVersion')
-
-    projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
-    projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion)
-    projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion)
+    projectVersion = System.getProperty('newVersion')
     dockerTag = projectVersion
 
     // assumed that Windows users use the Docker Toolbox
@@ -58,10 +51,12 @@ project.ext {
     // Publishing configuration
     snapshotMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/repo"
     releaseMavenRepo = "http://sonar.dev.cwds.io:8081/artifactory/libs-release"
+    isRelease = System.getProperty("Release") == "true"
     artifactoryRepo = (isRelease ? releaseMavenRepo : snapshotMavenRepo)
 }
 
 group projectGroup
+version projectVersion
 
 repositories {
     mavenLocal()
