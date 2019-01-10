@@ -295,7 +295,7 @@ processResources {
     eachFile { details ->
         if (!details.name.endsWith('.xlsx')) {
             details.filter(ReplaceTokens, tokens: [
-                    'build.version': projectVersion,
+                    'build.version': projectVersion as String,
                     'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
             ])
         }
