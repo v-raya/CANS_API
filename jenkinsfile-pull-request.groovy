@@ -62,8 +62,10 @@ node('linux') {
             checkForLabel("cans-api")
         }
         stage('Build') {
+            javaEnvProps = " -DRelease=false -DBuildNumber=$BUILD_NUMBER".toString()
+            echo("javaEnvProps: ${javaEnvProps}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
-            rtGradle.run buildFile: 'build.gradle', tasks: 'jar'
+            rtGradle.run buildFile: 'build.gradle', tasks: 'jar' + javaEnvProps
         }
         stage('Unit Tests') {
             rtGradle.run buildFile: 'build.gradle', tasks: 'test jacocoTestReport', switches: '--stacktrace'

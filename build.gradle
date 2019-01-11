@@ -31,8 +31,6 @@ project.ext {
     projectDockerGroup = 'cwds'
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
-    semanticVersion = System.getProperty('newVersion')
-    projectMajorVersion = (semanticVersion && semanticVersion != '') ? semanticVersion : '0.11.2'
     dataModelVersion = '0.11.2_711-RC'
     coreApiVersion = '1.11.2_908-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
@@ -43,11 +41,8 @@ project.ext {
 
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
-    customVersion = System.getProperty('CustomVersion')
-
-    projectSnapshotVersion = projectMajorVersion + "-SNAPSHOT"
-    projectReleaseVersion = (customVersion == null || customVersion == "" || customVersion.startsWith('$') ? projectMajorVersion + '_' + buildNumber + '-RC' : customVersion)
-    projectVersion = (isRelease ? projectReleaseVersion : projectSnapshotVersion)
+    newVersion = System.getProperty('newVersion')
+    projectVersion = (newVersion && newVersion != '') ? newVersion : '0.11_' + buildNumber + '-SNAPSHOT'
     dockerTag = projectVersion
 
     // assumed that Windows users use the Docker Toolbox
@@ -62,6 +57,7 @@ project.ext {
 }
 
 group projectGroup
+version projectVersion
 
 repositories {
     mavenLocal()
@@ -300,7 +296,7 @@ processResources {
     eachFile { details ->
         if (!details.name.endsWith('.xlsx')) {
             details.filter(ReplaceTokens, tokens: [
-                    'build.version': projectVersion,
+                    'build.version': projectVersion as String,
                     'build.number' : (System.getenv("BUILD_NUMBER") ?: "IDE")
             ])
         }
