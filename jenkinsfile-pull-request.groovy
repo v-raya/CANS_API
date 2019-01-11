@@ -63,7 +63,7 @@ node('linux') {
         }
         stage('Build') {
             javaEnvProps = " -DRelease=false -DBuildNumber=$BUILD_NUMBER".toString()
-            echo("javaEnvProps: ${javaEnvProp}")
+            echo("javaEnvProps: ${javaEnvProps}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             rtGradle.run buildFile: 'build.gradle', tasks: 'jar' + javaEnvProps
         }
