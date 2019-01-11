@@ -59,7 +59,7 @@ node('linux') {
             rtGradle.useWrapper = true
         }
         stage('Verify SemVer Label') {
-          checkForLabel("cans-api")
+            checkForLabel("cans-api")
         }
         stage('Build') {
             javaEnvProps = " -DRelease=false -DBuildNumber=$BUILD_NUMBER".toString()
