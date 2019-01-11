@@ -62,10 +62,8 @@ node('linux') {
           checkForLabel("cans-api")
         }
         stage('Build') {
-            newTag = newSemVer()
-            projectSnapshotVersion = newTag + "-SNAPSHOT"
-            javaEnvProps = " -DRelease=false -DBuildNumber=$BUILD_NUMBER -DnewVersion=${projectSnapshotVersion}".toString()
-            echo("javaEnvProps: ${javaEnvProps}")
+            javaEnvProps = " -DRelease=false -DBuildNumber=$BUILD_NUMBER".toString()
+            echo("javaEnvProps: ${javaEnvPropsg}")
             echo("BUILD_NUMBER: ${BUILD_NUMBER}")
             rtGradle.run buildFile: 'build.gradle', tasks: 'jar' + javaEnvProps
         }
