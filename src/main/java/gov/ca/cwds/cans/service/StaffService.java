@@ -176,8 +176,9 @@ public class StaffService {
     return staffPersonDao.findClientIdsByStaffIds(staffIds, LocalDate.now());
   }
 
-  public Collection<AssessmentMetaDto> findAssessmentsByCurrentUser() {
-    final Collection<Assessment> entities = assessmentService.getAssessmentsByCurrentUser();
+  public Collection<AssessmentMetaDto> findAssessmentsByCurrentUser(final Short recordsLimit) {
+    final Collection<Assessment> entities =
+        assessmentService.getLatestAssessmentsByCurrentUser(recordsLimit);
     return assessmentMapper.toShortDtos(entities);
   }
 

@@ -86,9 +86,9 @@ public class AssessmentService extends AbstractCrudService<Assessment> {
     return ((AssessmentDao) dao).search(searchAssessmentParameters);
   }
 
-  public Collection<Assessment> getAssessmentsByCurrentUser() {
-    return ((AssessmentDao) dao)
-        .getAssessmentsByUserId(perryService.getOrPersistAndGetCurrentUser().getId());
+  public Collection<Assessment> getLatestAssessmentsByCurrentUser(final Short recordsLimit) {
+    final Long userId = perryService.getOrPersistAndGetCurrentUser().getId();
+    return ((AssessmentDao) dao).getLatestAssessmentsByUserId(userId, recordsLimit);
   }
 
   Assessment runCompleteFlow(

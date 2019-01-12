@@ -1,11 +1,11 @@
 package gov.ca.cwds.cans.dao;
 
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_CREATED_UPDATED_BY_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.FILTER_PERSON_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.NQ_FIND_LATEST_BY_USER_ID;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CLIENT_IDENTIFIER;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_BY_ID;
-import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_CREATED_UPDATED_BY_ID;
+import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_LIMIT;
 import static gov.ca.cwds.cans.domain.entity.Assessment.PARAM_PERSON_ID;
 
 import com.google.inject.Inject;
@@ -120,10 +120,15 @@ public class AssessmentDao extends AbstractCrudDao<Assessment> {
     return assessmentQuery.list();
   }
 
-  public Collection<Assessment> getAssessmentsByUserId(Long userId) {
+  public Collection<Assessment> getLatestAssessmentsByUserId(final Long userId, final Short limit) {
     final Session session = grabSession();
-    addFilterIfNeeded(session, FILTER_CREATED_UPDATED_BY_ID, PARAM_CREATED_UPDATED_BY_ID, userId);
-    return session.createNamedQuery(Assessment.NQ_ALL, Assessment.class).list();
+    Require.requireNotNullAndNotEmpty(userId);
+    final Short limitOrDefault = limit != null ? limit : 10;
+    return session
+        .createNamedQuery(NQ_FIND_LATEST_BY_USER_ID, Assessment.class)
+        .setParameter(PARAM_PERSON_ID, userId)
+        .setParameter(PARAM_LIMIT, limitOrDefault)
+        .list();
   }
 
   private void addFilterIfNeeded(

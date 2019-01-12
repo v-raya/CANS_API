@@ -14,6 +14,7 @@ import static gov.ca.cwds.cans.rest.auth.CansStaticAuthorizer.CANS_ROLLOUT_PERMI
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
 import gov.ca.cwds.cans.domain.dto.assessment.AssessmentDto;
+import gov.ca.cwds.cans.domain.dto.assessment.AssessmentMetaDto;
 import gov.ca.cwds.cans.domain.dto.facade.StaffStatisticsDto;
 import gov.ca.cwds.cans.domain.dto.person.StaffClientDto;
 import gov.ca.cwds.cans.rest.ResponseUtil;
@@ -41,6 +42,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class StaffResource {
+
+  private static final Short DEFAULT_RECORDS_LIMIT = 3;
 
   private final StaffService staffService;
 
@@ -131,7 +134,9 @@ public class StaffResource {
       response = AssessmentDto[].class)
   @RequiresPermissions(CANS_ROLLOUT_PERMISSION)
   @Timed
-  public Response getStaffAssessments() {
-    return ResponseUtil.responseOk(staffService.findAssessmentsByCurrentUser());
+  public Response getStaffLatestAssessments() {
+    final Collection<AssessmentMetaDto> latestAssessments =
+        staffService.findAssessmentsByCurrentUser(DEFAULT_RECORDS_LIMIT);
+    return ResponseUtil.responseOk(latestAssessments);
   }
 }
