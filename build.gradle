@@ -32,7 +32,7 @@ project.ext {
     projectDockerAppName = 'cans-api'
     mainClass = 'gov.ca.cwds.cans.CansApplication'
     dataModelVersion = '0.11.2_711-RC'
-    coreApiVersion = '1.11.2_908-RC'
+    coreApiVersion = '1.19.1_913-RC'
     apiSecurityVersion = '4.0.0_1010-RC'
     dropwizardVersion = '1.1.0'
     hibernateVersion = '5.2.16.Final'
@@ -42,7 +42,7 @@ project.ext {
     isRelease = System.getProperty("Release") == "true"
     buildNumber = System.getProperty('BuildNumber')
     newVersion = System.getProperty('newVersion')
-    projectVersion = (newVersion && newVersion != '') ? newVersion : '0.11_' + buildNumber + '-SNAPSHOT'
+    projectVersion = (newVersion && newVersion != '') ? newVersion : '0.11.' + buildNumber + '-SNAPSHOT'
     dockerTag = projectVersion
 
     // assumed that Windows users use the Docker Toolbox
